@@ -1,0 +1,86 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+								xmlns:p="http://primefaces.prime.com.tr/ui"
+                template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title"><h:outputText value="#{msgsCore['installSystem.title']}" /></ui:define>
+
+	<ui:define name="body">
+		<h1><h:outputText value="#{msgsCore['installSystem.title']}" /></h1>
+
+		<!-- Shown only if the system is already installed. -->
+		<h:panelGroup id="systemInstalled" rendered="#{coreInfo.systemInstalled}">
+			<p><h:outputText value="#{msgsCore['installSystem.text.systemAlreadyInstalled']}" /></p>
+		</h:panelGroup>
+
+		<!-- Shown when the system is not yet installed. -->
+		<h:panelGroup id="systemNotInstalled" rendered="#{! coreInfo.systemInstalled}">
+			<p><h:outputText value="#{msgsCore['installSystem.text.instructions']}" /></p>
+
+			<!-- The form to be filled with information on the administrator. -->
+			<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+				<h:form id="form">
+					<h:panelGroup id="nameField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:name" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.name']}" /></ui:define>
+							<h:inputText id="name" value="#{installSystemAction.admin.name}" size="30" required="true">
+								<f:ajax event="blur" render="nameField shortNameField" listener="#{installSystemAction.suggestShortName}" />
+							</h:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<h:panelGroup id="emailField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:email" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.email']}" /></ui:define>
+							<h:inputText id="email" value="#{installSystemAction.admin.email}" size="30" required="true">
+								<f:ajax event="blur" render="emailField" />
+							</h:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<h:panelGroup id="shortNameField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:shortName" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.shortName']}" /></ui:define>
+							<h:inputText id="shortName" value="#{installSystemAction.admin.shortName}" size="15" required="true">
+								<f:ajax event="blur" render="shortNameField" />
+							</h:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<h:panelGroup id="passwordField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:password" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.password']}" /></ui:define>
+							<p:password id="password" minLength="6" value="#{installSystemAction.admin.password}" size="15" required="true" promptLabel="#{msgs['password.prompt']}" weakLabel="#{msgs['password.weak']}" goodLabel="#{msgs['password.good']}" strongLabel="#{msgs['password.strong']}" />
+						</ui:decorate>
+					</h:panelGroup>
+
+					<h:panelGroup id="repeatPasswordField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:repeatPassword" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.repeatPassword']}" /></ui:define>
+							<h:inputSecret id="repeatPassword" value="#{installSystemAction.repeatPassword}" size="15" required="true">
+								<f:ajax event="blur" render=":globalMessages" listener="#{installSystemAction.checkPasswords}" execute="password repeatPassword" />
+							</h:inputSecret>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+						<p:commandButton action="#{installSystemAction.registerAdministrator}" value="#{msgsCore['installSystem.button.registerAdministrator']}" image="buttonOk" onclick="waitDialog.show()" oncomplete="waitDialog.hide()" update=":globalMessages form" />
+					</ui:decorate>
+				</h:form>
+			</ui:decorate>
+
+			<!-- A dialog box that is shown to warn the user to wait until installation finishes. -->
+			<p:dialog header="#{msgsCore['installSystem.dialog.wait.title']}" widgetVar="waitDialog" modal="true" height="100">
+				<h:outputText value="#{msgsCore['installSystem.dialog.wait.contents']}" />
+			</p:dialog>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>

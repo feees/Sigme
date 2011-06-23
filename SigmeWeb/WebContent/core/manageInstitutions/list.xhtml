@@ -1,0 +1,99 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+								xmlns:p="http://primefaces.prime.com.tr/ui"
+                template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title"><h:outputText value="#{msgsCore['manageInstitutions.title']}" /></ui:define>
+
+	<ui:define name="body">
+		<h1><h:outputText value="#{msgsCore['manageInstitutions.title']}" /></h1>
+
+		<div class="crud">
+			<!-- Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
+			<h:form id="filterForm">
+				<h:panelGroup id="filterBar" rendered="#{(not empty manageInstitutionsAction.filters)}">
+					<div class="crudFilterBar">
+						<h:outputText value="#{msgsCore['manageInstitutions.text.filter']} " />
+						<p:selectOneMenu id="filter" required="true" value="#{manageInstitutionsAction.filterKey}">
+							<f:selectItems value="#{manageInstitutionsAction.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
+							<f:ajax event="change" execute="@form" listener="#{manageInstitutionsAction.changeFilter}" render="@form :listingForm" />
+						</p:selectOneMenu>
+						<h:outputText value=": " />
+						<h:inputText id="filterText" size="20" required="false" value="#{manageInstitutionsAction.filterParam}" rendered="#{manageInstitutionsAction.filter.options == null}" />
+						<h:selectOneMenu id="filterSelect" required="false" value="#{manageInstitutionsAction.filterParam}" rendered="#{manageInstitutionsAction.filter.options != null}">
+							<f:selectItems value="#{manageInstitutionsAction.filter.reversedOptionsLabels}" />
+						</h:selectOneMenu>
+						<h:commandLink action="#{manageInstitutionsAction.filter}">
+							<h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/button-find.png" title="#{msgsCore['manageInstitutions.button.filter']}" />
+							<f:ajax execute="@form" render=":listingForm" />
+						</h:commandLink>
+					</div>
+				</h:panelGroup>
+			</h:form>
+
+			<!-- The listing form. -->
+			<h:form id="listingForm">
+				<!-- Filter information (displayed when the listing is being filtered. -->
+				<h:panelGroup id="filterInfo" rendered="#{manageInstitutionsAction.filtering}">
+					<div class="crudFilterInfo">
+						<h:outputFormat value="#{msgsCore['manageInstitutions.text.filterInfo']} ">
+							<f:param value="#{manageInstitutionsAction.filter.label}" />
+							<f:param value="#{manageInstitutionsAction.filterLabel}" />
+						</h:outputFormat>
+						<h:commandLink action="#{manageInstitutionsAction.cancelFilter}">
+							<h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/button-close.png" title="#{msgsCore['manageInstitutions.button.cancelFilter']}" />
+							<f:ajax execute="@form" render=":listingForm" />
+						</h:commandLink>
+					</div>
+				</h:panelGroup>
+
+				<!-- The list of entities. -->
+				<h:panelGroup id="listing" styleClass="listing">
+					<p:dataTable value="#{manageInstitutionsAction.lazyEntities}" var="entity" rows="#{manageInstitutionsAction.maxEntitiesPerPage}" dynamic="true" lazy="true" paginator="true" selection="#{manageInstitutionsAction.selectedEntity}" selectionMode="single" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" paginatorPosition="bottom" loadingMessage="#{msgs['text.ajax.loading']}" emptyMessage="#{manageInstitutionsAction.filtering ? msgsCore['manageInstitutions.text.noEntities'] : msgsCore['manageInstitutions.text.noEntitiesFiltered']}" update="buttonsForm">
+						<p:column>
+							<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.name']}" /></f:facet>
+							<h:outputText value="#{entity.name}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.acronym']}" /></f:facet>
+							<h:outputText value="#{entity.acronym}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.type']}" /></f:facet>
+							<h:outputText value="#{entity.type}" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</h:form>
+
+			<!-- Buttons shown below the listing. -->
+			<h:form id="buttonsForm">
+				<div class="crudButtons">
+					<p:commandButton action="#{manageInstitutionsAction.create}" value="#{msgsCore['manageInstitutions.button.create']}" image="buttonNew" />
+					<p:commandButton action="#{manageInstitutionsAction.retrieve()}" value="#{msgsCore['manageInstitutions.button.retrieve']}" image="buttonView" disabled="#{manageInstitutionsAction.selectedEntity == null}" />
+					<p:commandButton action="#{manageInstitutionsAction.update()}" value="#{msgsCore['manageInstitutions.button.update']}" image="buttonEdit" disabled="#{manageInstitutionsAction.selectedEntity == null}" />
+					<p:commandButton action="#{manageInstitutionsAction.trash()}" value="#{msgsCore['manageInstitutions.button.delete']}" image="buttonTrash" disabled="#{manageInstitutionsAction.selectedEntity == null}" update="trashForm" />
+				</div>
+			</h:form>
+
+			<!-- The trash panel: shows entities that have been selected for deletion. -->
+			<h:form id="trashForm">
+				<p:panel id="trashPanel" widgetVar="trashPanel" header="#{msgsCore['manageInstitutions.text.trashHeader']}" toggleable="true" rendered="#{not empty manageInstitutionsAction.trashCan}">
+					<h:dataTable value="#{manageInstitutionsAction.trashCan}" var="entity" >
+						<h:column><h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/bullet.png" /><h:outputText value="#{entity.name}" /></h:column>
+					</h:dataTable>
+					<div class="buttons">
+						<p:commandButton action="#{manageInstitutionsAction.cancelDeletion}" value="#{msgsCore['manageInstitutions.button.cancelDeletion']}" image="buttonCancel" onclick="trashPanel.close()" />
+						<p:commandButton action="#{manageInstitutionsAction.delete}" value="#{msgsCore['manageInstitutions.button.confirmDeletion']}" image="buttonOk" />
+					</div>
+				</p:panel>
+			</h:form>
+		</div>
+
+		<p>&nbsp;</p>
+
+	</ui:define>
+</ui:composition>

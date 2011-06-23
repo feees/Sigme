@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.0"
+							xmlns="http://java.sun.com/xml/ns/javaee"
+							xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+							xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+<application>
+	<!-- Defines the resource bundle that contains the standard JSF messages (overriding the ones provided). -->
+	<message-bundle>br.com.engenhodesoftware.sigme.faces</message-bundle>
+
+	<!-- Loads resource bundles for i18n messages and assigns names to them. -->
+	<resource-bundle>
+		<base-name>br.com.engenhodesoftware.sigme.messages</base-name>
+		<var>msgs</var>
+	</resource-bundle>
+	<resource-bundle>
+		<base-name>br.com.engenhodesoftware.sigme.core.view.messages</base-name>
+		<var>msgsCore</var>
+	</resource-bundle>
+	<resource-bundle>
+		<base-name>br.com.engenhodesoftware.sigme.secretariat.view.messages</base-name>
+		<var>msgsSecretariat</var>
+	</resource-bundle>
+
+	<!-- Defines the default locale. -->
+	<locale-config>
+		<default-locale>pt-BR</default-locale>
+	</locale-config>
+</application>
+</faces-config>

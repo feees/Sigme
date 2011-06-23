@@ -1,0 +1,198 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+								xmlns:p="http://primefaces.prime.com.tr/ui"
+                template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsCore['manageInstitutions.title.create']}" rendered="#{(! manageInstitutionsAction.readOnly) and (manageInstitutionsAction.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsCore['manageInstitutions.title.update']}" rendered="#{(! manageInstitutionsAction.readOnly) and (manageInstitutionsAction.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsCore['manageInstitutions.title.retrieve']}" rendered="#{manageInstitutionsAction.readOnly}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<h1>
+			<h:outputText value="#{msgsCore['manageInstitutions.title.create']}" rendered="#{(! manageInstitutionsAction.readOnly) and (manageInstitutionsAction.selectedEntity.id == null)}" />
+			<h:outputText value="#{msgsCore['manageInstitutions.title.update']}" rendered="#{(! manageInstitutionsAction.readOnly) and (manageInstitutionsAction.selectedEntity.id != null)}" />
+			<h:outputText value="#{msgsCore['manageInstitutions.title.retrieve']}" rendered="#{manageInstitutionsAction.readOnly}" />
+		</h1>
+
+		<div class="crud">
+			<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+				<h:form id="form">
+					<h:panelGroup id="nameField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:name" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.name']}" /></ui:define>
+							<h:inputText id="name" value="#{manageInstitutionsAction.selectedEntity.name}" size="50" required="true" disabled="#{manageInstitutionsAction.readOnly}">
+								<f:ajax event="blur" render="nameField acronymField" listener="#{manageInstitutionsAction.suggestAcronym}" />
+							</h:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="typeField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="type" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.type']}" /></ui:define>
+							<h:selectOneMenu id="type" value="#{manageInstitutionsAction.selectedEntity.type}" converter="#{coreController.institutionTypeConverter}" required="true" disabled="#{manageInstitutionsAction.readOnly}">
+								<f:selectItem itemLabel="#{msgsCore['manageInstitutions.form.type.blankOption']}" itemValue="#{null}" />
+								<f:selectItems value="#{coreController.institutionTypes}" />
+								<f:ajax event="change" listener="#{manageInstitutionsAction.handleInstitutionTypeChange}" render="regionalName" />
+								<f:ajax event="blur" listener="#{manageInstitutionsAction.handleInstitutionTypeChange}" render="typeField" />
+							</h:selectOneMenu>
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="acronymField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:acronym" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.acronym']}" /></ui:define>
+							<h:inputText id="acronym" value="#{manageInstitutionsAction.selectedEntity.acronym}" size="10" required="true" disabled="#{manageInstitutionsAction.readOnly}">
+								<f:ajax event="blur" render="acronymField" />
+							</h:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="lastUpdateDateField" rendered="#{manageInstitutionsAction.selectedEntity.id != null}">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield-novalidation.xhtml">
+							<ui:param name="fieldName" value="form:lastUpdateDate" />
+							<ui:define name="label"><h:outputText id="lastUpdateDate" value="#{msgsCore['manageInstitutions.form.lastUpdateDate']}" /></ui:define>
+							<h:inputText value="#{manageInstitutionsAction.selectedEntity.lastUpdateDate}" disabled="true"><f:convertDateTime type="both" dateStyle="medium" timeStyle="short" /></h:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<h2><h:outputText value="#{msgsCore['manageInstitutions.text.address']}" />:</h2>
+
+					<h:panelGroup id="streetField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:street" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.street']}" /></ui:define>
+							<h:inputText id="street" value="#{manageInstitutionsAction.selectedEntity.address.street}" size="20" disabled="#{manageInstitutionsAction.readOnly}" />
+							<h:outputText value=", " />
+							<h:inputText id="number" value="#{manageInstitutionsAction.selectedEntity.address.number}" size="3" disabled="#{manageInstitutionsAction.readOnly}" />
+							<h:outputText value=" / " />
+							<h:inputText id="numberComplement" value="#{manageInstitutionsAction.selectedEntity.address.numberComplement}" size="3" disabled="#{manageInstitutionsAction.readOnly}">
+								<f:ajax event="blur" render="streetField" execute="street number numberComplement" />
+							</h:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="streetComplementField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:streetComplement" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.streetComplement']}" /></ui:define>
+							<h:inputText id="streetComplement" value="#{manageInstitutionsAction.selectedEntity.address.streetComplement}" size="20" disabled="#{manageInstitutionsAction.readOnly}">
+								<f:ajax event="blur" render="streetComplementField" />
+							</h:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="cityField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:city" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.city']}" /></ui:define>
+							<p:autoComplete id="city" minQueryLength="2" forceSelection="true" value="#{manageInstitutionsAction.selectedEntity.address.city}" completeMethod="#{manageInstitutionsAction.suggestCities}" converter="#{coreController.cityConverter}" selectListener="#{manageInstitutionsAction.handleCitySelection}" onSelectUpdate="regionalName" disabled="#{manageInstitutionsAction.readOnly}" />
+							<h:panelGroup id="regionalName"><h:outputText value=" (#{manageInstitutionsAction.selectedEntity.regional})" rendered="#{manageInstitutionsAction.selectedEntity.type.partOfRegional and (manageInstitutionsAction.selectedEntity.regional != null)}" /></h:panelGroup>
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="zipCodeField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:zipCode" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.zipCode']}" /></ui:define>
+							<p:inputMask id="zipCode" mask="99999-999" required="false" value="#{manageInstitutionsAction.selectedEntity.address.zipCode}" size="10" disabled="#{manageInstitutionsAction.readOnly}">
+								<p:ajax event="blur" update="zipCodeField" />
+							</p:inputMask>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<h2><h:outputText value="#{msgsCore['manageInstitutions.text.contactInformation']}" />:</h2>
+
+					<h:panelGroup id="webPageField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:webPage" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.webPage']}" /></ui:define>
+							<h:inputText id="webPage" value="#{manageInstitutionsAction.selectedEntity.webPage}" size="30" disabled="#{manageInstitutionsAction.readOnly}">
+								<f:ajax event="blur" render="webPageField" />
+							</h:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="emailField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:email" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.email']}" /></ui:define>
+							<h:inputText id="email" value="#{manageInstitutionsAction.selectedEntity.email}" size="30" disabled="#{manageInstitutionsAction.readOnly}">
+								<f:ajax event="blur" render="emailField" />
+							</h:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<h:panelGroup id="telephonesField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield-novalidation.xhtml">
+							<ui:param name="fieldName" value="form:telephones" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.telephones']}" /></ui:define>
+							<p:dataTable id="telephones" value="#{manageInstitutionsAction.telephones}" var="telephone" selection="#{manageInstitutionsAction.selectedTelephone}" selectionMode="single" loadingMessage="#{msgs['text.ajax.loading']}" emptyMessage="#{msgsCore['manageInstitutions.text.noTelephones']}" update="telephoneButtons" style="margin-top: -10px">
+								<p:column width="200">
+									<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.number']}" /></f:facet>
+									<h:outputText value="#{telephone.number}" />
+								</p:column>
+								<p:column width="100">
+									<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.type']}" /></f:facet>
+									<h:outputText value="#{telephone.type}" />
+								</p:column>
+							</p:dataTable>
+							<h:panelGroup id="telephoneButtons">
+								<div class="buttons">
+									<p:commandButton action="#{manageInstitutionsAction.newTelephone}" onsuccess="newTelephoneDialog.show()" image="buttonAdd" title="#{msgsCore['manageInstitutions.button.anotherTelephone']}" disabled="#{manageInstitutionsAction.readOnly}" update="telephoneForm" />
+									<p:commandButton action="#{manageInstitutionsAction.editTelephone}" onsuccess="newTelephoneDialog.show()" image="buttonEdit" title="#{msgsCore['manageInstitutions.button.editTelephone']}" disabled="#{manageInstitutionsAction.readOnly or (manageInstitutionsAction.selectedTelephone == null)}" update="telephoneForm" />
+									<p:commandButton action="#{manageInstitutionsAction.removeTelephone}" image="buttonRemove" title="#{msgsCore['manageInstitutions.button.removeTelephone']}" disabled="#{manageInstitutionsAction.readOnly or (manageInstitutionsAction.selectedTelephone == null)}" update="telephonesField" />
+								</div>
+							</h:panelGroup>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+						<h:panelGroup rendered="#{! manageInstitutionsAction.readOnly}">
+							<p:commandButton action="#{manageInstitutionsAction.list}" value="#{msgsCore['manageInstitutions.button.cancel']}" immediate="true" image="buttonCancel" />
+							<p:commandButton action="#{manageInstitutionsAction.save}" value="#{msgsCore['manageInstitutions.button.save']}" image="buttonOk" update="form" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{manageInstitutionsAction.readOnly}">
+							<p:commandButton action="#{manageInstitutionsAction.list}" value="#{msgsCore['manageInstitutions.button.back']}" immediate="true" image="buttonBack" />
+						</h:panelGroup>
+					</ui:decorate>
+				</h:form>
+			</ui:decorate>
+
+			<!-- Dialog with the new telephone form. -->
+			<p:dialog header="#{msgsCore['manageInstitutions.text.newTelephone']}" widgetVar="newTelephoneDialog" modal="true" hideEffect="fade">
+				<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+					<h:form id="telephoneForm">
+						<h:panelGroup id="numberField">
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+								<ui:param name="fieldName" value="telephoneForm:number" />
+								<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.number']}" /></ui:define>
+								<p:inputMask id="number" value="#{manageInstitutionsAction.selectedTelephone.number}" mask="(99) 9999-9999" size="20" required="true">
+									<f:ajax event="blur" render="numberField" />
+								</p:inputMask>
+							</ui:decorate>
+						</h:panelGroup>
+						<h:panelGroup id="typeField">
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+								<ui:param name="fieldName" value="telephoneForm:type" />
+								<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.type']}" /></ui:define>
+								<h:selectOneMenu id="type" value="#{manageInstitutionsAction.selectedTelephone.type}" converter="#{coreController.contactTypeConverter}" required="true" disabled="#{manageInstitutionsAction.readOnly}">
+									<f:selectItem itemLabel="#{msgsCore['manageInstitutions.form.telephone.type.blankOption']}" itemValue="#{null}" />
+									<f:selectItems value="#{coreController.contactTypes}" />
+									<f:ajax event="valueChange" render="typeField" />
+								</h:selectOneMenu>
+							</ui:decorate>
+						</h:panelGroup>
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+							<p:commandButton action="#{manageInstitutionsAction.cancelTelephone}" onclick="newTelephoneDialog.close()" value="#{msgsCore['manageInstitutions.button.cancel']}" image="buttonCancel" />
+							<p:commandButton action="#{manageInstitutionsAction.saveTelephone}" onclick="newTelephoneDialog.close()" value="#{msgsCore['manageInstitutions.button.add']}" image="buttonAdd" update="telephoneForm telephonesField" rendered="#{not manageInstitutionsAction.telephoneEdit}" />
+							<p:commandButton action="#{manageInstitutionsAction.saveTelephone}" onclick="newTelephoneDialog.close()" value="#{msgsCore['manageInstitutions.button.save']}" image="buttonOk" update="telephoneForm telephonesField" rendered="#{manageInstitutionsAction.telephoneEdit}" />
+						</ui:decorate>
+					</h:form>
+				</ui:decorate>
+			</p:dialog>
+		</div>
+
+
+	</ui:define>
+</ui:composition>

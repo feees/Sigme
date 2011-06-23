@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+	<jdbc-resource enabled="true" jndi-name="java:app/jdbc/sigmeDS"
+		object-type="user" pool-name="sigmePool" />
+	<jdbc-connection-pool datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"
+		max-pool-size="32" name="sigmePool" pool-resize-quantity="2"
+		res-type="javax.sql.DataSource">
+		<property name="URL"
+			value="jdbc:mysql://localhost:3306/sigme?relaxAutoCommit=true" />
+		<property name="User" value="sigme" />
+		<property name="Password" value="sigme" />
+	</jdbc-connection-pool>
+</resources>

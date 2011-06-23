@@ -1,0 +1,160 @@
+/* 
+    Document   : crud
+    Created on : July 15, 2010
+    Author     : Vítor E. Silva Souza (vitorsouza@gmail.com)
+    Description:
+        Stylesheet for the Java EE 6 CRUD framework by Engenho de Software.
+*/
+
+/* Listing page - Filter bar. */
+div.crud div.crudFilterBar {
+	margin: 0 auto 0 auto;
+	text-align: right;
+}
+
+/* Listing page - Filter info. */
+div.crud div.crudFilterInfo {
+	font-size: 8pt;
+	margin: 0 auto 0 auto;
+	text-align: right;
+}
+
+/* Listing page - Listing table. */
+div.crud table.crudList {
+	margin: 15px auto 15px auto;
+	width: 95%;
+}
+div.crud table.crudList thead tr th {
+	border-bottom: 1px solid black;
+	padding: 2px;
+	margin: 0px;
+}
+div.crud table.crudList tbody tr td {
+	padding: 2px;
+	margin: 0px;
+}
+div.crud table.crudList tbody tr.odd  { background-color: transparent; }
+div.crud table.crudList tbody tr.even { background-color: #ffcccc; }
+div.crud table.crudList tbody tr td.colB  { text-align: center; min-width: 20px; }
+div.crud table.crudList tbody tr td.colSL { text-align: left;   min-width: 50px; }
+div.crud table.crudList tbody tr td.colSC { text-align: center; min-width: 50px; }
+div.crud table.crudList tbody tr td.colSR { text-align: right;  min-width: 50px; }
+div.crud table.crudList tbody tr td.colML { text-align: left;   min-width: 150px; }
+div.crud table.crudList tbody tr td.colMC { text-align: center; min-width: 150px; }
+div.crud table.crudList tbody tr td.colMR { text-align: right;  min-width: 150px; }
+div.crud table.crudList tbody tr td.colLL { text-align: left;   min-width: 250px; }
+div.crud table.crudList tbody tr td.colLC { text-align: center; min-width: 250px; }
+div.crud table.crudList tbody tr td.colLR { text-align: right;  min-width: 250px; }
+
+/* Listing page - Listing table using PrimeFaces p:dataTable component. */
+div.crud .ui-paginator {
+	background: none;
+	border: none;
+	margin: 15px auto 15px auto;
+	text-align: center;
+	width: 95%;
+}
+div.crud .ui-widget-content {
+	margin: 15px auto 15px auto;
+	width: 95%;
+}
+
+/* Listing page - Navigation panel below the listing table. */
+div.crud table.crudNav {
+	margin: 0 auto 10px auto;
+}
+div.crud table.crudNav tbody tr td {
+	padding: 0 5px 0 5px;
+}
+
+/* Listing page - Buttons panel below the navigation panel. */
+div.crud div.crudButtons {
+	margin: 15px auto 15px auto;
+	text-align: right;
+	width: 95%;
+}
+div.crud div.crudButtons button {
+	margin-left: 5px;
+}
+
+/* Listing page - Trash panel. */
+div.crud .crudTrash {
+	font-size: 10pt;
+	font-weight: normal;
+	margin-top: -28px;
+	padding: 5px;
+	width: 370px;
+}
+div.crud div.crudTrash table tbody tr td ul {
+	margin-top: -5px;
+	margin-bottom: 0;
+}
+div.crud div.crudTrash a img {
+	margin-left: 10px;
+}
+
+/* Form page - form. */
+div.crudForm {
+	margin: 10px 0 10px 0;
+	text-align: center;
+	width: 100%;
+}
+
+/* Form page - form field. */
+div.crudForm table.crudFormField {
+	margin: 0 auto 3px auto;
+}
+div.crudForm table.crudFormField td.label {
+	/*background-color: #ffcccc; 	padding: 10px;*/
+	font-weight: bold;
+	text-align: right;
+	width: 150px;
+}
+div.crudForm table.crudFormField td.spacing {
+	/* use display: none; to remove the spacing */
+	width: 2px;
+}
+div.crudForm table.crudFormField td.field {
+	/*background-color: #ffcccc; padding: 10px;*/
+	text-align: left;
+	width: 500px;
+}
+div.crudForm table.crudFormFieldError {
+	color: red;
+	font-weight: bold;
+}
+div.crudForm table.crudFormField td.fieldError {
+	/*border: 2px solid red;*/
+	background-color: #ffcccc;
+}
+
+/* Form page - form field (single). */
+div.crudForm table.crudFormFieldSingle {
+	/*background-color: #ffcccc;*/
+	margin: 0 auto 0 auto;
+}
+div.crudForm table.crudFormFieldSingle td.single {
+	background-color: #ffcccc;
+	padding: 10px;
+	text-align: left;
+	width: 650px;
+}
+
+/* Form page - form button. */
+div.crudForm table.crudFormButton {
+	margin: 0 auto 0 auto;
+}
+div.crudForm table.crudFormButton td.button {
+	text-align: right;
+	width: 685px;
+}
+
+/* General - Button alignment. */
+div.crud div.buttons {
+	padding-right: 5px;
+	text-align: right;
+	width: 100%;
+}
+div.crud div.buttons button {
+	margin-left: 5px;
+}

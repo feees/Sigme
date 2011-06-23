@@ -1,0 +1,110 @@
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Modified by: Vítor E. Silva Souza (vitorsouza@gmail.com)
+Original credits and license maintained above.
+*/
+
+body {
+	background: #FFFFFF url(../images/img01.gif) repeat-x;
+	font: normal small "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #666666;
+	margin: 0;
+}
+
+h1, h2, h3 {
+	color: #586BAA;
+	margin: 0;
+	font-weight: normal;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+	font-size: 1.7em;
+}
+
+h3 {
+	font-size: 1.5em;
+}
+
+a {
+	color: #586BAA;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+/* Header */
+
+#header {
+	height: 90px;
+	margin: 0 20px 0 20px;
+}
+
+#header h1 {
+	letter-spacing: -2px;
+	font-size: 36px;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+
+#header h1 a {
+	color: #000000;
+}
+
+#header h2 {
+	font-size: 14px;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+
+#header h2 a {
+	color: #000000;
+}
+
+#header a {
+	text-decoration: none;
+	text-transform: lowercase;
+	font-style: italic;
+	color: #479AC6;
+}
+
+/* Content */
+
+#content {
+	margin: 0 20px 0 20px;
+}
+
+/* Content > Main */
+
+#main {
+	float: right;
+	width: 505px;
+}
+
+#main a {
+}
+
+
+/* Footer */
+
+#footer {
+	clear: both;
+	width: 100%;
+	padding: 30px 0 10px 0;
+	background: url(../images/img02.gif) repeat-x;
+}
+
+#footer p {
+	margin: 0;
+	text-align: center;
+	font-size: x-small;
+}
