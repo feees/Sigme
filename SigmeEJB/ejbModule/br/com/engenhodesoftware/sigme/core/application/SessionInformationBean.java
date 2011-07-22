@@ -9,6 +9,9 @@ import javax.ejb.EJB;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 import br.com.engenhodesoftware.sigme.core.application.exceptions.LoginFailedException;
 import br.com.engenhodesoftware.sigme.core.application.exceptions.LoginFailedReason;
@@ -19,8 +22,7 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersi
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
- * Stateful session bean implementing the session information component. See the implemented interface documentation for
- * details.
+ * Stateful session bean implementing the session information component. See the implemented interface documentation for details.
  * 
  * @author Vitor Souza (vitorsouza@gmail.com)
  * @see br.com.engenhodesoftware.sigme.core.application.SessionInformation
@@ -63,6 +65,10 @@ public class SessionInformationBean implements SessionInformation {
 			if ((pwd != null) && (pwd.equals(md5pwd))) {
 				logger.log(Level.FINER, "Passwords match for user {0}.", username);
 
+				// Checks also if the container authenticates the user. If not, it will thrown an exception.
+				HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+				request.login(username, password);
+
 				// Login successful. Registers the current user in the session.
 				logger.log(Level.FINE, "Spiritist \"{0}\" successfully logged in.", username);
 				currentUser = user;
@@ -98,6 +104,11 @@ public class SessionInformationBean implements SessionInformation {
 			// No MD5 hash generation algorithm found by the JVM.
 			logger.log(Level.SEVERE, "Logging in user \"" + username + "\" triggered an exception during MD5 hash generation.", e);
 			throw new LoginFailedException(LoginFailedReason.MD5_ERROR);
+		}
+		catch (ServletException e) {
+			// User was not authenticated by the container.
+			logger.log(Level.WARNING, "User \"" + username + "\" not logged in: container returned an exception.", e);
+			throw new LoginFailedException(e, LoginFailedReason.CONTAINER_REJECTED);
 		}
 	}
 }

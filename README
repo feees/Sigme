@@ -1,3 +1,81 @@
+Este projeto tem por objetivo desenvolver o Sistema de Informação Gerencial do Movimento Espírita (Sigme), a ser utilizado por federativas para auxiliar na organização do movimento espírita em seu estado. 
+
+Este arquivo contém as seguintes seções:
+
+* Como executar: instruções detalhadas de como rodar o Sigme em seu computador;
+* Visão geral: resumo da visão geral dos requisitos do sistema, que está ainda sendo desenvolvido.
+
+COMO EXECUTAR:
+==============
+
+Este projeto utiliza as seguintes tecnologias:
+
+* IDE: Eclipse Indigo (versão Java EE);
+* Servidor de Aplicações: GlassFish 3.1;
+* Tecnologias Java EE 6: JSF 2, JPA 2, CDI, EJB 3.
+
+Para executar o Sigme em sua máquina, siga as instruções abaixo:
+
+1. Instale os seguintes softwares caso você já não os tenha instalados em seu computador:
+	* Eclipse Indigo (versão Java EE);
+	* Plug-in EGit para o Eclipse;
+	* GlassFish connector para o Eclipse;
+	* GlassFish 3.1 (ou versão mais recente);
+	* MySQL 5;
+	* MySQL Connector/J (um JAR copiado do site do MySQL e colocado na pasta glassfish/domains/domain1/lib/ext).
+
+2. Se ainda não o fez, adicione o GlassFish como um servidor dentro do Eclipse;
+
+3. Utilizando o EGit dentro do Eclipse, clone o repositório e faça com que o Eclipse reconheça os três projetos incluídos nele: Sigme, SigmeEJB and SigmeWeb;
+
+4. Utilizando o console de administração do GlassFish (ex.: na visão Server do Eclipse, com o GlassFish rodando, clique com o botão direito no servidor GlassFish e escolha GlassFish > View Admin Console), crie a conexão com o banco e o realm de segurança para o Sigme:
+
+a) Em Resources > JDBC > JDBC Connection Pools, crie um novo pool de conexões com os seguintes atributos:
+- Pool Name: sigmePool
+- Resource Type: javax.sql.DataSource
+- Database Driver Vendor: MySQL
+- Na tabela de propriedades, apague todos os itens e crie os seguintes novos itens:
+	* URL: jdbc:mysql://localhost:3306/sigme?relaxAutoCommit=true
+	* User: sigme
+	* Password: sigme
+	
+b) Em Resources > JDBC > JDBC Resources, crie uma nova fonte de dados com as seguintes propriedades:
+- JNDI Name: jdbc/sigmeDS
+- Pool Name: sigmePool
+
+c) Em Configurations > server-config > Security > Realms, crie um novo realm com as seguintes propriedades:
+- Name: sigme-realm
+- Class Name: com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm
+- JAAS Context: jdbcRealm
+- JNDI: jdbc/sigmeDS
+- User Table: SPIRITIST
+- User Name Column: EMAIL
+- Password Column: PASSWORD
+- Group Table: VIEW_SPIRITIST_GROUP
+- Group Name Column: GROUPNAME
+- Digest Algorithm: MD5
+
+
+5. Utilizando alguma ferramenta de administração do MySQL, crie um banco de dados chamado sigme e também um usuário chamado sigme com senha sigme e com acesso completo ao banco de dados sigme;
+
+6. Abra SigmeEJB / ejbModule / META-INF / persistence.xml e descomente a propriedade eclipselink.ddl-generation para a primeira execução do sistema;
+
+7. Execute o projeto Sigme no servidor GlassFish e abra-o em seu navegador (http://localhost:8080/SigmeWeb/). Você deverá ver a tela inicial com o link "Instalar Sistema" à esquerda. Caso isso não aconteçã e você receba exceções com relação a tabelas não existirem no banco de dados, experimente fazer o undeploy do Sigme, reiniciar o GlassFish e efetuar um novo deploy. Assegure-se de ter seguido atentamente o passo 6;
+
+8. Caso a primeira execução ocorra sem problemas (confira também que uma série de tabelas foi criada no banco de dados sigme dentro do MySQL), comente novamente a propriedade especificada no passo 6;
+
+9. Utilizando novamente a ferramenta do MySQL, crie a visão VIEW_SPIRITIST_GROUP configurada no passo 4-c com o seguinte comando:
+
+CREATE OR REPLACE VIEW `sigme`.`VIEW_SPIRITIST_GROUP` AS SELECT S.EMAIL, 'USER' AS GROUPNAME FROM SPIRITIST S
+
+
+10. Clique em "Instalar Sistema" e siga as instruções do próprio Sigme para completar a instalação.
+
+
+
+VISÃO GERAL:
+============
+
 A Federação Espírita do Estado do Espírito Santo (Feees) é uma organização religiosa, apolítica, de caráter doutrinário, filantrópico e cultural, segundo os fundamentos científicos, filosóficos e morais da Doutrina Espírita, resultante da união das sociedades espíritas sediadas no Estado do Espírito Santo, que objetiva unificar, orientar, coordenar e dinamizar o movimento espírita no Estado e participar do movimento espírita nacional, para divulgar o Espiritismo com base na Codificação de Allan Kardec, no seu tríplice aspecto: científico, filosófico e moral.
 
 Para alcançar seus objetivos, a Feees realiza uma série de atividades por meio da ação de seus departamentos, acompanhados pelos vice-presidentes, além da tesouraria e secretaria, todos coordenados pela presidência. Muitas das atividades poderiam ser informatizadas para dar uma maior agilidade aos trabalhos realizados.
