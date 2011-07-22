@@ -12,6 +12,11 @@ div.crud div.crudFilterBar {
 	text-align: right;
 }
 
+/* Fixing alignment on filter list box. */
+div.crud div.crudFilterBar .ui-helper-clearfix::after {
+	content: none;
+}
+
 /* Listing page - Filter info. */
 div.crud div.crudFilterInfo {
 	font-size: 8pt;
@@ -52,10 +57,6 @@ div.crud .ui-paginator {
 	border: none;
 	margin: 15px auto 15px auto;
 	text-align: center;
-	width: 95%;
-}
-div.crud .ui-widget-content {
-	margin: 15px auto 15px auto;
 	width: 95%;
 }
 
