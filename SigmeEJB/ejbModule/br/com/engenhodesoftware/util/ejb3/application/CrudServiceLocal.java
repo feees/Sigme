@@ -31,6 +31,12 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
  */
 public interface CrudServiceLocal<T extends PersistentObject> extends Serializable {
 	/**
+	 * Empty method called by CrudAction every time the CrudService class is obtained. If this method is overridden in the concrete
+	 * implementation of the CrudService and annotated with RolesAllowed authorization will be enforced by the Crud framework. 
+	 */
+	void authorize();
+
+	/**
 	 * Checks if there are errors with object creation.
 	 * 
 	 * @param entity
@@ -65,7 +71,7 @@ public interface CrudServiceLocal<T extends PersistentObject> extends Serializab
 	 *           In case business constraints aren't followed.
 	 */
 	void validateDelete(T entity) throws CrudException;
-
+	
 	/**
 	 * Informs how many persistent objects of the manipulated class exist in the persistent store.
 	 * 

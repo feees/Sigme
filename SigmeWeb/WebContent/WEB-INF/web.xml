@@ -37,6 +37,10 @@
         <location>/error-expired.faces</location>
     </error-page>
     <error-page>
+        <exception-type>javax.ejb.EJBAccessException</exception-type>
+        <location>/error-auth.faces</location>
+    </error-page>
+    <error-page>
         <exception-type>javax.ejb.EJBException</exception-type>
         <location>/error-other.faces</location>
     </error-page>

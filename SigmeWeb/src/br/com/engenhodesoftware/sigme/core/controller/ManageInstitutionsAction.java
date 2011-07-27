@@ -93,6 +93,9 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getCrudService() */
 	@Override
 	protected CrudServiceLocal<Institution> getCrudService() {
+		// Checks if the current user has the authorization to use this functionality.
+		manageInstitutionsService.authorize();
+		
 		return manageInstitutionsService;
 	}
 

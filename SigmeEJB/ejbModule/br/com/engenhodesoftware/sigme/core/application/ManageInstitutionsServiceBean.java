@@ -19,8 +19,8 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersi
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
- * Stateless session bean implementing the "Manage Institutions" use case component. See the implemented interface
- * documentation for details.
+ * Stateless session bean implementing the "Manage Institutions" use case component. See the implemented interface documentation
+ * for details.
  * 
  * @author Vitor Souza (vitorsouza@gmail.com)
  * @see br.com.engenhodesoftware.sigme.core.application.ManageInstitutionsService
@@ -48,6 +48,12 @@ public class ManageInstitutionsServiceBean extends CrudService<Institution> impl
 	@Override
 	protected BaseDAO<Institution> getDAO() {
 		return institutionDAO;
+	}
+
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#authorize() */
+	@Override
+	public void authorize() {
+		// Overridden to implement authorization. @RolesAllowed is placed in the whole class.
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validateCreate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
