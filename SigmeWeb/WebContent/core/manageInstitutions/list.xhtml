@@ -22,10 +22,10 @@
 							<f:ajax event="change" execute="@form" listener="#{manageInstitutionsAction.changeFilter}" render="@form :listingForm" />
 						</p:selectOneMenu>
 						<h:outputText value=": " />
-						<h:inputText id="filterText" size="20" required="false" value="#{manageInstitutionsAction.filterParam}" rendered="#{manageInstitutionsAction.filter.options == null}" />
-						<h:selectOneMenu id="filterSelect" required="false" value="#{manageInstitutionsAction.filterParam}" rendered="#{manageInstitutionsAction.filter.options != null}">
+						<p:inputText id="filterText" size="20" required="false" value="#{manageInstitutionsAction.filterParam}" rendered="#{manageInstitutionsAction.filter.options == null}" />
+						<p:selectOneMenu id="filterSelect" required="false" value="#{manageInstitutionsAction.filterParam}" rendered="#{manageInstitutionsAction.filter.options != null}">
 							<f:selectItems value="#{manageInstitutionsAction.filter.reversedOptionsLabels}" />
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 						<h:commandLink action="#{manageInstitutionsAction.filter}">
 							<h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/button-find.png" title="#{msgsCore['manageInstitutions.button.filter']}" />
 							<f:ajax execute="@form" render=":listingForm" />

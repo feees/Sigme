@@ -21,7 +21,9 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:email" />
 							<ui:define name="label"><h:outputText value="#{msgs['field.email']}" /></ui:define>
-							<h:inputText id="email" value="#{sessionController.email}" size="30" required="true" />
+							<p:inputText id="email" value="#{sessionController.email}" size="30" required="true">
+								<f:ajax event="blur" render="emailField" />
+							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
 
@@ -29,12 +31,12 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:password" />
 							<ui:define name="label"><h:outputText value="#{msgs['field.password']}" /></ui:define>
-							<h:inputSecret id="password" value="#{sessionController.password}" size="15" required="true" />
+							<p:password id="password" value="#{sessionController.password}" size="15" required="true" feedback="false" />
 						</ui:decorate>
 					</h:panelGroup>
 
 					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-						<p:commandButton action="#{sessionController.login}" value="#{msgs['button.login']}" image="buttonOk" update=":globalMessages" />
+						<p:commandButton action="#{sessionController.login}" value="#{msgs['button.login']}" image="buttonOk" update=":globalMessages form" />
 					</ui:decorate>
 				</h:form>
 			</ui:decorate>

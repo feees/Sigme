@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 
 import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 import br.com.engenhodesoftware.util.ejb3.application.CrudException;
 import br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal;
@@ -179,7 +180,7 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 			lazyEntities = new LazyDataModel<T>() {
 				private static final long serialVersionUID = -7530065697374570235L;
 				@Override
-				public List<T> load(int first, int pageSize, String sortField, boolean sortOrder, Map<String, String> filters) {
+				public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
 					firstEntityIndex = first;
 					lastEntityIndex = first + pageSize;
 					retrieveEntities();

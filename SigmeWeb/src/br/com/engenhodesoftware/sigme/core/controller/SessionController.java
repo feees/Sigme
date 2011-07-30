@@ -26,6 +26,12 @@ import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
  * 
  * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
  */
+/**
+ * TODO: document this type.
+ *
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @version 1.0
+ */
 @Named
 @SessionScoped
 public class SessionController extends JSFAction {
@@ -213,6 +219,7 @@ public class SessionController extends JSFAction {
 	public String login() {
 		try {
 			// Uses the Login service to authenticate the user.
+			logger.log(Level.INFO, "User {0} attempting login", new Object[] { email });
 			sessionInformation.login(email, password);
 		}
 		catch (LoginFailedException e) {
@@ -242,5 +249,29 @@ public class SessionController extends JSFAction {
 		email = "vitorsouza@gmail.com";
 		password = "123";
 		return login();
+	}
+
+	/**
+	 * TODO: document this method.
+	 */
+	public void showAuthErrorMessage() {
+		logger.log(Level.INFO, "Showing authentication error message for user: {0}", new Object[] {email});
+		addGlobalI18nMessage("msgs", FacesMessage.SEVERITY_ERROR, "error.auth.summary", new Object[0], "error.auth.detail", new Object[] { getNow() });
+	}
+	
+	/**
+	 * TODO: document this method.
+	 */
+	public void showExpiredWarningMessage() {
+		logger.log(Level.INFO, "Showing session expired warning message for user: {0}", new Object[] {email});
+		addGlobalI18nMessage("msgs", FacesMessage.SEVERITY_WARN, "error.expired.summary", new Object[0], "error.expired.detail", new Object[0]);
+	}
+
+	/**
+	 * TODO: document this method.
+	 */
+	public void showOtherErrorMessage() {
+		logger.log(Level.INFO, "Showing unknown error message for user: {0}", new Object[] {email});
+		addGlobalI18nMessage("msgs", FacesMessage.SEVERITY_ERROR, "error.other.summary", new Object[0], "error.other.detail", new Object[] { getNow() });
 	}
 }

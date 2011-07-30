@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.convert.Converter;
+import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
 import br.com.engenhodesoftware.sigme.core.application.CoreInformation;
@@ -75,6 +76,12 @@ public class CoreController implements Serializable {
 		}
 
 		return institutionTypes;
+	}
+	
+	public List<SelectItem> getInstitutionTypesAsSelectItems() {
+		List<SelectItem> items = new ArrayList<SelectItem>();
+		for (InstitutionType type : getInstitutionTypes()) items.add(new SelectItem(type.getId(), type.getType()));
+		return items;
 	}
 
 	/** Getter for contactTypes. */
