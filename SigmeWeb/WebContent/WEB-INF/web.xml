@@ -33,7 +33,7 @@
 	</context-param>
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>casablanca</param-value>
+		<param-value>start</param-value>
 	</context-param>
 	<session-config>
 		<session-timeout>30</session-timeout>

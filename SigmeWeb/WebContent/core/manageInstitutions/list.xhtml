@@ -52,7 +52,21 @@
 
 				<!-- The list of entities. -->
 				<h:panelGroup id="listing" styleClass="listing">
-					<p:dataTable value="#{manageInstitutionsAction.lazyEntities}" var="entity" rows="#{manageInstitutionsAction.maxEntitiesPerPage}" dynamic="true" lazy="true" paginator="true" selection="#{manageInstitutionsAction.selectedEntity}" selectionMode="single" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" paginatorPosition="bottom" loadingMessage="#{msgs['text.ajax.loading']}" emptyMessage="#{manageInstitutionsAction.filtering ? msgsCore['manageInstitutions.text.noEntities'] : msgsCore['manageInstitutions.text.noEntitiesFiltered']}" update="buttonsForm">
+					<p:dataTable 
+						value="#{manageInstitutionsAction.lazyEntities}" 
+						var="entity" 
+						rows="#{manageInstitutionsAction.maxEntitiesPerPage}" 
+						dynamic="true" 
+						lazy="true" 
+						paginator="true" 
+						selection="#{manageInstitutionsAction.selectedEntity}" 
+						selectionMode="single" 
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+						paginatorPosition="bottom" 
+						loadingMessage="#{msgs['text.ajax.loading']}" 
+						emptyMessage="#{manageInstitutionsAction.filtering ? msgsCore['manageInstitutions.text.noEntities'] : msgsCore['manageInstitutions.text.noEntitiesFiltered']}" 
+						update="buttonsForm">
+
 						<p:column>
 							<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.name']}" /></f:facet>
 							<h:outputText value="#{entity.name}" />

@@ -5,9 +5,13 @@
 								xmlns:h="http://java.sun.com/jsf/html"
 								xmlns:f="http://java.sun.com/jsf/core">
 
-	<div class="crudForm">
-		<f:validateBean>
+	<div class="sigmeFormField">
+		<span class="label">
+			<ui:insert name="label" />:
+		</span>
+		<span class="field">
+			<h:messages for="#{fieldName}" layout="list" rendered="#{fieldName != null}" />
 			<ui:insert />
-		</f:validateBean>
+		</span>
 	</div>
 </ui:composition>

@@ -1,0 +1,131 @@
+/*** PRIMEFACES WIDGETS ***/
+
+/* Reducing the size of the fonts in PrimeFaces widgets: */
+.ui-widget {
+	font-size: 10pt;
+}
+
+/* Aligning the menu in the center of the sidebar: */
+.wijmo-wijmenu {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+
+/*** SIGME FORMS ***/
+
+div.sigmeForm {
+	margin: 10px 0 10px 0;
+	width: 100%;
+	clear: both;
+}
+
+div.sigmeForm div.sigmeFormField {
+	width: 100%;
+	clear: both;
+	padding: 3px 0 3px 0;
+	margin-bottom: 5px;
+	background-color: #E6E6FA;
+}
+
+div.sigmeForm div.sigmeFormField span.label {
+	width: 30%;
+	float: left;
+	clear: both;
+	text-align: right;
+	padding: 5px 15px 5px 0;
+}
+
+div.sigmeForm div.sigmeFormField span.field {
+	float: none;
+	width: 69%;
+	padding: 10px 0 50px 0;
+	border-left: 5px solid white;
+}
+
+div.sigmeForm div.sigmeFormField span.field input { margin-left: 4px; }
+div.sigmeForm div.sigmeFormField span.field select { margin-left: 4px; }
+div.sigmeForm div.sigmeFormField span.field textarea { margin-left: 4px; }
+
+div.sigmeForm div.sigmeFormField span.field ul {
+	list-style-image: url(../images/error-icon.png);
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 67%;
+}
+
+div.sigmeForm div.sigmeFormField span.field ul li {
+	margin-left: 25px;
+}
+
+div.sigmeForm div.sigmeFormFieldError {
+	background-color: #FFA07A;
+}
+
+div.sigmeForm div.sigmeFormFieldError span.label {
+	font-weight: bold;
+}
+
+div.sigmeForm div.sigmeFormFieldError span.field {
+	font-weight: bold;
+}
+
+div.sigmeForm div.sigmeFormFieldError span.field input { margin-left: 8px; }
+div.sigmeForm div.sigmeFormFieldError span.field select { margin-left: 8px; }
+div.sigmeForm div.sigmeFormFieldError span.field textarea { margin-left: 8px; }
+
+div.sigmeForm div.sigmeFormButton {
+	width: 100%;
+	clear: both;
+	padding: 3px 0 3px 0;
+	margin: 3px 0 3px 0;
+	text-align: right;
+}
+
+
+
+/*** SIGME CRUD LISTING ***/
+
+/* Listing page - Filter bar. */
+div.crud div.crudFilterBar {
+	margin: 0 20px 0 auto;
+	text-align: right;
+}
+
+div.crud div.crudFilterBar img {
+	margin-left: 5px;
+}
+
+/* Fixing alignment on filter list box. */
+div.crud div.crudFilterBar .ui-helper-clearfix::after {
+	content: none;
+}
+
+/* Listing page - Filter info. */
+div.crud div.crudFilterInfo {
+	font-size: 8pt;
+	margin: 0 auto 0 auto;
+	text-align: right;
+}
+
+/* Listing page - Listing table. */
+div.crud div.ui-datatable {
+	margin: 10px auto 15px auto;
+	width: 95%;
+}
+div.crud div.ui-datatable tbody.ui-datatable-data-empty div {
+	padding: 10px;
+	text-align: center;
+}
+
+/* Listing page - Buttons panel below the navigation panel. */
+div.crud div.crudButtons {
+	margin: 15px auto 15px auto;
+	text-align: right;
+	width: 95%;
+}
+div.crud div.crudButtons button {
+	margin-left: 5px;
+}

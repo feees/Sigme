@@ -48,7 +48,7 @@ public class CoreInformation implements Serializable {
 	private Boolean systemInstalled;
 
 	/** Indicates the decorator being used in the administration area. */
-	private String decorator = "criterion";
+	private String decorator = "default";
 
 	/** The list of institution types (cache of objects that don't change very often). */
 	private SortedSet<InstitutionType> institutionTypes;

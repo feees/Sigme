@@ -5,11 +5,9 @@
 								xmlns:h="http://java.sun.com/jsf/html"
 								xmlns:f="http://java.sun.com/jsf/core">
 
-	<table class="crudFormButton">
-		<tr>
-			<td class="button">
-				<ui:insert />
-			</td>
-		</tr>
-	</table>
+	<div class="sigmeForm">
+		<f:validateBean>
+			<ui:insert />
+		</f:validateBean>
+	</div>
 </ui:composition>

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!--
+Adapted from a design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<f:view contentType="text/html">
+	<h:head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/templates/#{coreInfo.decorator}/stylesheets/buttons.css" />
+		<link type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/templates/#{coreInfo.decorator}/stylesheets/regeneracy.css" />
+		<link type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/templates/#{coreInfo.decorator}/stylesheets/sigme.css" />
+		<title><h:outputText value="Sigme :: " /> <ui:insert name="title" /></title>
+		<ui:insert name="head" />
+	</h:head>
+
+	<h:body>
+		<div id="wrapper">
+			<div id="header-wrapper"><div id="header"><div id="logo">
+				<!-- Sigme title: -->
+				<h1><a href="#{facesContext.externalContext.requestContextPath}"><h:outputText value="#{msgs['text.system.acronym']}" /></a></h1>
+				<p><a href="#{facesContext.externalContext.requestContextPath}"><h:outputText value="#{msgs['text.system.name']}" /> </a></p>
+
+				<!-- Sigme Ajax status indicator: -->
+				<div id="ajaxStatus">
+					<h:form id="statusForm">
+						<p:ajaxStatus>
+							<f:facet name="start">
+								<h:graphicImage alt="#{msgs['text.ajax.loading.alt']}" title="#{msgs['text.ajax.loading']}"
+									url="/resources/templates/#{coreInfo.decorator}/icons/ajaxstatus-start.gif" />
+							</f:facet>
+							<f:facet name="error">
+								<h:graphicImage alt="#{msgs['text.ajax.error.alt']}" title="#{msgs['text.ajax.error']}"
+									url="/resources/templates/#{coreInfo.decorator}/icons/ajaxstatus-error.png" />
+							</f:facet>
+							<f:facet name="complete">
+								<h:graphicImage alt="#{msgs['text.ajax.complete.alt']}" title="#{msgs['text.ajax.complete']}"
+									url="/resources/templates/#{coreInfo.decorator}/icons/ajaxstatus-complete.png" />
+							</f:facet>
+						</p:ajaxStatus>
+					</h:form>
+				</div>
+			</div></div></div>
+		
+			<div id="page"><div id="page-bgtop"><div id="page-bgbtm">
+				<div id="sidebar">
+					<!-- Sigme menu: -->
+					<h:form id="menu">
+						<p:menu style="width:200px;" model="#{sessionController.menuModel}" />
+					</h:form>
+				</div>
+			
+				<div id="content">
+					<!-- Sigme global messages: -->
+					<h:form id="globalMessages">
+						<p:messages id="messages" showDetail="true" globalOnly="true" />
+					</h:form>
+					
+					<!-- Sigme contents: -->
+					<ui:insert name="body" />
+				</div>
+				
+				<div style="clear: both;">&nbsp;</div>
+			</div></div></div>
+		</div>
+		
+		<div id="footer">
+			<!-- Sigme copyright notice: -->
+			<p>Copyright &copy; 2011 Sigme | All Rights Reserved. Design by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a>.</p>
+		</div>
+	
+	</h:body>
+</f:view>
+</html>

@@ -5,16 +5,7 @@
 								xmlns:h="http://java.sun.com/jsf/html"
 								xmlns:f="http://java.sun.com/jsf/core">
 
-	<table border="0" class="crudFormField">
-		<tr>
-			<td class="label" valign="top">
-				<ui:insert name="label" />:
-			</td>
-			<td class="spacing"></td>
-			<td class="field">
-				<h:messages for="#{fieldName}" layout="table" rendered="#{fieldName != null}" />
-				<ui:insert />
-			</td>
-		</tr>
-	</table>
+	<div class="sigmeFormField sigmeFormFieldSingle">
+		<ui:insert />
+	</div>
 </ui:composition>
