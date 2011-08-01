@@ -36,8 +36,8 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersi
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
- * Controller class responsible for mediating the communication between user interface and application service for the
- * use case "Manage Institutions". This use case is a CRUD.
+ * Controller class responsible for mediating the communication between user interface and application service for the use case
+ * "Manage Institutions". This use case is a CRUD.
  * 
  * @author Vitor Souza (vitorsouza@gmail.com)
  */
@@ -95,7 +95,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	protected CrudServiceLocal<Institution> getCrudService() {
 		// Checks if the current user has the authorization to use this functionality.
 		manageInstitutionsService.authorize();
-		
+
 		return manageInstitutionsService;
 	}
 
@@ -195,8 +195,8 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Analyzes the name that was given for the institution and, if the acronym field is still empty, suggests a value for
-	 * it based on the given name. This method is intended to be used with AJAX.
+	 * Analyzes the name that was given for the institution and, if the acronym field is still empty, suggests a value for it based
+	 * on the given name. This method is intended to be used with AJAX.
 	 */
 	public void suggestAcronym() {
 		// If the name was filled and the acronym is still empty, generate one.
@@ -217,35 +217,23 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Analyzes what has been written so far in the city field and, if not empty, looks for cities that start with the
-	 * given name and returns them in a list, so a dynamic pop-up list can be displayed. This method is intended to be
-	 * used with AJAX.
+	 * Analyzes what has been written so far in the city field and, if not empty, looks for cities that start with the given name
+	 * and returns them in a list, so a dynamic pop-up list can be displayed. This method is intended to be used with AJAX.
 	 * 
 	 * @param event
 	 * @return
 	 */
-	public List<String> suggestCities(String query) {
+	public List<City> suggestCities(String query) {
 		if (query.length() > 0) {
-
-			try {
-				Thread.sleep(1000);
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-
 			List<City> cities = cityDAO.findByName(query);
 			logger.log(Level.INFO, "Searching for cities beginning with \"{0}\" returned {1} results", new Object[] { query, cities.size() });
-			List<String> suggestions = new ArrayList<String>();
-			for (City city : cities)
-				suggestions.add(city.getName() + ", " + city.getState().getAcronym());
-			return suggestions;
+			return cities;
 		}
 		return null;
 	}
 
 	/**
-	 * Handles the event of selection in the instution type menu. This method is intended to be used with AJAX.
+	 * Handles the event of selection in the institution type menu. This method is intended to be used with AJAX.
 	 * 
 	 * @param event
 	 *          The change event supplied by JSF's select-one-menu component.
@@ -270,9 +258,11 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	 * Sets the regional for the selected institution according to its type and city.
 	 */
 	private void setRegional() {
+		logger.log(Level.INFO, "Setting the regional for institution: {0}", selectedEntity);
 		// Check the selected entity for null.
 		if (selectedEntity != null) {
-			// Checks if the institution type indicates that the isntitution is part of a regional.
+			logger.log(Level.INFO, "Setting the regional for institution: {0} -- Institution type: {0}", new Object[] { selectedEntity, selectedEntity.getType() });
+			// Checks if the institution type indicates that the institution is part of a regional.
 			if ((selectedEntity.getType() != null) && (selectedEntity.getType().isPartOfRegional())) {
 				// Check if the city has been set and, if so, retrieve the regional of the city.
 				if ((selectedEntity != null) && (selectedEntity.getAddress() != null) && (selectedEntity.getAddress().getCity() != null)) {
@@ -290,19 +280,21 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 						selectedEntity.setRegional(null);
 					}
 				}
+
+				// The city has not been set.
+				else logger.log(Level.INFO, "Setting the regional for institution: {0} -- city not yet set, can't determine regional!", selectedEntity);
 			}
 
 			// It's not part of a regional, so set it to null.
 			else {
-				logger.log(Level.INFO, "Institution type is not part of regional. Setting regional to null.");
+				logger.log(Level.INFO, "Setting the regional for institution: {0} -- Institution type is not part of regional. Setting regional to null.", selectedEntity);
 				selectedEntity.setRegional(null);
 			}
 		}
 	}
 
 	/**
-	 * Creates a new and empty telephone so the telephone fields can be filled. This method is intended to be used with
-	 * AJAX.
+	 * Creates a new and empty telephone so the telephone fields can be filled. This method is intended to be used with AJAX.
 	 */
 	public void newTelephone() {
 		logger.log(Level.INFO, "Creating an empty telephone to be filled");
@@ -324,11 +316,10 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Indicates if the user is editing a telephone or not. If not, she is creating a new one. This method is intended to
-	 * be used with AJAX.
+	 * Indicates if the user is editing a telephone or not. If not, she is creating a new one. This method is intended to be used
+	 * with AJAX.
 	 * 
-	 * @return <code>true</code> if the telephone is being edited, <code>false</code> if it's a new telephone being
-	 *         created.
+	 * @return <code>true</code> if the telephone is being edited, <code>false</code> if it's a new telephone being created.
 	 */
 	public boolean isTelephoneEdit() {
 		return (backupTelephone != null);
@@ -351,8 +342,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Cancels a telephone edit, undoing eventual changes from the backup information. This method is intended to be used
-	 * with AJAX.
+	 * Cancels a telephone edit, undoing eventual changes from the backup information. This method is intended to be used with AJAX.
 	 */
 	public void cancelTelephone() {
 		// Checks if it's an edit.
@@ -364,8 +354,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Removes one of the telephones of the list of telephones of the institution. This method is intended to be used with
-	 * AJAX.
+	 * Removes one of the telephones of the list of telephones of the institution. This method is intended to be used with AJAX.
 	 */
 	public void removeTelephone() {
 		logger.log(Level.INFO, "Removing a telephone from the list: {0}", selectedTelephone);

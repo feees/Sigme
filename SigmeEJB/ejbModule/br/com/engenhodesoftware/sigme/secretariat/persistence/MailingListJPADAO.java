@@ -34,9 +34,9 @@ public class MailingListJPADAO extends BaseJPADAO<MailingList> implements Mailin
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getDomainClass() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
-	protected Class<MailingList> getDomainClass() {
+	public Class<MailingList> getDomainClass() {
 		return MailingList.class;
 	}
 

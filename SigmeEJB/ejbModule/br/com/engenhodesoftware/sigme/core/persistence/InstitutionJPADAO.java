@@ -40,9 +40,9 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getDomainClass() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
-	protected Class<Institution> getDomainClass() {
+	public Class<Institution> getDomainClass() {
 		return Institution.class;
 	}
 

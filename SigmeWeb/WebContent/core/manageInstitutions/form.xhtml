@@ -27,19 +27,18 @@
 							<ui:param name="fieldName" value="form:name" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.name']}" /></ui:define>
 							<p:inputText id="name" value="#{manageInstitutionsAction.selectedEntity.name}" size="50" required="true" disabled="#{manageInstitutionsAction.readOnly}">
-								<f:ajax event="blur" render="nameField acronymField" listener="#{manageInstitutionsAction.suggestAcronym}" />
+								<p:ajax update="nameField acronymField" listener="#{manageInstitutionsAction.suggestAcronym}" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
 					<h:panelGroup id="typeField">
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
-							<ui:param name="fieldName" value="type" />
+							<ui:param name="fieldName" value="form:type" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.type']}" /></ui:define>
 							<h:selectOneMenu id="type" value="#{manageInstitutionsAction.selectedEntity.type}" converter="#{coreController.institutionTypeConverter}" required="true" disabled="#{manageInstitutionsAction.readOnly}">
 								<f:selectItem itemLabel="#{msgsCore['manageInstitutions.form.type.blankOption']}" itemValue="#{null}" />
-								<f:selectItems value="#{coreController.institutionTypesAsSelectItems}" />
-								<f:ajax event="change" listener="#{manageInstitutionsAction.handleInstitutionTypeChange}" render="regionalName" />
-								<f:ajax event="blur" listener="#{manageInstitutionsAction.handleInstitutionTypeChange}" render="typeField" />
+								<f:selectItems value="#{coreController.institutionTypes}" />
+								<p:ajax listener="#{manageInstitutionsAction.handleInstitutionTypeChange}" update="regionalName typeField" />
 							</h:selectOneMenu>
 						</ui:decorate>
 					</h:panelGroup>
@@ -48,7 +47,7 @@
 							<ui:param name="fieldName" value="form:acronym" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.acronym']}" /></ui:define>
 							<p:inputText id="acronym" value="#{manageInstitutionsAction.selectedEntity.acronym}" size="10" required="true" disabled="#{manageInstitutionsAction.readOnly}">
-								<f:ajax event="blur" render="acronymField" />
+								<p:ajax update="acronymField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -71,7 +70,7 @@
 							<p:inputText id="number" value="#{manageInstitutionsAction.selectedEntity.address.number}" size="3" disabled="#{manageInstitutionsAction.readOnly}" />
 							<h:outputText value=" / " />
 							<p:inputText id="numberComplement" value="#{manageInstitutionsAction.selectedEntity.address.numberComplement}" size="3" disabled="#{manageInstitutionsAction.readOnly}">
-								<f:ajax event="blur" render="streetField" execute="street number numberComplement" />
+								<p:ajax update="streetField" process="street number numberComplement" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -80,7 +79,7 @@
 							<ui:param name="fieldName" value="form:streetComplement" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.streetComplement']}" /></ui:define>
 							<p:inputText id="streetComplement" value="#{manageInstitutionsAction.selectedEntity.address.streetComplement}" size="20" disabled="#{manageInstitutionsAction.readOnly}">
-								<f:ajax event="blur" render="streetComplementField" />
+								<p:ajax update="streetComplementField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -88,7 +87,9 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:city" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.city']}" /></ui:define>
-							<p:autoComplete id="city" minQueryLength="2" forceSelection="true" value="#{manageInstitutionsAction.selectedEntity.address.city}" completeMethod="#{manageInstitutionsAction.suggestCities}" converter="#{coreController.cityConverter}" selectListener="#{manageInstitutionsAction.handleCitySelection}" onSelectUpdate="regionalName" disabled="#{manageInstitutionsAction.readOnly}" />
+							<p:autoComplete id="city" value="#{manageInstitutionsAction.selectedEntity.address.city}" completeMethod="#{manageInstitutionsAction.suggestCities}" minQueryLength="2" forceSelection="true" var="c" itemLabel="#{c.name}, #{c.state.acronym}" itemValue="#{c}" converter="#{coreController.cityConverter}" disabled="#{manageInstitutionsAction.readOnly}">
+								<p:ajax event="itemSelect" listener="#{manageInstitutionsAction.handleCitySelection}" update="regionalName" />
+							</p:autoComplete>
 							<h:panelGroup id="regionalName"><h:outputText value=" (#{manageInstitutionsAction.selectedEntity.regional})" rendered="#{manageInstitutionsAction.selectedEntity.type.partOfRegional and (manageInstitutionsAction.selectedEntity.regional != null)}" /></h:panelGroup>
 						</ui:decorate>
 					</h:panelGroup>
@@ -109,7 +110,7 @@
 							<ui:param name="fieldName" value="form:webPage" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.webPage']}" /></ui:define>
 							<p:inputText id="webPage" value="#{manageInstitutionsAction.selectedEntity.webPage}" size="30" disabled="#{manageInstitutionsAction.readOnly}">
-								<f:ajax event="blur" render="webPageField" />
+								<p:ajax update="webPageField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -118,7 +119,7 @@
 							<ui:param name="fieldName" value="form:email" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.email']}" /></ui:define>
 							<p:inputText id="email" value="#{manageInstitutionsAction.selectedEntity.email}" size="30" disabled="#{manageInstitutionsAction.readOnly}">
-								<f:ajax event="blur" render="emailField" />
+								<p:ajax update="emailField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -168,7 +169,7 @@
 								<ui:param name="fieldName" value="telephoneForm:number" />
 								<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.number']}" /></ui:define>
 								<p:inputMask id="number" value="#{manageInstitutionsAction.selectedTelephone.number}" mask="(99) 9999-9999" size="20" required="true">
-									<f:ajax event="blur" render="numberField" />
+									<p:ajax update="numberField" />
 								</p:inputMask>
 							</ui:decorate>
 						</h:panelGroup>
@@ -179,7 +180,7 @@
 								<h:selectOneMenu id="type" value="#{manageInstitutionsAction.selectedTelephone.type}" converter="#{coreController.contactTypeConverter}" required="true" disabled="#{manageInstitutionsAction.readOnly}">
 									<f:selectItem itemLabel="#{msgsCore['manageInstitutions.form.telephone.type.blankOption']}" itemValue="#{null}" />
 									<f:selectItems value="#{coreController.contactTypes}" />
-									<f:ajax event="valueChange" render="typeField" />
+									<p:ajax update="typeField" />
 								</h:selectOneMenu>
 							</ui:decorate>
 						</h:panelGroup>

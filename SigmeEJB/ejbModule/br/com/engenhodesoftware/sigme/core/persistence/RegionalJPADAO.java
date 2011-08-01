@@ -36,9 +36,9 @@ public class RegionalJPADAO extends BaseJPADAO<Regional> implements RegionalDAO 
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getDomainClass() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
-	protected Class<Regional> getDomainClass() {
+	public Class<Regional> getDomainClass() {
 		return Regional.class;
 	}
 

@@ -72,14 +72,6 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	protected abstract EntityManager getEntityManager();
 
 	/**
-	 * Abstract method that should be implemented by the concrete DAOs returning the class that is managed by the DAO.
-	 * This information is needed for some persistence operations.
-	 * 
-	 * @return A class object that represents the class managed by the DAO.
-	 */
-	protected abstract Class<T> getDomainClass();
-
-	/**
 	 * Method that can be overriden by the subclasses to determine the default ordering when using retrieveAll and
 	 * retrieveSome methods. The default implementation returns null, establishing no order.
 	 * 

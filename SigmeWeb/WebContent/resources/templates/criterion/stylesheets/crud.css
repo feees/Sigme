@@ -51,6 +51,7 @@ div.crud table.crudList tbody tr td.colLL { text-align: left;   min-width: 250px
 div.crud table.crudList tbody tr td.colLC { text-align: center; min-width: 250px; }
 div.crud table.crudList tbody tr td.colLR { text-align: right;  min-width: 250px; }
 
+
 /* Listing page - Listing table using PrimeFaces p:dataTable component. */
 div.crud .ui-paginator {
 	background: none;
@@ -58,6 +59,12 @@ div.crud .ui-paginator {
 	margin: 15px auto 15px auto;
 	text-align: center;
 	width: 95%;
+}
+div.crud tbody.ui-datatable-data-empty tr td {
+	padding: 5px;
+}
+div.crud span.listing div {
+	margin-top: 5px;
 }
 
 /* Listing page - Navigation panel below the listing table. */

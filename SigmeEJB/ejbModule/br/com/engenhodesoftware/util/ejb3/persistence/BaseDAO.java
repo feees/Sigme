@@ -6,8 +6,8 @@ import java.util.List;
 import br.com.engenhodesoftware.util.ejb3.application.filters.Filter;
 
 /**
- * Base interface for all DAO classes in the system. Instances manipulated by DAOs that implement this interface must
- * belong to a subclass of PersistentObject.
+ * Base interface for all DAO classes in the system. Instances manipulated by DAOs that implement this interface must belong to a
+ * subclass of PersistentObject.
  * 
  * A base DAO implementation is also provided, integrating with the Seam framework: SeamBaseDAO.
  * 
@@ -23,6 +23,15 @@ import br.com.engenhodesoftware.util.ejb3.application.filters.Filter;
  * @version 1.1
  */
 public interface BaseDAO<T extends PersistentObject> extends Serializable {
+	/**
+	 * Returns the class that is managed by the DAO. This information is needed for some persistence operations and the method is
+	 * made public because other classes that use the DAOs in a generic way could benefit from knowing the class that is managed by
+	 * it.
+	 * 
+	 * @return A class object that represents the class managed by the DAO.
+	 */
+	Class<T> getDomainClass();
+
 	/**
 	 * Returns the number of persistent objects of this class.
 	 * 

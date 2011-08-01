@@ -21,9 +21,9 @@ public class TelephoneJPADAO extends BaseJPADAO<Telephone> implements TelephoneD
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getDomainClass() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
-	protected Class<Telephone> getDomainClass() {
+	public Class<Telephone> getDomainClass() {
 		return Telephone.class;
 	}
 

@@ -16,28 +16,24 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
  * 
  * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
  */
-public abstract class EntityJSFConverterFromId<T extends PersistentObject> implements Converter, Serializable {
+public class PersistentObjectConverterFromId<T extends PersistentObject> implements Converter, Serializable {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(EntityJSFConverterFromId.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(PersistentObjectConverterFromId.class.getCanonicalName());
 
-	/**
-	 * Abstract method that should be implemented by the concrete converters returning the class to and from which the
-	 * conversions are done. This information is needed for some conversion operations.
-	 * 
-	 * @return A class object that represents the class referred to by the converter.
-	 */
-	protected abstract Class<T> getDomainClass();
+	/** The DAO used to retrieve objects given their IDs. */
+	private BaseDAO<T> dao;
 
-	/**
-	 * Abstract method that should be implemented by the concrete converters returning the DAO that will be used by the
-	 * conversion operation. The DAO is needed to retrieve the entity given the Id, thus performing the conversion.
-	 * 
-	 * @return The DAO of the domain class referred to by the converter.
-	 */
-	protected abstract BaseDAO<T> getDAO();
+	/** The persistent class being handled by this converter. */
+	private Class<T> persistentClass;
+
+	/** Constructor. */
+	public PersistentObjectConverterFromId(BaseDAO<T> dao) {
+		this.dao = dao;
+		persistentClass = dao.getDomainClass();
+	}
 
 	/**
 	 * @see javax.faces.convert.Converter#getAsObject(javax.faces.context.FacesContext, javax.faces.component.UIComponent,
@@ -46,14 +42,14 @@ public abstract class EntityJSFConverterFromId<T extends PersistentObject> imple
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		T entity = null;
-		logger.log(Level.INFO, "Trying to convert to an instance of {0} from the id: {1}", new Object[] { getDomainClass().getSimpleName(), value });
+		logger.log(Level.FINEST, "Trying to convert to an instance of {0} from the id: {1}", new Object[] { persistentClass.getSimpleName(), value });
 
-		// Checks for nulls.
-		if (value != null) {
+		// Checks for nulls and empties.
+		if ((value != null) && (value.trim().length() > 0)) {
 			// Loads the entity given the id.
 			try {
 				Long id = Long.valueOf(value);
-				entity = getDAO().retrieveById(id);
+				entity = dao.retrieveById(id);
 			}
 			catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "Value is not a number (Long): {0}", value);
@@ -62,7 +58,7 @@ public abstract class EntityJSFConverterFromId<T extends PersistentObject> imple
 		}
 
 		// Logs the result and returns.
-		logger.log(Level.INFO, "Returning: {0}", entity);
+		logger.log(Level.FINE, "Returning: {0}", entity);
 		return entity;
 	}
 
@@ -72,8 +68,10 @@ public abstract class EntityJSFConverterFromId<T extends PersistentObject> imple
 	 */
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
+		logger.log(Level.FINEST, "Trying to convert an instance of {0}: {1}", new Object[] { persistentClass.getSimpleName(), value });
+
 		// Checks that the supplied value is an entity of the class referred to by the converter.
-		if ((value != null) && (value.getClass().equals(getDomainClass()))) {
+		if ((value != null) && (value.getClass().equals(persistentClass))) {
 			@SuppressWarnings("unchecked")
 			T entity = (T) value;
 

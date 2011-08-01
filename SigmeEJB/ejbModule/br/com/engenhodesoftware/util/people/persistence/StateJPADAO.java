@@ -21,9 +21,9 @@ public class StateJPADAO extends BaseJPADAO<State> implements StateDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getDomainClass() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
-	protected Class<State> getDomainClass() {
+	public Class<State> getDomainClass() {
 		return State.class;
 	}
 
