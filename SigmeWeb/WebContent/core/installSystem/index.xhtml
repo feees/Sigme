@@ -23,6 +23,8 @@
 			<!-- The form to be filled with information on the administrator. -->
 			<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 				<h:form id="form">
+					<p:focus />
+					
 					<h:panelGroup id="nameField">
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:name" />

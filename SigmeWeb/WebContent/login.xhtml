@@ -17,6 +17,8 @@
 			<!-- The login form. -->
 			<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 				<h:form id="form">
+					<p:focus />
+					
 					<h:panelGroup id="emailField">
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:email" />
