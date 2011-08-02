@@ -27,7 +27,7 @@
 							<ui:param name="fieldName" value="form:name" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.name']}" /></ui:define>
 							<p:inputText id="name" value="#{manageInstitutionsAction.selectedEntity.name}" size="50" required="true" disabled="#{manageInstitutionsAction.readOnly}">
-								<p:ajax update="nameField acronymField" listener="#{manageInstitutionsAction.suggestAcronym}" />
+								<p:ajax event="blur" update="nameField acronymField" listener="#{manageInstitutionsAction.suggestAcronym}" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -39,6 +39,7 @@
 								<f:selectItem itemLabel="#{msgsCore['manageInstitutions.form.type.blankOption']}" itemValue="#{null}" />
 								<f:selectItems value="#{coreController.institutionTypes}" />
 								<p:ajax listener="#{manageInstitutionsAction.handleInstitutionTypeChange}" update="regionalName typeField" />
+								<p:ajax event="blur" update="typeField" />
 							</h:selectOneMenu>
 						</ui:decorate>
 					</h:panelGroup>
@@ -47,7 +48,7 @@
 							<ui:param name="fieldName" value="form:acronym" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.acronym']}" /></ui:define>
 							<p:inputText id="acronym" value="#{manageInstitutionsAction.selectedEntity.acronym}" size="10" required="true" disabled="#{manageInstitutionsAction.readOnly}">
-								<p:ajax update="acronymField" />
+								<p:ajax event="blur" update="acronymField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -70,7 +71,7 @@
 							<p:inputText id="number" value="#{manageInstitutionsAction.selectedEntity.address.number}" size="3" disabled="#{manageInstitutionsAction.readOnly}" />
 							<h:outputText value=" / " />
 							<p:inputText id="numberComplement" value="#{manageInstitutionsAction.selectedEntity.address.numberComplement}" size="3" disabled="#{manageInstitutionsAction.readOnly}">
-								<p:ajax update="streetField" process="street number numberComplement" />
+								<p:ajax event="blur" update="streetField" process="street number numberComplement" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -79,7 +80,7 @@
 							<ui:param name="fieldName" value="form:streetComplement" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.streetComplement']}" /></ui:define>
 							<p:inputText id="streetComplement" value="#{manageInstitutionsAction.selectedEntity.address.streetComplement}" size="30" disabled="#{manageInstitutionsAction.readOnly}">
-								<p:ajax update="streetComplementField" />
+								<p:ajax event="blur" update="streetComplementField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -118,7 +119,7 @@
 							<ui:param name="fieldName" value="form:webPage" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.webPage']}" /></ui:define>
 							<p:inputText id="webPage" value="#{manageInstitutionsAction.selectedEntity.webPage}" size="30" disabled="#{manageInstitutionsAction.readOnly}">
-								<p:ajax update="webPageField" />
+								<p:ajax event="blur" update="webPageField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -127,7 +128,7 @@
 							<ui:param name="fieldName" value="form:email" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.email']}" /></ui:define>
 							<p:inputText id="email" value="#{manageInstitutionsAction.selectedEntity.email}" size="30" disabled="#{manageInstitutionsAction.readOnly}">
-								<p:ajax update="emailField" />
+								<p:ajax event="blur" update="emailField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -177,7 +178,7 @@
 								<ui:param name="fieldName" value="telephoneForm:number" />
 								<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.number']}" /></ui:define>
 								<p:inputMask id="number" value="#{manageInstitutionsAction.selectedTelephone.number}" mask="(99) 9999-9999" size="20" required="true">
-									<p:ajax update="numberField" />
+									<p:ajax event="blur" update="numberField" />
 								</p:inputMask>
 							</ui:decorate>
 						</h:panelGroup>

@@ -3,14 +3,15 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 								xmlns:ui="http://java.sun.com/jsf/facelets"
 								xmlns:h="http://java.sun.com/jsf/html"
-								xmlns:f="http://java.sun.com/jsf/core">
+								xmlns:f="http://java.sun.com/jsf/core"
+								xmlns:p="http://primefaces.prime.com.tr/ui">
 
 	<div class="sigmeFormField">
 		<div class="label">
 			<ui:insert name="label" />:
 		</div>
 		<div class="field">
-			<h:messages for="#{fieldName}" layout="list" rendered="#{fieldName != null}" />
+			<p:message for="#{fieldName}" rendered="#{fieldName != null}" />
 			<ui:insert />
 		</div>
 		<div class="clear"></div>

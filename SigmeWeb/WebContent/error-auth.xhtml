@@ -11,13 +11,12 @@
 	</ui:define>
 
 	<ui:define name="body">
-		<!-- Calls the session bean to show an error message in the page. -->
-		<h:form id="messageForm">
-			<p:poll autoStart="true" interval="0" widgetVar="messagePoll" onstart="messagePoll.stop()" update=":globalMessages"
-				listener="#{sessionController.showAuthErrorMessage}" />
-		</h:form>
+		<h1><h:outputText value="#{msgs['error.auth.summary']}" /></h1>
+	
+		<p><h:outputFormat value="#{msgs['error.auth.detail']}"><f:param value="#{sessionController.now}" /></h:outputFormat></p>
 
 		<p>&nbsp;</p>
+		
 		<p align="center"><a href="#{facesContext.externalContext.requestContextPath}/"><h:outputText value="#{msgs['text.backToIndex']}" /></a></p>
 	</ui:define>
 </ui:composition>

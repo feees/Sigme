@@ -200,6 +200,9 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 
 	/** Getter for selectedEntity. */
 	public T getSelectedEntity() {
+		// Forces authorization check at the CRUD service.
+		getCrudService();
+		
 		return selectedEntity;
 	}
 

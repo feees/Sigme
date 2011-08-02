@@ -250,28 +250,4 @@ public class SessionController extends JSFAction {
 		password = "123";
 		return login();
 	}
-
-	/**
-	 * TODO: document this method.
-	 */
-	public void showAuthErrorMessage() {
-		logger.log(Level.INFO, "Showing authentication error message for user: {0}", new Object[] {email});
-		addGlobalI18nMessage("msgs", FacesMessage.SEVERITY_ERROR, "error.auth.summary", new Object[0], "error.auth.detail", new Object[] { getNow() });
-	}
-	
-	/**
-	 * TODO: document this method.
-	 */
-	public void showExpiredWarningMessage() {
-		logger.log(Level.INFO, "Showing session expired warning message for user: {0}", new Object[] {email});
-		addGlobalI18nMessage("msgs", FacesMessage.SEVERITY_WARN, "error.expired.summary", new Object[0], "error.expired.detail", new Object[0]);
-	}
-
-	/**
-	 * TODO: document this method.
-	 */
-	public void showOtherErrorMessage() {
-		logger.log(Level.INFO, "Showing unknown error message for user: {0}", new Object[] {email});
-		addGlobalI18nMessage("msgs", FacesMessage.SEVERITY_ERROR, "error.other.summary", new Object[0], "error.other.detail", new Object[] { getNow() });
-	}
 }

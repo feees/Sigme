@@ -9,13 +9,12 @@
 	<ui:define name="title"><h:outputText value="#{msgs['title.error']}" /></ui:define>
 
 	<ui:define name="body">
-		<!-- Calls the session bean to show a warning message in the page. -->
-		<h:form id="messageForm">
-			<p:poll autoStart="true" interval="0" widgetVar="messagePoll" onstart="messagePoll.stop()" update=":globalMessages"
-				listener="#{sessionController.showExpiredWarningMessage}" />
-		</h:form>
+		<h1><h:outputText value="#{msgs['error.expired.summary']}" /></h1>
+	
+		<p><h:outputText value="#{msgs['error.expired.detail']}" /></p>
 
-		<!-- Includes the contents of the index page. -->
-		<ui:include src="index-contents.xhtml" />
+		<p>&nbsp;</p>
+		
+		<p align="center"><a href="#{facesContext.externalContext.requestContextPath}/"><h:outputText value="#{msgs['text.backToIndex']}" /></a></p>
 	</ui:define>
 </ui:composition>

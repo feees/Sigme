@@ -22,7 +22,7 @@
 							<ui:param name="fieldName" value="form:email" />
 							<ui:define name="label"><h:outputText value="#{msgs['field.email']}" /></ui:define>
 							<p:inputText id="email" value="#{sessionController.email}" size="30" required="true">
-								<f:ajax event="blur" render="emailField" />
+								<p:ajax event="blur" update="emailField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>

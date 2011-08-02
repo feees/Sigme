@@ -1,25 +1,33 @@
 /*** PRIMEFACES WIDGETS ***/
 
-/* Placing the AJAX indicator in the right corner of the screen. */
-#ajaxStatus {
-	float: right;
-	margin: 57px 10px 0 0;
-}
-
-/* Reducing the size of the fonts in PrimeFaces widgets: */
-.ui-widget {
-	font-size: 10pt;
-}
-
 /* Aligning the menu in the center of the sidebar: */
 .wijmo-wijmenu {
 	margin-left: auto;
 	margin-right: auto;
 }
 
-/* Making the size of the font in the autocomplete list smaller. */
+/* Placing the AJAX indicator in the right corner of the screen. */
+#ajaxStatus {
+	float: right;
+	margin: 57px 10px 0 0;
+}
+
+/* Reducing the size of the font in PrimeFaces widgets: */
+.ui-widget {
+	font-size: 10pt;
+	margin: 0 0 3px 2px;
+}
+
+/* Reducing the size of the font in autocomplete lists. */
 .ui-autocomplete-list {
 	font-size: 8pt;
+}
+
+/* Reducing the size of the font in message boxes and removing its borders and background color. */
+.ui-messages .ui-message-info, .ui-message-error, .ui-message-warn, .ui-message-fatal { 
+	font-size: 8pt;
+	background-color: transparent;
+	border: none;
 }
 
 /* Making disabled fields look like normal fields. */
