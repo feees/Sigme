@@ -7,7 +7,9 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.submenu.Submenu;
@@ -110,6 +112,26 @@ public class SessionController extends JSFAction {
 	 */
 	public Date getNow() {
 		return new Date(System.currentTimeMillis());
+	}
+	
+	/**
+	 * TODO: document this method.
+	 * @return
+	 */
+	public Date getSessionExpirationTime() {
+		Date expTime = null;
+		
+		// Attempts to retrieve this information from the external context.
+		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+		if (session != null) {
+			long expTimeMillis = session.getLastAccessedTime() + session.getMaxInactiveInterval() * 1000;
+			expTime = new Date(expTimeMillis);
+		}
+		
+		// If it could not be retrieved from the external context, use default of 30 minutes.
+		if (expTime == null) expTime = new Date(System.currentTimeMillis() + 30 * 60000);
+		
+		return expTime;
 	}
 
 	/**

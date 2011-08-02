@@ -43,6 +43,18 @@ Released for free under a Creative Commons Attribution 2.5 License
 			</h:form>
 		</div>
 		
+		<!-- Sigme idle monitor: -->
+		<p:idleMonitor timeout="600000" onidle="sessionExpirationDialog.show()" onactive="sessionExpirationDialog.hide()" rendered="#{sessionController.loggedIn}" />  
+		<p:dialog 
+				widgetVar="sessionExpirationDialog" 
+				modal="true" 
+				header="#{msgs['text.idle.sessionAlmostExpired.summary']}" 
+				draggable="false" resizable="false" width="500">
+			<h:outputFormat value="#{msgs['text.idle.sessionAlmostExpired.detail']}">
+				<f:param value="#{sessionController.sessionExpirationTime}" />
+			</h:outputFormat>  
+		</p:dialog> 
+		
 		<div id="wrapper">
 			<div id="header-wrapper"><div id="header"><div id="logo">
 				<!-- Sigme title: -->
