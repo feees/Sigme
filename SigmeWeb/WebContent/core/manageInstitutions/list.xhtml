@@ -96,10 +96,10 @@
 			<!-- The trash panel: shows entities that have been selected for deletion. -->
 			<h:form id="trashForm">
 				<p:panel id="trashPanel" widgetVar="trashPanel" header="#{msgsCore['manageInstitutions.text.trashHeader']}" toggleable="true" rendered="#{not empty manageInstitutionsAction.trashCan}">
-					<h:dataTable value="#{manageInstitutionsAction.trashCan}" var="entity" >
-						<h:column><h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/bullet.png" /><h:outputText value="#{entity.name}" /></h:column>
-					</h:dataTable>
-					<div class="buttons">
+					<p:dataList value="#{manageInstitutionsAction.trashCan}" var="entity" type="unordered">
+						#{entity.name}
+					</p:dataList>
+					<div class="sigmeFormInternalButton">
 						<p:commandButton action="#{manageInstitutionsAction.cancelDeletion}" value="#{msgsCore['manageInstitutions.button.cancelDeletion']}" image="buttonCancel" onclick="trashPanel.close()" />
 						<p:commandButton action="#{manageInstitutionsAction.delete}" value="#{msgsCore['manageInstitutions.button.confirmDeletion']}" image="buttonOk" />
 					</div>
