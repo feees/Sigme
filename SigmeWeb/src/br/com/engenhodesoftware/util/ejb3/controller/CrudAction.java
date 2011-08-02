@@ -605,6 +605,9 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 		if (filtering)
 			cancelFilter();
 
+		// Clears the selection.
+		selectedEntity = null;
+
 		// Gets the filter from the map and stores in the appropriate property.
 		if ((filterKey != null) && (filterKey.length() > 0)) {
 			logger.log(Level.INFO, "Changing filter to: {0}", filterKey);
@@ -628,6 +631,9 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 			filterLabel = filter.getOptionLabel(filterParam);
 			filtering = true;
 
+			// Clears the selection.
+			selectedEntity = null;
+
 			// After performing a search, always go to the first page of entities.
 			goFirst();
 		}
@@ -642,6 +648,9 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 		logger.log(Level.INFO, "Clearing filter information");
 		filtering = false;
 
+		// Clears the selection.
+		selectedEntity = null;
+
 		// After canceling a search, always go to the first page of entities.
 		goFirst();
 	}
@@ -653,6 +662,9 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	 */
 	public String list() {
 		logger.log(Level.INFO, "Listing entities...");
+		
+		// Clears the selection.
+		selectedEntity = null;
 
 		// Gets the entity count.
 		count();

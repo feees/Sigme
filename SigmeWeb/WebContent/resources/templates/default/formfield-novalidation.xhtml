@@ -6,12 +6,13 @@
 								xmlns:f="http://java.sun.com/jsf/core">
 
 	<div class="sigmeFormField">
-		<span class="label">
+		<div class="label">
 			<ui:insert name="label" />:
-		</span>
-		<span class="field">
+		</div>
+		<div class="field">
 			<h:messages for="#{fieldName}" layout="list" rendered="#{fieldName != null}" />
 			<ui:insert />
-		</span>
+		</div>
+		<div class="clear"></div>
 	</div>
 </ui:composition>

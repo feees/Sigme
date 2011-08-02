@@ -1,5 +1,11 @@
 /*** PRIMEFACES WIDGETS ***/
 
+/* Placing the AJAX indicator in the right corner of the screen. */
+#ajaxStatus {
+	float: right;
+	margin: 57px 10px 0 0;
+}
+
 /* Reducing the size of the fonts in PrimeFaces widgets: */
 .ui-widget {
 	font-size: 10pt;
@@ -11,6 +17,15 @@
 	margin-right: auto;
 }
 
+/* Making the size of the font in the autocomplete list smaller. */
+.ui-autocomplete-list {
+	font-size: 8pt;
+}
+
+/* Making disabled fields look like normal fields. */
+.ui-inputfield.ui-state-disabled {
+	opacity: 1;
+}
 
 
 /*** SIGME FORMS ***/
@@ -18,69 +33,66 @@
 div.sigmeForm {
 	margin: 10px 0 10px 0;
 	width: 100%;
-	clear: both;
 }
 
 div.sigmeForm div.sigmeFormField {
 	width: 100%;
-	clear: both;
-	padding: 3px 0 3px 0;
-	margin-bottom: 5px;
+	padding: 0;
 	background-color: #E6E6FA;
+	border-bottom: 5px solid white;
 }
 
-div.sigmeForm div.sigmeFormField span.label {
-	width: 30%;
+div.sigmeForm div.sigmeFormField div.label {
 	float: left;
-	clear: both;
+	width: 24%;
 	text-align: right;
-	padding: 5px 15px 5px 0;
+	padding: 5px 2px 5px 2px;
 }
 
-div.sigmeForm div.sigmeFormField span.field {
-	float: none;
-	width: 69%;
-	padding: 10px 0 50px 0;
+div.sigmeForm div.sigmeFormField div.field {
+	float: right;
+	width: 72%;
 	border-left: 5px solid white;
+	padding: 5px 7px 5px 7px;
 }
 
-div.sigmeForm div.sigmeFormField span.field input { margin-left: 4px; }
-div.sigmeForm div.sigmeFormField span.field select { margin-left: 4px; }
-div.sigmeForm div.sigmeFormField span.field textarea { margin-left: 4px; }
+div.sigmeForm div.sigmeFormField div.clear {
+	clear: both;
+}
 
-div.sigmeForm div.sigmeFormField span.field ul {
+div.sigmeForm div.sigmeFormField div.field ul {
 	list-style-image: url(../images/error-icon.png);
-	display: inline-block;
-	margin: 0;
+	display: block;
+	margin: 0 0 3px 0;
 	padding: 0;
 	width: 67%;
 }
 
-div.sigmeForm div.sigmeFormField span.field ul li {
-	margin-left: 25px;
+div.sigmeForm div.sigmeFormField div.field ul li {
+	margin-left: 23px;
 }
 
 div.sigmeForm div.sigmeFormFieldError {
 	background-color: #FFA07A;
 }
 
-div.sigmeForm div.sigmeFormFieldError span.label {
+div.sigmeForm div.sigmeFormFieldError div.label {
 	font-weight: bold;
 }
 
-div.sigmeForm div.sigmeFormFieldError span.field {
+div.sigmeForm div.sigmeFormFieldError div.field {
 	font-weight: bold;
 }
-
-div.sigmeForm div.sigmeFormFieldError span.field input { margin-left: 8px; }
-div.sigmeForm div.sigmeFormFieldError span.field select { margin-left: 8px; }
-div.sigmeForm div.sigmeFormFieldError span.field textarea { margin-left: 8px; }
 
 div.sigmeForm div.sigmeFormButton {
 	width: 100%;
 	clear: both;
-	padding: 3px 0 3px 0;
-	margin: 3px 0 3px 0;
+	padding: 5px 0 5px 0;
+	text-align: right;
+}
+
+div.sigmeForm div.sigmeFormInternalButton {
+	width: 100%;
 	text-align: right;
 }
 
@@ -106,7 +118,7 @@ div.crud div.crudFilterBar .ui-helper-clearfix::after {
 /* Listing page - Filter info. */
 div.crud div.crudFilterInfo {
 	font-size: 8pt;
-	margin: 0 auto 0 auto;
+	margin: 0 20px 0 auto;
 	text-align: right;
 }
 
@@ -114,6 +126,10 @@ div.crud div.crudFilterInfo {
 div.crud div.ui-datatable {
 	margin: 10px auto 15px auto;
 	width: 95%;
+}
+div.crud div.sigmeFormField div.ui-datatable {
+	margin: 0 auto 0 auto;
+	width: 100%;
 }
 div.crud div.ui-datatable tbody.ui-datatable-data-empty div {
 	padding: 10px;

@@ -23,31 +23,31 @@ Released for free under a Creative Commons Attribution 2.5 License
 	</h:head>
 
 	<h:body>
+		<!-- Sigme Ajax status indicator: -->
+		<div id="ajaxStatus">
+			<h:form id="statusForm">
+				<p:ajaxStatus>
+					<f:facet name="start">
+						<h:graphicImage alt="#{msgs['text.ajax.loading.alt']}" title="#{msgs['text.ajax.loading']}"
+							url="/resources/templates/#{coreInfo.decorator}/icons/ajaxstatus-start.gif" />
+					</f:facet>
+					<f:facet name="error">
+						<h:graphicImage alt="#{msgs['text.ajax.error.alt']}" title="#{msgs['text.ajax.error']}"
+							url="/resources/templates/#{coreInfo.decorator}/icons/ajaxstatus-error.png" />
+					</f:facet>
+					<f:facet name="complete">
+						<h:graphicImage alt="#{msgs['text.ajax.complete.alt']}" title="#{msgs['text.ajax.complete']}"
+							url="/resources/templates/#{coreInfo.decorator}/icons/ajaxstatus-complete.png" />
+					</f:facet>
+				</p:ajaxStatus>
+			</h:form>
+		</div>
+		
 		<div id="wrapper">
 			<div id="header-wrapper"><div id="header"><div id="logo">
 				<!-- Sigme title: -->
 				<h1><a href="#{facesContext.externalContext.requestContextPath}"><h:outputText value="#{msgs['text.system.acronym']}" /></a></h1>
 				<p><a href="#{facesContext.externalContext.requestContextPath}"><h:outputText value="#{msgs['text.system.name']}" /> </a></p>
-
-				<!-- Sigme Ajax status indicator: -->
-				<div id="ajaxStatus">
-					<h:form id="statusForm">
-						<p:ajaxStatus>
-							<f:facet name="start">
-								<h:graphicImage alt="#{msgs['text.ajax.loading.alt']}" title="#{msgs['text.ajax.loading']}"
-									url="/resources/templates/#{coreInfo.decorator}/icons/ajaxstatus-start.gif" />
-							</f:facet>
-							<f:facet name="error">
-								<h:graphicImage alt="#{msgs['text.ajax.error.alt']}" title="#{msgs['text.ajax.error']}"
-									url="/resources/templates/#{coreInfo.decorator}/icons/ajaxstatus-error.png" />
-							</f:facet>
-							<f:facet name="complete">
-								<h:graphicImage alt="#{msgs['text.ajax.complete.alt']}" title="#{msgs['text.ajax.complete']}"
-									url="/resources/templates/#{coreInfo.decorator}/icons/ajaxstatus-complete.png" />
-							</f:facet>
-						</p:ajaxStatus>
-					</h:form>
-				</div>
 			</div></div></div>
 		
 			<div id="page"><div id="page-bgtop"><div id="page-bgbtm">

@@ -78,7 +78,7 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:streetComplement" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.streetComplement']}" /></ui:define>
-							<p:inputText id="streetComplement" value="#{manageInstitutionsAction.selectedEntity.address.streetComplement}" size="20" disabled="#{manageInstitutionsAction.readOnly}">
+							<p:inputText id="streetComplement" value="#{manageInstitutionsAction.selectedEntity.address.streetComplement}" size="30" disabled="#{manageInstitutionsAction.readOnly}">
 								<p:ajax update="streetComplementField" />
 							</p:inputText>
 						</ui:decorate>
@@ -87,7 +87,15 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:city" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.city']}" /></ui:define>
-							<p:autoComplete id="city" value="#{manageInstitutionsAction.selectedEntity.address.city}" completeMethod="#{manageInstitutionsAction.suggestCities}" minQueryLength="2" forceSelection="true" var="c" itemLabel="#{c.name}, #{c.state.acronym}" itemValue="#{c}" converter="#{coreController.cityConverter}" disabled="#{manageInstitutionsAction.readOnly}">
+							<p:autoComplete 
+									id="city" 
+									value="#{manageInstitutionsAction.selectedEntity.address.city}" 
+									completeMethod="#{manageInstitutionsAction.suggestCities}" 
+									minQueryLength="2" forceSelection="true" 
+									var="c" itemLabel="#{c.name}, #{c.state.acronym}" itemValue="#{c}" 
+									converter="#{coreController.cityConverter}" 
+									disabled="#{manageInstitutionsAction.readOnly}"
+									size="30">
 								<p:ajax event="itemSelect" listener="#{manageInstitutionsAction.handleCitySelection}" update="regionalName" />
 							</p:autoComplete>
 							<h:panelGroup id="regionalName"><h:outputText value=" (#{manageInstitutionsAction.selectedEntity.regional})" rendered="#{manageInstitutionsAction.selectedEntity.type.partOfRegional and (manageInstitutionsAction.selectedEntity.regional != null)}" /></h:panelGroup>
@@ -139,7 +147,7 @@
 								</p:column>
 							</p:dataTable>
 							<h:panelGroup id="telephoneButtons">
-								<div class="buttons">
+								<div class="sigmeFormInternalButton">
 									<p:commandButton action="#{manageInstitutionsAction.newTelephone}" onsuccess="newTelephoneDialog.show()" image="buttonAdd" title="#{msgsCore['manageInstitutions.button.anotherTelephone']}" disabled="#{manageInstitutionsAction.readOnly}" update="telephoneForm" />
 									<p:commandButton action="#{manageInstitutionsAction.editTelephone}" onsuccess="newTelephoneDialog.show()" image="buttonEdit" title="#{msgsCore['manageInstitutions.button.editTelephone']}" disabled="#{manageInstitutionsAction.readOnly or (manageInstitutionsAction.selectedTelephone == null)}" update="telephoneForm" />
 									<p:commandButton action="#{manageInstitutionsAction.removeTelephone}" image="buttonRemove" title="#{msgsCore['manageInstitutions.button.removeTelephone']}" disabled="#{manageInstitutionsAction.readOnly or (manageInstitutionsAction.selectedTelephone == null)}" update="telephonesField" />
@@ -161,7 +169,7 @@
 			</ui:decorate>
 
 			<!-- Dialog with the new telephone form. -->
-			<p:dialog header="#{msgsCore['manageInstitutions.text.newTelephone']}" widgetVar="newTelephoneDialog" modal="true" hideEffect="fade">
+			<p:dialog header="#{msgsCore['manageInstitutions.text.newTelephone']}" widgetVar="newTelephoneDialog" modal="true" width="580" position="340,500" showEffect="fade" hideEffect="fade">
 				<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 					<h:form id="telephoneForm">
 						<h:panelGroup id="numberField">

@@ -19,7 +19,7 @@
 						<h:outputText value="#{msgsCore['manageInstitutions.text.filter']} " />
 						<p:selectOneMenu id="filter" required="true" value="#{manageInstitutionsAction.filterKey}">
 							<f:selectItems value="#{manageInstitutionsAction.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
-							<f:ajax event="change" execute="@form" listener="#{manageInstitutionsAction.changeFilter}" render="@form :listingForm" />
+							<f:ajax event="change" execute="@form" listener="#{manageInstitutionsAction.changeFilter}" render="@form :listingForm :buttonsForm" />
 						</p:selectOneMenu>
 						<h:outputText value=": " />
 						<p:inputText id="filterText" size="20" required="false" value="#{manageInstitutionsAction.filterParam}" rendered="#{manageInstitutionsAction.filter.options == null}" />
@@ -28,7 +28,7 @@
 						</p:selectOneMenu>
 						<h:commandLink action="#{manageInstitutionsAction.filter}">
 							<h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/button-find.png" title="#{msgsCore['manageInstitutions.button.filter']}" />
-							<f:ajax execute="@form" render=":listingForm" />
+							<f:ajax execute="@form" render=":listingForm :buttonsForm" />
 						</h:commandLink>
 					</div>
 				</h:panelGroup>
@@ -45,7 +45,7 @@
 						</h:outputFormat>
 						<h:commandLink action="#{manageInstitutionsAction.cancelFilter}">
 							<h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/button-close.png" title="#{msgsCore['manageInstitutions.button.cancelFilter']}" />
-							<f:ajax execute="@form" render=":listingForm" />
+							<f:ajax execute="@form" render=":listingForm :buttonsForm" />
 						</h:commandLink>
 					</div>
 				</h:panelGroup>
@@ -56,16 +56,14 @@
 						value="#{manageInstitutionsAction.lazyEntities}" 
 						var="entity" 
 						rows="#{manageInstitutionsAction.maxEntitiesPerPage}" 
-						dynamic="true" 
+						rowsPerPageTemplate="#{manageInstitutionsAction.maxEntitiesPerPage / 2},#{manageInstitutionsAction.maxEntitiesPerPage},#{manageInstitutionsAction.maxEntitiesPerPage * 2}"
 						lazy="true" 
 						paginator="true" 
 						selection="#{manageInstitutionsAction.selectedEntity}" 
 						selectionMode="single" 
-						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
 						paginatorPosition="bottom" 
-						loadingMessage="#{msgs['text.ajax.loading']}" 
-						emptyMessage="#{manageInstitutionsAction.filtering ? msgsCore['manageInstitutions.text.noEntities'] : msgsCore['manageInstitutions.text.noEntitiesFiltered']}" 
-						update="buttonsForm">
+						emptyMessage="#{manageInstitutionsAction.filtering ? msgsCore['manageInstitutions.text.noEntitiesFiltered'] : msgsCore['manageInstitutions.text.noEntities']}">
 
 						<p:column>
 							<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.name']}" /></f:facet>
@@ -79,6 +77,8 @@
 							<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.type']}" /></f:facet>
 							<h:outputText value="#{entity.type}" />
 						</p:column>
+						
+						<p:ajax event="rowSelect" update=":buttonsForm" />
 					</p:dataTable>
 				</h:panelGroup>
 			</h:form>
