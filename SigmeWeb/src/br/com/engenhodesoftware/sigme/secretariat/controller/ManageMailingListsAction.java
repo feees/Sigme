@@ -14,7 +14,7 @@ import br.com.engenhodesoftware.sigme.core.domain.Institution;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 import br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO;
 import br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO;
-import br.com.engenhodesoftware.sigme.secretariat.application.ManageMailingListsServiceLocal;
+import br.com.engenhodesoftware.sigme.secretariat.application.ManageMailingListsService;
 import br.com.engenhodesoftware.sigme.secretariat.domain.InstitutionMailingAddressee;
 import br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee;
 import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
@@ -29,7 +29,7 @@ import br.com.engenhodesoftware.util.ejb3.controller.CrudAction;
  * Controller class responsible for mediating the communication between user interface and application service for the
  * use case "Manage MailingLists". This use case is a CRUD.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Named
 @SessionScoped
@@ -42,7 +42,7 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 
 	/** The "Manage MailingLists" service. */
 	@EJB
-	private ManageMailingListsServiceLocal manageMailingListsService;
+	private ManageMailingListsService manageMailingListsService;
 
 	/** The DAO for Institution objects. */
 	@EJB

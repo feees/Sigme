@@ -9,9 +9,11 @@ import javax.validation.constraints.Size;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
- * TODO: document this type.
+ * Domain class that represents telephone numbers.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * <i>This class is part of the Engenho de Software "Legal Entity" mini framework for EJB3 (Java EE 6).</i>
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Entity
 public class Telephone extends PersistentObjectSupport implements Comparable<Telephone> {
@@ -74,7 +76,7 @@ public class Telephone extends PersistentObjectSupport implements Comparable<Tel
 		return uuid.compareTo(o.uuid);
 	}
 
-	/** @see java.lang.Object#toString() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return number + " (" + type + ")";

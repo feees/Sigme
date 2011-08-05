@@ -49,10 +49,10 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObj
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @version 1.1
  * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO
  * @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject
- * @author Vitor Souza (vitorsouza@gmail.com)
- * @version 1.1
  */
 public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<T> {
 	/** Serialization id. */
@@ -66,8 +66,8 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	 * persistence operations. The entity manager is automatically injected in EJBs that use the @PersistenceContext
 	 * annotation.
 	 * 
-	 * @see javax.persistence.PersistenceContext
 	 * @return The entity manager (persistence context) object supplied by the Java EE container.
+	 * @see javax.persistence.PersistenceContext
 	 */
 	protected abstract EntityManager getEntityManager();
 
@@ -80,8 +80,8 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	 * @param root
 	 *          The root of the query, meta-object that represents the class of objects beind queried.
 	 * 
-	 * @see javax.persistence.criteria.Order
 	 * @return A list of Order objects
+	 * @see javax.persistence.criteria.Order
 	 */
 	protected List<Order> getOrderList(CriteriaBuilder cb, Root<T> root) {
 		return null;
@@ -104,6 +104,17 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 			cq.orderBy(orderList);
 	}
 
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param cq
+	 * @param params
+	 * 
+	 * @return
+	 * 
+	 * @throws PersistentObjectNotFoundException
+	 * @throws MultiplePersistentObjectsFoundException
+	 */
 	protected T executeSingleResultQuery(CriteriaQuery<T> cq, Object ... params) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		// Looks for a single result. Throws a checked exception if the entity is not found or in case of multiple results.
 		try {
@@ -137,10 +148,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		return count;
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveFilteredCount(br.com.engenhodesoftware.util.ejb3.application.filters.Filter,
-	 *      java.lang.String)
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveFilteredCount(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String) */
 	@Override
 	public long retrieveFilteredCount(Filter<?> filter, String value) {
 		// Builds the filtered query.
@@ -173,10 +181,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		return em.createQuery(cq).getResultList();
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveWithFilter(br.com.engenhodesoftware.util.ejb3.application.filters.Filter,
-	 *      java.lang.String)
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveWithFilter(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String) */
 	@Override
 	public List<T> retrieveWithFilter(Filter<?> filter, String value) {
 		logger.log(Level.INFO, "Retrieving all, filtering {0} with param \"{1}\": {2}", new Object[] { filter.getKey(), value, getDomainClass().getName() });
@@ -211,10 +216,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		return q.getResultList();
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveSomeWithFilter(br.com.engenhodesoftware.util.ejb3.application.filters.Filter,
-	 *      java.lang.String, int[])
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveSomeWithFilter(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String, int[]) */
 	@Override
 	public List<T> retrieveSomeWithFilter(Filter<?> filter, String value, int[] interval) {
 		logger.log(Level.INFO, "Retrieving in interval [{0}, {1}), filtering {2} with param \"{3}\": {4}", new Object[] { interval[0], interval[1], filter.getKey(), value, getDomainClass().getName() });
@@ -262,6 +264,14 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		em.remove(em.merge(object));
 	}
 
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param filter
+	 * @param value
+	 * 
+	 * @return
+	 */
 	private CriteriaQuery<Long> buildFilteredCountCriteriaQuery(Filter<?> filter, String value) {
 		// Using the entity manager, create a criteria query to retrieve an object count.
 		EntityManager em = getEntityManager();
@@ -269,12 +279,12 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<T> root = cq.from(getDomainClass());
 		cq.select(cb.count(root));
-		
+
 		// Filters the criteria query and returns.
 		filterCriteriaQuery(cb, cq, root, filter, value);
 		return cq;
 	}
-	
+
 	/**
 	 * Builds a criteria query object that retrieves the domain objects according to the given filter (and its embedded
 	 * criteria).
@@ -293,17 +303,26 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		CriteriaQuery<T> cq = cb.createQuery(getDomainClass());
 		Root<T> root = cq.from(getDomainClass());
 		cq.select(root);
-		
+
 		// Filters the criteria query, applies ordering (if provided) and returns.
 		filterCriteriaQuery(cb, cq, root, filter, value);
 		applyOrdering(cb, root, cq);
 		return cq;
 	}
-	
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param cb
+	 * @param cq
+	 * @param root
+	 * @param filter
+	 * @param value
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void filterCriteriaQuery(CriteriaBuilder cb, CriteriaQuery<?> cq, Root<T> root, Filter<?> filter, String value) {
 		// TODO: remove @SupressWarnings and add the correct generic types to all operations.
-		
+
 		// Get the model for the domain class so we can perform filtering.
 		EntityType<T> model = root.getModel();
 
@@ -480,7 +499,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Predicate createPredicate(CriteriaBuilder cb, From path, ManagedType model, Criterion criterion) {
 		// TODO: remove @SupressWarnings and add the correct generic types to all operations.
-		
+
 		// Obtains the final path. This is done in case navigation is required.
 		Path finalPath = findPath(path, model, criterion.getFieldName());
 
@@ -515,12 +534,13 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	 *          The metamodel for the starting entity.
 	 * @param fieldName
 	 *          The name of the field.
+	 *          
 	 * @return The Path object representing the property that should be compared.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Path findPath(From root, ManagedType model, String fieldName) {
 		// TODO: remove @SupressWarnings and add the correct generic types to all operations.
-		
+
 		// Finds the From and the ManagedType from the entity right before the last field.
 		TypeFrom pair = findManagedType(root, model, fieldName);
 
@@ -547,10 +567,19 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		 */
 	}
 
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param root
+	 * @param model
+	 * @param fieldName
+	 * 
+	 * @return
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private TypeFrom findManagedType(From root, ManagedType model, String fieldName) {
 		// TODO: remove @SupressWarnings and add the correct generic types to all operations.
-		
+
 		TypeFrom pair = new TypeFrom();
 
 		// Navigate through the entities using the dots. Joins have to be performed in case of navigation.
@@ -577,11 +606,18 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		return pair;
 	}
 
+	/**
+	 * TODO: document this type.
+	 *
+	 * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+	 * @version 1.1
+	 */
 	private class TypeFrom {
 		// TODO: remove @SupressWarnings and add the correct generic types to all operations.
-		
+
 		@SuppressWarnings("rawtypes")
 		ManagedType type;
+		
 		@SuppressWarnings("rawtypes")
 		From from;
 	}

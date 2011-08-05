@@ -16,7 +16,7 @@ import br.com.engenhodesoftware.util.ejb3.domain.DomainObjectSupport;
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
  * @see br.com.engenhodesoftware.util.ejb3.domain.DomainObjectSupport
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 @MappedSuperclass

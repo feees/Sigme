@@ -10,27 +10,51 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersi
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
- * TODO: document this type.
+ * Interface for a DAO for objects of the Institution domain class.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * Using a mini CRUD framework for EJB3, basic DAO operation definitions are inherited from the superclass, whereas
+ * operations that are specific to the managed domain class (if any) are specified in this class.
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @see br.com.engenhodesoftware.sigme.core.domain.Institution
+ * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO
  */
 @Local
 public interface InstitutionDAO extends BaseDAO<Institution> {
 	/**
-	 * TODO: document this method.
+	 * Retrieves the institution that has the exact name specified in the parameter.
 	 * 
 	 * @param name
-	 * @return
+	 *          The exact name of the institution to be retrieved.
+	 * 
+	 * @return An Institution object that matches the query.
+	 * 
+	 * @throws PersistentObjectNotFoundException
+	 *           If there are no institutions with the exact name given.
+	 * @throws MultiplePersistentObjectsFoundException
+	 *           If there are more than one institutions with the exact name given.
 	 */
 	Institution retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 
 	/**
-	 * TODO: document this method.
+	 * Retrieves all institutions that have the specified parameter as part of its name or its acronym.
 	 * 
 	 * @param param
-	 * @return
+	 *          The text to search for in the name and acronym of institutions.
+	 * 
+	 * @return A list of Institution objects that matches the query (could be empty if there are no matches).
 	 */
 	List<Institution> findByNameOrAcronym(String param);
 
+	/**
+	 * Retrieves all institutions that have the specified parameter as part of the name of the city in which they're
+	 * located.
+	 * 
+	 * @param cityName
+	 *          The text to search for in the name of the city in which institutions are located.
+	 * 
+	 * @return A list of Institution objects whose city names in their address match the query (could be empty if there
+	 *         are no matches).
+	 */
 	List<Institution> findByCity(String cityName);
 }

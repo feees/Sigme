@@ -23,7 +23,7 @@ import br.com.engenhodesoftware.util.people.persistence.ContactTypeDAO;
 /**
  * TODO: documentation pending.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Named
 @ApplicationScoped

@@ -8,9 +8,12 @@ import javax.validation.constraints.Size;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
- * TODO: document this type.
+ * Domain class that represents contact types, which help categorize different types of telephone numbers, such as home,
+ * work, etc.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * <i>This class is part of the Engenho de Software "Legal Entity" mini framework for EJB3 (Java EE 6).</i>
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Entity
 public class ContactType extends PersistentObjectSupport implements Comparable<ContactType> {
@@ -49,7 +52,7 @@ public class ContactType extends PersistentObjectSupport implements Comparable<C
 		return uuid.compareTo(o.uuid);
 	}
 
-	/** @see java.lang.Object#toString() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return type;

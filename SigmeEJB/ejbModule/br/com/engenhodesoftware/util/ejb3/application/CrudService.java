@@ -7,21 +7,21 @@ import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
 
 /**
- * Abstract application class that implements CrudServiceLocal, providing general functionality that can be reused by application
- * classes that are specific to the application being developed.
+ * Abstract application class that implements CrudServiceLocal, providing general functionality that can be reused by
+ * application classes that are specific to the application being developed.
  * 
- * Concrete subclasses must implement abstract methods to fill in the blanks that are application-specific, such as what is the
- * DAO class and how to create an empty new entity.
+ * Concrete subclasses must implement abstract methods to fill in the blanks that are application-specific, such as what
+ * is the DAO class and how to create an empty new entity.
  * 
- * This abstract class provides empty implementations for validate methods to make them optional for the bean developer. One very
- * important such method is
+ * This abstract class provides empty implementations for validate methods to make them optional for the bean developer.
+ * One very important such method is
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
  * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal
  * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO
  * @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 public abstract class CrudService<T extends PersistentObject> implements CrudServiceLocal<T> {
@@ -29,8 +29,8 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Provides the DAO so the objects can be retrieved, stored and deleted from the database. As this is class-specific, this
-	 * method must be overridden by the subclasses.
+	 * Provides the DAO so the objects can be retrieved, stored and deleted from the database. As this is class-specific,
+	 * this method must be overridden by the subclasses.
 	 * 
 	 * @return The actual DAO.
 	 */
@@ -47,9 +47,9 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	public void authorize() {}
 
 	/**
-	 * Callback method that allows subclasses to intercept the moment exactly before the persisting (creating or updating) of the
-	 * entity object in order to perform any checks that might be necessary due to manipulation of this object in the presentation
-	 * layer.
+	 * Callback method that allows subclasses to intercept the moment exactly before the persisting (creating or updating)
+	 * of the entity object in order to perform any checks that might be necessary due to manipulation of this object in
+	 * the presentation layer.
 	 * 
 	 * @param newEntity
 	 *          The entity to be persisted.
@@ -63,8 +63,8 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	}
 
 	/**
-	 * Logs operations over one entity, i.e., creation, retrieval, udpate or deletion of an entity. Default implementation does
-	 * nothing, so logging is optional in the subclasses.
+	 * Logs operations over one entity, i.e., creation, retrieval, udpate or deletion of an entity. Default implementation
+	 * does nothing, so logging is optional in the subclasses.
 	 * 
 	 * @param operation
 	 *          The operation that is being logged.
@@ -74,8 +74,8 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	protected void log(CrudOperation operation, T entity) {}
 
 	/**
-	 * Logs operations over many entities, i.e., listing of entities. Default implementation does nothing, so logging is optional in
-	 * the subclasses.
+	 * Logs operations over many entities, i.e., listing of entities. Default implementation does nothing, so logging is
+	 * optional in the subclasses.
 	 * 
 	 * @param operation
 	 *          The opration that is being logged.
@@ -87,8 +87,8 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	protected void log(CrudOperation operation, List<T> entities, int ... interval) {}
 
 	/**
-	 * Helper method that adds a validation error to an existing CRUD exception or creates a new one in case it doesn't exist yet.
-	 * This method creates a global message.
+	 * Helper method that adds a validation error to an existing CRUD exception or creates a new one in case it doesn't
+	 * exist yet. This method creates a global message.
 	 * 
 	 * @param crudException
 	 *          The possibly-existing CRUD exception.
@@ -112,8 +112,8 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	}
 
 	/**
-	 * Helper method that adds a validation error to an existing CRUD exception or creates a new one in case it doesn't exist yet.
-	 * This method attaches the message to a specific field in the form.
+	 * Helper method that adds a validation error to an existing CRUD exception or creates a new one in case it doesn't
+	 * exist yet. This method attaches the message to a specific field in the form.
 	 * 
 	 * @param crudException
 	 *          The possibly-existing CRUD exception.
@@ -156,10 +156,7 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 		return getDAO().retrieveCount();
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#countFiltered(br.com.engenhodesoftware.util.ejb3.application.filters.Filter,
-	 *      java.lang.String)
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#countFiltered(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String) */
 	@Override
 	public long countFiltered(Filter<?> filterType, String filter) {
 		return getDAO().retrieveFilteredCount(filterType, filter);
@@ -216,10 +213,7 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 		return entities;
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#filter(br.com.engenhodesoftware.util.ejb3.application.filters.Filter,
-	 *      java.lang.String, int[])
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#filter(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String, int[]) */
 	@Override
 	public List<T> filter(Filter<?> filter, String filterParam, int ... interval) {
 		List<T> entities = getDAO().retrieveSomeWithFilter(filter, filterParam, interval);

@@ -8,9 +8,12 @@ import javax.validation.constraints.Size;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
- * TODO: document this type.
+ * Domain class that represents administrative subdivisions of a country (in federalist countries is called state,
+ * otherwise can be called province) as part of people's addresses.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * <i>This class is part of the Engenho de Software "Legal Entity" mini framework for EJB3 (Java EE 6).</i>
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Entity
 public class State extends PersistentObjectSupport implements Comparable<State> {
@@ -65,7 +68,7 @@ public class State extends PersistentObjectSupport implements Comparable<State> 
 		return uuid.compareTo(o.uuid);
 	}
 
-	/** @see java.lang.Object#toString() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return name;

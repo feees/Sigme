@@ -8,25 +8,19 @@ package br.com.engenhodesoftware.util.ejb3.application.filters;
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 public class SimpleFilter extends AbstractFilter<Void> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#AbstractFilter(java.lang.String,
-	 *      java.lang.String, java.lang.String)
-	 */
+	/** Constructor. */
 	public SimpleFilter(String key, String fieldName, String label) {
 		super(key, fieldName, label);
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#AbstractFilter(java.lang.String,
-	 *      java.lang.String, java.lang.String, br.com.engenhodesoftware.util.ejb3.application.filters.Criterion[])
-	 */
+	/** Constructor. */
 	public SimpleFilter(String key, String fieldName, String label, Criterion ... criteria) {
 		super(key, fieldName, label, criteria);
 	}

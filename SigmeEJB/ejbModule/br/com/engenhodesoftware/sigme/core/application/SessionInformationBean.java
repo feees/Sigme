@@ -22,9 +22,10 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersi
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
- * Stateful session bean implementing the session information component. See the implemented interface documentation for details.
+ * Stateful session bean implementing the session information component. See the implemented interface documentation for
+ * details.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @see br.com.engenhodesoftware.sigme.core.application.SessionInformation
  */
 @SessionScoped
@@ -49,7 +50,7 @@ public class SessionInformationBean implements SessionInformation {
 		return currentUser;
 	}
 
-	/** @see it.unitn.disi.ads.core.application.SessionInformation#login(java.lang.String, java.lang.String) */
+	/** @see br.com.engenhodesoftware.sigme.core.application.SessionInformation#login(java.lang.String, java.lang.String) */
 	@Override
 	public void login(String username, String password) throws LoginFailedException {
 		try {

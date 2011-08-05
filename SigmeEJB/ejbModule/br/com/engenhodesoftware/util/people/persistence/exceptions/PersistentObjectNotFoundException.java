@@ -10,7 +10,7 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
  * exception as an EJBException and does all sorts of exception handling we find undesirable in many cases.
  * 
  * @see javax.persistence.NoResultException
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 public class PersistentObjectNotFoundException extends CheckedQueryException {
 	/** Serialization id. */

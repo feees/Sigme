@@ -12,7 +12,7 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.engenhodesoftware.sigme.secretariat.application.SendMailingServiceLocal;
+import br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService;
 import br.com.engenhodesoftware.sigme.secretariat.domain.Mailing;
 import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
 import br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO;
@@ -21,7 +21,7 @@ import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
 /**
  * TODO: document this type.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Named
 @ConversationScoped
@@ -41,7 +41,7 @@ public class SendMailingAction extends JSFAction {
 
 	/** The "Send Mailing" service. */
 	@EJB
-	private SendMailingServiceLocal sendMailingService;
+	private SendMailingService sendMailingService;
 
 	/** The DAO for MailingList objects. */
 	@EJB

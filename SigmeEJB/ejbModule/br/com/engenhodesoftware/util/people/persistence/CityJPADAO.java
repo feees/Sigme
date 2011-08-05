@@ -19,9 +19,17 @@ import br.com.engenhodesoftware.util.people.domain.State;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.CityNotFoundException;
 
 /**
- * TODO: document this type.
+ * Stateless session bean implementing a DAO for objects of the City domain class using JPA2.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * Using a mini CRUD framework for EJB3, basic DAO operation implementations are inherited from the superclass, whereas
+ * operations that are specific to the managed domain class (if any is defined in the implementing DAO interface) have
+ * to be implemented in this class.
+ * 
+ * <i>This class is part of the Engenho de Software "Legal Entity" mini framework for EJB3 (Java EE 6).</i>
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @see br.com.engenhodesoftware.util.people.domain.City
+ * @see br.com.engenhodesoftware.util.people.persistence.CityDAO
  */
 @Stateless
 public class CityJPADAO extends BaseJPADAO<City> implements CityDAO {
@@ -47,7 +55,7 @@ public class CityJPADAO extends BaseJPADAO<City> implements CityDAO {
 		return entityManager;
 	}
 
-	/** @see br.com.engenhodesoftware.util.people.persistence.CityDAO#retrieveByName(java.lang.String) */
+	/** @see br.com.engenhodesoftware.util.people.persistence.CityDAO#findByName(java.lang.String) */
 	@Override
 	public List<City> findByName(String name) {
 		logger.log(Level.INFO, "Retrieving City by name: {0}", name);
@@ -65,10 +73,7 @@ public class CityJPADAO extends BaseJPADAO<City> implements CityDAO {
 		return entityManager.createQuery(cq).getResultList();
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.people.persistence.CityDAO#retrieveByNameAndStateAcronym(java.lang.String,
-	 *      java.lang.String)
-	 */
+	/** @see br.com.engenhodesoftware.util.people.persistence.CityDAO#retrieveByNameAndStateAcronym(java.lang.String, java.lang.String) */
 	@Override
 	public City retrieveByNameAndStateAcronym(String cityName, String stateAcronym) throws CityNotFoundException {
 		logger.log(Level.INFO, "Retrieving City by name and state acronym: {0}, {1}", new Object[] { cityName, stateAcronym });
@@ -89,6 +94,5 @@ public class CityJPADAO extends BaseJPADAO<City> implements CityDAO {
 		catch (NoResultException e) {
 			throw new CityNotFoundException(cityName, stateAcronym);
 		}
-
 	}
 }

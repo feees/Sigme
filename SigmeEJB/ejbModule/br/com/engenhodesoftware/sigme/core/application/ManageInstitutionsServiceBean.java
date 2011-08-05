@@ -19,10 +19,10 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersi
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
- * Stateless session bean implementing the "Manage Institutions" use case component. See the implemented interface documentation
- * for details.
+ * Stateless session bean implementing the "Manage Institutions" use case component. See the implemented interface
+ * documentation for details.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @see br.com.engenhodesoftware.sigme.core.application.ManageInstitutionsService
  */
 @Stateless
@@ -114,10 +114,7 @@ public class ManageInstitutionsServiceBean extends CrudService<Institution> impl
 			throw crudException;
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject,
-	 *      br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject)
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	protected Institution validate(Institution newEntity, Institution oldEntity) {
 		// Sets the current date/time as last update date of the institution.
@@ -126,10 +123,7 @@ public class ManageInstitutionsServiceBean extends CrudService<Institution> impl
 		return super.validate(newEntity, oldEntity);
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation,
-	 *      br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject)
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	protected void log(CrudOperation operation, Institution entity) {
 		switch (operation) {
@@ -147,10 +141,7 @@ public class ManageInstitutionsServiceBean extends CrudService<Institution> impl
 		}
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation,
-	 *      java.util.List, int[])
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, java.util.List, int[]) */
 	@Override
 	protected void log(CrudOperation operation, List<Institution> entities, int ... interval) {
 		switch (operation) {

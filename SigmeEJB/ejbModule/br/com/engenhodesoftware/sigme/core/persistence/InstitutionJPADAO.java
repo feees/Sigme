@@ -24,9 +24,15 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersi
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
- * TODO: document this type.
+ * Stateless session bean implementing a DAO for objects of the Institution domain class using JPA2.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * Using a mini CRUD framework for EJB3, basic DAO operation implementations are inherited from the superclass, whereas
+ * operations that are specific to the managed domain class (if any is defined in the implementing DAO interface) have
+ * to be implemented in this class.
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @see br.com.engenhodesoftware.sigme.core.domain.Institution
+ * @see br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO
  */
 @Stateless
 public class InstitutionJPADAO extends BaseJPADAO<Institution> implements InstitutionDAO {
@@ -52,10 +58,7 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 		return entityManager;
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder,
-	 *      javax.persistence.criteria.Root)
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder, javax.persistence.criteria.Root) */
 	@Override
 	protected List<Order> getOrderList(CriteriaBuilder cb, Root<Institution> root) {
 		// Orders by name.
@@ -64,7 +67,7 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 		return orderList;
 	}
 
-	/** @see br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO#retrieveInstitutionByName(java.lang.String) */
+	/** @see br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO#retrieveByName(java.lang.String) */
 	@Override
 	public Institution retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		logger.log(Level.INFO, "Retrieveing the institution whose name is \"{0}\"", name);
@@ -79,7 +82,7 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 		return executeSingleResultQuery(cq, name);
 	}
 
-	/** @see br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO#retrieveByNameOrAcronym(java.lang.String) */
+	/** @see br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO#findByNameOrAcronym(java.lang.String) */
 	@Override
 	public List<Institution> findByNameOrAcronym(String param) {
 		logger.log(Level.INFO, "Retrieveing all institutions whose name or acronym begins with \"{0}\"", param);
@@ -90,7 +93,7 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 		Root<Institution> root = cq.from(Institution.class);
 
 		// Filters the query with the name or the acronym.
-		String searchParam = param.toLowerCase() + "%";
+		String searchParam = "%" + param.toLowerCase() + "%";
 		cq.where(cb.or(cb.like(cb.lower(root.get(InstitutionJPAMetamodel.name)), searchParam), cb.like(cb.lower(root.get(InstitutionJPAMetamodel.acronym)), searchParam)));
 		cq.orderBy(cb.asc(root.get(InstitutionJPAMetamodel.name)));
 
@@ -98,6 +101,7 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 		return entityManager.createQuery(cq).getResultList();
 	}
 
+	/** @see br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO#findByCity(java.lang.String) */
 	@Override
 	public List<Institution> findByCity(String cityName) {
 		// Constructs the query over the Institution class.

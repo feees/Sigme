@@ -26,7 +26,7 @@ import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
  * Session-scoped managed bean that provides to web pages the login service, indication if the user is logged in, the
  * user's menu and the current date/time.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 /**
  * TODO: document this type.

@@ -3,7 +3,7 @@ package br.com.engenhodesoftware.util.people.persistence.exceptions;
 /**
  * TODO: documentation pending.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 public class CityNotFoundException extends Exception {
 	/** Serialization id. */

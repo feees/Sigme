@@ -11,7 +11,7 @@ import java.util.Iterator;
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 public class CrudException extends Exception implements Iterable<CrudValidationError> {
@@ -21,40 +21,20 @@ public class CrudException extends Exception implements Iterable<CrudValidationE
 	/** Collection of validation errors. */
 	private Collection<CrudValidationError> validationErrors = new HashSet<CrudValidationError>();
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param message
-	 *          Developer-friendly exception message.
-	 * @param messageKey
-	 *          User-friendly error message key.
-	 * @param messageParams
-	 *          Parameters for user-friendly error message.
-	 */
+	/** Constructor from superclass that adds a global validation message. */
 	public CrudException(String message, String messageKey, Object[] messageParams) {
 		super(message);
 		addValidationError(messageKey, messageParams);
 	}
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param message
-	 *          Developer-friendly exception message.
-	 * @param fieldName
-	 *          Name of the field to which this message is related.
-	 * @param messageKey
-	 *          User-friendly error message key.
-	 * @param messageParams
-	 *          Parameters for user-friendly error message.
-	 */
+	/** Constructor from superclass that adds a validation message to a specific field. */
 	public CrudException(String message, String fieldName, String messageKey, Object[] messageParams) {
 		super(message);
 		addValidationError(fieldName, messageKey, messageParams);
 	}
 
 	/**
-	 * Adds a validation error to the collection of validation errors.
+	 * Adds a global validation error to the collection of validation errors.
 	 * 
 	 * @param messageKey
 	 *          User-friendly error message key.
@@ -66,7 +46,7 @@ public class CrudException extends Exception implements Iterable<CrudValidationE
 	}
 
 	/**
-	 * Adds a validation error to the collection of validation errors.
+	 * Adds a validation error of a specific field to the collection of validation errors.
 	 * 
 	 * @param fieldName
 	 *          Name of the field to which this message is related.

@@ -1,21 +1,19 @@
 package br.com.engenhodesoftware.sigme.secretariat.application;
 
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.Stateless;
+import java.io.Serializable;
+
+import javax.ejb.Local;
 
 import br.com.engenhodesoftware.sigme.secretariat.domain.Mailing;
 
 /**
- * TODO: document this type.
+ * Local EJB interface for the "Send Mailing" use case.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * TODO: waiting for definition of a possible integration of this functionality with the Email Manager tool or something similar.  
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
-@Stateless
-@RolesAllowed({ "USER" })
-public class SendMailingService implements SendMailingServiceLocal {
-	/** Serialization id. */
-	private static final long serialVersionUID = 1L;
-
-	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#sendMailing(br.com.engenhodesoftware.sigme.secretariat.domain.Mailing) */
-	public void sendMailing(Mailing mailing) {}
+@Local
+public interface SendMailingService extends Serializable {
+	void sendMailing(Mailing mailing);
 }

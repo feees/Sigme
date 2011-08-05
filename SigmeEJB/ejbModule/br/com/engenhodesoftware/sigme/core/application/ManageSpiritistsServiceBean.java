@@ -21,7 +21,7 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObj
  * Stateless session bean implementing the "Manage Spiritist" use case component. See the implemented interface
  * documentation for details.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @see br.com.engenhodesoftware.sigme.core.application.ManageSpiritistsService
  */
 @Stateless
@@ -131,10 +131,7 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 			throw crudException;
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation,
-	 *      br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject)
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	protected void log(CrudOperation operation, Spiritist entity) {
 		switch (operation) {
@@ -152,10 +149,7 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 		}
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation,
-	 *      java.util.List, int[])
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, java.util.List, int[]) */
 	@Override
 	protected void log(CrudOperation operation, List<Spiritist> entities, int ... interval) {
 		switch (operation) {

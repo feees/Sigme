@@ -5,7 +5,7 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
 /**
  * Abstract class representing checked exceptions that are thrown by query methods in the DAOs.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 public abstract class CheckedQueryException extends Exception {
 	/** Serialization id. */
@@ -17,7 +17,7 @@ public abstract class CheckedQueryException extends Exception {
 	/** The parameters used in the query. */
 	private Object[] params;
 
-	/** Constructor. */
+	/** Constructor from superclass, using fields. */
 	public CheckedQueryException(Throwable cause, Class<? extends PersistentObject> entityClass, Object ... params) {
 		super(cause);
 		this.entityClass = entityClass;

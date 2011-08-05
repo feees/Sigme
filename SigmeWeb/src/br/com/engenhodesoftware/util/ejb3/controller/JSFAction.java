@@ -12,7 +12,7 @@ import javax.faces.context.FacesContext;
  * Abstract class that can be implemented by action classes for JSF pages (managed beans). Provides useful methods, such
  * as adding field and global internationalized messages to the Faces context.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 public abstract class JSFAction implements Serializable {
 	/** Serialization id. */

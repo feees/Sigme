@@ -16,9 +16,10 @@ import javax.validation.constraints.Size;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
- * TODO: document this type.
+ * A domain class that represents e-mail messages that are distributed to a large amount of people. Mailings are sent to
+ * addressees of mailing lists (its recipients).
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Entity
 public class Mailing extends PersistentObjectSupport implements Comparable<Mailing> {
@@ -47,13 +48,7 @@ public class Mailing extends PersistentObjectSupport implements Comparable<Maili
 	/** Default constructor. */
 	public Mailing() {}
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param recipients
-	 * @param subject
-	 * @param body
-	 */
+	/** Constructor using fields. */
 	public Mailing(Set<MailingList> recipients, String subject, String body) {
 		this.recipients = recipients;
 		this.subject = subject;

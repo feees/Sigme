@@ -12,9 +12,11 @@ import br.com.engenhodesoftware.util.people.domain.Address;
 import br.com.engenhodesoftware.util.people.domain.Telephone;
 
 /**
- * TODO: documentation pending.
+ * Meta-model for the Spiritist domain class, which allows DAOs to perform programmatic queries using JPA2's Criteria
+ * API.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @see br.com.engenhodesoftware.sigme.core.domain.Spiritist
  */
 @StaticMetamodel(Spiritist.class)
 public class SpiritistJPAMetamodel {

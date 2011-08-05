@@ -14,7 +14,7 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
 /**
  * TODO: documentation pending.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 public class PersistentObjectConverterFromId<T extends PersistentObject> implements Converter, Serializable {
 	/** Serialization id. */

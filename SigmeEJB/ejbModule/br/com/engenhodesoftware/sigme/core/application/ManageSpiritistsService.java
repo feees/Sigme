@@ -10,7 +10,7 @@ import br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal;
  * 
  * This use case consists of a CRUD for the class Spiritist and uses the mini CRUD framework for EJB3.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal
  */
 @Local

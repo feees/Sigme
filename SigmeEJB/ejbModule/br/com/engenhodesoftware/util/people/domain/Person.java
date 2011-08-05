@@ -12,9 +12,11 @@ import javax.validation.constraints.Size;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
- * TODO: document this type.
+ * Domain class that represents people and their most basic attributes, such as name, birthdate and gender.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * <i>This class is part of the Engenho de Software "Legal Entity" mini framework for EJB3 (Java EE 6).</i>
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @MappedSuperclass
 public class Person extends PersistentObjectSupport implements Comparable<Person> {
@@ -81,7 +83,7 @@ public class Person extends PersistentObjectSupport implements Comparable<Person
 		return uuid.compareTo(o.uuid);
 	}
 
-	/** @see java.lang.Object#toString() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return name;

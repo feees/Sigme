@@ -10,9 +10,11 @@ import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
 import br.com.engenhodesoftware.sigme.secretariat.domain.RegionalMailingAddressee;
 
 /**
- * TODO: documentation pending.
+ * Meta-model for the RegionalMailingAddressee domain class, which allows DAOs to perform programmatic queries using
+ * JPA2's Criteria API.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @see br.com.engenhodesoftware.sigme.secretariat.domain.RegionalMailingAddressee
  */
 @StaticMetamodel(RegionalMailingAddressee.class)
 public class RegionalMailingAddresseeJPAMetamodel {

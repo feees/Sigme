@@ -12,9 +12,9 @@ import javax.persistence.MappedSuperclass;
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
- * @see br.com.engenhodesoftware.util.ejb3.domain.DomainObject
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
+ * @see br.com.engenhodesoftware.util.ejb3.domain.DomainObject
  */
 @MappedSuperclass
 public abstract class DomainObjectSupport implements DomainObject {
@@ -26,7 +26,7 @@ public abstract class DomainObjectSupport implements DomainObject {
 	@Column(nullable = false, length = 40)
 	protected String uuid;
 
-	/** Constructor. */
+	/** Default constructor. */
 	public DomainObjectSupport() {
 		// Generates UUID during object construction.
 		uuid = UUID.randomUUID().toString();
@@ -63,7 +63,7 @@ public abstract class DomainObjectSupport implements DomainObject {
 	/**
 	 * Base implementation of compareTo() method that compares two domain objects by UUID to be used by any subclass who
 	 * wish to implement java.util.Comparable in case their criteria for comparison all tie. Notice that this class does
-	 * not implement Comparable<DomainObjectSupport> beucase otherwise all subclasses wouldn't be able to implement
+	 * not implement Comparable<DomainObjectSupport> because otherwise all subclasses wouldn't be able to implement
 	 * Comparable themselves and, thus, restrict the class of object that can be compared.
 	 * 
 	 * @param o

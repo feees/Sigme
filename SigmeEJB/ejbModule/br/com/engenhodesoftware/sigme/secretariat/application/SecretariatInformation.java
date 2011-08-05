@@ -13,10 +13,10 @@ import br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddresseeScope;
 import br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddresseeType;
 
 /**
- * Bean that stores in memory information that is useful for the entire application, i.e., read-only information shared
- * by all users. This bean stores information for the core package.
+ * Singleton bean that stores in memory information that is useful for the entire application, i.e., read-only
+ * information shared by all users. This bean stores information for the secretariat package.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Singleton
 public class SecretariatInformation implements Serializable {

@@ -13,7 +13,7 @@ import java.util.Map;
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 public interface Filter<T> extends Serializable {
@@ -52,7 +52,9 @@ public interface Filter<T> extends Serializable {
 	 * 
 	 * @param value
 	 *          The string representation of the enum value.
+	 *          
 	 * @return The enum value, or null if the filter is not associated with an enumeration.
+	 * @see br.com.engenhodesoftware.util.ejb3.application.filters.FilterType
 	 */
 	Enum<?> getEnum(String value);
 }

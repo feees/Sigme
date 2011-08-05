@@ -8,9 +8,11 @@ import br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee;
 import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
 
 /**
- * TODO: documentation pending.
+ * Meta-model for the MailingList domain class, which allows DAOs to perform programmatic queries using JPA2's Criteria
+ * API.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingList
  */
 @StaticMetamodel(MailingList.class)
 public class MailingListJPAMetamodel {

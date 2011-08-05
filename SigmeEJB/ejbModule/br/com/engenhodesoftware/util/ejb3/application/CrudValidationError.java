@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 public class CrudValidationError implements Serializable {
@@ -25,29 +25,13 @@ public class CrudValidationError implements Serializable {
 	/** Message parameters that are inserted in the error message by the controller. */
 	private Object[] messageParams;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param messageKey
-	 *          Error message key.
-	 * @param messageParams
-	 *          Error message parameters.
-	 */
+	/** Constructor using fields. */
 	public CrudValidationError(String messageKey, Object[] messageParams) {
 		this.messageKey = messageKey;
 		this.messageParams = messageParams;
 	}
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param fieldName
-	 *          Name of related field.
-	 * @param messageKey
-	 *          Error message key.
-	 * @param messageParams
-	 *          Error message parameters.
-	 */
+	/** Constructor using fields. */
 	public CrudValidationError(String fieldName, String messageKey, Object[] messageParams) {
 		this.fieldName = fieldName;
 		this.messageKey = messageKey;
@@ -69,7 +53,7 @@ public class CrudValidationError implements Serializable {
 		return messageKey;
 	}
 
-	/** Setterfor messageKey. */
+	/** Setter for messageKey. */
 	public void setMessageKey(String messageKey) {
 		this.messageKey = messageKey;
 	}

@@ -12,7 +12,7 @@ import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
  * different user of the system, such as the Spiritist object that represents the logged in user. It should also provide
  * an authentication method for the controller, identifying users of the system.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Local
 public interface SessionInformation extends Serializable {
@@ -24,7 +24,7 @@ public interface SessionInformation extends Serializable {
 	Spiritist getCurrentUser();
 
 	/**
-	 * Authenticates a user given his username and password. If the user is correctly authenticated, she should be
+	 * Authenticates a user given her username and password. If the user is correctly authenticated, she should be
 	 * available as a Spiritist object through the getCurrentUser() method.
 	 * 
 	 * @param username

@@ -6,9 +6,12 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 /**
- * TODO: document this type.
+ * Abstract domain class that represents a mailing list addressee that has a scope, i.e., can specify if the recipients
+ * are only the active spiritists, the inactive ones or both. See the MailingAddresseeScope enumeration for more
+ * details.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddresseeScope
  */
 @Entity
 @DiscriminatorValue("C")
@@ -36,19 +39,5 @@ public abstract class ScopedMailingAddressee extends MailingAddressee {
 	public boolean isScoped() {
 		// Overrides the default implementation in MailingAddressee.
 		return true;
-	}
-
-	/** @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee#copyValues(br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee) */
-	@Override
-	public void copyValues(MailingAddressee src) {
-		// Checks if the class is a match.
-		if (!(src instanceof ScopedMailingAddressee))
-			throw new IllegalArgumentException("Invalid class: cannot copy to a ScopedMailingAddressee the data of a " + src.getClass());
-
-		// Copies the values defined in the superclass.
-		super.copyValues(src);
-
-		// Copies the values defined in this class.
-		scope = ((ScopedMailingAddressee) src).getScope();
 	}
 }

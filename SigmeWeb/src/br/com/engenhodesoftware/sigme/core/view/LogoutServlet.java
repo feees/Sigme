@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * A servlet that serves to invalidate the user's session and, therefore, log her out of the system.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @WebServlet(name = "LogoutServlet", urlPatterns = { "/logout" })
 public class LogoutServlet extends HttpServlet {

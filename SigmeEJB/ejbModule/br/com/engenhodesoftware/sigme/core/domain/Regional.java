@@ -12,9 +12,13 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
 import br.com.engenhodesoftware.util.people.domain.City;
 
 /**
- * TODO: document this type.
+ * Domain class that represents administrative subdivisions of the state by the Spiritist Federation.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * Spiritist Federations in Brazil are concerned with the Spiritist Movement in their state. To make it easier to
+ * coordinate several of their actions, the state is subdivided in regions that can be called Regional Spiritist
+ * Council, Regional Spiritist Unions, etc. In Sigme we refer to them generally as "regionals".
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Entity
 public class Regional extends PersistentObjectSupport implements Comparable<Regional> {
@@ -72,7 +76,7 @@ public class Regional extends PersistentObjectSupport implements Comparable<Regi
 		return number.compareTo(o.number);
 	}
 
-	/** @see java.lang.Object#toString() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return name;

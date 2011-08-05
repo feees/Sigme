@@ -1,9 +1,9 @@
 package br.com.engenhodesoftware.sigme.core.application.exceptions;
 
 /**
- * TODO: documentation pending.
+ * Application exception that represents the fact that the spiritist could not be authenticated.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 public class LoginFailedException extends Exception {
 	/** Serialization id. */
@@ -12,24 +12,12 @@ public class LoginFailedException extends Exception {
 	/** Reason for the failed login. */
 	private LoginFailedReason reason;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param reason
-	 *          Reason for the failed login.
-	 */
+	/** Constructor using fields. */
 	public LoginFailedException(LoginFailedReason reason) {
 		this.reason = reason;
 	}
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param reason
-	 *          Reason for the failed login.
-	 * 
-	 * @see java.lang.Exception#Exception(java.lang.Throwable)
-	 */
+	/** Constructor from superclass, using fields. */
 	public LoginFailedException(Throwable t, LoginFailedReason reason) {
 		super(t);
 		this.reason = reason;

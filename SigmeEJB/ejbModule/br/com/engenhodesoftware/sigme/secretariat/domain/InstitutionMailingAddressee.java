@@ -10,9 +10,15 @@ import javax.persistence.ManyToOne;
 import br.com.engenhodesoftware.sigme.core.domain.Institution;
 
 /**
- * TODO: document this type.
+ * Domain class that represents an entire institution as the addressee of a mailing. This type of addressee should be
+ * used if you'd like to add all spiritists that attend an institution to a mailing list. This addressee is scoped,
+ * meaning you can specify if all associated spiritist should receive messages or only the active or inactive ones
+ * (i.e., those who are still or are no longer attending the institution, respectively).
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee
+ * @see br.com.engenhodesoftware.sigme.secretariat.domain.ScopedMailingAddressee
+ * @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddresseeScope
  */
 @Entity
 @DiscriminatorValue("I")
@@ -32,30 +38,6 @@ public class InstitutionMailingAddressee extends ScopedMailingAddressee {
 	/** Setter for institution. */
 	public void setInstitution(Institution institution) {
 		this.institution = institution;
-	}
-
-	/** @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee#copyValues(br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee) */
-	@Override
-	public void copyValues(MailingAddressee src) {
-		// Checks if the class is a match.
-		if (!(src instanceof InstitutionMailingAddressee))
-			throw new IllegalArgumentException("Invalid class: cannot copy to a InstitutionMailingAddressee the data of a " + src.getClass());
-
-		// Copies the values defined in the superclass.
-		super.copyValues(src);
-
-		// Copies the values defined in this class.
-		institution = ((InstitutionMailingAddressee) src).getInstitution();
-	}
-
-	/** @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee#createCopy() */
-	@Override
-	public MailingAddressee createCopy() {
-		// Creates a new addressee of this type and copies the values from the current object.
-		InstitutionMailingAddressee newAddressee = new InstitutionMailingAddressee();
-		newAddressee.copyValues(this);
-
-		return newAddressee;
 	}
 
 	/** @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee#getEmailAddresses() */

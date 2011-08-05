@@ -18,7 +18,7 @@ import java.util.List;
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 public class ManyToManyFilter extends AbstractFilter<Void> {
@@ -31,36 +31,13 @@ public class ManyToManyFilter extends AbstractFilter<Void> {
 	/** Criteria to be applied to the associated entity. */
 	protected List<Criterion> joinedCriteria = new ArrayList<Criterion>();
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param fieldName
-	 *          Field that will be filtered.
-	 * @param label
-	 *          Label for GUI.
-	 * @param subFieldName
-	 *          Sub-query field name for reverse multiple-choice filtering.
-	 */
+	/** Constructor from superclass, using fields. */
 	public ManyToManyFilter(String key, String fieldName, String label, String subFieldNames) {
 		super(key, fieldName, label);
 		this.subFieldNames = subFieldNames;
 	}
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param fieldName
-	 *          Field that will be filtered.
-	 * @param label
-	 *          Label for GUI.
-	 * @param subFieldName
-	 *          Sub-query field name for reverse multiple-choice filtering.
-	 * @param joinCriteria
-	 *          Indicates if the criteria should be applied to the main entity (<code>false</code>) or to the joined
-	 *          entity (<code>true</code>).
-	 * @param criteria
-	 *          Criteria to be applied to the filter query.
-	 */
+	/** Constructor from superclass, using fields. */
 	public ManyToManyFilter(String key, String fieldName, String label, String subFieldNames, boolean joinCriteria, Criterion ... criteria) {
 		super(key, fieldName, label);
 		this.subFieldNames = subFieldNames;
@@ -78,20 +55,7 @@ public class ManyToManyFilter extends AbstractFilter<Void> {
 		}
 	}
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param fieldName
-	 *          Field that will be filtered.
-	 * @param label
-	 *          Label for GUI.
-	 * @param subFieldName
-	 *          Sub-query field name for reverse multiple-choice filtering.
-	 * @param criteria
-	 *          Criteria to be applied to the filter query.
-	 * @param joinedCriteria
-	 *          Criteria to be applied to the joined entity in the filter query.
-	 */
+	/** Constructor from superclass, using fields. */
 	public ManyToManyFilter(String key, String fieldName, String label, String subFieldNames, Criterion[] criteria, Criterion[] joinedCriteria) {
 		super(key, fieldName, label, criteria);
 		this.subFieldNames = subFieldNames;
@@ -100,28 +64,18 @@ public class ManyToManyFilter extends AbstractFilter<Void> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#getSubFieldNames()
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#getSubFieldNames() */
 	@Override
 	public String getSubFieldNames() {
 		return subFieldNames;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see br.com.engenhodesoftware.util.ejb3.application.filters.Filter#getType()
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.Filter#getType() */
 	public FilterType getType() {
 		return FilterType.MANY_TO_MANY;
 	}
 
-	/**
-	 * Accessor for joinedCriteria.
-	 * 
-	 * @return the joinedCriteria
-	 */
+	/** Getter for joinedCriteria. */
 	public List<Criterion> getJoinedCriteria() {
 		return joinedCriteria;
 	}

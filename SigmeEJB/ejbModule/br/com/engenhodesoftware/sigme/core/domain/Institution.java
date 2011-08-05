@@ -18,9 +18,15 @@ import br.com.engenhodesoftware.util.people.domain.Address;
 import br.com.engenhodesoftware.util.people.domain.Telephone;
 
 /**
- * TODO: document this type.
+ * Domain class that represents spiritist institutions that the Spiritist Federation is interested in.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * The federation's interest in registering an institution in the system is related to many of the actions it does to
+ * promote Spiritism in its state, such as knowing the institution's information to send them mail or call their
+ * directors, know about events, collect money contributions for federative work, among others. With Sigme, services
+ * such as providing a search for institutions for visitors on the Internet also depend on having information from said
+ * institutions.
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Entity
 public class Institution extends PersistentObjectSupport implements Comparable<Institution> {
@@ -178,7 +184,7 @@ public class Institution extends PersistentObjectSupport implements Comparable<I
 		return uuid.compareTo(o.uuid);
 	}
 
-	/** @see java.lang.Object#toString() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return name;

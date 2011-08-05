@@ -13,9 +13,10 @@ import javax.validation.constraints.Size;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
- * TODO: document this type.
+ * Domain class that represents mailing lists to which Sigme is able to send mailings, i.e., e-mail messages that are
+ * distributed to a large amount of people.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Entity
 public class MailingList extends PersistentObjectSupport implements Comparable<MailingList> {

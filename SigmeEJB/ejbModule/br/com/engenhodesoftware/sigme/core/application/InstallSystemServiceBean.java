@@ -37,7 +37,7 @@ import br.com.engenhodesoftware.util.people.persistence.StateDAO;
  * Stateless session bean implementing the "Install System" use case component. See the implemented interface
  * documentation for details.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @see br.com.engenhodesoftware.sigme.core.application.InstallSystemService
  */
 @Stateless
@@ -45,10 +45,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * The path for the data files that are used to initialize the database. Should be /META-INF/init-data/ in the EJB
-	 * package.
-	 */
+	/** The path (in the EJB module) for the data files that are used to initialize the database. */
 	private static final String INIT_DATA_PATH = "/META-INF/init-data/";
 
 	/** The logger. */
@@ -142,6 +139,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 *           If the data file is not found.
 	 * @throws URISyntaxException
 	 *           If the URI used to locate the data file has any kind of problems.
+	 * 
 	 * @see br.com.engenhodesoftware.sigme.core.application.InstallSystemServiceBean#INIT_DATA_PATH
 	 */
 	private void initState() throws FileNotFoundException, URISyntaxException {
@@ -186,6 +184,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 *           If the data file is not found.
 	 * @throws URISyntaxException
 	 *           If the URI used to locate the data file has any kind of problems.
+	 *           
 	 * @see br.com.engenhodesoftware.sigme.core.application.InstallSystemServiceBean#INIT_DATA_PATH
 	 */
 	private void initCity() throws FileNotFoundException, URISyntaxException {
@@ -239,6 +238,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 *           If the data file is not found.
 	 * @throws URISyntaxException
 	 *           If the URI used to locate the data file has any kind of problems.
+	 *           
 	 * @see br.com.engenhodesoftware.sigme.core.application.InstallSystemServiceBean#INIT_DATA_PATH
 	 */
 	private void initRegional() throws FileNotFoundException, URISyntaxException {
@@ -298,6 +298,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 *           If the data file is not found.
 	 * @throws URISyntaxException
 	 *           If the URI used to locate the data file has any kind of problems.
+	 *           
 	 * @see br.com.engenhodesoftware.sigme.core.application.InstallSystemServiceBean#INIT_DATA_PATH
 	 */
 	private void initInstitutionType() throws FileNotFoundException, URISyntaxException {
@@ -336,6 +337,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 *           If the data file is not found.
 	 * @throws URISyntaxException
 	 *           If the URI used to locate the data file has any kind of problems.
+	 *           
 	 * @see br.com.engenhodesoftware.sigme.core.application.InstallSystemServiceBean#INIT_DATA_PATH
 	 */
 	private void initContactType() throws FileNotFoundException, URISyntaxException {

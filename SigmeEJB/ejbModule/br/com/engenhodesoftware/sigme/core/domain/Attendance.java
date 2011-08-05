@@ -11,9 +11,9 @@ import javax.validation.constraints.NotNull;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
- * TODO: document this type.
+ * Domain class that represent the relationship between a spiritist and an institution she attends (or used to attend).
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Entity
 public class Attendance extends PersistentObjectSupport implements Comparable<Attendance> {

@@ -11,7 +11,7 @@ import java.util.Map;
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 public abstract class AbstractFilter<T> implements Filter<T>, Comparable<AbstractFilter<?>> {
@@ -30,34 +30,14 @@ public abstract class AbstractFilter<T> implements Filter<T>, Comparable<Abstrac
 	/** The criteria to be applied to the filter query. */
 	protected List<Criterion> criteria = new ArrayList<Criterion>();
 
-	/**
-	 * Constructor for filters without extra criteria.
-	 * 
-	 * @param key
-	 *          Unique identifier.
-	 * @param fieldName
-	 *          Field that will be filtered.
-	 * @param label
-	 *          Label for GUI.
-	 */
+	/** Constructor using fields. */
 	public AbstractFilter(String key, String fieldName, String label) {
 		this.key = key;
 		this.fieldName = fieldName;
 		this.label = label;
 	}
 
-	/**
-	 * Full constructor.
-	 * 
-	 * @param key
-	 *          Unique identifier.
-	 * @param fieldName
-	 *          Field that will be filtered.
-	 * @param label
-	 *          Label for GUI.
-	 * @param criteria
-	 *          Criteria to be applied to the filter query.
-	 */
+	/** Constructor using fields. */
 	public AbstractFilter(String key, String fieldName, String label, Criterion ... criteria) {
 		this(key, fieldName, label);
 		this.criteria.addAll(Arrays.asList(criteria));
@@ -87,7 +67,7 @@ public abstract class AbstractFilter<T> implements Filter<T>, Comparable<Abstrac
 		return null;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.Filter#getOptionLabel(java.lang.Object) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.Filter#getOptionLabel(java.lang.String) */
 	@Override
 	public String getOptionLabel(String key) {
 		return key;

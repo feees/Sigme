@@ -19,9 +19,15 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersi
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
- * TODO: document this type.
+ * Stateless session bean implementing a DAO for objects of the Spiritist domain class using JPA2.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * Using a mini CRUD framework for EJB3, basic DAO operation implementations are inherited from the superclass, whereas
+ * operations that are specific to the managed domain class (if any is defined in the implementing DAO interface) have
+ * to be implemented in this class.
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @see br.com.engenhodesoftware.sigme.core.domain.Spiritist
+ * @see br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO
  */
 @Stateless
 public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistDAO {
@@ -74,7 +80,7 @@ public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistD
 		return executeSingleResultQuery(cq, email);
 	}
 
-	/** @see br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO#retrieveByName(java.lang.String) */
+	/** @see br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO#findByName(java.lang.String) */
 	@Override
 	public List<Spiritist> findByName(String param) {
 		logger.log(Level.INFO, "Retrieveing all spiritists whose name contain \"{0}\"", param);

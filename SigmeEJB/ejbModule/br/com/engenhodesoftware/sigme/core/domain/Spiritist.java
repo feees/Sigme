@@ -18,9 +18,18 @@ import br.com.engenhodesoftware.util.people.domain.Person;
 import br.com.engenhodesoftware.util.people.domain.Telephone;
 
 /**
- * TODO: document this type.
+ * Domain class that represents spiritists, i.e., the users of the system.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * Any user of the system, be them spiritist in real life or not, is represented by this class. Although this might seem
+ * an inconsistency, I thought it would be better than calling everyone "User", which is such an overloaded term.
+ * 
+ * The term "spiritist" is taken from the translation from the Portuguese "Espírita", which as a noun means a person
+ * that adheres to the religion Spiritism (see, e.g., http://en.wikipedia.org/wiki/Spiritism). It is consistent with the
+ * name of the "International Spiritist Council" (http://www.spirites.org/isc/portal/), which is "an organisation
+ * resulting from the union, on a world-wide scale, of the Associations representative of the National Spiritist
+ * Movements".
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Entity
 public class Spiritist extends Person {
@@ -145,7 +154,7 @@ public class Spiritist extends Person {
 		this.lastLoginDate = lastLoginDate;
 	}
 
-	/** @see java.lang.Object#toString() */
+	/** @see br.com.engenhodesoftware.util.people.domain.Person#toString() */
 	@Override
 	public String toString() {
 		return name;

@@ -21,7 +21,7 @@ import br.com.engenhodesoftware.util.people.persistence.ContactTypeDAO;
  * Singleton bean that stores in memory information that is useful for the entire application, i.e., read-only
  * information shared by all users. This bean stores information for the core package.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Singleton
 @Named("coreInfo")
@@ -59,13 +59,7 @@ public class CoreInformation implements Serializable {
 	/** The list of regionals (cache of objects that don't change very often). */
 	private SortedSet<Regional> regionals;
 
-	static {
-		// FIXME: Check if we still need this after migrating from Seam to Java EE 6.
-		// See http://www.jboss.com/index.html?module=bb&op=viewtopic&p=4025747#4025747
-		// TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-	}
-
-	/** Getter for systemInstalled. */
+	/** Alias for isSystemInstalled(). */
 	public Boolean getSystemInstalled() {
 		return isSystemInstalled();
 	}
@@ -77,8 +71,7 @@ public class CoreInformation implements Serializable {
 			logger.log(Level.FINER, "Checking if the system is properly installed...");
 
 			// The system is propertly installed if the basic information on cities, states, regions, institution types, etc.
-			// have already been
-			// included in the database. As a convention, we check for institution types.
+			// have already been included in the database. As a convention, we check for institution types.
 			long count = institutionTypeDAO.retrieveCount();
 			systemInstalled = (count > 0);
 			logger.log(Level.FINER, "systemInstalled = {0}", systemInstalled);
@@ -93,7 +86,6 @@ public class CoreInformation implements Serializable {
 
 	/** Getter for decorator. */
 	public String getDecorator() {
-		// FIXME: allow for change of decorator later.
 		return decorator;
 	}
 
@@ -106,13 +98,6 @@ public class CoreInformation implements Serializable {
 			logger.log(Level.FINE, "Loaded {0} institution types.", institutionTypes.size());
 		}
 		return institutionTypes;
-	}
-
-	/**
-	 * Invalidates the list of institution types so it can be reloaded.
-	 */
-	public void invalidateInstitutionTypes() {
-		institutionTypes = null;
 	}
 
 	/** Getter for contactTypes. */

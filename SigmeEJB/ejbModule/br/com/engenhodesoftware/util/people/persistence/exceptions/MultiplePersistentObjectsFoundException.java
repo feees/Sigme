@@ -11,7 +11,7 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
  * cases.
  * 
  * @see javax.persistence.NoResultException
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 public class MultiplePersistentObjectsFoundException extends CheckedQueryException {
 	/** Serialization id. */

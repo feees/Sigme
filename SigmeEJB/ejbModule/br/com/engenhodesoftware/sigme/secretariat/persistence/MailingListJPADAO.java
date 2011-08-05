@@ -18,9 +18,15 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersi
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
- * TODO: document this type.
+ * Stateless session bean implementing a DAO for objects of the MailingList domain class using JPA2.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * Using a mini CRUD framework for EJB3, basic DAO operation implementations are inherited from the superclass, whereas
+ * operations that are specific to the managed domain class (if any is defined in the implementing DAO interface) have
+ * to be implemented in this class.
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingList
+ * @see br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO
  */
 @Stateless
 public class MailingListJPADAO extends BaseJPADAO<MailingList> implements MailingListDAO {
@@ -46,10 +52,7 @@ public class MailingListJPADAO extends BaseJPADAO<MailingList> implements Mailin
 		return entityManager;
 	}
 
-	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder,
-	 *      javax.persistence.criteria.Root)
-	 */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder, javax.persistence.criteria.Root) */
 	@Override
 	protected List<Order> getOrderList(CriteriaBuilder cb, Root<MailingList> root) {
 		// Default order is by name. return "order by obj.name asc";

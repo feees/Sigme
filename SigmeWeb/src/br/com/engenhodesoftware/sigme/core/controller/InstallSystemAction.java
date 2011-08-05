@@ -16,7 +16,7 @@ import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
 /**
  * TODO: document this type.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Model
 public class InstallSystemAction extends JSFAction {

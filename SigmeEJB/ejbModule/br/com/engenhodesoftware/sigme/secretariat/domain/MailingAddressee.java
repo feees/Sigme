@@ -16,9 +16,14 @@ import javax.validation.constraints.NotNull;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
- * TODO: document this type.
+ * Abstract domain class that represents an addressee of a mailing list. Addressees are spiritists that are associated
+ * (either directly or through their attendance of an institution) to mailing lists, which means they will receive all
+ * mailing sent to the specified list.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * Subclasses of this class should specify different types of addressee, for instance: a specific spiritist, all
+ * spiritists attending a given institution, all spiritists attending an institution of a given regional, etc.
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -64,32 +69,12 @@ public abstract class MailingAddressee extends PersistentObjectSupport implement
 	 * 
 	 * @return <code>true</code> if the addressee is scoped, <code>false</code> otherwise.
 	 * @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddresseeScope
+	 * @see br.com.engenhodesoftware.sigme.secretariat.domain.ScopedMailingAddressee
 	 */
 	public boolean isScoped() {
 		// By default, addressees aren't scoped. ScopedMailingAddressee overrides this.
 		return false;
 	}
-
-	/**
-	 * Copies the values from the source addressee to this object. This method is intended to be overridden by all
-	 * subclasses, because each of them is responsible for copying the properties they define.
-	 * 
-	 * @param src
-	 *          The source addressee.
-	 */
-	public void copyValues(MailingAddressee src) {
-		// Copies the values defined in this class.
-		mailingList = src.getMailingList();
-		type = src.getType();
-	}
-
-	/**
-	 * Creates a new object of the same class and copies the data from this object. This method is intended to be
-	 * overridden by concrete subclasses.
-	 * 
-	 * @return A new object from the same class with the same data as this object.
-	 */
-	public abstract MailingAddressee createCopy();
 
 	/**
 	 * Returns a set with all e-mail addresses of the recipients. This method is intended to be overridden by concrete

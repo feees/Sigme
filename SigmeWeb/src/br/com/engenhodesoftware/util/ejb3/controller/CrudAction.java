@@ -34,7 +34,7 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
  * 
  * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal
  * @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 public abstract class CrudAction<T extends PersistentObject> extends JSFAction {

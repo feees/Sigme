@@ -8,9 +8,13 @@ import javax.validation.constraints.Size;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
- * TODO: document this type.
+ * Domain class that represents the types of spiritist institutions that the Spiritist Federation is interested in.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * Examples of types of institutions are: spiritist center that adheres to the federation, spiritist center that doesn't
+ * adhere to the federation, other federations (in other states), other types of institutions (e.g., shelters, rest
+ * homes, etc.) that claim to follow a spiritist philosophy in their actions, etc.
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Entity
 public class InstitutionType extends PersistentObjectSupport implements Comparable<InstitutionType> {
@@ -63,7 +67,7 @@ public class InstitutionType extends PersistentObjectSupport implements Comparab
 		return type.compareTo(o.type);
 	}
 
-	/** @see java.lang.Object#toString() */
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return type;

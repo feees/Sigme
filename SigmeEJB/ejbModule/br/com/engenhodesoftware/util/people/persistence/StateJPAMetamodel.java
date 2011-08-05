@@ -6,9 +6,12 @@ import javax.persistence.metamodel.StaticMetamodel;
 import br.com.engenhodesoftware.util.people.domain.State;
 
 /**
- * TODO: documentation pending.
+ * Meta-model for the State domain class, which allows DAOs to perform programmatic queries using JPA2's Criteria API.
  * 
- * @author Vítor E. Silva Souza (vitorsouza@gmail.com)
+ * <i>This class is part of the Engenho de Software "Legal Entity" mini framework for EJB3 (Java EE 6).</i>
+ * 
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @see br.com.engenhodesoftware.util.people.domain.State
  */
 @StaticMetamodel(State.class)
 public class StateJPAMetamodel {

@@ -31,7 +31,7 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.CityNotFoundE
  * Controller class responsible for mediating the communication between user interface and application service for the
  * use case "Manage Spiritist". This use case is a CRUD.
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Named
 @SessionScoped

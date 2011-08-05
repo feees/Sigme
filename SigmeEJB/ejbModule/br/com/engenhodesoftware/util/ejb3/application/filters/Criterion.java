@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 public class Criterion implements Serializable {
@@ -23,32 +23,15 @@ public class Criterion implements Serializable {
 	/** The value to be compared to in case of criterions of types equals, like, etc. */
 	protected Object param;
 
-	/**
-	 * Constructor for criteria that don't need a parameter.
-	 * 
-	 * @param fieldName
-	 *          The name of the field.
-	 * @param type
-	 *          The type of criterion.
-	 */
+	/** Constructor  using fields. */
 	public Criterion(String fieldName, CriterionType type) {
 		this.fieldName = fieldName;
 		this.type = type;
 	}
 
-	/**
-	 * Full constructor.
-	 * 
-	 * @param fieldName
-	 *          The name of the field.
-	 * @param type
-	 *          The type of criterion.
-	 * @param param
-	 *          The parameter to be compared.
-	 */
+	/** Constructor  using fields. */
 	public Criterion(String fieldName, CriterionType type, Object param) {
-		this.fieldName = fieldName;
-		this.type = type;
+		this(fieldName, type);
 		this.param = param;
 	}
 

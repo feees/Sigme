@@ -13,7 +13,7 @@ import java.util.Map;
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 public class ReverseMultipleChoiceFilter<T> extends MultipleChoiceFilter<T> {
@@ -23,36 +23,19 @@ public class ReverseMultipleChoiceFilter<T> extends MultipleChoiceFilter<T> {
 	/** Field to select in the subquery when using a reverse multiple-choice filter. */
 	protected String subFieldName;
 
-	/**
-	 * Constructor for filters without extra criteria. For the missing parameters, see MultipleChoiceFilter.
-	 * 
-	 * @param subFieldName
-	 *          The field to select in the subquery.
-	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.application.filters.MultipleChoiceFilter#MultipleChoiceFilter(java.lang.String,
-	 *      java.lang.String, java.lang.String, java.util.List, java.util.Map)
-	 */
+	/** Constructor from superclass, using fields. */
 	public ReverseMultipleChoiceFilter(String key, String fieldName, String label, List<T> options, Map<String, String> optionsLabels, String subFieldName) {
 		super(key, fieldName, label, options, optionsLabels);
 		this.subFieldName = subFieldName;
 	}
 
-	/**
-	 * Full constructor. For the missing parameters, see MultipleChoiceFilter.
-	 * 
-	 * @param subFieldName
-	 *          The field to select in the subquery.
-	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.application.filters.MultipleChoiceFilter#MultipleChoiceFilter(java.lang.String,
-	 *      java.lang.String, java.lang.String, java.util.List, java.util.Map,
-	 *      br.com.engenhodesoftware.util.ejb3.application.filters.Criterion[])
-	 */
+	/** Constructor from superclass, using fields. */
 	public ReverseMultipleChoiceFilter(String key, String fieldName, String label, List<T> options, Map<String, String> optionsLabels, String subFieldName, Criterion ... criteria) {
 		super(key, fieldName, label, options, optionsLabels, criteria);
 		this.subFieldName = subFieldName;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.MultipleChoiceFilter#getSubFieldNames() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#getSubFieldNames() */
 	@Override
 	public String getSubFieldNames() {
 		return subFieldName;

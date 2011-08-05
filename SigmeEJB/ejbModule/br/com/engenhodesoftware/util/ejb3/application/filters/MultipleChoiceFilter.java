@@ -13,7 +13,7 @@ import java.util.Map;
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
- * @author Vitor Souza (vitorsouza@gmail.com)
+ * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
 public class MultipleChoiceFilter<T> extends AbstractFilter<T> {
@@ -29,17 +29,7 @@ public class MultipleChoiceFilter<T> extends AbstractFilter<T> {
 	/** Reversed options labels map, useful for view technologies like JSF. */
 	protected Map<String, String> reversedOptionsLabels;
 
-	/**
-	 * Constructor for filters without extra criteria. For the missing parameters, see AbstractFilter.
-	 * 
-	 * @param options
-	 *          The list of options for multiple-choice.
-	 * @param optionsLabels
-	 *          List of labels to be used in the GUI associated with each object in the object list.
-	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#AbstractFilter(java.lang.String,
-	 *      java.lang.String, java.lang.String)
-	 */
+	/** Constructor from superclass, using fields. */
 	public MultipleChoiceFilter(String key, String fieldName, String label, List<T> options, Map<String, String> optionsLabels) {
 		super(key, fieldName, label);
 		this.options = options;
@@ -47,17 +37,7 @@ public class MultipleChoiceFilter<T> extends AbstractFilter<T> {
 		reversedOptionsLabels = reverseMap(optionsLabels);
 	}
 
-	/**
-	 * Full constructor. For the missing parameters, see AbstractFilter.
-	 * 
-	 * @param options
-	 *          The list of options for multiple-choice.
-	 * @param optionsLabels
-	 *          List of labels to be used in the GUI associated with each object in the object list.
-	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#AbstractFilter(java.lang.String,
-	 *      java.lang.String, java.lang.String, br.com.engenhodesoftware.util.ejb3.application.filters.Criterion[])
-	 */
+	/** Constructor from superclass, using fields. */
 	public MultipleChoiceFilter(String key, String fieldName, String label, List<T> options, Map<String, String> optionsLabels, Criterion ... criteria) {
 		super(key, fieldName, label, criteria);
 		this.options = options;
@@ -65,13 +45,13 @@ public class MultipleChoiceFilter<T> extends AbstractFilter<T> {
 		reversedOptionsLabels = reverseMap(optionsLabels);
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.Filter#getOptions() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#getOptions() */
 	@Override
 	public List<T> getOptions() {
 		return options;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#getOptionLabel(java.lang.Object) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#getOptionLabel(java.lang.String) */
 	@Override
 	public String getOptionLabel(String key) {
 		return optionsLabels.get(key);
@@ -83,13 +63,13 @@ public class MultipleChoiceFilter<T> extends AbstractFilter<T> {
 		return FilterType.MULTIPLE_CHOICE;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.Filter#getOptionsLabels() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#getOptionsLabels() */
 	@Override
 	public Map<String, String> getOptionsLabels() {
 		return optionsLabels;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.Filter#getReversedOptionsLabels() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.filters.AbstractFilter#getReversedOptionsLabels() */
 	@Override
 	public Map<String, String> getReversedOptionsLabels() {
 		return reversedOptionsLabels;
@@ -100,6 +80,7 @@ public class MultipleChoiceFilter<T> extends AbstractFilter<T> {
 	 * 
 	 * @param map
 	 *          The source map.
+	 *          
 	 * @return A reversed version of the source map.
 	 */
 	private Map<String, String> reverseMap(Map<String, String> map) {
