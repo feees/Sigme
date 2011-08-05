@@ -6,7 +6,8 @@ import javax.ejb.Local;
 
 import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.com.engenhodesoftware.util.people.domain.City;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.CityNotFoundException;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Interface for a DAO for objects of the City domain class.
@@ -40,8 +41,10 @@ public interface CityDAO extends BaseDAO<City> {
 	 * 
 	 * @return A City object that matches the query.
 	 * 
-	 * @throws CityNotFoundException
+	 * @throws PersistentObjectNotFoundException
 	 *           If there are no cities with the exact name and state acronym.
+	 * @throws MultiplePersistentObjectsFoundException
+	 *           If there are more than one city with the exact name and state acronym given.
 	 */
-	City retrieveByNameAndStateAcronym(String cityName, String stateAcronym) throws CityNotFoundException;
+	City retrieveByNameAndStateAcronym(String cityName, String stateAcronym) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 }

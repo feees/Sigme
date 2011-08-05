@@ -25,7 +25,8 @@ import br.com.engenhodesoftware.util.people.domain.Address;
 import br.com.engenhodesoftware.util.people.domain.City;
 import br.com.engenhodesoftware.util.people.domain.Telephone;
 import br.com.engenhodesoftware.util.people.persistence.CityDAO;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.CityNotFoundException;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the
@@ -234,8 +235,11 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 				selectedEntity.getAddress().setCity(city);
 			}
 		}
-		catch (CityNotFoundException e) {
+		catch (PersistentObjectNotFoundException e) {
 			selectedEntity.getAddress().setCity(null);
+		}
+		catch (MultiplePersistentObjectsFoundException e) {
+			// FIXME: log something!
 		}
 
 		logger.log(Level.INFO, "User selected \"{0}\", setting city = {1}", new Object[] { cityName, selectedEntity.getAddress().getCity() });

@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,7 +15,8 @@ import javax.persistence.criteria.Root;
 import br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO;
 import br.com.engenhodesoftware.util.people.domain.City;
 import br.com.engenhodesoftware.util.people.domain.State;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.CityNotFoundException;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Stateless session bean implementing a DAO for objects of the City domain class using JPA2.
@@ -58,8 +58,6 @@ public class CityJPADAO extends BaseJPADAO<City> implements CityDAO {
 	/** @see br.com.engenhodesoftware.util.people.persistence.CityDAO#findByName(java.lang.String) */
 	@Override
 	public List<City> findByName(String name) {
-		logger.log(Level.INFO, "Retrieving City by name: {0}", name);
-
 		// Constructs the query over the City class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<City> cq = cb.createQuery(City.class);
@@ -73,9 +71,11 @@ public class CityJPADAO extends BaseJPADAO<City> implements CityDAO {
 		return entityManager.createQuery(cq).getResultList();
 	}
 
-	/** @see br.com.engenhodesoftware.util.people.persistence.CityDAO#retrieveByNameAndStateAcronym(java.lang.String, java.lang.String) */
+	/** @throws MultiplePersistentObjectsFoundException 
+	 * @throws PersistentObjectNotFoundException 
+	 * @see br.com.engenhodesoftware.util.people.persistence.CityDAO#retrieveByNameAndStateAcronym(java.lang.String, java.lang.String) */
 	@Override
-	public City retrieveByNameAndStateAcronym(String cityName, String stateAcronym) throws CityNotFoundException {
+	public City retrieveByNameAndStateAcronym(String cityName, String stateAcronym) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		logger.log(Level.INFO, "Retrieving City by name and state acronym: {0}, {1}", new Object[] { cityName, stateAcronym });
 
 		// Constructs the query over the City class.
@@ -86,13 +86,7 @@ public class CityJPADAO extends BaseJPADAO<City> implements CityDAO {
 
 		// Filters the query with the name and state acronym.
 		cq.where(cb.equal(root.get(CityJPAMetamodel.name), cityName), cb.equal(join.get(StateJPAMetamodel.acronym), stateAcronym));
+		return executeSingleResultQuery(cq, cityName, stateAcronym);
 
-		// Looks for a single result. Throws a checked exception if the entity is not found.
-		try {
-			return entityManager.createQuery(cq).getSingleResult();
-		}
-		catch (NoResultException e) {
-			throw new CityNotFoundException(cityName, stateAcronym);
-		}
 	}
 }
