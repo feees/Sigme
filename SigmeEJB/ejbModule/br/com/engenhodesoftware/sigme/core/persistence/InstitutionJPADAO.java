@@ -70,7 +70,7 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 	/** @see br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO#retrieveByName(java.lang.String) */
 	@Override
 	public Institution retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
-		logger.log(Level.INFO, "Retrieveing the institution whose name is \"{0}\"", name);
+		logger.log(Level.INFO, "Retrieving the institution whose name is \"{0}\"", name);
 
 		// Constructs the query over the Institution class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -85,7 +85,7 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 	/** @see br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO#findByNameOrAcronym(java.lang.String) */
 	@Override
 	public List<Institution> findByNameOrAcronym(String param) {
-		logger.log(Level.INFO, "Retrieveing all institutions whose name or acronym begins with \"{0}\"", param);
+		logger.log(Level.INFO, "Retrieving all institutions whose name or acronym begins with \"{0}\"", param);
 
 		// Constructs the query over the Institution class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();

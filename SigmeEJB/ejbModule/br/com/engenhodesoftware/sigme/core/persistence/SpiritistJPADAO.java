@@ -68,7 +68,7 @@ public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistD
 	/** @see br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO#retrieveByEmail(java.lang.String) */
 	@Override
 	public Spiritist retrieveByEmail(String email) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
-		logger.log(Level.INFO, "Retrieveing the spiritist whose e-mail is \"{0}\"", email);
+		logger.log(Level.INFO, "Retrieving the spiritist whose e-mail is \"{0}\"", email);
 
 		// Constructs the query over the Spiritist class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -83,7 +83,7 @@ public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistD
 	/** @see br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO#findByName(java.lang.String) */
 	@Override
 	public List<Spiritist> findByName(String param) {
-		logger.log(Level.INFO, "Retrieveing all spiritists whose name contain \"{0}\"", param);
+		logger.log(Level.INFO, "Retrieving all spiritists whose name contain \"{0}\"", param);
 
 		// Constructs the query over the Institution class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
