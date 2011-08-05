@@ -25,8 +25,6 @@ import br.com.engenhodesoftware.util.people.domain.Address;
 import br.com.engenhodesoftware.util.people.domain.City;
 import br.com.engenhodesoftware.util.people.domain.Telephone;
 import br.com.engenhodesoftware.util.people.persistence.CityDAO;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the
