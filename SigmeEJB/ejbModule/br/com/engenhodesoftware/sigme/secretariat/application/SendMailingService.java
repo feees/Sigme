@@ -9,7 +9,7 @@ import br.com.engenhodesoftware.sigme.secretariat.domain.Mailing;
 /**
  * Local EJB interface for the "Send Mailing" use case.
  * 
- * TODO: waiting for definition of a possible integration of this functionality with the Email Manager tool or something similar.  
+ * Waiting for definition of a possible integration of this functionality with the Email Manager tool or something similar.  
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */

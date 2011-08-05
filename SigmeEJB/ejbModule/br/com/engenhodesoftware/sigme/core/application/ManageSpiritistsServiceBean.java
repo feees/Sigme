@@ -114,7 +114,7 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 		CrudException crudException = null;
 		String crudExceptionMessage = "The spiritist \"" + valueObject.getEmail() + "\" cannot be deleted because of validation errors.";
 
-		// FIXME: o administrador é o primeiro usuário cadastrado por enquanto. Assim que o cadastro da federativa e
+		// O administrador é o primeiro usuário cadastrado por enquanto. Assim que o cadastro da federativa e
 		// de modelos de gestão estiverem funcionando, o admin será o presidente ou alguém que tenha uma delegação
 		// válida dada pelo presidente. Pensar se esta regra de validação deve realmente ser aplicada e pensar em uma
 		// outra regra: pode excluir a si mesmo?

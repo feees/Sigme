@@ -191,8 +191,7 @@ public class SessionController extends JSFAction {
 			if (isLoggedIn()) {
 				logger.log(Level.INFO, "Adding menu items according to the user profile: user is logged in.");
 
-				// FIXME: so far, all registered users with password can do everything. In the future, access control will be
-				// implemented.
+				// So far, all registered users with password can do everything. In the future, access control will be implemented.
 
 				/* Sub-menu: CRUDs. */
 				menu = new Submenu();
@@ -264,7 +263,7 @@ public class SessionController extends JSFAction {
 		return "/login.xhtml?faces-redirect=true";
 	}
 
-	// TODO: now that the system is going to be shared with others, how about identifying the 1st user and providing auto-login for her?
+	// Now that the system is going to be shared with others, how about identifying the 1st user and providing auto-login for her?
 	public String autoLogin() {
 		email = "vitorsouza@gmail.com";
 		password = "123";

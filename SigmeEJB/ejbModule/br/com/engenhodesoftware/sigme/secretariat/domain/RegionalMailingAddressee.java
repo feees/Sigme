@@ -45,7 +45,7 @@ public class RegionalMailingAddressee extends ScopedMailingAddressee {
 	protected SortedSet<String> getEmailAddresses() {
 		SortedSet<String> emails = new TreeSet<String>();
 
-		// FIXME: implement the retrieval of emails. Remember this is scoped (active, inactive, all)!
+		// Implement the retrieval of emails. Remember this is scoped (active, inactive, all)!
 
 		return emails;
 	}

@@ -176,7 +176,7 @@ public class SendMailingAction extends JSFAction {
 	 * @return A string with the HTML-formatted body.
 	 */
 	public String getFormattedBody() {
-		// TODO: when we change to HTML WYSIWYG editing, this might have to adapt.
+		// When we change to HTML WYSIWYG editing, this might have to adapt. <-- Integração com Email Manager resolve, não?
 		return (body == null) ? "" : body.replace("\n", "<br />");
 	}
 
@@ -195,7 +195,7 @@ public class SendMailingAction extends JSFAction {
 	 * Moves to the next step.
 	 */
 	public void nextStep() {
-		// FIXME: implementar verificação de passo. Só passa ao próximo se passar a validação.
+		// Implementar verificação de passo. Só passa ao próximo se passar a validação.
 		logger.log(Level.INFO, "Moving to step {0}", step + 1);
 		step++;
 		if (step > maxStep)
@@ -203,7 +203,7 @@ public class SendMailingAction extends JSFAction {
 	}
 
 	/**
-	 * TODO: implement the rest of the functionality.
+	 * Implement the rest of the functionality...
 	 * 
 	 * @return The path to the web page that shows that the process has ended.
 	 */

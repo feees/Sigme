@@ -337,7 +337,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void filterCriteriaQuery(CriteriaBuilder cb, CriteriaQuery<?> cq, Root<T> root, Filter<?> filter, String value) {
-		// TODO: remove @SupressWarnings and add the correct generic types to all operations.
+		// Remove @SupressWarnings and add the correct generic types to all operations.
 
 		// Get the model for the domain class so we can perform filtering.
 		EntityType<T> model = root.getModel();
@@ -355,7 +355,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		TypeFrom pair = null;
 		switch (filter.getType()) {
 		case MANY_TO_MANY:
-			// TODO: not yet tested...
+			// Not yet tested...
 
 			// Using a many-to-many filter. This query looks like this (without the extra criteria):
 			// from <domain-class> obj inner join obj.<field-name> as joinObj where <joined-criteria> and (<filters>)
@@ -440,7 +440,8 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 			// Obtains the instance of the enumeration to pass as argument given the enumeration name passed as parameter.
 			Enum<?> enumValue = filter.getEnum(value);
 
-			// TODO: not tested after changed to findManagedType().
+			// Not tested after changed to findManagedType().
+			//
 			// Add to the other criteria a EQUAL criterion between the related object's ID and the specified value.
 			// predicates.add(cb.equal(root.get(model.getSingularAttribute(filter.getFieldName())), enumValue));
 			// pair = findManagedType(root, model, filter.getFieldName());
@@ -452,7 +453,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 			break;
 
 		case MULTIPLE_CHOICE:
-			// TODO: not yet tested...
+			// Not yet tested...
 
 			// Using a multiple-choice filter. This query looks like this (without the extra criteria):
 			// from <domain-class> obj where obj.<field-name>.id = <value-converted-as-id>
@@ -514,7 +515,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Predicate createPredicate(CriteriaBuilder cb, From path, ManagedType model, Criterion criterion) {
-		// TODO: remove @SupressWarnings and add the correct generic types to all operations.
+		// Remove @SupressWarnings and add the correct generic types to all operations.
 
 		// Obtains the final path. This is done in case navigation is required.
 		Path finalPath = findPath(path, model, criterion.getFieldName());
@@ -555,7 +556,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Path findPath(From root, ManagedType model, String fieldName) {
-		// TODO: remove @SupressWarnings and add the correct generic types to all operations.
+		// Remove @SupressWarnings and add the correct generic types to all operations.
 
 		// Finds the From and the ManagedType from the entity right before the last field.
 		TypeFrom pair = findManagedType(root, model, fieldName);
@@ -615,7 +616,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private TypeFrom findManagedType(From root, ManagedType model, String fieldName) {
-		// TODO: remove @SupressWarnings and add the correct generic types to all operations.
+		// Remove @SupressWarnings and add the correct generic types to all operations.
 
 		TypeFrom pair = new TypeFrom();
 
@@ -651,7 +652,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	 * @version 1.1
 	 */
 	private class TypeFrom {
-		// TODO: remove @SupressWarnings and add the correct generic types to all operations.
+		// Remove @SupressWarnings and add the correct generic types to all operations.
 
 		/** The managed type. */
 		@SuppressWarnings("rawtypes")

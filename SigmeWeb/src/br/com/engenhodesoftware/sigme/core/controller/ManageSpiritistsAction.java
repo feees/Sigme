@@ -159,7 +159,6 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 	protected void initFilters() {
 		logger.log(Level.INFO, "Initializing filter types");
 
-		// FIXME: add filter by attendance!
 		// One can filter spiritists by name or e-mail.
 		addFilter(new LikeFilter("manageSpiritists.filter.byName", "name", getI18nMessage("msgsCore", "manageSpiritists.text.filter.byName")));
 		addFilter(new LikeFilter("manageSpiritists.filter.byEmail", "email", getI18nMessage("msgsCore", "manageSpiritists.text.filter.byEmail")));
