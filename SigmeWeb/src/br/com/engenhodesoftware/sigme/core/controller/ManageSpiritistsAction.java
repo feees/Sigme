@@ -30,7 +30,9 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObj
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the
- * use case "Manage Spiritist". This use case is a CRUD.
+ * use case "Manage Spiritist".
+ * 
+ * This use case is a CRUD and, thus, the controller also uses the mini CRUD framework for EJB3..
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
@@ -104,6 +106,18 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 	@Override
 	protected CrudServiceLocal<Spiritist> getCrudService() {
 		return manageSpiritistsService;
+	}
+
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getFacesRedirect() */
+	@Override
+	public boolean getFacesRedirect() {
+		return true;
+	}
+
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getBundleName() */
+	@Override
+	public String getBundleName() {
+		return "msgsCore";
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#createNewEntity() */
@@ -188,7 +202,9 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 
 	/**
 	 * Analyzes the name that was given to the spiritist and, if the short name field is still empty, suggests a value for
-	 * it based on the given name. This method is intended to be used with AJAX.
+	 * it based on the given name. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public void suggestShortName() {
 		// If the name was filled and the short name is still empty, suggest the first name as short name.
@@ -205,66 +221,25 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 	}
 
 	/**
-	 * Provides the formatted name of the city so it can be displayed in the form. This method is intended to be used with
-	 * AJAX.
-	 * 
-	 * @return The formatted name of the chosen city.
-	 */
-	public String getCityName() {
-		City city = selectedEntity.getAddress().getCity();
-		return (city == null) ? "" : city.toString();
-	}
-
-	/**
-	 * Changes the city of the address of the spiritist. When selected from a dynamic pop-up list, the formatted name of
-	 * the city is provided. This method first finds the City object given the formatted name. This method is intended to
-	 * be used with AJAX.
-	 * 
-	 * @param cityName
-	 *          The formatted name of the city.
-	 */
-	public void setCityName(String cityName) {
-		try {
-			// Separates the name of the city from the acronym of the state.
-			int idx = cityName.lastIndexOf(',');
-			if (idx != -1) {
-				// Retrieve the actual city object from the persistent store.
-				String stateAcronym = cityName.substring(idx + 1).trim();
-				cityName = cityName.substring(0, idx).trim();
-				City city = cityDAO.retrieveByNameAndStateAcronym(cityName, stateAcronym);
-				selectedEntity.getAddress().setCity(city);
-			}
-		}
-		catch (PersistentObjectNotFoundException e) {
-			selectedEntity.getAddress().setCity(null);
-		}
-		catch (MultiplePersistentObjectsFoundException e) {
-			// FIXME: log something!
-		}
-
-		logger.log(Level.INFO, "User selected \"{0}\", setting city = {1}", new Object[] { cityName, selectedEntity.getAddress().getCity() });
-	}
-
-	/**
 	 * Analyzes what has been written so far in the city field and, if not empty, looks for cities that start with the
 	 * given name and returns them in a list, so a dynamic pop-up list can be displayed. This method is intended to be
 	 * used with AJAX.
 	 * 
-	 * @param param
-	 * @return
+	 * @param query What has been written so far in the city field.
+	 * 
+	 * @return The list of City objects whose names match the specified query.
 	 */
-	public List<City> suggestCities(Object event) {
-		if (event != null) {
-			String param = event.toString();
-			if (param.length() > 0) {
-				List<City> suggestions = cityDAO.findByName(param);
-				logger.log(Level.INFO, "Searching for cities beginning with \"{0}\" returned {1} results", new Object[] { param, suggestions.size() });
-				return suggestions;
-			}
+	public List<City> suggestCities(String query) {
+		// Checks if something was indeed typed in the field.
+		if (query.length() > 0) {
+			// Uses the DAO to find the query and returns.
+			List<City> cities = cityDAO.findByName(query);
+			logger.log(Level.INFO, "Searching for cities beginning with \"{0}\" returned {1} results", new Object[] { query, cities.size() });
+			return cities;
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Adds a new and empty telephone to the list of telephones of the spiritist, so its fields can be filled. This method
 	 * is intended to be used with AJAX.
@@ -325,7 +300,9 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 	}
 
 	/**
-	 * Unsets the institution of a given attendance so it can be changed. This method is intended to be used with AJAX.
+	 * Unsets the institution of a given attendance so it can be changed. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public void removeInstitutionFromAttendance() {
 		logger.log(Level.INFO, "Unsetting the institution {0} from the attendance {1}", new Object[] { selectedAttendance.getInstitution(), selectedAttendance });

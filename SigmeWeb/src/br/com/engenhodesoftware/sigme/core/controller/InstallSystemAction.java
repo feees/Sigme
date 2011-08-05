@@ -14,7 +14,8 @@ import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
 
 /**
- * TODO: document this type.
+ * Controller class responsible for mediating the communication between user interface and application service for the
+ * use case "Install System".
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
@@ -65,7 +66,9 @@ public class InstallSystemAction extends JSFAction {
 
 	/**
 	 * Analyzes the name that was given to the administrator and, if the short name field is still empty, suggests a value
-	 * for it based on the given name. This method is intended to be used with AJAX.
+	 * for it based on the given name.
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public void suggestShortName() {
 		// If the name was filled and the short name is still empty, suggest the first name as short name.
@@ -80,7 +83,9 @@ public class InstallSystemAction extends JSFAction {
 	}
 
 	/**
-	 * Checks if both password fields have the same value. This method is intended to be used with AJAX.
+	 * Checks if both password fields have the same value. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public boolean checkPasswords() {
 		if (((repeatPassword != null) && (!repeatPassword.equals(admin.getPassword()))) || ((repeatPassword == null) && (admin.getPassword() != null))) {

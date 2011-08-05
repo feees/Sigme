@@ -53,7 +53,6 @@ public abstract class JSFAction implements Serializable {
 			// If the message is not found, return the key.
 			return key;
 		}
-
 	}
 
 	/**

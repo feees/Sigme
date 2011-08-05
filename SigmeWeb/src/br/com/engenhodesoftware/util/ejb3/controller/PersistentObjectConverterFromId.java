@@ -12,9 +12,15 @@ import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
 
 /**
- * TODO: documentation pending.
+ * A generic JSF converter for any domain class that uses the "CRUD mini-framework", i.e., implements PersistentObject.
+ * This class converts the entity to its (Long) id and vice-versa and it's useful for "select one/many" components like
+ * radio buttons, menus, lists, etc.
+ * 
+ * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
+ * @version 1.1
+ * @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject
  */
 public class PersistentObjectConverterFromId<T extends PersistentObject> implements Converter, Serializable {
 	/** Serialization id. */
@@ -35,10 +41,7 @@ public class PersistentObjectConverterFromId<T extends PersistentObject> impleme
 		persistentClass = dao.getDomainClass();
 	}
 
-	/**
-	 * @see javax.faces.convert.Converter#getAsObject(javax.faces.context.FacesContext, javax.faces.component.UIComponent,
-	 *      java.lang.String)
-	 */
+	/** @see javax.faces.convert.Converter#getAsObject(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.String) */
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		T entity = null;
@@ -62,10 +65,7 @@ public class PersistentObjectConverterFromId<T extends PersistentObject> impleme
 		return entity;
 	}
 
-	/**
-	 * @see javax.faces.convert.Converter#getAsString(javax.faces.context.FacesContext, javax.faces.component.UIComponent,
-	 *      java.lang.Object)
-	 */
+	/** @see javax.faces.convert.Converter#getAsString(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object) */
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		logger.log(Level.FINEST, "Trying to convert an instance of {0}: {1}", new Object[] { persistentClass.getSimpleName(), value });

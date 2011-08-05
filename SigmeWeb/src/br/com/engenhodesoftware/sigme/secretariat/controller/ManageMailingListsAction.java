@@ -27,7 +27,9 @@ import br.com.engenhodesoftware.util.ejb3.controller.CrudAction;
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the
- * use case "Manage MailingLists". This use case is a CRUD.
+ * use case "Manage MailingLists".
+ * 
+ * This use case is a CRUD and, thus, the controller also uses the mini CRUD framework for EJB3..
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
@@ -137,7 +139,9 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 
 	/**
 	 * Adds a new and empty spiritist addressee to the list of addressees of the mailing list, so its fields can be
-	 * filled. This method is intended to be used with AJAX.
+	 * filled. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public void newSpiritistAddressee() {
 		logger.log(Level.INFO, "Adding a new spiritist attendance to the list");
@@ -147,7 +151,9 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 
 	/**
 	 * Adds a new and empty institution addressee to the list of addressees of the mailing list, so its fields can be
-	 * filled. This method is intended to be used with AJAX.
+	 * filled. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public void newInstitutionAddressee() {
 		logger.log(Level.INFO, "Adding a new institution attendance to the list");
@@ -157,6 +163,7 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 
 	/**
 	 * Adds a new and empty regional addressee to the list of addressees of the mailing list, so its fields can be filled.
+	 * 
 	 * This method is intended to be used with AJAX.
 	 */
 	public void newRegionalAddressee() {
@@ -171,6 +178,7 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	 * 
 	 * @param addressee
 	 *          The addressee to test.
+	 *          
 	 * @return <code>true</code> if the addressee is scoped, <code>false</code> otherwise.
 	 */
 	public boolean isScoped(MailingAddressee addressee) {
@@ -179,10 +187,13 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 
 	/**
 	 * Indicates to the web page if an addressee is related to a spiritist, so it knows what form controls need to go on
-	 * the page. This method is intended to be used with AJAX.
+	 * the page. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 * 
 	 * @param addressee
 	 *          The addressee to test.
+	 *          
 	 * @return <code>true</code> if the addressee is spiritist-related, <code>false</code> otherwise.
 	 */
 	public boolean isSpiritistRelated(MailingAddressee addressee) {
@@ -191,10 +202,13 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 
 	/**
 	 * Indicates to the web page if an addressee is related to an institution, so it knows what form controls need to go
-	 * on the page. This method is intended to be used with AJAX.
+	 * on the page. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 * 
 	 * @param addressee
 	 *          The addressee to test.
+	 *          
 	 * @return <code>true</code> if the addressee is institution-related, <code>false</code> otherwise.
 	 */
 	public boolean isInstitutionRelated(MailingAddressee addressee) {
@@ -203,10 +217,13 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 
 	/**
 	 * Indicates to the web page if an addressee is related to a regional, so it knows what form controls need to go on
-	 * the page. This method is intended to be used with AJAX.
+	 * the page. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 * 
 	 * @param addressee
 	 *          The addressee to test.
+	 *          
 	 * @return <code>true</code> if the addressee is regional-related, <code>false</code> otherwise.
 	 */
 	public boolean isRegionalRelated(MailingAddressee addressee) {
@@ -229,6 +246,7 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	 * 
 	 * @param param
 	 *          The AJAX event.
+	 *          
 	 * @return The list of spiritists to be displayed in the drop-down auto-completion field.
 	 */
 	public List<Spiritist> suggestSpiritists(Object event) {
@@ -244,7 +262,9 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	}
 
 	/**
-	 * Unsets the spiritist of a given addressee so it can be changed. This method is intended to be used with AJAX.
+	 * Unsets the spiritist of a given addressee so it can be changed. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public void removeSpiritistFromAddressee() {
 		if (isSpiritistRelated(selectedAddressee)) {
@@ -261,6 +281,7 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	 * 
 	 * @param param
 	 *          The AJAX event.
+	 *          
 	 * @return The list of institutions to be displayed in the drop-down auto-completion field.
 	 */
 	public List<Institution> suggestInstitutions(Object event) {
@@ -276,7 +297,9 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	}
 
 	/**
-	 * Unsets the institution of a given addressee so it can be changed. This method is intended to be used with AJAX.
+	 * Unsets the institution of a given addressee so it can be changed. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public void removeInstitutionFromAddressee() {
 		if (isInstitutionRelated(selectedAddressee)) {

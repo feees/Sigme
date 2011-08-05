@@ -36,8 +36,10 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersi
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
- * Controller class responsible for mediating the communication between user interface and application service for the use case
- * "Manage Institutions". This use case is a CRUD.
+ * Controller class responsible for mediating the communication between user interface and application service for the
+ * use case "Manage Institutions".
+ * 
+ * This use case is a CRUD and, thus, the controller also uses the mini CRUD framework for EJB3..
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
@@ -99,6 +101,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 		return manageInstitutionsService;
 	}
 
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getFacesRedirect() */
 	@Override
 	public boolean getFacesRedirect() {
 		return true;
@@ -195,8 +198,10 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Analyzes the name that was given for the institution and, if the acronym field is still empty, suggests a value for it based
-	 * on the given name. This method is intended to be used with AJAX.
+	 * Analyzes the name that was given for the institution and, if the acronym field is still empty, suggests a value for
+	 * it based on the given name. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public void suggestAcronym() {
 		// If the name was filled and the acronym is still empty, generate one.
@@ -217,14 +222,18 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Analyzes what has been written so far in the city field and, if not empty, looks for cities that start with the given name
-	 * and returns them in a list, so a dynamic pop-up list can be displayed. This method is intended to be used with AJAX.
+	 * Analyzes what has been written so far in the city field and, if not empty, looks for cities that start with the
+	 * given name and returns them in a list, so a dynamic pop-up list can be displayed. This method is intended to be
+	 * used with AJAX.
 	 * 
-	 * @param event
-	 * @return
+	 * @param query What has been written so far in the city field.
+	 * 
+	 * @return The list of City objects whose names match the specified query.
 	 */
 	public List<City> suggestCities(String query) {
+		// Checks if something was indeed typed in the field.
 		if (query.length() > 0) {
+			// Uses the DAO to find the query and returns.
 			List<City> cities = cityDAO.findByName(query);
 			logger.log(Level.INFO, "Searching for cities beginning with \"{0}\" returned {1} results", new Object[] { query, cities.size() });
 			return cities;
@@ -233,24 +242,28 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Handles the event of selection in the institution type menu. This method is intended to be used with AJAX.
+	 * Handles the event of selection in the auto-complete city field. 
 	 * 
-	 * @param event
-	 *          The change event supplied by JSF's select-one-menu component.
-	 */
-	public void handleInstitutionTypeChange(AjaxBehaviorEvent event) {
-		logger.log(Level.INFO, "Handling change event for institution type selection: {0}", event);
-		setRegional();
-	}
-
-	/**
-	 * Handles the event of selection in the auto-complete city field. This method is intended to be used with AJAX.
+	 * This method is intended to be used with AJAX.
 	 * 
 	 * @param event
 	 *          The selection event supplied by PrimeFaces' auto-complete component.
 	 */
 	public void handleCitySelection(SelectEvent event) {
 		logger.log(Level.INFO, "Handling select event for city selection: {0}", event.getObject());
+		setRegional();
+	}
+
+	/**
+	 * Handles the event of selection in the institution type menu. 
+	 * 
+	 * This method is intended to be used with AJAX.
+	 * 
+	 * @param event
+	 *          The change event supplied by JSF's select-one-menu component.
+	 */
+	public void handleInstitutionTypeChange(AjaxBehaviorEvent event) {
+		logger.log(Level.INFO, "Handling change event for institution type selection: {0}", event);
 		setRegional();
 	}
 
@@ -294,7 +307,8 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Creates a new and empty telephone so the telephone fields can be filled. This method is intended to be used with AJAX.
+	 * Creates a new and empty telephone so the telephone fields can be filled. This method is intended to be used with
+	 * AJAX.
 	 */
 	public void newTelephone() {
 		logger.log(Level.INFO, "Creating an empty telephone to be filled");
@@ -303,7 +317,9 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Backs up the selected telephone and proceeds to edit it. This method is intended to be used with AJAX.
+	 * Backs up the selected telephone and proceeds to edit it. 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public void editTelephone() {
 		// Check for null and backs up the selected telephone in order to be able to cancel the changes.
@@ -316,17 +332,20 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Indicates if the user is editing a telephone or not. If not, she is creating a new one. This method is intended to be used
-	 * with AJAX.
+	 * Indicates if the user is editing a telephone or not. If not, she is creating a new one. This method is intended to
+	 * be used with AJAX.
 	 * 
-	 * @return <code>true</code> if the telephone is being edited, <code>false</code> if it's a new telephone being created.
+	 * @return <code>true</code> if the telephone is being edited, <code>false</code> if it's a new telephone being
+	 *         created.
 	 */
 	public boolean isTelephoneEdit() {
 		return (backupTelephone != null);
 	}
 
 	/**
-	 * Adds the telephone to the list (in case of a new telephone). This method is intended to be used with AJAX.
+	 * Adds the telephone to the list (in case of a new telephone). 
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public void saveTelephone() {
 		// If it's an edit, the information has already been changed. No need to do anything.
@@ -342,7 +361,8 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Cancels a telephone edit, undoing eventual changes from the backup information. This method is intended to be used with AJAX.
+	 * Cancels a telephone edit, undoing eventual changes from the backup information. This method is intended to be used
+	 * with AJAX.
 	 */
 	public void cancelTelephone() {
 		// Checks if it's an edit.
@@ -354,7 +374,8 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	}
 
 	/**
-	 * Removes one of the telephones of the list of telephones of the institution. This method is intended to be used with AJAX.
+	 * Removes one of the telephones of the list of telephones of the institution. This method is intended to be used with
+	 * AJAX.
 	 */
 	public void removeTelephone() {
 		logger.log(Level.INFO, "Removing a telephone from the list: {0}", selectedTelephone);

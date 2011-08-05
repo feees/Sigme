@@ -19,7 +19,8 @@ import br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO;
 import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
 
 /**
- * TODO: document this type.
+ * Controller class responsible for mediating the communication between user interface and application service for the
+ * use case "Send Mailing".
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
@@ -87,6 +88,7 @@ public class SendMailingAction extends JSFAction {
 
 	/**
 	 * Setter for "virtual" property selectedRecipient. Instead of setting a property, adds the recipient to the list.
+	 * 
 	 * This method is intended to be used with AJAX.
 	 * 
 	 * @param selectedRecipient
@@ -97,21 +99,12 @@ public class SendMailingAction extends JSFAction {
 		logger.log(Level.INFO, "Adding new recipient (now {1}): \"{0}\".", new Object[] { selectedRecipient.getName(), recipients.size() });
 	}
 
-	/**
-	 * Getter for recipients.
-	 * 
-	 * @return the recipients
-	 */
+	/** Getter for recipients. */
 	public SortedSet<MailingList> getRecipients() {
 		return recipients;
 	}
 
-	/**
-	 * Setter for recipients.
-	 * 
-	 * @param recipients
-	 *          the recipients to set
-	 */
+	/** Setter for recipients. */
 	public void setRecipients(SortedSet<MailingList> recipients) {
 		this.recipients = recipients;
 	}
@@ -137,6 +130,11 @@ public class SendMailingAction extends JSFAction {
 		return null;
 	}
 
+	/**
+	 * Removes the selected recipient from the list of recipients. 
+	 * 
+	 * This method is intended to be used with AJAX.
+	 */
 	public void removeRecipient() {
 		logger.log(Level.INFO, "Removing a recipient from the list: {0}", selectedRecipient);
 		recipients.remove(selectedRecipient);
@@ -147,21 +145,12 @@ public class SendMailingAction extends JSFAction {
 		}
 	}
 
-	/**
-	 * Getter for subject.
-	 * 
-	 * @return the subject
-	 */
+	/** Getter for subject. */
 	public String getSubject() {
 		return subject;
 	}
 
-	/**
-	 * Setter for subject.
-	 * 
-	 * @param subject
-	 *          the subject to set
-	 */
+	/** Setter for subject. */
 	public void setSubject(String subject) {
 		this.subject = subject;
 
@@ -171,25 +160,21 @@ public class SendMailingAction extends JSFAction {
 		}
 	}
 
-	/**
-	 * Getter for body.
-	 * 
-	 * @return the body
-	 */
+	/** Getter for body. */
 	public String getBody() {
 		return body;
 	}
 
-	/**
-	 * Setter for body.
-	 * 
-	 * @param body
-	 *          the body to set
-	 */
+	/** Setter for body. */
 	public void setBody(String body) {
 		this.body = body;
 	}
 
+	/**
+	 * Formats the body of the message in HTML.
+	 * 
+	 * @return A string with the HTML-formatted body.
+	 */
 	public String getFormattedBody() {
 		// TODO: when we change to HTML WYSIWYG editing, this might have to adapt.
 		return (body == null) ? "" : body.replace("\n", "<br />");

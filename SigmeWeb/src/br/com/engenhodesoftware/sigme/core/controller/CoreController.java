@@ -21,7 +21,9 @@ import br.com.engenhodesoftware.util.people.persistence.CityDAO;
 import br.com.engenhodesoftware.util.people.persistence.ContactTypeDAO;
 
 /**
- * TODO: documentation pending.
+ * Application-scoped bean that centralizes controller information for the core package. This bean differs from the
+ * singleton EJB CoreInformation by containing data relative to the presentation layer (controller and view, i.e., the
+ * web).
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
@@ -90,7 +92,7 @@ public class CoreController implements Serializable {
 	/** Getter for cityConverter. */
 	public Converter getCityConverter() {
 		// Lazily create the converter.
-		if (cityConverter == null) 
+		if (cityConverter == null)
 			cityConverter = new PersistentObjectConverterFromId<City>(cityDAO);
 		return cityConverter;
 	}

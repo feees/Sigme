@@ -32,10 +32,10 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
  * @param <T>
  *          Entity manipulated by the CRUD use case.
  * 
- * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal
- * @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
+ * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal
+ * @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject
  */
 public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	/** Serialization id. */
@@ -179,6 +179,7 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 			count();
 			lazyEntities = new LazyDataModel<T>() {
 				private static final long serialVersionUID = -7530065697374570235L;
+
 				@Override
 				public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
 					firstEntityIndex = first;
@@ -202,7 +203,7 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	public T getSelectedEntity() {
 		// Forces authorization check at the CRUD service.
 		getCrudService();
-		
+
 		return selectedEntity;
 	}
 
@@ -265,9 +266,9 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	}
 
 	/**
-	 * TODO: documentation.
+	 * Indicates if the JSF framework should use REDIRECT after processing the main CRUD functionalities.
 	 * 
-	 * @return
+	 * @return <code>true</code>, if REDIRECT should be used, <code>false</code> otherwise.
 	 */
 	public boolean getFacesRedirect() {
 		return false;
@@ -279,7 +280,7 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	 * which is: <code>com.yourdomain.yoursystem.package-name.controller.ManageObjectAction</code> which would lead to a
 	 * bundle variable name of <code>package-name</code>.
 	 * 
-	 * @return The view path string.
+	 * @return The name of the resource bundle variable.
 	 */
 	public String getBundleName() {
 		// If this method is not overridden, tries to guess the bundle name from the class name.
@@ -312,7 +313,7 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	 * <code>com.yourdomain.yoursystem.package-name.controller.ManageObjectAction</code> which would lead to a prefix of
 	 * <code>manageObject</code>.
 	 * 
-	 * @return The view path string.
+	 * @return The prefix for resource bundle keys.
 	 */
 	public String getBundlePrefix() {
 		// If the bundle prefix is not specified by the subclass, tries to guess it from the class name.
@@ -665,7 +666,7 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	 */
 	public String list() {
 		logger.log(Level.INFO, "Listing entities...");
-		
+
 		// Clears the selection.
 		selectedEntity = null;
 

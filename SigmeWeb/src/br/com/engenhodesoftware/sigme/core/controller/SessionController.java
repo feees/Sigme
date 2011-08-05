@@ -28,12 +28,6 @@ import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
-/**
- * TODO: document this type.
- *
- * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
- * @version 1.0
- */
 @Named
 @SessionScoped
 public class SessionController extends JSFAction {
@@ -113,24 +107,27 @@ public class SessionController extends JSFAction {
 	public Date getNow() {
 		return new Date(System.currentTimeMillis());
 	}
-	
+
 	/**
-	 * TODO: document this method.
-	 * @return
+	 * Provides the expiration date/time for the user session. This makes it possible to warn the user when his session
+	 * will expire.
+	 * 
+	 * @return A Date object representing the date/time of the user's session expiration.
 	 */
 	public Date getSessionExpirationTime() {
 		Date expTime = null;
-		
+
 		// Attempts to retrieve this information from the external context.
-		HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 		if (session != null) {
 			long expTimeMillis = session.getLastAccessedTime() + session.getMaxInactiveInterval() * 1000;
 			expTime = new Date(expTimeMillis);
 		}
-		
+
 		// If it could not be retrieved from the external context, use default of 30 minutes.
-		if (expTime == null) expTime = new Date(System.currentTimeMillis() + 30 * 60000);
-		
+		if (expTime == null)
+			expTime = new Date(System.currentTimeMillis() + 30 * 60000);
+
 		return expTime;
 	}
 
@@ -156,9 +153,9 @@ public class SessionController extends JSFAction {
 		String iconPath = "/resources/templates/" + coreInformation.getDecorator() + "/icons/";
 
 		// The expression factory creates expressions to the methods in our action classes.
-		//FacesContext facesCtx = FacesContext.getCurrentInstance();
-		//ELContext elCtx = facesCtx.getELContext();
-		//ExpressionFactory expFact = facesCtx.getApplication().getExpressionFactory();
+		// FacesContext facesCtx = FacesContext.getCurrentInstance();
+		// ELContext elCtx = facesCtx.getELContext();
+		// ExpressionFactory expFact = facesCtx.getApplication().getExpressionFactory();
 
 		// Create the menu model.
 		menuModel = new DefaultMenuModel();
@@ -267,6 +264,7 @@ public class SessionController extends JSFAction {
 		return "/login.xhtml?faces-redirect=true";
 	}
 
+	// TODO: now that the system is going to be shared with others, how about identifying the 1st user and providing auto-login for her?
 	public String autoLogin() {
 		email = "vitorsouza@gmail.com";
 		password = "123";
