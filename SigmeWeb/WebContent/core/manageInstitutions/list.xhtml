@@ -52,7 +52,7 @@
 
 				<!-- The list of entities. -->
 				<h:panelGroup id="listing" styleClass="listing">
-					<p:dataTable 
+					<p:dataTable
 						value="#{manageInstitutionsAction.lazyEntities}" 
 						var="entity" 
 						rows="#{manageInstitutionsAction.maxEntitiesPerPage}" 
@@ -63,18 +63,16 @@
 						selectionMode="single" 
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
 						paginatorPosition="bottom" 
+						loadingMessage="#{msgs['text.ajax.loading']}" 
 						emptyMessage="#{manageInstitutionsAction.filtering ? msgsCore['manageInstitutions.text.noEntitiesFiltered'] : msgsCore['manageInstitutions.text.noEntities']}">
 
-						<p:column>
-							<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.name']}" /></f:facet>
+						<p:column headerText="#{msgsCore['manageInstitutions.form.name']}">
 							<h:outputText value="#{entity.name}" />
 						</p:column>
-						<p:column>
-							<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.acronym']}" /></f:facet>
+						<p:column headerText="#{msgsCore['manageInstitutions.form.acronym']}">
 							<h:outputText value="#{entity.acronym}" />
 						</p:column>
-						<p:column>
-							<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.type']}" /></f:facet>
+						<p:column headerText="#{msgsCore['manageInstitutions.form.type']}">
 							<h:outputText value="#{entity.type}" />
 						</p:column>
 						
@@ -95,7 +93,7 @@
 
 			<!-- The trash panel: shows entities that have been selected for deletion. -->
 			<h:form id="trashForm">
-				<p:panel id="trashPanel" widgetVar="trashPanel" header="#{msgsCore['manageInstitutions.text.trashHeader']}" toggleable="true" rendered="#{not empty manageInstitutionsAction.trashCan}">
+				<p:panel id="trashPanel" styleClass="trashPanel" widgetVar="trashPanel" header="#{msgsCore['manageInstitutions.text.trashHeader']}" toggleable="true" rendered="#{not empty manageInstitutionsAction.trashCan}">
 					<p:dataList value="#{manageInstitutionsAction.trashCan}" var="entity" type="unordered">
 						#{entity.name}
 					</p:dataList>

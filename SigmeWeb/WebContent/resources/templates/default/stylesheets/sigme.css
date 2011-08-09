@@ -36,6 +36,7 @@
 }
 
 
+
 /*** SIGME FORMS ***/
 
 div.sigmeForm {
@@ -152,4 +153,12 @@ div.crud div.crudButtons {
 }
 div.crud div.crudButtons button {
 	margin-left: 5px;
+}
+
+div.crud div.trashPanel ul {
+	border: none;
+	list-style-image: url(../icons/bullet-red.png);
+	display: block;
+	margin: 0 0 3px 15px;
+	padding: 0;
 }

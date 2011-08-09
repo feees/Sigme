@@ -71,26 +71,8 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	/** Output: the list of telephone numbers. */
 	private List<Telephone> telephones;
 
-	/** Input: the telephone that is selected in the data table. */
-	private Telephone selectedTelephone;
-
-	/** A backup telephone in case the user cancels the edition. */
-	private Telephone backupTelephone;
-
-	/** Getter for telephones. */
-	public List<Telephone> getTelephones() {
-		return telephones;
-	}
-
-	/** Getter for selectedTelephone. */
-	public Telephone getSelectedTelephone() {
-		return selectedTelephone;
-	}
-
-	/** Setter for selectedTelephone. */
-	public void setSelectedTelephone(Telephone selectedTelephone) {
-		this.selectedTelephone = selectedTelephone;
-	}
+	/** Input: a telephone being added or edited. */
+	private Telephone telephone;
 
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getCrudService() */
 	@Override
@@ -306,79 +288,39 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 		}
 	}
 
+	/** Getter for telephones. */
+	public List<Telephone> getTelephones() {
+		return telephones;
+	}
+
+	/** Setter for telephones. */
+	public void setTelephones(List<Telephone> telephones) {
+		this.telephones = telephones;
+	}
+
+	/** Getter for telephone. */
+	public Telephone getTelephone() {
+		return telephone;
+	}
+
+	/** Setter for telephone. */
+	public void setTelephone(Telephone telephone) {
+		logger.log(Level.FINEST, "Selected telephone: {0}", telephone);
+		this.telephone = telephone;
+	}
+
 	/**
-	 * Creates a new and empty telephone so the telephone fields can be filled. This method is intended to be used with
-	 * AJAX.
+	 * Creates a new and empty telephone so the telephone fields can be filled. 
+	 * 
+	 * This method is intended to be used with AJAX, through the PrimeFaces Collector component.
 	 */
 	public void newTelephone() {
-		logger.log(Level.INFO, "Creating an empty telephone to be filled");
-		selectedTelephone = new Telephone();
-		backupTelephone = null;
+		logger.log(Level.INFO, "Creating an empty telephone to be added.");
+		telephone = new Telephone();
 	}
-
-	/**
-	 * Backs up the selected telephone and proceeds to edit it. 
-	 * 
-	 * This method is intended to be used with AJAX.
-	 */
-	public void editTelephone() {
-		// Check for null and backs up the selected telephone in order to be able to cancel the changes.
-		if (selectedTelephone != null) {
-			logger.log(Level.INFO, "Backing up the selected telephone for an edit: {0}", selectedTelephone);
-			backupTelephone = new Telephone();
-			backupTelephone.setNumber(selectedTelephone.getNumber());
-			backupTelephone.setType(selectedTelephone.getType());
-		}
-	}
-
-	/**
-	 * Indicates if the user is editing a telephone or not. If not, she is creating a new one. This method is intended to
-	 * be used with AJAX.
-	 * 
-	 * @return <code>true</code> if the telephone is being edited, <code>false</code> if it's a new telephone being
-	 *         created.
-	 */
-	public boolean isTelephoneEdit() {
-		return (backupTelephone != null);
-	}
-
-	/**
-	 * Adds the telephone to the list (in case of a new telephone). 
-	 * 
-	 * This method is intended to be used with AJAX.
-	 */
-	public void saveTelephone() {
-		// If it's an edit, the information has already been changed. No need to do anything.
-		if (isTelephoneEdit()) {
-			logger.log(Level.INFO, "Telephone is already on the list. Just saving: {0}", selectedTelephone);
-		}
-
-		// If not, it's a new telephone. Add it to the list of telephones.
-		else {
-			logger.log(Level.INFO, "Adding telephone to list: {0}", selectedTelephone);
-			telephones.add(selectedTelephone);
-		}
-	}
-
-	/**
-	 * Cancels a telephone edit, undoing eventual changes from the backup information. This method is intended to be used
-	 * with AJAX.
-	 */
-	public void cancelTelephone() {
-		// Checks if it's an edit.
-		if (isTelephoneEdit()) {
-			logger.log(Level.INFO, "Telephone may have been changed: {0}. Undoing changes to: {1}", new Object[] { selectedTelephone, backupTelephone });
-			selectedTelephone.setNumber(backupTelephone.getNumber());
-			selectedTelephone.setType(backupTelephone.getType());
-		}
-	}
-
-	/**
-	 * Removes one of the telephones of the list of telephones of the institution. This method is intended to be used with
-	 * AJAX.
-	 */
-	public void removeTelephone() {
-		logger.log(Level.INFO, "Removing a telephone from the list: {0}", selectedTelephone);
-		telephones.remove(selectedTelephone);
+	
+	public void resetTelephone() {
+		logger.log(Level.INFO, "Resetting the telephone field.");
+		telephone = null;
 	}
 }

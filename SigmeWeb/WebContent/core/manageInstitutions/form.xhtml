@@ -3,7 +3,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-								xmlns:p="http://primefaces.prime.com.tr/ui"
+                xmlns:p="http://primefaces.prime.com.tr/ui"
                 template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
 
 	<ui:define name="title">
@@ -139,21 +139,31 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield-novalidation.xhtml">
 							<ui:param name="fieldName" value="form:telephones" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.telephones']}" /></ui:define>
-							<p:dataTable id="telephones" value="#{manageInstitutionsAction.telephones}" var="telephone" selection="#{manageInstitutionsAction.selectedTelephone}" selectionMode="single" loadingMessage="#{msgs['text.ajax.loading']}" emptyMessage="#{msgsCore['manageInstitutions.text.noTelephones']}" update="telephoneButtons">
-								<p:column width="200">
-									<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.number']}" /></f:facet>
+							<p:dataTable 
+									id="telephones"
+									value="#{manageInstitutionsAction.telephones}" 
+									var="telephone" 
+									selection="#{manageInstitutionsAction.telephone}" 
+									selectionMode="single"
+									loadingMessage="#{msgs['text.ajax.loading']}" 
+									emptyMessage="#{msgsCore['manageInstitutions.text.noTelephones']}">
+									
+								<p:column headerText="#{msgsCore['manageInstitutions.form.telephone.number']}">
 									<h:outputText value="#{telephone.number}" />
 								</p:column>
-								<p:column width="100">
-									<f:facet name="header"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.type']}" /></f:facet>
+								<p:column headerText="#{msgsCore['manageInstitutions.form.telephone.type']}">
 									<h:outputText value="#{telephone.type}" />
 								</p:column>
+								
+								<p:ajax event="rowSelect" update="form:telephoneButtons" />
 							</p:dataTable>
 							<h:panelGroup id="telephoneButtons">
 								<div class="sigmeFormInternalButton">
-									<p:commandButton action="#{manageInstitutionsAction.newTelephone}" onsuccess="newTelephoneDialog.show()" image="buttonAdd" title="#{msgsCore['manageInstitutions.button.anotherTelephone']}" disabled="#{manageInstitutionsAction.readOnly}" update="telephoneForm" />
-									<p:commandButton action="#{manageInstitutionsAction.editTelephone}" onsuccess="newTelephoneDialog.show()" image="buttonEdit" title="#{msgsCore['manageInstitutions.button.editTelephone']}" disabled="#{manageInstitutionsAction.readOnly or (manageInstitutionsAction.selectedTelephone == null)}" update="telephoneForm" />
-									<p:commandButton action="#{manageInstitutionsAction.removeTelephone}" image="buttonRemove" title="#{msgsCore['manageInstitutions.button.removeTelephone']}" disabled="#{manageInstitutionsAction.readOnly or (manageInstitutionsAction.selectedTelephone == null)}" update="telephonesField" />
+									<p:commandButton action="#{manageInstitutionsAction.newTelephone}" onsuccess="telephoneDialog.show()" image="buttonAdd" title="#{msgsCore['manageInstitutions.button.anotherTelephone']}" disabled="#{manageInstitutionsAction.readOnly}" update=":telephoneForm" />
+									<p:commandButton onsuccess="telephoneDialog.show()" image="buttonEdit" title="#{msgsCore['manageInstitutions.button.editTelephone']}" disabled="#{manageInstitutionsAction.readOnly or (manageInstitutionsAction.telephone == null)}" update=":telephoneForm" />
+									<p:commandButton action="#{manageInstitutionsAction.resetTelephone}" image="buttonRemove" title="#{msgsCore['manageInstitutions.button.removeTelephone']}" disabled="#{manageInstitutionsAction.readOnly or (manageInstitutionsAction.telephone == null)}" process="@this" update="telephonesField">
+										<p:collector value="#{manageInstitutionsAction.telephone}" removeFrom="#{manageInstitutionsAction.telephones}" />
+									</p:commandButton>
 								</div>
 							</h:panelGroup>
 						</ui:decorate>
@@ -172,33 +182,33 @@
 			</ui:decorate>
 
 			<!-- Dialog with the new telephone form. -->
-			<p:dialog header="#{msgsCore['manageInstitutions.text.newTelephone']}" widgetVar="newTelephoneDialog" modal="true" width="580" position="340,500" showEffect="fade" hideEffect="fade">
+			<p:dialog header="#{msgsCore['manageInstitutions.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="580" position="40,-300" showEffect="fade" hideEffect="fade">
 				<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 					<h:form id="telephoneForm">
-						<h:panelGroup id="numberField">
+						<h:panelGroup id="telephoneNumberField">
 							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
-								<ui:param name="fieldName" value="telephoneForm:number" />
+								<ui:param name="fieldName" value="telephoneForm:telephoneNumber" />
 								<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.number']}" /></ui:define>
-								<p:inputMask id="number" value="#{manageInstitutionsAction.selectedTelephone.number}" mask="(99) 9999-9999" size="20" required="true">
-									<p:ajax event="blur" update="numberField" />
+								<p:inputMask id="telephoneNumber" value="#{manageInstitutionsAction.telephone.number}" mask="(99) 9999-9999" size="20" required="true">
+									<p:ajax event="blur" update="telephoneNumberField" />
 								</p:inputMask>
 							</ui:decorate>
 						</h:panelGroup>
-						<h:panelGroup id="typeField">
+						<h:panelGroup id="telephoneTypeField">
 							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
-								<ui:param name="fieldName" value="telephoneForm:type" />
+								<ui:param name="fieldName" value="telephoneForm:telephoneType" />
 								<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.type']}" /></ui:define>
-								<h:selectOneMenu id="type" value="#{manageInstitutionsAction.selectedTelephone.type}" converter="#{coreController.contactTypeConverter}" required="true" disabled="#{manageInstitutionsAction.readOnly}">
+								<h:selectOneMenu id="telephoneType" value="#{manageInstitutionsAction.telephone.type}" converter="#{coreController.contactTypeConverter}" required="true" disabled="#{manageInstitutionsAction.readOnly}">
 									<f:selectItem itemLabel="#{msgsCore['manageInstitutions.form.telephone.type.blankOption']}" itemValue="#{null}" />
 									<f:selectItems value="#{coreController.contactTypes}" />
-									<p:ajax update="typeField" />
+									<p:ajax update="telephoneTypeField" />
 								</h:selectOneMenu>
 							</ui:decorate>
 						</h:panelGroup>
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-							<p:commandButton action="#{manageInstitutionsAction.cancelTelephone}" onclick="newTelephoneDialog.close()" value="#{msgsCore['manageInstitutions.button.cancel']}" image="buttonCancel" />
-							<p:commandButton action="#{manageInstitutionsAction.saveTelephone}" onclick="newTelephoneDialog.close()" value="#{msgsCore['manageInstitutions.button.add']}" image="buttonAdd" update="telephoneForm telephonesField" rendered="#{not manageInstitutionsAction.telephoneEdit}" />
-							<p:commandButton action="#{manageInstitutionsAction.saveTelephone}" onclick="newTelephoneDialog.close()" value="#{msgsCore['manageInstitutions.button.save']}" image="buttonOk" update="telephoneForm telephonesField" rendered="#{manageInstitutionsAction.telephoneEdit}" />
+							<p:commandButton action="#{manageInstitutionsAction.resetTelephone}" onclick="telephoneDialog.close()" value="#{msgsCore['manageInstitutions.button.save']}" image="buttonOk" update=":telephonesField">
+								<p:collector value="#{manageInstitutionsAction.telephone}" addTo="#{manageInstitutionsAction.telephones}" />
+							</p:commandButton>
 						</ui:decorate>
 					</h:form>
 				</ui:decorate>

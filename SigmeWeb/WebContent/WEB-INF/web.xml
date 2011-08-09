@@ -53,6 +53,10 @@
 		<exception-type>javax.ejb.EJBException</exception-type>
 		<location>/error-other.faces</location>
 	</error-page>
+	<error-page>
+		<exception-type>javax.faces.FacesException</exception-type>
+		<location>/error-other.faces</location>
+	</error-page>
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<realm-name>sigme-realm</realm-name>
