@@ -206,7 +206,8 @@
 							</ui:decorate>
 						</h:panelGroup>
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-							<p:commandButton action="#{manageInstitutionsAction.resetTelephone}" onclick="telephoneDialog.close()" value="#{msgsCore['manageInstitutions.button.save']}" image="buttonOk" update=":telephonesField">
+							<p:commandButton action="#{manageInstitutionsAction.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgsCore['manageInstitutions.button.cancel']}" image="buttonCancel" />
+							<p:commandButton action="#{manageInstitutionsAction.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgsCore['manageInstitutions.button.save']}" image="buttonOk" process="@form" update=":form:telephonesField">
 								<p:collector value="#{manageInstitutionsAction.telephone}" addTo="#{manageInstitutionsAction.telephones}" />
 							</p:commandButton>
 						</ui:decorate>
