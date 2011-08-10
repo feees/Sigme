@@ -226,8 +226,8 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	/**
 	 * Informs to other methods what is the view path where the web pages are to be located. This method may be overridden
 	 * by subclasses if they don't follow the standard naming convention for Crud Actions, which is:
-	 * <code>com.yourdomain.yoursystem.package-name.controller.ManageObjectAction</code> which would lead to a view path
-	 * of <code>/package-name/manageObject/</code>.
+	 * <code>com.yourdomain.yoursystem.package.controller.ManageObjectAction</code> which would lead to a view path
+	 * of <code>/package/manageObject/</code>.
 	 * 
 	 * @return The view path string.
 	 */
@@ -271,14 +271,14 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	 * @return <code>true</code>, if REDIRECT should be used, <code>false</code> otherwise.
 	 */
 	public boolean getFacesRedirect() {
-		return false;
+		return true;
 	}
 
 	/**
 	 * Informs to other methods what is the name of the variable that represents the resource bundle with i18n messages.
 	 * This method may be overridden by subclasses if they don't follow the standard naming convention for Crud Actions,
-	 * which is: <code>com.yourdomain.yoursystem.package-name.controller.ManageObjectAction</code> which would lead to a
-	 * bundle variable name of <code>package-name</code>.
+	 * which is: <code>com.yourdomain.yoursystem.package.controller.ManageObjectAction</code> which would lead to a
+	 * bundle variable name of <code>msgsPackage</code>.
 	 * 
 	 * @return The name of the resource bundle variable.
 	 */
@@ -297,10 +297,12 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 				idx = pkg.lastIndexOf('.');
 				if (idx != -1)
 					pkg = pkg.substring(idx + 1);
-				pkg = "/" + pkg;
 			}
 
-			// Builds the view path with the name of the package and class.
+			// Adds the "msgs" prefix and capitalizes the first letter.
+			if (pkg.length() > 1) pkg = "msgs" + Character.toUpperCase(pkg.charAt(0)) + pkg.substring(1);
+
+			// The bundle name is the result of the manipulation of the class' package.
 			bundleName = pkg;
 			logger.log(Level.INFO, "Bundle name not provided by subclass, thus guessing from naming convention: {0}", bundleName);
 		}
@@ -768,12 +770,12 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 			if (selectedEntity.getId() == null) {
 				getCrudService().validateCreate(selectedEntity);
 				getCrudService().create(selectedEntity);
-				addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".info.createSucceeded");
+				addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.createSucceeded");
 			}
 			else {
 				getCrudService().validateUpdate(selectedEntity);
 				getCrudService().update(selectedEntity);
-				addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".info.updateSucceeded");
+				addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.updateSucceeded");
 			}
 		}
 		catch (CrudException crudException) {
@@ -824,7 +826,7 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 		// Writes the status message (only if at least one entity was deleted successfully). Empties it afterwards.
 		trashCan.removeAll(notDeleted);
 		if (!trashCan.isEmpty()) {
-			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".info.deleteSucceeded", listTrash());
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.deleteSucceeded", listTrash());
 			trashCan.clear();
 		}
 

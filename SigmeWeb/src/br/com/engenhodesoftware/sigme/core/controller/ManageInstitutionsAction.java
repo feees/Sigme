@@ -83,18 +83,6 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 		return manageInstitutionsService;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getFacesRedirect() */
-	@Override
-	public boolean getFacesRedirect() {
-		return true;
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getBundleName() */
-	@Override
-	public String getBundleName() {
-		return "msgsCore";
-	}
-
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#createNewEntity() */
 	@Override
 	protected Institution createNewEntity() {
