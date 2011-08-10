@@ -13,6 +13,7 @@
 		<div class="field">
 			<p:message for="#{fieldName}" rendered="#{fieldName != null}" />
 			<ui:insert />
+			<p:tooltip for="#{fieldName}" value="#{tooltip}" rendered="#{tooltip != null}" showEvent="focus" hideEvent="blur" />
 		</div>
 		<div class="clear"></div>
 	</div>
