@@ -172,10 +172,13 @@
 					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
 						<h:panelGroup rendered="#{! manageInstitutionsAction.readOnly}">
 							<p:commandButton action="#{manageInstitutionsAction.list}" value="#{msgsCore['manageInstitutions.button.cancel']}" immediate="true" image="buttonCancel" />
-							<p:commandButton action="#{manageInstitutionsAction.save}" value="#{msgsCore['manageInstitutions.button.save']}" image="buttonOk" update="form" />
+							<p:commandButton action="#{manageInstitutionsAction.save}" value="#{msgsCore['manageInstitutions.button.save']}" image="buttonOk" />
+							<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.backToList']}" action="#{manageInstitutionsAction.list}" immediate="true" />
+							<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.save']}" action="#{manageInstitutionsAction.save}" />
 						</h:panelGroup>
 						<h:panelGroup rendered="#{manageInstitutionsAction.readOnly}">
 							<p:commandButton action="#{manageInstitutionsAction.list}" value="#{msgsCore['manageInstitutions.button.back']}" immediate="true" image="buttonBack" />
+							<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.backToList']}" action="#{manageInstitutionsAction.list}" immediate="true" />
 						</h:panelGroup>
 					</ui:decorate>
 				</h:form>

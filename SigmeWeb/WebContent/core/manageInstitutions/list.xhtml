@@ -26,10 +26,10 @@
 						<p:selectOneMenu id="filterSelect" required="false" value="#{manageInstitutionsAction.filterParam}" rendered="#{manageInstitutionsAction.filter.options != null}">
 							<f:selectItems value="#{manageInstitutionsAction.filter.reversedOptionsLabels}" />
 						</p:selectOneMenu>
-						<h:commandLink action="#{manageInstitutionsAction.filter}">
+						<p:commandLink action="#{manageInstitutionsAction.filter}" process="@form" update=":listingForm :buttonsForm">
 							<h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/button-find.png" title="#{msgsCore['manageInstitutions.button.filter']}" />
-							<f:ajax execute="@form" render=":listingForm :buttonsForm" />
-						</h:commandLink>
+						</p:commandLink>
+						<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.filterFocus']}" handler="if (findObjectById('filterForm:filterText') != null) findObjectById('filterForm:filterText').focus(); else findObjectById('filterForm:filterSelect').focus();" />
 					</div>
 				</h:panelGroup>
 			</h:form>
@@ -43,16 +43,17 @@
 							<f:param value="#{manageInstitutionsAction.filter.label}" />
 							<f:param value="#{manageInstitutionsAction.filterLabel}" />
 						</h:outputFormat>
-						<h:commandLink action="#{manageInstitutionsAction.cancelFilter}">
+						<p:commandLink action="#{manageInstitutionsAction.cancelFilter}" process="@form" update=":listingForm :buttonsForm">
 							<h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/button-close.png" title="#{msgsCore['manageInstitutions.button.cancelFilter']}" />
-							<f:ajax execute="@form" render=":listingForm :buttonsForm" />
-						</h:commandLink>
+						</p:commandLink>
+						<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.clearFilter']}" action="#{manageInstitutionsAction.cancelFilter}" process="@form" update=":listingForm :buttonsForm" />
 					</div>
 				</h:panelGroup>
 
 				<!-- The list of entities. -->
 				<h:panelGroup id="listing" styleClass="listing">
 					<p:dataTable
+						widgetVar="listingTable"
 						value="#{manageInstitutionsAction.lazyEntities}" 
 						var="entity" 
 						rows="#{manageInstitutionsAction.maxEntitiesPerPage}" 
@@ -78,6 +79,10 @@
 						
 						<p:ajax event="rowSelect" update=":buttonsForm" />
 					</p:dataTable>
+					<p:hotkey bind="ctrl+left" handler="goToFirstPage(listingTable);" />
+					<p:hotkey bind="left" handler="goToPreviousPage(listingTable);" />
+					<p:hotkey bind="right" handler="goToNextPage(listingTable);" />
+					<p:hotkey bind="ctrl+right" handler="goToLastPage(listingTable);" />
 				</h:panelGroup>
 			</h:form>
 
@@ -85,21 +90,27 @@
 			<h:form id="buttonsForm">
 				<div class="crudButtons">
 					<p:commandButton action="#{manageInstitutionsAction.create}" value="#{msgsCore['manageInstitutions.button.create']}" image="buttonNew" />
-					<p:commandButton action="#{manageInstitutionsAction.retrieve()}" value="#{msgsCore['manageInstitutions.button.retrieve']}" image="buttonView" disabled="#{manageInstitutionsAction.selectedEntity == null}" />
-					<p:commandButton action="#{manageInstitutionsAction.update()}" value="#{msgsCore['manageInstitutions.button.update']}" image="buttonEdit" disabled="#{manageInstitutionsAction.selectedEntity == null}" />
-					<p:commandButton action="#{manageInstitutionsAction.trash()}" value="#{msgsCore['manageInstitutions.button.delete']}" image="buttonTrash" disabled="#{manageInstitutionsAction.selectedEntity == null}" update="trashForm" />
+					<p:commandButton action="#{manageInstitutionsAction.retrieve}" value="#{msgsCore['manageInstitutions.button.retrieve']}" image="buttonView" disabled="#{manageInstitutionsAction.selectedEntity == null}" />
+					<p:commandButton action="#{manageInstitutionsAction.update}" value="#{msgsCore['manageInstitutions.button.update']}" image="buttonEdit" disabled="#{manageInstitutionsAction.selectedEntity == null}" />
+					<p:commandButton action="#{manageInstitutionsAction.trash}" value="#{msgsCore['manageInstitutions.button.delete']}" image="buttonTrash" disabled="#{manageInstitutionsAction.selectedEntity == null}" process="@this" update="trashForm" />
+					<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.create']}" action="#{manageInstitutionsAction.create}" />
+					<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.retrieve']}" action="#{manageInstitutionsAction.retrieve}" rendered="#{manageInstitutionsAction.selectedEntity != null}" />
+					<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.update']}" action="#{manageInstitutionsAction.update}" rendered="#{manageInstitutionsAction.selectedEntity != null}" />
+					<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.delete']}" action="#{manageInstitutionsAction.trash}" rendered="#{manageInstitutionsAction.selectedEntity != null}" process="@this" update="trashForm" />
 				</div>
 			</h:form>
 
 			<!-- The trash panel: shows entities that have been selected for deletion. -->
 			<h:form id="trashForm">
-				<p:panel id="trashPanel" styleClass="trashPanel" widgetVar="trashPanel" header="#{msgsCore['manageInstitutions.text.trashHeader']}" toggleable="true" rendered="#{not empty manageInstitutionsAction.trashCan}">
+				<p:panel id="trashPanel" styleClass="trashPanel" header="#{msgsCore['manageInstitutions.text.trashHeader']}" toggleable="true" rendered="#{not empty manageInstitutionsAction.trashCan}">
 					<p:dataList value="#{manageInstitutionsAction.trashCan}" var="entity" type="unordered">
 						#{entity.name}
 					</p:dataList>
 					<div class="sigmeFormInternalButton">
-						<p:commandButton action="#{manageInstitutionsAction.cancelDeletion}" value="#{msgsCore['manageInstitutions.button.cancelDeletion']}" image="buttonCancel" onclick="trashPanel.close()" />
+						<p:commandButton action="#{manageInstitutionsAction.cancelDeletion}" value="#{msgsCore['manageInstitutions.button.cancelDeletion']}" image="buttonCancel" update="trashForm buttonsForm listingForm" />
 						<p:commandButton action="#{manageInstitutionsAction.delete}" value="#{msgsCore['manageInstitutions.button.confirmDeletion']}" image="buttonOk" />
+						<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.cancelDeletion']}" action="#{manageInstitutionsAction.cancelDeletion}" update="trashForm buttonsForm listingForm" />
+						<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.confirmDeletion']}" action="#{manageInstitutionsAction.delete}" />
 					</div>
 				</p:panel>
 			</h:form>

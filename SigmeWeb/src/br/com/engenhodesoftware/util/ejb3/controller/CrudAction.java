@@ -568,23 +568,20 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 		retrieveEntities();
 	}
 
-	/** Shortcut to trash(null). */
-	public void trash() {
-		trash(null);
-	}
-
 	/**
 	 * Moves the selected entity to the trash can for possible future deletion.
 	 * 
 	 * This method is intended to be used with AJAX.
 	 */
-	public void trash(Long id) {
-		// Retrieves the existing entity that was selected, if not already done by the JSF component.
-		if (selectedEntity == null)
-			selectedEntity = getCrudService().retrieve(id);
+	public void trash() {
+		// Proceed only if there is a selected entity.
+		if (selectedEntity == null) {
+			logger.log(Level.WARNING, "Method trash() called, but selectedEntity is null!");
+			return;
+		}
 
 		// Adds the selected entity to the trash can so the user can confirm the deletion.
-		logger.log(Level.INFO, "Adding {0} (id {1}) to the trash can for future deletion.", new Object[] { selectedEntity, id });
+		logger.log(Level.INFO, "Adding {0} (id {1}) to the trash can for future deletion.", new Object[] { selectedEntity, selectedEntity.getId() });
 		trashCan.add(selectedEntity);
 	}
 
@@ -597,6 +594,9 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 		// Removes all entities from the trash and cancel their deletion.
 		logger.log(Level.INFO, "Deletion has been cancelled. Clearing trash can");
 		trashCan.clear();
+
+		// Clears the selection.
+		selectedEntity = null;
 	}
 
 	/**
