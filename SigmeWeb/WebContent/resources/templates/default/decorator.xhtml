@@ -67,8 +67,15 @@ Released for free under a Creative Commons Attribution 2.5 License
 				<div id="sidebar">
 					<!-- Sigme menu: -->
 					<h:form id="menu">
-						<p:menu style="width:200px;" model="#{sessionController.menuModel}" />
+						<p:menu style="width:230px;" model="#{sessionController.menuModel}" />
 					</h:form>
+					
+					<!-- Sigme help panel. -->
+					<p:panel id="helpPanel" header="#{msgs['text.help.title']}" collapsed="true" toggleable="true" toggleSpeed="500" style="width:235px;">
+						<ui:insert name="help">
+							<h:outputText value="#{msgs['text.help.defaultContent']}" />
+						</ui:insert>
+					</p:panel>
 				</div>
 			
 				<div id="content">

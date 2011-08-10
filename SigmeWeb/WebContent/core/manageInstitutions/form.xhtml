@@ -218,6 +218,13 @@
 				</ui:decorate>
 			</p:dialog>
 		</div>
-
+	</ui:define>
+	
+	<ui:define name="help">
+		<h4><h:outputText value="#{msgsCore['manageInstitutions.help.hotkeys']}" />:</h4>
+		<ul>
+			<li><b><h:outputText value="#{msgsCore['manageInstitutions.hotkey.backToList']}" /></b>: <h:outputText value="#{msgsCore['manageInstitutions.help.hotkeys.backToList']}" />;</li>
+			<li><b><h:outputText value="#{msgsCore['manageInstitutions.hotkey.save']}" /></b>: <h:outputText value="#{msgsCore['manageInstitutions.help.hotkeys.save']}" />.</li>
+		</ul>
 	</ui:define>
 </ui:composition>

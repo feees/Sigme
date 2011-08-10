@@ -37,6 +37,25 @@
 
 
 
+/*** SIGME HELP PANEL. ***/
+#helpPanel {
+	margin-top: 20px;
+}
+
+#helpPanel .ui-panel-content {
+	font-size: 8pt;
+}
+
+#helpPanel h4 {
+	font-weight: bold;
+}
+
+#helpPanel ul {
+	margin-left: -10px;
+}
+
+
+
 /*** SIGME FORMS ***/
 
 div.sigmeForm {
