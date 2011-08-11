@@ -18,10 +18,7 @@ public class LogoutServlet extends HttpServlet {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest,
-	 *      javax.servlet.http.HttpServletResponse)
-	 */
+	/** @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse) */
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Destroys the session for this user.
