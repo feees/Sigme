@@ -68,7 +68,7 @@ public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistD
 	/** @see br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO#retrieveByEmail(java.lang.String) */
 	@Override
 	public Spiritist retrieveByEmail(String email) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
-		logger.log(Level.INFO, "Retrieving the spiritist whose e-mail is \"{0}\"", email);
+		logger.log(Level.FINE, "Retrieving the spiritist whose e-mail is \"{0}\"...", email);
 
 		// Constructs the query over the Spiritist class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -77,13 +77,15 @@ public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistD
 
 		// Filters the query with the email.
 		cq.where(cb.equal(root.get(SpiritistJPAMetamodel.email), email));
-		return executeSingleResultQuery(cq, email);
+		Spiritist result = executeSingleResultQuery(cq, email);
+		logger.log(Level.INFO, "Retrieve spiritist by the email \"{0}\" returned \"{1}\"", new Object[] { email, result });
+		return result;
 	}
 
 	/** @see br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO#findByName(java.lang.String) */
 	@Override
 	public List<Spiritist> findByName(String param) {
-		logger.log(Level.INFO, "Retrieving all spiritists whose name contain \"{0}\"", param);
+		logger.log(Level.FINE, "Retrieving all spiritists whose name contain \"{0}\"...", param);
 
 		// Constructs the query over the Institution class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -95,6 +97,8 @@ public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistD
 		cq.orderBy(cb.asc(root.get(SpiritistJPAMetamodel.name)));
 
 		// Returns the list of spiritists.
-		return entityManager.createQuery(cq).getResultList();
+		List<Spiritist> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve spiritist by name containing \"{0}\" returned \"{1}\" spiritists", new Object[] { param, result.size() });
+		return result;
 	}
 }

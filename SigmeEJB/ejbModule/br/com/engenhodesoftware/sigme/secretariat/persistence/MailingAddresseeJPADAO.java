@@ -63,7 +63,7 @@ public class MailingAddresseeJPADAO extends BaseJPADAO<MailingAddressee> impleme
 	/** @see br.com.engenhodesoftware.sigme.secretariat.persistence.MailingAddresseeDAO#retrieveEmailsFromInstitutionMailingAddressee(br.com.engenhodesoftware.sigme.secretariat.domain.InstitutionMailingAddressee) */
 	@Override
 	public List<String> retrieveEmailsFromInstitutionMailingAddressee(InstitutionMailingAddressee addressee) {
-		logger.log(Level.INFO, "Resolving email addresses from institution mailing addressee with id {0}", addressee.getId());
+		logger.log(Level.FINE, "Resolving email addresses from institution mailing addressee with id \"{0}\"...", addressee.getId());
 
 		// Constructs the query over the InstitutionMailingAddressee to return strings (the e-mail addresses).
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -91,13 +91,15 @@ public class MailingAddresseeJPADAO extends BaseJPADAO<MailingAddressee> impleme
 		// Returns the e-mails of the spiritists that are related to the institution.
 		Join<Attendance, Spiritist> spiritistJoin = attRoot.join(AttendanceJPAMetamodel.spiritist);
 		cq.select(spiritistJoin.get(SpiritistJPAMetamodel.email));
-		return entityManager.createQuery(cq).getResultList();
+		List<String> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve email addresses of institution mailing addressee \"{0}\" returned \"{1}\" addresses", new Object[] { addressee.getId(), result.size() });
+		return result;
 	}
 
 	/** @see br.com.engenhodesoftware.sigme.secretariat.persistence.MailingAddresseeDAO#retrieveEmailsFromRegionalMailingAddressee(br.com.engenhodesoftware.sigme.secretariat.domain.RegionalMailingAddressee) */
 	@Override
 	public List<String> retrieveEmailsFromRegionalMailingAddressee(RegionalMailingAddressee addressee) {
-		logger.log(Level.INFO, "Resolving email addresses from regional mailing addressee with id {0}", addressee.getId());
+		logger.log(Level.FINE, "Resolving email addresses from regional mailing addressee with id \"{0}\"...", addressee.getId());
 
 		// Constructs the query over the RegionalMailingAddressee to return strings (the e-mail addresses).
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -127,6 +129,8 @@ public class MailingAddresseeJPADAO extends BaseJPADAO<MailingAddressee> impleme
 		// Returns the e-mails of the spiritists that are related to the institution.
 		Join<Attendance, Spiritist> spiritistJoin = attRoot.join(AttendanceJPAMetamodel.spiritist);
 		cq.select(spiritistJoin.get(SpiritistJPAMetamodel.email));
-		return entityManager.createQuery(cq).getResultList();
+		List<String> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve email addresses of regional mailing addressee \"{0}\" returned \"{1}\" addresses", new Object[] { addressee.getId(), result.size() });
+		return result;
 	}
 }

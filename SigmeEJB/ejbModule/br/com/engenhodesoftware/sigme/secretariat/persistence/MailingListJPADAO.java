@@ -62,7 +62,7 @@ public class MailingListJPADAO extends BaseJPADAO<MailingList> implements Mailin
 	/** @see br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO#retrieveByName(java.lang.String) */
 	@Override
 	public MailingList retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
-		logger.log(Level.INFO, "Retrieving the mailing list whose name is \"{0}\"", name);
+		logger.log(Level.FINE, "Retrieving the mailing list whose name is \"{0}\"...", name);
 
 		// Constructs the query over the Spiritist class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -71,13 +71,15 @@ public class MailingListJPADAO extends BaseJPADAO<MailingList> implements Mailin
 
 		// Filters the query with the email.
 		cq.where(cb.equal(root.get(MailingListJPAMetamodel.name), name));
-		return executeSingleResultQuery(cq, name);
+		MailingList result = executeSingleResultQuery(cq, name);
+		logger.log(Level.INFO, "Retrieve mailing list by the name \"{0}\" returned \"{1}\"", new Object[] { name, result });
+		return result;
 	}
 
 	/** @see br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO#findByName(java.lang.String) */
 	@Override
 	public List<MailingList> findByName(String param) {
-		logger.log(Level.INFO, "Retrieving all mailing lists whose name contains \"{0}\"", param);
+		logger.log(Level.FINE, "Retrieving all mailing lists whose name contains \"{0}\"...", param);
 
 		// Constructs the query over the Institution class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -89,6 +91,8 @@ public class MailingListJPADAO extends BaseJPADAO<MailingList> implements Mailin
 		cq.orderBy(cb.asc(root.get(MailingListJPAMetamodel.name)));
 
 		// Returns the list of mailing lists.
-		return entityManager.createQuery(cq).getResultList();
+		List<MailingList> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve mailing list by name containing \"{0}\" returned \"{1}\" mailing lists", new Object[] { param, result.size() });
+		return result;
 	}
 }

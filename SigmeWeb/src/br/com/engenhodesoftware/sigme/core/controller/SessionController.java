@@ -56,8 +56,7 @@ public class SessionController extends JSFAction {
 
 	/** Getter for menuModel. */
 	public MenuModel getMenuModel() {
-		if (menuModel == null)
-			initMenuModel();
+		if (menuModel == null) initMenuModel();
 		return menuModel;
 	}
 
@@ -120,14 +119,18 @@ public class SessionController extends JSFAction {
 		// Attempts to retrieve this information from the external context.
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 		if (session != null) {
+			logger.log(Level.FINEST, "Calculating session expiration time from the HTTP session...");
 			long expTimeMillis = session.getLastAccessedTime() + session.getMaxInactiveInterval() * 1000;
 			expTime = new Date(expTimeMillis);
 		}
 
 		// If it could not be retrieved from the external context, use default of 30 minutes.
-		if (expTime == null)
+		if (expTime == null) {
+			logger.log(Level.FINEST, "HTTP Session not available. Using default expiration time: now plus 30 minutes...");
 			expTime = new Date(System.currentTimeMillis() + 30 * 60000);
+		}
 
+		logger.log(Level.FINEST, "Calculated expiration time: {0}", expTime);
 		return expTime;
 	}
 
@@ -137,6 +140,7 @@ public class SessionController extends JSFAction {
 	 * be reloaded to display the functionality that he can access.
 	 */
 	public void reloadMenuModel() {
+		logger.log(Level.FINER, "Forcing the menu to be reloaded...");
 		menuModel = null;
 		initMenuModel();
 	}
@@ -148,6 +152,7 @@ public class SessionController extends JSFAction {
 	private void initMenuModel() {
 		Submenu menu;
 		MenuItem item;
+		logger.log(Level.FINER, "Initializing the dynamic menu model for the PrimeFaces menu component...");
 
 		// The path to the icons.
 		String iconPath = "/resources/templates/" + coreInformation.getDecorator() + "/icons/";
@@ -162,7 +167,7 @@ public class SessionController extends JSFAction {
 
 		// Checks if the system has already been installed.
 		if (coreInformation.isSystemInstalled()) {
-			logger.log(Level.INFO, "Building a menu model for a user: system is installed correctly.");
+			logger.log(Level.FINE, "System is installed correctly. User menu to be built.");
 
 			/* Sub-menu: Access Control. */
 			menu = new Submenu();
@@ -171,7 +176,7 @@ public class SessionController extends JSFAction {
 
 			// Menu item: Login (if the user hasn't been identified yet) / Logout (if she has).
 			if (isLoggedIn()) {
-				logger.log(Level.INFO, "Adding logout menu item: user is logged in.");
+				logger.log(Level.FINE, "User is logged in. Logout menu item to be added.");
 				item = new MenuItem();
 				item.setValue(getI18nMessage("msgs", "menu.access.logout"));
 				item.setIcon(iconPath + "menu-access-logout.png");
@@ -179,7 +184,7 @@ public class SessionController extends JSFAction {
 				menu.getChildren().add(item);
 			}
 			else {
-				logger.log(Level.INFO, "Adding login menu item: user is not logged in.");
+				logger.log(Level.FINE, "User is not logged in. Login menu item to be added.");
 				item = new MenuItem();
 				item.setValue(getI18nMessage("msgs", "menu.access.login"));
 				item.setIcon(iconPath + "menu-access-login.png");
@@ -189,10 +194,8 @@ public class SessionController extends JSFAction {
 
 			// All other menus should only be shown if the user is identified.
 			if (isLoggedIn()) {
-				logger.log(Level.INFO, "Adding menu items according to the user profile: user is logged in.");
-
-				// So far, all registered users with password can do everything. In the future, access control will be implemented.
-
+				logger.log(Level.FINE, "User is logged in. Menus and items for all functionalities to be added.");
+				
 				/* Sub-menu: CRUDs. */
 				menu = new Submenu();
 				menu.setLabel(getI18nMessage("msgsCore", "core.menu.cruds"));
@@ -215,7 +218,7 @@ public class SessionController extends JSFAction {
 		}
 		// If the system hasn't been installed yet, show the System Installation sub-menu.
 		else {
-			logger.log(Level.INFO, "Building a menu model for a user: the system is not yet installed!");
+			logger.log(Level.FINE, "The system is not yet installed. System installation menu to be added.");
 
 			/* Sub-menu: System Installation. */
 			menu = new Submenu();
@@ -237,7 +240,7 @@ public class SessionController extends JSFAction {
 	public String login() {
 		try {
 			// Uses the Login service to authenticate the user.
-			logger.log(Level.INFO, "User {0} attempting login", new Object[] { email });
+			logger.log(Level.FINEST, "User attempting login with email \"{0}\"...", email);
 			sessionInformation.login(email, password);
 		}
 		catch (LoginFailedException e) {
@@ -246,13 +249,13 @@ public class SessionController extends JSFAction {
 			case INCORRECT_PASSWORD:
 			case UNKNOWN_USERNAME:
 				// Normal login exception (invalid usernaem or password). Report the error to the user.
-				logger.log(Level.INFO, "Login failed for {0}. Reason: {1}", new Object[] { email, e.getReason() });
+				logger.log(Level.INFO, "Login failed for \"{0}\". Reason: \"{1}\"", new Object[] { email, e.getReason() });
 				addGlobalI18nMessage("msgs", FacesMessage.SEVERITY_ERROR, "error.login.summary", "error.login.detail");
 				return null;
 
 			default:
 				// System failure exception. Report a fatal error and ask the user to contact the administrators.
-				logger.log(Level.INFO, "System failure during login. Email: " + email + "; reason: " + e.getReason(), e);
+				logger.log(Level.INFO, "System failure during login. Email: \"" + email + "\"; reason: \"" + e.getReason() + "\"", e);
 				addGlobalI18nMessage("msgs", FacesMessage.SEVERITY_FATAL, "error.loginfatal.summary", new Object[0], "error.loginfatal.detail", new Object[] { new Date(System.currentTimeMillis()) });
 				return null;
 			}

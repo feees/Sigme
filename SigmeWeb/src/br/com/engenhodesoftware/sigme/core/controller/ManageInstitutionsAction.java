@@ -86,7 +86,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#createNewEntity() */
 	@Override
 	protected Institution createNewEntity() {
-		logger.log(Level.INFO, "Initializing an empty institution");
+		logger.log(Level.FINER, "Initializing an empty institution...");
 
 		// Create an empty entity.
 		Institution newEntity = new Institution();
@@ -101,7 +101,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#checkSelectedEntity() */
 	@Override
 	protected void checkSelectedEntity() {
-		logger.log(Level.INFO, "Checking selected institution: {0}", selectedEntity);
+		logger.log(Level.FINER, "Checking selected institution ({0})...", selectedEntity);
 
 		// The address must not be null.
 		if (selectedEntity.getAddress() == null)
@@ -116,7 +116,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#initFilters() */
 	@Override
 	protected void initFilters() {
-		logger.log(Level.INFO, "Initializing filter types");
+		logger.log(Level.FINER, "Initializing filter types...");
 
 		// One can filter institutions by name, acronym, city or Regional.
 		addFilter(new LikeFilter("manageInstitutions.filter.byName", "name", getI18nMessage("msgsCore", "manageInstitutions.text.filter.byName")));
@@ -141,7 +141,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#prepEntity() */
 	@Override
 	protected void prepEntity() {
-		logger.log(Level.INFO, "Preparing entity for storage: {0}", selectedEntity);
+		logger.log(Level.FINER, "Preparing institution for storage ({0})...", selectedEntity);
 
 		// Inserts the telephone list in the entity.
 		selectedEntity.setTelephones(new TreeSet<Telephone>(telephones));
@@ -160,10 +160,9 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 
 		// Removes the final comma and returns the string.
 		int length = acronyms.length();
-		if (length > 0)
-			acronyms.delete(length - 2, length);
+		if (length > 0) acronyms.delete(length - 2, length);
 
-		logger.log(Level.INFO, "Listing the institutions in the trash can: {0}", acronyms.toString());
+		logger.log(Level.FINE, "List of institutions in the trash can: {0}", acronyms.toString());
 		return acronyms.toString();
 	}
 
@@ -186,9 +185,9 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 					acronymBuilder.append(ch);
 			selectedEntity.setAcronym(acronymBuilder.toString());
 
-			logger.log(Level.INFO, "Suggesting {0} as acronym for {1}", new Object[] { selectedEntity.getAcronym(), name });
+			logger.log(Level.FINE, "Suggested \"{0}\" as acronym for \"{1}\"", new Object[] { selectedEntity.getAcronym(), name });
 		}
-		else logger.log(Level.INFO, "Acronym not suggested: name = {0}, acronym = {1}", new Object[] { name, acronym });
+		else logger.log(Level.FINEST, "Acronym not suggested: empty name or acronym already filled (name is \"{0}\", acronym is \"{1}\"", new Object[] { name, acronym });
 	}
 
 	/**
@@ -205,7 +204,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 		if (query.length() > 0) {
 			// Uses the DAO to find the query and returns.
 			List<City> cities = cityDAO.findByName(query);
-			logger.log(Level.INFO, "Searching for cities beginning with \"{0}\" returned {1} results", new Object[] { query, cities.size() });
+			logger.log(Level.FINE, "Suggestion for cities beginning with \"{0}\" returned {1} results", new Object[] { query, cities.size() });
 			return cities;
 		}
 		return null;
@@ -220,7 +219,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	 *          The selection event supplied by PrimeFaces' auto-complete component.
 	 */
 	public void handleCitySelection(SelectEvent event) {
-		logger.log(Level.INFO, "Handling select event for city selection: {0}", event.getObject());
+		logger.log(Level.FINER, "Handling select event for city ({0})...", event.getObject());
 		setRegional();
 	}
 
@@ -233,7 +232,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	 *          The change event supplied by JSF's select-one-menu component.
 	 */
 	public void handleInstitutionTypeChange(AjaxBehaviorEvent event) {
-		logger.log(Level.INFO, "Handling change event for institution type selection: {0}", event);
+		logger.log(Level.FINER, "Handling change event for institution type ({0})...", event);
 		setRegional();
 	}
 
@@ -241,10 +240,9 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	 * Sets the regional for the selected institution according to its type and city.
 	 */
 	private void setRegional() {
-		logger.log(Level.INFO, "Setting the regional for institution: {0}", selectedEntity);
+		logger.log(Level.FINER, "Setting the regional for institution \"{0}\"...", selectedEntity);
 		// Check the selected entity for null.
 		if (selectedEntity != null) {
-			logger.log(Level.INFO, "Setting the regional for institution: {0} -- Institution type: {0}", new Object[] { selectedEntity, selectedEntity.getType() });
 			// Checks if the institution type indicates that the institution is part of a regional.
 			if ((selectedEntity.getType() != null) && (selectedEntity.getType().isPartOfRegional())) {
 				// Check if the city has been set and, if so, retrieve the regional of the city.
@@ -252,25 +250,25 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 					try {
 						Regional regional = regionalDAO.retrieveByCity(selectedEntity.getAddress().getCity());
 						selectedEntity.setRegional(regional);
-						logger.log(Level.INFO, "Institution type is part of regional. Setting regional: {0}", regional);
+						logger.log(Level.FINE, "Regional \"{0}\" set for institution \"{1}\"", new Object[] { regional, selectedEntity });
 					}
 					catch (PersistentObjectNotFoundException e) {
-						logger.log(Level.INFO, "Regional not found for city: {0}. Setting regional to null.", e.getParams()[0]);
+						logger.log(Level.FINE, "Regional not found for city \"{0}\" of institution \"{1}\". Regional set to null.", new Object[] { e.getParams()[0], selectedEntity });
 						selectedEntity.setRegional(null);
 					}
 					catch (MultiplePersistentObjectsFoundException e) {
-						logger.log(Level.SEVERE, "Multiple regionals found for city: {0}. Setting regional to null.", e.getParams()[0]);
+						logger.log(Level.WARNING, "Multiple regionals found for city: \"{0}\" of institution \"{1}\". Setting regional to null.", new Object[] { e.getParams()[0], selectedEntity });
 						selectedEntity.setRegional(null);
 					}
 				}
 
 				// The city has not been set.
-				else logger.log(Level.INFO, "Setting the regional for institution: {0} -- city not yet set, can't determine regional!", selectedEntity);
+				else logger.log(Level.FINEST, "City has not been set for institution \"{0}\" and so the regional can't be retrieved.", selectedEntity);
 			}
 
 			// It's not part of a regional, so set it to null.
 			else {
-				logger.log(Level.INFO, "Setting the regional for institution: {0} -- Institution type is not part of regional. Setting regional to null.", selectedEntity);
+				logger.log(Level.FINEST, "Institution \"{0}\" is from a type of institutions that is not part of regionals. Setting regional to null.", selectedEntity);
 				selectedEntity.setRegional(null);
 			}
 		}
@@ -293,8 +291,8 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 
 	/** Setter for telephone. */
 	public void setTelephone(Telephone telephone) {
-		logger.log(Level.FINEST, "Selected telephone: {0}", telephone);
 		this.telephone = telephone;
+		logger.log(Level.FINEST, "Telephone \"{0}\" has been selected", telephone);
 	}
 
 	/**
@@ -303,12 +301,12 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	 * This method is intended to be used with AJAX, through the PrimeFaces Collector component.
 	 */
 	public void newTelephone() {
-		logger.log(Level.INFO, "Creating an empty telephone to be added.");
 		telephone = new Telephone();
+		logger.log(Level.FINEST, "Empty telephone created as selected telephone");
 	}
 	
 	public void resetTelephone() {
-		logger.log(Level.INFO, "Resetting the telephone field.");
 		telephone = null;
+		logger.log(Level.FINEST, "Telephone has been reset -- no telephone is selected");
 	}
 }

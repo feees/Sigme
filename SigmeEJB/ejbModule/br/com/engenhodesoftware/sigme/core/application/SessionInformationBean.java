@@ -55,7 +55,7 @@ public class SessionInformationBean implements SessionInformation {
 	public void login(String username, String password) throws LoginFailedException {
 		try {
 			// Obtains the user given the e-mail address (that serves as username).
-			logger.log(Level.FINE, "Authenticating user with username {0}...", username);
+			logger.log(Level.FINER, "Authenticating user with username \"{0}\"...", username);
 			Spiritist user = spiritistDAO.retrieveByEmail(username);
 
 			// Creates the MD5 hash of the password for comparison.
@@ -64,7 +64,7 @@ public class SessionInformationBean implements SessionInformation {
 			// Checks if the passwords match.
 			String pwd = user.getPassword();
 			if ((pwd != null) && (pwd.equals(md5pwd))) {
-				logger.log(Level.FINER, "Passwords match for user {0}.", username);
+				logger.log(Level.FINEST, "Passwords match for user \"{0}\".", username);
 
 				// Checks also if the container authenticates the user. If not, it will thrown an exception.
 				HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -76,8 +76,9 @@ public class SessionInformationBean implements SessionInformation {
 				pwd = null;
 
 				// Registers the user login.
-				currentUser.setLastLoginDate(new Date(System.currentTimeMillis()));
-				logger.log(Level.FINER, "Saving last login date for spiritist with username {0}: {1}", new Object[] { currentUser.getEmail(), currentUser.getLastLoginDate() });
+				Date now = new Date(System.currentTimeMillis());
+				logger.log(Level.FINER, "Setting last login date for spiritist with username \"{0}\" as \"{1}\"...", new Object[] { currentUser.getEmail(), now });
+				currentUser.setLastLoginDate(now);
 				spiritistDAO.save(currentUser);
 			}
 			else {

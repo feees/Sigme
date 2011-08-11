@@ -96,12 +96,13 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			admin.setAddress(new Address());
 
 			// Register the last update date / login date.
-			admin.setLastUpdateDate(new Date(System.currentTimeMillis()));
-			admin.setLastLoginDate(admin.getLastUpdateDate());
-			logger.log(Level.FINER, "Set the admin's last update date and last login date as: {0}", admin.getLastUpdateDate());
+			Date now = new Date(System.currentTimeMillis());
+			admin.setLastUpdateDate(now);
+			admin.setLastLoginDate(now);
+			logger.log(Level.FINE, "Admin's last update date and last login date have been set as: {0}", now);
 
 			// Initializes the database.
-			logger.log(Level.FINE, "Initializing the database with data stored in " + INIT_DATA_PATH);
+			logger.log(Level.FINER, "Initializing the database with data stored in \"{0}\"...", INIT_DATA_PATH);
 			initState();
 			initCity();
 			initRegional();
@@ -110,12 +111,12 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			logger.log(Level.FINE, "Database initialization finished.");
 
 			// Saves the administrator.
-			logger.log(Level.FINE, "Saving administrator: {0} ({1})", new Object[] { admin.getName(), admin.getEmail() });
-			logger.log(Level.FINE, "Persisting data:\n\t- Short name = {0}\n\t- Last update date = {1}\n\t- Last login date = {2}", new Object[] { admin.getShortName(), admin.getLastUpdateDate(), admin.getLastLoginDate() });
+			logger.log(Level.FINER, "Persisting data...\n\t- Short name = {0}\n\t- Last update date = {1}\n\t- Last login date = {2}", new Object[] { admin.getShortName(), admin.getLastUpdateDate(), admin.getLastLoginDate() });
 			spiritistDAO.save(admin);
+			logger.log(Level.FINE, "The administrator has been saved: {0} ({1})", new Object[] { admin.getName(), admin.getEmail() });
 
 			// Signals that the system is installed.
-			logger.log(Level.FINER, "Signaling the system as being installed.");
+			logger.log(Level.FINER, "Signaling the system as being installed...");
 			coreInformation.setSystemInstalled(true);
 		}
 		catch (NoSuchAlgorithmException e) {
@@ -146,7 +147,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 		// Loads the file with the data from the classpath.
 		final URL resource = this.getClass().getClassLoader().getResource(INIT_DATA_PATH + "State.data");
 		File dataFile = new File(resource.toURI());
-		logger.log(Level.FINE, "Processing: {0}", dataFile.getAbsolutePath());
+		logger.log(Level.FINER, "Adding states to the database from file \"{0}\"...", dataFile.getAbsolutePath());
 
 		// Each line is a state, format is acronym | name.
 		int count = 0;
@@ -159,7 +160,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 				state.setAcronym(lineScanner.next());
 				state.setName(lineScanner.next());
 
-				logger.log(Level.FINER, "Storing: {0}", state);
+				logger.log(Level.FINEST, "Storing state: {0}", state);
 				stateDAO.save(state);
 				count++;
 
@@ -169,7 +170,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			lineScanner.close();
 		}
 
-		logger.log(Level.FINE, "Stored {0} states", count);
+		logger.log(Level.FINE, "Stored {0} states in the database", count);
 		scanner.close();
 	}
 
@@ -190,19 +191,19 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	private void initCity() throws FileNotFoundException, URISyntaxException {
 		final URL resource = this.getClass().getClassLoader().getResource(INIT_DATA_PATH + "City");
 		File dataDir = new File(resource.toURI());
-		logger.log(Level.FINE, "Processing directory: {0}", dataDir.getAbsolutePath());
+		logger.log(Level.FINER, "Reading city data files from directory \"{0}\"...", dataDir.getAbsolutePath());
 
 		// Each file contains the cities of a state. The name of the file is the acronym of the state plus extension.
 		int totalCount = 0;
 		File[] dataFiles = dataDir.listFiles();
 		for (File dataFile : dataFiles) {
-			logger.log(Level.FINE, "Processing: {0}", dataFile.getAbsolutePath());
+			logger.log(Level.FINER, "Adding cities to the database from file \"{0}\"...", dataFile.getAbsolutePath());
 
 			// Retrieves the state from the map built when the states were initialized using the acronyms.
 			String dataFileName = dataFile.getName();
 			String stateAcronym = dataFileName.substring(0, dataFileName.lastIndexOf('.'));
 			State state = states.get(stateAcronym);
-			logger.log(Level.FINER, "Extracted acronym {0} from datafile {1} and retrieved the state from the map: {2}", new Object[] { stateAcronym, dataFileName, state });
+			logger.log(Level.FINEST, "Extracted acronym {0} from datafile {1} and retrieved the state from the map: {2}", new Object[] { stateAcronym, dataFileName, state });
 
 			// Each line is a city name.
 			int count = 0;
@@ -215,7 +216,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 				// Also save the city in a map for the regional to use.
 				cities.put(city.getName() + ", " + state.getAcronym(), city);
 
-				logger.log(Level.FINER, "Storing: {0}", city);
+				logger.log(Level.FINEST, "Storing city: {0}", city);
 				cityDAO.save(city);
 				count++;
 				totalCount++;
@@ -225,7 +226,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			scanner.close();
 		}
 
-		logger.log(Level.FINE, "Stored {0} cities in total", totalCount);
+		logger.log(Level.FINE, "In total, stored {0} cities in the database", totalCount);
 	}
 
 	/**
@@ -245,7 +246,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 		// Loads the file with the data from the classpath.
 		final URL resource = this.getClass().getClassLoader().getResource(INIT_DATA_PATH + "Regional.data");
 		File dataFile = new File(resource.toURI());
-		logger.log(Level.INFO, "Processing: {0}", dataFile.getAbsolutePath());
+		logger.log(Level.FINER, "Adding regionals to the database from file \"{0}\"...", dataFile.getAbsolutePath());
 
 		// Each two lines is a regional, first line has regional number and name (separated by "|"), second has cities
 		// separated by "|".
@@ -268,23 +269,23 @@ public class InstallSystemServiceBean implements InstallSystemService {
 				String cityName = lineScanner.next();
 				City city = cities.get(cityName);
 				if (city == null) {
-					logger.log(Level.WARNING, "Trying to associate a city to {0}, but the city coult not be found: {1}", new Object[] { regional, cityName });
+					logger.log(Level.WARNING, "City not found while trying to associate it to regional \"{0}\": \"{1}\"", new Object[] { regional, cityName });
 				}
 				else {
 					regionalCities.add(city);
-					logger.log(Level.FINER, "City {0} was added to the set of cities of regional {1}", new Object[] { city, regional });
+					logger.log(Level.FINEST, "City \"{0}\" was added to the set of cities of regional \"{1}\"", new Object[] { city, regional });
 					cityCount++;
 				}
 			}
 			lineScanner.close();
 
 			regional.setCities(regionalCities);
-			logger.log(Level.FINER, "Storing regional: {0} ({1} associated city(ies))", new Object[] { regional, cityCount });
+			logger.log(Level.FINEST, "Storing regional: {0} ({1} associated city(ies))", new Object[] { regional, cityCount });
 			regionalDAO.save(regional);
 			count++;
 		}
 
-		logger.log(Level.FINE, "Stored {0} regionals", count);
+		logger.log(Level.FINE, "Stored {0} regionals in the database", count);
 		scanner.close();
 	}
 
@@ -305,7 +306,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 		// Loads the file with the data from the classpath.
 		final URL resource = this.getClass().getClassLoader().getResource(INIT_DATA_PATH + "InstitutionType.data");
 		File dataFile = new File(resource.toURI());
-		logger.log(Level.FINE, "Processing: {0}", dataFile.getAbsolutePath());
+		logger.log(Level.FINE, "Adding institution types to the database from file: {0}", dataFile.getAbsolutePath());
 
 		// Each line is a institution type, if the institutions of this type are part of a regional is defined by the
 		// true/false value in the same line, separated by |.
@@ -319,12 +320,12 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			type.setType(lineScanner.next());
 			type.setPartOfRegional(Boolean.valueOf(lineScanner.next()));
 
-			logger.log(Level.FINER, "Storing: {0}", type);
+			logger.log(Level.FINEST, "Storing institution type: {0}", type);
 			institutionTypeDAO.save(type);
 			count++;
 		}
 
-		logger.log(Level.FINE, "Stored {0} institution types", count);
+		logger.log(Level.FINE, "Stored {0} institution types in the database", count);
 		scanner.close();
 	}
 
@@ -344,7 +345,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 		// Loads the file with the data from the classpath.
 		final URL resource = this.getClass().getClassLoader().getResource(INIT_DATA_PATH + "ContactType.data");
 		File dataFile = new File(resource.toURI());
-		logger.log(Level.FINE, "Processing: {0}", dataFile.getAbsolutePath());
+		logger.log(Level.FINE, "Adding contact types to the database from file: {0}", dataFile.getAbsolutePath());
 
 		// Each line is a contact type.
 		int count = 0;
@@ -353,12 +354,12 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			ContactType type = new ContactType();
 			type.setType(scanner.nextLine());
 
-			logger.log(Level.FINER, "Storing: {0}", type);
+			logger.log(Level.FINEST, "Storing contact type: {0}", type);
 			contactTypeDAO.save(type);
 			count++;
 		}
 
-		logger.log(Level.FINE, "Stored {0} contact types", count);
+		logger.log(Level.FINE, "Stored {0} contact types in the database", count);
 		scanner.close();
 	}
 }

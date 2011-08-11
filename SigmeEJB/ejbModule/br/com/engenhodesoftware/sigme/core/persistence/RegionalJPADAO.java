@@ -66,7 +66,7 @@ public class RegionalJPADAO extends BaseJPADAO<Regional> implements RegionalDAO 
 	/** @see br.com.engenhodesoftware.sigme.core.persistence.RegionalDAO#retrieveByCity(br.com.engenhodesoftware.util.people.domain.City) */
 	@Override
 	public Regional retrieveByCity(City city) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
-		logger.log(Level.INFO, "Retrieving the regional to which the city \"{0}\" belongs", city);
+		logger.log(Level.FINE, "Retrieving the regional to which the city \"{0}\" belongs...", city);
 
 		// Constructs the query over the Regional class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -75,6 +75,8 @@ public class RegionalJPADAO extends BaseJPADAO<Regional> implements RegionalDAO 
 
 		// Filters the query with the city.
 		cq.where(cb.isMember(city, root.get(RegionalJPAMetamodel.cities)));
-		return executeSingleResultQuery(cq, city);
+		Regional result = executeSingleResultQuery(cq, city);
+		logger.log(Level.INFO, "Retrieve regional of city \"{0}\" returned \"{1}\"", new Object[] { city, result });
+		return result;
 	}
 }

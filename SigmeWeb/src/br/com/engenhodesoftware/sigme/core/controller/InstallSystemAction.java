@@ -77,9 +77,9 @@ public class InstallSystemAction extends JSFAction {
 		if ((name != null) && ((shortName == null) || (shortName.length() == 0))) {
 			int idx = name.indexOf(" ");
 			admin.setShortName((idx == -1) ? name : name.substring(0, idx).trim());
-			logger.log(Level.INFO, "Suggesting \"{0}\" as short name for \"{1}\"", new Object[] { admin.getShortName(), name });
+			logger.log(Level.FINE, "Suggested \"{0}\" as short name for \"{1}\"", new Object[] { admin.getShortName(), name });
 		}
-		else logger.log(Level.INFO, "Short name not suggested: name = {0}, shortName = {1}", new Object[] { name, shortName });
+		else logger.log(Level.FINEST, "Short name not suggested: empty name or short name already filled (name is \"{0}\", short name is \"{1}\")", new Object[] { name, shortName });
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class InstallSystemAction extends JSFAction {
 	 */
 	public boolean checkPasswords() {
 		if (((repeatPassword != null) && (!repeatPassword.equals(admin.getPassword()))) || ((repeatPassword == null) && (admin.getPassword() != null))) {
-			logger.log(Level.INFO, "Password and repeated password are not the same: [{0}] != [{1}]", new Object[] { admin.getPassword(), repeatPassword });
+			logger.log(Level.INFO, "Password and repeated password are not the same");
 			addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_WARN, "installSystem.error.passwordsDontMatch.summary", "installSystem.error.passwordsDontMatch.detail");
 			return false;
 		}
@@ -102,7 +102,7 @@ public class InstallSystemAction extends JSFAction {
 	 * @return The path to the web page that shows the next step in the installation process.
 	 */
 	public String registerAdministrator() {
-		logger.log(Level.INFO, "Received input data:\n\t- admin.name = {0}\n\t- admin.email = {1}", new Object[] { admin.getName(), admin.getEmail() });
+		logger.log(Level.FINEST, "Received input data:\n\t- admin.name = {0}\n\t- admin.email = {1}", new Object[] { admin.getName(), admin.getEmail() });
 
 		// Check if passwords don't match. Add an error in that case.
 		if (!checkPasswords())

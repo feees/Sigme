@@ -1,6 +1,8 @@
 package br.com.engenhodesoftware.util.ejb3.application;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import br.com.engenhodesoftware.util.ejb3.application.filters.Filter;
 import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
@@ -28,6 +30,9 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
+	/** The logger. */
+	private static final Logger logger = Logger.getLogger(CrudService.class.getCanonicalName());
+
 	/**
 	 * Provides the DAO so the objects can be retrieved, stored and deleted from the database. As this is class-specific,
 	 * this method must be overridden by the subclasses.
@@ -44,7 +49,9 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	protected abstract T createNewEntity();
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#authorize() */
-	public void authorize() {}
+	public void authorize() {
+		logger.log(Level.FINE, "Authorization not overridden by subclass. No need for authorization.");
+	}
 
 	/**
 	 * Callback method that allows subclasses to intercept the moment exactly before the persisting (creating or updating)
@@ -59,6 +66,7 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	 * @return The entity object that is going to be persisted.
 	 */
 	protected T validate(T newEntity, T oldEntity) {
+		logger.log(Level.FINE, "Validation not overridden by subclass. No need for validation.");
 		return newEntity;
 	}
 
@@ -71,7 +79,9 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	 * @param entity
 	 *          The entity that is being manipulated.
 	 */
-	protected void log(CrudOperation operation, T entity) {}
+	protected void log(CrudOperation operation, T entity) {
+		logger.log(Level.FINE, "Logging (for operations over single entities) not overridden by subclass. No need for this type of logging.");
+	}
 
 	/**
 	 * Logs operations over many entities, i.e., listing of entities. Default implementation does nothing, so logging is
@@ -84,7 +94,9 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	 * @param interval
 	 *          Array of size 2 with the interval [a, b) (retrieves objects from index a through b-1).
 	 */
-	protected void log(CrudOperation operation, List<T> entities, int ... interval) {}
+	protected void log(CrudOperation operation, List<T> entities, int ... interval) {
+		logger.log(Level.FINE, "Logging (for operations over multiple entities) not overridden by subclass. No need for this type of logging.");
+	}
 
 	/**
 	 * Helper method that adds a validation error to an existing CRUD exception or creates a new one in case it doesn't
@@ -102,6 +114,8 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	 * @return The newly-created CRUD exception or the old CRUD exception with a new validation error.
 	 */
 	protected CrudException addValidationError(CrudException crudException, String message, String messageKey, Object ... messageParams) {
+		logger.log(Level.FINER, "Adding a validation error with key \"{0}\"...", messageKey);
+		
 		if (crudException == null) {
 			crudException = new CrudException(message, messageKey, messageParams);
 		}
@@ -129,6 +143,8 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 	 * @return The newly-created CRUD exception or the old CRUD exception with a new validation error.
 	 */
 	protected CrudException addValidationError(CrudException crudException, String message, String fieldName, String messageKey, Object ... messageParams) {
+		logger.log(Level.FINER, "Adding field validation error with key \"{0}\" to field \"{1}\"...", new Object[] { messageKey, fieldName });
+
 		if (crudException == null) {
 			crudException = new CrudException(message, fieldName, messageKey, messageParams);
 		}
@@ -140,26 +156,34 @@ public abstract class CrudService<T extends PersistentObject> implements CrudSer
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#validateCreate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
-	public void validateCreate(T entity) throws CrudException {}
+	public void validateCreate(T entity) throws CrudException {
+		logger.log(Level.FINE, "Validation of CREATE not overridden by subclass. No need for this type of validation.");
+	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#validateUpdate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
-	public void validateUpdate(T entity) throws CrudException {}
+	public void validateUpdate(T entity) throws CrudException {
+		logger.log(Level.FINE, "Validation of UPDATE not overridden by subclass. No need for this type of validation.");
+	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#validateDelete(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
-	public void validateDelete(T entity) throws CrudException {}
+	public void validateDelete(T entity) throws CrudException {
+		logger.log(Level.FINE, "Validation of DELETE not overridden by subclass. No need for this type of validation.");
+	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#count() */
 	@Override
 	public long count() {
+		logger.log(Level.FINER, "Retrieving the object count...");
 		return getDAO().retrieveCount();
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#countFiltered(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String) */
 	@Override
-	public long countFiltered(Filter<?> filterType, String filter) {
-		return getDAO().retrieveFilteredCount(filterType, filter);
+	public long countFiltered(Filter<?> filter, String value) {
+		logger.log(Level.FINER, "Retrieving a filtered object count (filter \"{0}\" with value \"{1}\")...", new Object[] { filter.getKey(), value });
+		return getDAO().retrieveFilteredCount(filter, value);
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#create(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */

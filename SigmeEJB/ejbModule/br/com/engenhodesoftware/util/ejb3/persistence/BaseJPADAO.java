@@ -84,6 +84,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	 * @see javax.persistence.criteria.Order
 	 */
 	protected List<Order> getOrderList(CriteriaBuilder cb, Root<T> root) {
+		logger.log(Level.FINEST, "Order list not overridden by subclass. Order will not be specified.");
 		return null;
 	}
 
@@ -151,7 +152,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 
 		// Retrieve the value and return.
 		long count = ((Long) q.getSingleResult()).longValue();
-		logger.log(Level.INFO, "Retrieving count for {0}: {1}", new Object[] { getDomainClass().getName(), count });
+		logger.log(Level.INFO, "Retrieved count for {0}: {1}", new Object[] { getDomainClass().getName(), count });
 		return count;
 	}
 
@@ -165,14 +166,14 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 
 		// Retrieve the value and return.
 		long count = ((Long) q.getSingleResult()).longValue();
-		logger.log(Level.INFO, "Retrieving count for {0}, filtering {1} with param \"{2}\": {3}", new Object[] { getDomainClass().getName(), filter.getKey(), value, count });
+		logger.log(Level.INFO, "Retrieved count for {0}, filtering {1} with param \"{2}\": {3}", new Object[] { getDomainClass().getName(), filter.getKey(), value, count });
 		return count;
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveAll() */
 	@Override
 	public List<T> retrieveAll() {
-		logger.log(Level.INFO, "Retrieving all: {0}", getDomainClass().getName());
+		logger.log(Level.FINER, "Retrieving all objects of class \"{0}\"...", getDomainClass().getName());
 
 		// Using the entity manager, create a criteria query to retrieve all objects of the domain class.
 		EntityManager em = getEntityManager();
@@ -185,24 +186,28 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		applyOrdering(cb, root, cq);
 
 		// Return the list of objects.
-		return em.createQuery(cq).getResultList();
+		List<T> result = em.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve all for class \"{0}\" returned \"{1}\" objects", new Object[] { getDomainClass().getName(), result.size() });
+		return result;
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveWithFilter(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String) */
 	@Override
 	public List<T> retrieveWithFilter(Filter<?> filter, String value) {
-		logger.log(Level.INFO, "Retrieving all, filtering {0} with param \"{1}\": {2}", new Object[] { filter.getKey(), value, getDomainClass().getName() });
+		logger.log(Level.FINER, "Retrieving all objects of class \"{0}\" using a filter (filter \"{1}\" with value \"{2}\")...", new Object[] { getDomainClass().getName(), filter.getKey(), value });
 
 		// Builds the filtered query and returns the result.
 		EntityManager em = getEntityManager();
 		CriteriaQuery<T> cq = buildFilteredCriteriaQuery(filter, value);
-		return em.createQuery(cq).getResultList();
+		List<T> result = em.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve with filter (filter \"{0}\" with value \"{1}\") for class \"{2}\" returned \"{3}\" objects", new Object[] { filter.getKey(), value, getDomainClass().getName(), result.size() });
+		return result;
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveSome(int[]) */
 	@Override
 	public List<T> retrieveSome(int[] interval) {
-		logger.log(Level.INFO, "Retrieving in interval [{0}, {1}): {2}", new Object[] { interval[0], interval[1], getDomainClass().getName() });
+		logger.log(Level.FINER, "Retrieving objects of class \"{0}\" in interval [{1}, {2})...", new Object[] { getDomainClass().getName(), interval[0], interval[1] });
 
 		// Using the entity manager, create a criteria query to retrieve objects of the domain class.
 		EntityManager em = getEntityManager();
@@ -220,13 +225,15 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		q.setFirstResult(interval[0]);
 
 		// Return the list of objects.
-		return q.getResultList();
+		List<T> result = q.getResultList();
+		logger.log(Level.INFO, "Retrieve in interval [{0}, {1}) for class \"{2}\" returned \"{3}\" objects", new Object[] { interval[0], interval[1], getDomainClass().getName(), result.size() });
+		return result;
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveSomeWithFilter(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String, int[]) */
 	@Override
 	public List<T> retrieveSomeWithFilter(Filter<?> filter, String value, int[] interval) {
-		logger.log(Level.INFO, "Retrieving in interval [{0}, {1}), filtering {2} with param \"{3}\": {4}", new Object[] { interval[0], interval[1], filter.getKey(), value, getDomainClass().getName() });
+		logger.log(Level.FINER, "Retrieving objects of class \"{0}\" in interval [{1}, {2}) using a filter (filter \"{3}\" with value \"{4}\")...", new Object[] { getDomainClass().getName(), interval[0], interval[1], filter.getKey(), value });
 
 		// Builds the filtered query.
 		EntityManager em = getEntityManager();
@@ -236,23 +243,27 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		TypedQuery<T> q = em.createQuery(cq);
 		q.setMaxResults(interval[1] - interval[0]);
 		q.setFirstResult(interval[0]);
-		return q.getResultList();
+		List<T> result = q.getResultList();
+		logger.log(Level.INFO, "Retrieve in interval [{0}, {1}) with filter (filter \"{2}\" with value \"{3}\") for class \"{4}\" returned \"{5}\" objects", new Object[] { interval[0], interval[1], filter.getKey(), value, getDomainClass().getName(), result.size() });
+		return result;
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveById(java.lang.Long) */
 	@Override
 	public T retrieveById(Long id) {
-		logger.log(Level.INFO, "Retrieving with id {0}: {1}", new Object[] { id, getDomainClass().getName() });
+		logger.log(Level.FINER, "Retrieving object of class \"{0}\" with id {1}...", new Object[] { getDomainClass().getName(), id });
 
 		// Uses the Persistence Context to retrieve an object given its id.
 		EntityManager em = getEntityManager();
-		return (T) em.find(getDomainClass(), id);
+		T result = (T) em.find(getDomainClass(), id);
+		logger.log(Level.INFO, "Retrieve object of class {0} with id {1} returned \"{2}\"", new Object[] { getDomainClass().getName(), id, result });
+		return result;
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#save(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void save(T object) {
-		logger.log(Level.INFO, "Saving {0}: {1}", new Object[] { getDomainClass().getName(), object });
+		logger.log(Level.FINER, "Saving an object of class {0}: \"{1}\"...", new Object[] { getDomainClass().getName(), object });
 
 		// Uses the Persistence Context to save an object. Checks if it's a new object (INSERT) or an existing one (UPDATE).
 		EntityManager em = getEntityManager();
@@ -264,7 +275,7 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#delete(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void delete(T object) {
-		logger.log(Level.INFO, "Deleting {0}: {1}", new Object[] { getDomainClass().getName(), object });
+		logger.log(Level.FINER, "Deleting an object of class {0}: \"{1}\"...", new Object[] { getDomainClass().getName(), object });
 
 		// Uses the Persistence Context to delete an object.
 		EntityManager em = getEntityManager();

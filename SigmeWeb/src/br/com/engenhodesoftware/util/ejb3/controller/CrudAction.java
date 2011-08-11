@@ -209,8 +209,8 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 
 	/** Setter for selectedEntity. */
 	public void setSelectedEntity(T selectedEntity) {
-		logger.log(Level.INFO, "Entity selected: {0}", selectedEntity);
 		this.selectedEntity = selectedEntity;
+		logger.log(Level.FINEST, "Entity \"{0}\" has been selected", selectedEntity);
 	}
 
 	/**

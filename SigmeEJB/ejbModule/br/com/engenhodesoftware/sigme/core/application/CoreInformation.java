@@ -68,13 +68,13 @@ public class CoreInformation implements Serializable {
 	public Boolean isSystemInstalled() {
 		// If not done before, checks if the system has been installed.
 		if (systemInstalled == null) {
-			logger.log(Level.FINER, "Checking if the system is properly installed...");
+			logger.log(Level.FINER, "Checking if the system has been properly installed...");
 
 			// The system is propertly installed if the basic information on cities, states, regions, institution types, etc.
 			// have already been included in the database. As a convention, we check for institution types.
 			long count = institutionTypeDAO.retrieveCount();
 			systemInstalled = (count > 0);
-			logger.log(Level.FINER, "systemInstalled = {0}", systemInstalled);
+			logger.log(Level.INFO, "System properly installed: {0}", systemInstalled);
 		}
 		return systemInstalled;
 	}
@@ -82,6 +82,7 @@ public class CoreInformation implements Serializable {
 	/** Setter for systemInstalled. */
 	public void setSystemInstalled(Boolean systemInstalled) {
 		this.systemInstalled = systemInstalled;
+		logger.log(Level.FINE, "System installed flag has been set as: {0}", systemInstalled);
 	}
 
 	/** Getter for decorator. */
@@ -93,9 +94,10 @@ public class CoreInformation implements Serializable {
 	public SortedSet<InstitutionType> getInstitutionTypes() {
 		// If the institution types haven't yet been loaded, load them.
 		if (institutionTypes == null) {
+			logger.log(Level.FINER, "Application-scoped set of institution types not yet initialized. Loading...");
 			institutionTypes = new TreeSet<InstitutionType>();
 			institutionTypes.addAll(institutionTypeDAO.retrieveAll());
-			logger.log(Level.FINE, "Loaded {0} institution types.", institutionTypes.size());
+			logger.log(Level.INFO, "Loaded {0} institution types.", institutionTypes.size());
 		}
 		return institutionTypes;
 	}
@@ -104,9 +106,10 @@ public class CoreInformation implements Serializable {
 	public SortedSet<ContactType> getContactTypes() {
 		// If the contact types haven't yet been loaded, load them.
 		if (contactTypes == null) {
+			logger.log(Level.FINER, "Application-scoped set of contact types not yet initialized. Loading...");
 			contactTypes = new TreeSet<ContactType>();
 			contactTypes.addAll(contactTypeDAO.retrieveAll());
-			logger.log(Level.FINE, "Loaded {0} contact types.", contactTypes.size());
+			logger.log(Level.INFO, "Loaded {0} contact types.", contactTypes.size());
 		}
 		return contactTypes;
 	}
@@ -115,9 +118,10 @@ public class CoreInformation implements Serializable {
 	public SortedSet<Regional> getRegionals() {
 		// If the regionals haven't yet been loaded, load them.
 		if (regionals == null) {
+			logger.log(Level.FINER, "Application-scoped set of regionals not yet initialized. Loading...");
 			regionals = new TreeSet<Regional>();
 			regionals.addAll(regionalDAO.retrieveAll());
-			logger.log(Level.FINE, "Loaded {0} regionals.", regionals.size());
+			logger.log(Level.INFO, "Loaded {0} regionals.", regionals.size());
 		}
 		return regionals;
 	}

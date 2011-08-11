@@ -57,34 +57,27 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	/** Output: the list of addressees. */
 	private List<MailingAddressee> addressees;
 
-	/** Input: the addressee being edited. */
-	private MailingAddressee selectedAddressee;
-
-	/** Getter for selectedAddressee. */
-	public MailingAddressee getSelectedAddressee() {
-		return selectedAddressee;
-	}
-
-	/** Setter for selectedAddressee. */
-	public void setSelectedAddressee(MailingAddressee selectedAddressee) {
-		this.selectedAddressee = selectedAddressee;
-	}
+	/** Input: the addressee being added or edited. */
+	private MailingAddressee addressee;
 
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getCrudService() */
 	@Override
 	protected CrudServiceLocal<MailingList> getCrudService() {
+		// Checks if the current user has the authorization to use this functionality.
+		manageMailingListsService.authorize();
+
 		return manageMailingListsService;
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#createNewEntity() */
 	@Override
 	protected MailingList createNewEntity() {
-		logger.log(Level.INFO, "Initializing an empty mailing list");
+		logger.log(Level.FINER, "Initializing an empty mailing list...");
 
 		// Create a new entity.
 		MailingList newEntity = new MailingList();
 
-		// Initialize the addressees.
+		// Create an empty addressees list.
 		addressees = new ArrayList<MailingAddressee>();
 
 		return newEntity;
@@ -93,7 +86,7 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#checkSelectedEntity() */
 	@Override
 	protected void checkSelectedEntity() {
-		logger.log(Level.INFO, "Checking selected mailing list: {0}", selectedEntity);
+		logger.log(Level.FINER, "Checking selected mailing list ({0})...", selectedEntity);
 
 		// Create the list of addressees with the already existing addressees. Also check for null.
 		if (selectedEntity.getAddressees() == null)
@@ -104,7 +97,7 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#initFilters() */
 	@Override
 	protected void initFilters() {
-		logger.log(Level.INFO, "Initializing filter types");
+		logger.log(Level.FINER, "Initializing filter types...");
 
 		// One can filter mailingLists by name, acronym, city or Regional.
 		addFilter(new LikeFilter("manageMailingLists.filter.byName", "name", getI18nMessage("secretariat", "manageMailingLists.text.filter.byName")));
@@ -114,7 +107,7 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#prepEntity() */
 	@Override
 	protected void prepEntity() {
-		logger.log(Level.INFO, "Preparing mailing list for storage: {0}", selectedEntity);
+		logger.log(Level.FINER, "Preparing mailing list for storage ({0})...", selectedEntity);
 
 		// Inserts addressee list in the entity.
 		selectedEntity.setAddressees(new TreeSet<MailingAddressee>(addressees));
@@ -133,8 +126,52 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 		if (length > 0)
 			names.delete(length - 2, length);
 
-		logger.log(Level.INFO, "Listing the mailing lists in the trash can: {0}", names.toString());
+		logger.log(Level.FINE, "List of mailing lists in the trash can: {0}", names.toString());
 		return names.toString();
+	}
+
+	/**
+	 * Analyzes what has been written so far in the spiritist field and, if not empty, looks for spiritists that start
+	 * with the given name and returns them in a list, so a dynamic pop-up list can be displayed. This method is intended
+	 * to be used with AJAX.
+	 * 
+	 * @param param
+	 *          The AJAX event.
+	 *          
+	 * @return The list of spiritists to be displayed in the drop-down auto-completion field.
+	 */
+	public List<Spiritist> suggestSpiritists(Object event) {
+		if (event != null) {
+			String param = event.toString();
+			if (param.length() > 0) {
+				List<Spiritist> suggestions = spiritistDAO.findByName(param);
+				logger.log(Level.FINE, "Suggestion for spiritist with name containing \"{0}\" returned {1} results", new Object[] { param, suggestions.size() });
+				return suggestions;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Analyzes what has been written so far in the institution field and, if not empty, looks for institutions that start
+	 * with the given name or acronym and returns them in a list, so a dynamic pop-up list can be displayed. This method
+	 * is intended to be used with AJAX.
+	 * 
+	 * @param param
+	 *          The AJAX event.
+	 *          
+	 * @return The list of institutions to be displayed in the drop-down auto-completion field.
+	 */
+	public List<Institution> suggestInstitutions(Object event) {
+		if (event != null) {
+			String param = event.toString();
+			if (param.length() > 0) {
+				List<Institution> suggestions = institutionDAO.findByNameOrAcronym(param);
+				logger.log(Level.FINE, "Suggestion for institutions with name or acronym beginning with \"{0}\" returned {1} results", new Object[] { param, suggestions.size() });
+				return suggestions;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -144,9 +181,9 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	 * This method is intended to be used with AJAX.
 	 */
 	public void newSpiritistAddressee() {
-		logger.log(Level.INFO, "Adding a new spiritist attendance to the list");
-		selectedAddressee = new SpiritistMailingAddressee();
-		addressees.add(selectedAddressee);
+		logger.log(Level.FINER, "Adding a new spiritist attendance to the list...");
+		addressee = new SpiritistMailingAddressee();
+		addressees.add(addressee);
 	}
 
 	/**
@@ -156,9 +193,9 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	 * This method is intended to be used with AJAX.
 	 */
 	public void newInstitutionAddressee() {
-		logger.log(Level.INFO, "Adding a new institution attendance to the list");
-		selectedAddressee = new InstitutionMailingAddressee();
-		addressees.add(selectedAddressee);
+		logger.log(Level.FINER, "Adding a new institution attendance to the list...");
+		addressee = new InstitutionMailingAddressee();
+		addressees.add(addressee);
 	}
 
 	/**
@@ -167,9 +204,9 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	 * This method is intended to be used with AJAX.
 	 */
 	public void newRegionalAddressee() {
-		logger.log(Level.INFO, "Adding a new regional attendance to the list");
-		selectedAddressee = new RegionalMailingAddressee();
-		addressees.add(selectedAddressee);
+		logger.log(Level.FINER, "Adding a new regional attendance to the list...");
+		addressee = new RegionalMailingAddressee();
+		addressees.add(addressee);
 	}
 
 	/**
@@ -231,69 +268,16 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	}
 
 	/**
-	 * Removes one of the addressee of the list of addressees of the mailing list. This method is intended to be used with
-	 * AJAX.
-	 */
-	public void removeAddressee() {
-		logger.log(Level.INFO, "Removing an addressee from the list: {0}", selectedAddressee);
-		addressees.remove(selectedAddressee);
-	}
-
-	/**
-	 * Analyzes what has been written so far in the spiritist field and, if not empty, looks for spiritists that start
-	 * with the given name and returns them in a list, so a dynamic pop-up list can be displayed. This method is intended
-	 * to be used with AJAX.
-	 * 
-	 * @param param
-	 *          The AJAX event.
-	 *          
-	 * @return The list of spiritists to be displayed in the drop-down auto-completion field.
-	 */
-	public List<Spiritist> suggestSpiritists(Object event) {
-		if (event != null) {
-			String param = event.toString();
-			if (param.length() > 0) {
-				List<Spiritist> suggestions = spiritistDAO.findByName(param);
-				logger.log(Level.INFO, "Searching for spiritist with name containing \"{0}\" returned {1} results", new Object[] { param, suggestions.size() });
-				return suggestions;
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * Unsets the spiritist of a given addressee so it can be changed. 
 	 * 
 	 * This method is intended to be used with AJAX.
 	 */
 	public void removeSpiritistFromAddressee() {
-		if (isSpiritistRelated(selectedAddressee)) {
-			SpiritistMailingAddressee spiritistAddressee = (SpiritistMailingAddressee) selectedAddressee;
-			logger.log(Level.INFO, "Unsetting the spiritist {0} from the addressee {1}", new Object[] { spiritistAddressee.getSpiritist(), spiritistAddressee });
+		if (isSpiritistRelated(addressee)) {
+			SpiritistMailingAddressee spiritistAddressee = (SpiritistMailingAddressee) addressee;
 			spiritistAddressee.setSpiritist(null);
+			logger.log(Level.FINE, "Spiritist \"{0}\" removed from the addressee \"{1}\"", new Object[] { spiritistAddressee.getSpiritist(), spiritistAddressee });
 		}
-	}
-
-	/**
-	 * Analyzes what has been written so far in the institution field and, if not empty, looks for institutions that start
-	 * with the given name or acronym and returns them in a list, so a dynamic pop-up list can be displayed. This method
-	 * is intended to be used with AJAX.
-	 * 
-	 * @param param
-	 *          The AJAX event.
-	 *          
-	 * @return The list of institutions to be displayed in the drop-down auto-completion field.
-	 */
-	public List<Institution> suggestInstitutions(Object event) {
-		if (event != null) {
-			String param = event.toString();
-			if (param.length() > 0) {
-				List<Institution> suggestions = institutionDAO.findByNameOrAcronym(param);
-				logger.log(Level.INFO, "Searching for institutions with name or acronym beginning with \"{0}\" returned {1} results", new Object[] { param, suggestions.size() });
-				return suggestions;
-			}
-		}
-		return null;
 	}
 
 	/**
@@ -302,10 +286,10 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 	 * This method is intended to be used with AJAX.
 	 */
 	public void removeInstitutionFromAddressee() {
-		if (isInstitutionRelated(selectedAddressee)) {
-			InstitutionMailingAddressee institutionAddressee = (InstitutionMailingAddressee) selectedAddressee;
-			logger.log(Level.INFO, "Unsetting the institution {0} from the addressee {1}", new Object[] { institutionAddressee.getInstitution(), institutionAddressee });
+		if (isInstitutionRelated(addressee)) {
+			InstitutionMailingAddressee institutionAddressee = (InstitutionMailingAddressee) addressee;
 			institutionAddressee.setInstitution(null);
+			logger.log(Level.FINE, "Institution \"{0}\" removed from the addressee \"{1}\"", new Object[] { institutionAddressee.getInstitution(), institutionAddressee });
 		}
 	}
 }

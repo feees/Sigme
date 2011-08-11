@@ -72,7 +72,7 @@ public class CoreController implements Serializable {
 		// Lazily initialize the contact types list.
 		if (contactTypes == null) {
 			contactTypes = new ArrayList<ContactType>(coreInformation.getContactTypes());
-			logger.log(Level.INFO, "Initializing contact types list with {0} items", contactTypes.size());
+			logger.log(Level.FINEST, "Contact types list initialized with {0} items", contactTypes.size());
 		}
 
 		return contactTypes;
@@ -83,7 +83,7 @@ public class CoreController implements Serializable {
 		// Lazily initialize the institution types list.
 		if (institutionTypes == null) {
 			institutionTypes = new ArrayList<InstitutionType>(coreInformation.getInstitutionTypes());
-			logger.log(Level.INFO, "Initializing institution types list with {0} items", institutionTypes.size());
+			logger.log(Level.FINEST, "Institution types list initialized with {0} items", institutionTypes.size());
 		}
 
 		return institutionTypes;
@@ -92,24 +92,30 @@ public class CoreController implements Serializable {
 	/** Getter for cityConverter. */
 	public Converter getCityConverter() {
 		// Lazily create the converter.
-		if (cityConverter == null)
+		if (cityConverter == null) {
+			logger.log(Level.FINEST, "Creating a city converter...");
 			cityConverter = new PersistentObjectConverterFromId<City>(cityDAO);
+		}
 		return cityConverter;
 	}
 
 	/** Getter for contactTypeConverter */
 	public Converter getContactTypeConverter() {
 		// Lazily create the converter.
-		if (contactTypeConverter == null)
+		if (contactTypeConverter == null) {
+			logger.log(Level.FINEST, "Creating a contact type converter...");
 			contactTypeConverter = new PersistentObjectConverterFromId<ContactType>(contactTypeDAO);
+		}
 		return contactTypeConverter;
 	}
 
 	/** Getter for institutionTypeConverter. */
 	public Converter getInstitutionTypeConverter() {
 		// Lazily create the converter.
-		if (institutionTypeConverter == null)
+		if (institutionTypeConverter == null) {
+			logger.log(Level.FINEST, "Creating an institution type converter...");
 			institutionTypeConverter = new PersistentObjectConverterFromId<InstitutionType>(institutionTypeDAO);
+		}
 		return institutionTypeConverter;
 	}
 }

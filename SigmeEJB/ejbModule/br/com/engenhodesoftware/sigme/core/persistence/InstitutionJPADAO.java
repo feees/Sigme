@@ -70,7 +70,7 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 	/** @see br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO#retrieveByName(java.lang.String) */
 	@Override
 	public Institution retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
-		logger.log(Level.INFO, "Retrieving the institution whose name is \"{0}\"", name);
+		logger.log(Level.FINE, "Retrieving the institution whose name is \"{0}\"...", name);
 
 		// Constructs the query over the Institution class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -79,13 +79,15 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 
 		// Filters the query with the name.
 		cq.where(cb.equal(root.get(InstitutionJPAMetamodel.name), name));
-		return executeSingleResultQuery(cq, name);
+		Institution result = executeSingleResultQuery(cq, name);
+		logger.log(Level.INFO, "Retrieve institution by the name \"{0}\" returned \"{1}\"", new Object[] { name, result });
+		return result;
 	}
 
 	/** @see br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO#findByNameOrAcronym(java.lang.String) */
 	@Override
 	public List<Institution> findByNameOrAcronym(String param) {
-		logger.log(Level.INFO, "Retrieving all institutions whose name or acronym begins with \"{0}\"", param);
+		logger.log(Level.FINE, "Retrieving all institutions whose name or acronym contains \"{0}\"...", param);
 
 		// Constructs the query over the Institution class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -98,12 +100,16 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 		cq.orderBy(cb.asc(root.get(InstitutionJPAMetamodel.name)));
 
 		// Returns the list of institutions.
-		return entityManager.createQuery(cq).getResultList();
+		List<Institution> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve institution by name or acronym containing \"{0}\" returned \"{1}\" institutions", new Object[] { param, result.size() });
+		return result;
 	}
 
 	/** @see br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO#findByCity(java.lang.String) */
 	@Override
 	public List<Institution> findByCity(String cityName) {
+		logger.log(Level.FINE, "Retrieving all institutions whose city name contains \"{0}\"...", cityName);
+
 		// Constructs the query over the Institution class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Institution> cq = cb.createQuery(Institution.class);
@@ -122,6 +128,8 @@ public class InstitutionJPADAO extends BaseJPADAO<Institution> implements Instit
 		cq.where(cb.like(cb.lower(cityJoin.get(cityType.getSingularAttribute("name", String.class))), searchParam));
 
 		// Returns the list of institutions.
-		return entityManager.createQuery(cq).getResultList();
+		List<Institution> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve institution by city name containing \"{0}\" returned \"{1}\" institutions", new Object[] { cityName, result.size() });
+		return result;
 	}
 }

@@ -58,6 +58,8 @@ public class CityJPADAO extends BaseJPADAO<City> implements CityDAO {
 	/** @see br.com.engenhodesoftware.util.people.persistence.CityDAO#findByName(java.lang.String) */
 	@Override
 	public List<City> findByName(String name) {
+		logger.log(Level.FINE, "Retrieving all cities whose name begins with \"{0}\"...", name);
+		
 		// Constructs the query over the City class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<City> cq = cb.createQuery(City.class);
@@ -68,15 +70,15 @@ public class CityJPADAO extends BaseJPADAO<City> implements CityDAO {
 		cq.orderBy(cb.asc(root.get(CityJPAMetamodel.name)));
 
 		// Returns the list of cities.
-		return entityManager.createQuery(cq).getResultList();
+		List<City> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve city by name containing \"{0}\" returned \"{1}\" cities", new Object[] { name, result.size() });
+		return result;
 	}
 
-	/** @throws MultiplePersistentObjectsFoundException 
-	 * @throws PersistentObjectNotFoundException 
-	 * @see br.com.engenhodesoftware.util.people.persistence.CityDAO#retrieveByNameAndStateAcronym(java.lang.String, java.lang.String) */
+	/** @see br.com.engenhodesoftware.util.people.persistence.CityDAO#retrieveByNameAndStateAcronym(java.lang.String, java.lang.String) */
 	@Override
-	public City retrieveByNameAndStateAcronym(String cityName, String stateAcronym) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
-		logger.log(Level.INFO, "Retrieving City by name and state acronym: {0}, {1}", new Object[] { cityName, stateAcronym });
+	public City retrieveByNameAndStateAcronym(String name, String stateAcronym) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+		logger.log(Level.FINE, "Retrieving the city whose name is \"{0}\" and whose state has the acronym \"{1}\"...", new Object[] { name, stateAcronym });
 
 		// Constructs the query over the City class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -85,8 +87,9 @@ public class CityJPADAO extends BaseJPADAO<City> implements CityDAO {
 		Join<City, State> join = root.join(CityJPAMetamodel.state);
 
 		// Filters the query with the name and state acronym.
-		cq.where(cb.equal(root.get(CityJPAMetamodel.name), cityName), cb.equal(join.get(StateJPAMetamodel.acronym), stateAcronym));
-		return executeSingleResultQuery(cq, cityName, stateAcronym);
-
+		cq.where(cb.equal(root.get(CityJPAMetamodel.name), name), cb.equal(join.get(StateJPAMetamodel.acronym), stateAcronym));
+		City result = executeSingleResultQuery(cq, name, stateAcronym);
+		logger.log(Level.INFO, "Retrieve city by the name \"{0}\" and state acronym \"{1}\" returned \"{2}\"", new Object[] { name, stateAcronym, result });
+		return result;
 	}
 }

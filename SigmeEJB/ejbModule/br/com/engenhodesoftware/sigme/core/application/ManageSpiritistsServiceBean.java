@@ -1,5 +1,6 @@
 package br.com.engenhodesoftware.sigme.core.application;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +50,12 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 		return spiritistDAO;
 	}
 
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#authorize() */
+	@Override
+	public void authorize() {
+		// Overridden to implement authorization. @RolesAllowed is placed in the whole class.
+	}
+
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validateCreate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void validateCreate(Spiritist entity) throws CrudException {
@@ -61,7 +68,7 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 		try {
 			Spiritist anotherEntity = spiritistDAO.retrieveByEmail(entity.getEmail());
 			if (anotherEntity != null) {
-				logger.log(Level.INFO, "Update of spiritist \"{0}\" violates validation rule: spiritist with id {1} has same email", new Object[] { entity.getEmail(), anotherEntity.getId() });
+				logger.log(Level.INFO, "Creation of spiritist \"{0}\" violates validation rule 1: spiritist with id {1} has same email", new Object[] { entity.getEmail(), anotherEntity.getId() });
 				crudException = addValidationError(crudException, crudExceptionMessage, "email", "manageSpiritists.error.repeatedEmail", anotherEntity.getLastUpdateDate());
 			}
 		}
@@ -90,7 +97,7 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 		try {
 			Spiritist anotherEntity = spiritistDAO.retrieveByEmail(entity.getEmail());
 			if ((anotherEntity != null) && (!anotherEntity.getId().equals(entity.getId()))) {
-				logger.log(Level.INFO, "Update of spiritist \"{0}\" violates validation rule: spiritist with id {1} has same email", new Object[] { entity.getEmail(), anotherEntity.getId() });
+				logger.log(Level.INFO, "Update of spiritist \"{0}\" violates validation rule 1: spiritist with id {1} has same email", new Object[] { entity.getEmail(), anotherEntity.getId() });
 				crudException = addValidationError(crudException, crudExceptionMessage, "email", "manageSpiritists.error.repeatedEmail", anotherEntity.getLastUpdateDate());
 			}
 		}
@@ -107,28 +114,13 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 			throw crudException;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validateDelete(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
-	public void validateDelete(Spiritist valueObject) throws CrudException {
-		// Possibly throwing a CRUD Exception to indicate validation error.
-		CrudException crudException = null;
-		String crudExceptionMessage = "The spiritist \"" + valueObject.getEmail() + "\" cannot be deleted because of validation errors.";
+	protected Spiritist validate(Spiritist newEntity, Spiritist oldEntity) {
+		// Sets the current date/time as last update date of the institution.
+		newEntity.setLastUpdateDate(new Date(System.currentTimeMillis()));
 
-		// O administrador é o primeiro usuário cadastrado por enquanto. Assim que o cadastro da federativa e
-		// de modelos de gestão estiverem funcionando, o admin será o presidente ou alguém que tenha uma delegação
-		// válida dada pelo presidente. Pensar se esta regra de validação deve realmente ser aplicada e pensar em uma
-		// outra regra: pode excluir a si mesmo?
-
-		// Validates business rules.
-		// Rule 1: cannot delete the administrator.
-		if (new Long(1).equals(valueObject.getId())) {
-			logger.log(Level.INFO, "Deletion of spiritist \"{0}\" violates validation rule: cannot delete the administrator", valueObject.getEmail());
-			crudException = addValidationError(crudException, crudExceptionMessage, "manageSpiritists.error.deleteAdmin");
-		}
-
-		// If one of the rules was violated, throw the exception.
-		if (crudException != null)
-			throw crudException;
+		return newEntity;
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
@@ -137,14 +129,14 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 		switch (operation) {
 		case CREATE:
 		case UPDATE:
-			logger.log(Level.FINE, "Storing spiritist: {1} ({0})", new Object[] { entity.getName(), entity.getEmail() });
-			logger.log(Level.FINE, "Persisting data:\n\t- Birthdate = {0}\n\t- Gender = {1}\n\t- Short name = {2}\n\t- Address = {3}\n\t- Telephones = {4}\n\t- {5} attendances", new Object[] { entity.getBirthDate(), entity.getGender(), entity.getShortName(), entity.getAddress(), entity.getTelephones(), entity.getAttendances().size() });
+			logger.log(Level.FINER, "Storing spiritist: {1} ({0})...", new Object[] { entity.getName(), entity.getEmail() });
+			logger.log(Level.FINER, "Persisting data...\n\t- Birthdate = {0}\n\t- Gender = {1}\n\t- Short name = {2}\n\t- Address = {3}\n\t- Telephones = {4}\n\t- {5} attendances", new Object[] { entity.getBirthDate(), entity.getGender(), entity.getShortName(), entity.getAddress(), entity.getTelephones(), entity.getAttendances().size() });
 			break;
 		case RETRIEVE:
-			logger.log(Level.FINE, "Loading spiritist with id {0}: {1}", new Object[] { entity.getId(), entity.getEmail() });
+			logger.log(Level.FINE, "Loaded spiritist with id {0} ({1})...", new Object[] { entity.getId(), entity.getEmail() });
 			break;
 		case DELETE:
-			logger.log(Level.FINE, "Deleting spiritist with id {0}: {1}", new Object[] { entity.getId(), entity.getEmail() });
+			logger.log(Level.FINE, "Deleted spiritist with id {0} ({1})...", new Object[] { entity.getId(), entity.getEmail() });
 			break;
 		}
 	}
@@ -154,7 +146,7 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 	protected void log(CrudOperation operation, List<Spiritist> entities, int ... interval) {
 		switch (operation) {
 		case LIST:
-			logger.log(Level.FINE, "Listing spiritists in interval [{0}, {1}): {2} spiritist(s) loaded.", new Object[] { interval[0], interval[1], entities.size() });
+			logger.log(Level.FINE, "Retrieved spiritists in interval [{0}, {1}): {2} spiritist(s) loaded.", new Object[] { interval[0], interval[1], entities.size() });
 		}
 	}
 }

@@ -3,6 +3,8 @@ package br.com.engenhodesoftware.util.ejb3.application;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Superclass of exceptions that can happen during any CRUD operation. Extends regular exceptions by providing a
@@ -17,6 +19,9 @@ import java.util.Iterator;
 public class CrudException extends Exception implements Iterable<CrudValidationError> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
+
+	/** The logger. */
+	private static final Logger logger = Logger.getLogger(CrudException.class.getCanonicalName());
 
 	/** Collection of validation errors. */
 	private Collection<CrudValidationError> validationErrors = new HashSet<CrudValidationError>();
@@ -42,6 +47,7 @@ public class CrudException extends Exception implements Iterable<CrudValidationE
 	 *          Parameters for user-friendly error message.
 	 */
 	public void addValidationError(String messageKey, Object[] messageParams) {
+		logger.log(Level.FINEST, "Adding global validation message with key \"{0}\"...", messageKey);
 		validationErrors.add(new CrudValidationError(messageKey, messageParams));
 	}
 
@@ -56,6 +62,7 @@ public class CrudException extends Exception implements Iterable<CrudValidationE
 	 *          Parameters for user-friendly error message.
 	 */
 	public void addValidationError(String fieldName, String messageKey, Object[] messageParams) {
+		logger.log(Level.FINEST, "Adding field validation message with key \"{0}\" to field \"{1}\"...", new Object[] { messageKey, fieldName });
 		validationErrors.add(new CrudValidationError(fieldName, messageKey, messageParams));
 	}
 

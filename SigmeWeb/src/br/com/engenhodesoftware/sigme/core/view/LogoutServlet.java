@@ -1,6 +1,8 @@
 package br.com.engenhodesoftware.sigme.core.view;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,9 +20,14 @@ public class LogoutServlet extends HttpServlet {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
+	/** The logger. */
+	private static final Logger logger = Logger.getLogger(LogoutServlet.class.getCanonicalName());
+
 	/** @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse) */
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.log(Level.FINER, "Invalidating a user session...");
+		
 		// Destroys the session for this user.
 		request.getSession(false).invalidate();
 

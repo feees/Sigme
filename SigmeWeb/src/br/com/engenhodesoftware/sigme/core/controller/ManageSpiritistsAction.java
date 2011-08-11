@@ -58,70 +58,31 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 	/** Output: the list of telephone numbers. */
 	private List<Telephone> telephones;
 
-	/** Input: the telephone being registered. */
-	private Telephone selectedTelephone;
+	/** Input: a telephone being added or edited. */
+	private Telephone telephone;
 
 	/** Output: the list of attendances. */
 	private List<Attendance> attendances;
 
-	/** Input: the attendance being edited. */
-	private Attendance selectedAttendance;
+	/** Input: the attendance being added or edited. */
+	private Attendance attendance;
 
 	/** Input: the new password to set. */
 	private String newPassword;
 
-	/** Getter for selectedTelephone. */
-	public Telephone getSelectedTelephone() {
-		return selectedTelephone;
-	}
-
-	/** Setter for selectedTelephone. */
-	public void setSelectedTelephone(Telephone selectedTelephone) {
-		this.selectedTelephone = selectedTelephone;
-	}
-
-	/** Getter for selectedAttendance. */
-	public Attendance getSelectedAttendance() {
-		return selectedAttendance;
-	}
-
-	/** Setter for selectedAttendance. */
-	public void setSelectedAttendance(Attendance selectedAttendance) {
-		this.selectedAttendance = selectedAttendance;
-	}
-
-	/** Getter for newPassword. */
-	public String getNewPassword() {
-		return newPassword;
-	}
-
-	/** Setter for newPassword. */
-	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
-	}
-
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getCrudService() */
 	@Override
 	protected CrudServiceLocal<Spiritist> getCrudService() {
+		// Checks if the current user has the authorization to use this functionality.
+		manageSpiritistsService.authorize();
+
 		return manageSpiritistsService;
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getFacesRedirect() */
-	@Override
-	public boolean getFacesRedirect() {
-		return true;
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getBundleName() */
-	@Override
-	public String getBundleName() {
-		return "msgsCore";
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#createNewEntity() */
 	@Override
 	protected Spiritist createNewEntity() {
-		logger.log(Level.INFO, "Initializing an empty spiritist");
+		logger.log(Level.FINER, "Initializing an empty spiritist...");
 
 		// Create an empty entity.
 		Spiritist newEntity = new Spiritist();
@@ -137,7 +98,7 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#checkSelectedEntity() */
 	@Override
 	protected void checkSelectedEntity() {
-		logger.log(Level.INFO, "Checking selected spiritist: {0}", selectedEntity);
+		logger.log(Level.FINER, "Checking selected spiritist ({0})...", selectedEntity);
 
 		// The address must not be null.
 		if (selectedEntity.getAddress() == null)
@@ -157,7 +118,7 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#initFilters() */
 	@Override
 	protected void initFilters() {
-		logger.log(Level.INFO, "Initializing filter types");
+		logger.log(Level.FINER, "Initializing filter types...");
 
 		// One can filter spiritists by name or e-mail.
 		addFilter(new LikeFilter("manageSpiritists.filter.byName", "name", getI18nMessage("msgsCore", "manageSpiritists.text.filter.byName")));
@@ -169,7 +130,7 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#prepEntity() */
 	@Override
 	protected void prepEntity() {
-		logger.log(Level.INFO, "Preparing spiritist for storage: {0}", selectedEntity);
+		logger.log(Level.FINER, "Preparing spiritist for storage ({0})...", selectedEntity);
 
 		// Sets the new password.
 		selectedEntity.setPassword(newPassword);
@@ -190,10 +151,9 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 
 		// Removes the final comma and returns the string.
 		int length = acronyms.length();
-		if (length > 0)
-			acronyms.delete(length - 2, length);
+		if (length > 0) acronyms.delete(length - 2, length);
 
-		logger.log(Level.INFO, "Listing the spiritists in the trash can: {0}", acronyms.toString());
+		logger.log(Level.INFO, "List of spiritists in the trash can: {0}", acronyms.toString());
 		return acronyms.toString();
 	}
 
@@ -211,10 +171,9 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 			int idx = name.indexOf(" ");
 			selectedEntity.setShortName((idx == -1) ? name : name.substring(0, idx).trim());
 
-			logger.log(Level.INFO, "Suggesting {0} as short name for {1}", new Object[] { selectedEntity.getShortName(), name });
+			logger.log(Level.FINE, "Suggested \"{0}\" as short name for \"{1}\"", new Object[] { selectedEntity.getShortName(), name });
 		}
-
-		else logger.log(Level.INFO, "Short name not suggested: name = {0}, shortName = {1}", new Object[] { name, shortName });
+		else logger.log(Level.FINEST, "Short name not suggested: empty name or short name already filled (name is \"{0}\", shortName is \"{1}\"", new Object[] { name, shortName });
 	}
 
 	/**
@@ -231,31 +190,12 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 		if (query.length() > 0) {
 			// Uses the DAO to find the query and returns.
 			List<City> cities = cityDAO.findByName(query);
-			logger.log(Level.INFO, "Searching for cities beginning with \"{0}\" returned {1} results", new Object[] { query, cities.size() });
+			logger.log(Level.FINE, "Suggestion for cities beginning with \"{0}\" returned {1} results", new Object[] { query, cities.size() });
 			return cities;
 		}
 		return null;
 	}
 	
-	/**
-	 * Adds a new and empty telephone to the list of telephones of the spiritist, so its fields can be filled. This method
-	 * is intended to be used with AJAX.
-	 */
-	public void newTelephone() {
-		logger.log(Level.INFO, "Adding a new telephone to the list");
-		selectedTelephone = new Telephone();
-		telephones.add(selectedTelephone);
-	}
-
-	/**
-	 * Removes one of the telephones of the list of telephones of the spiritist. This method is intended to be used with
-	 * AJAX.
-	 */
-	public void removeTelephone() {
-		logger.log(Level.INFO, "Removing a telephone from the list: {0}", selectedTelephone);
-		telephones.remove(selectedTelephone);
-	}
-
 	/**
 	 * Analyzes what has been written so far in the institution field and, if not empty, looks for institutions that start
 	 * with the given name or acronym and returns them in a list, so a dynamic pop-up list can be displayed. This method
@@ -270,39 +210,82 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 			String param = event.toString();
 			if (param.length() > 0) {
 				List<Institution> suggestions = institutionDAO.findByNameOrAcronym(param);
-				logger.log(Level.INFO, "Searching for institutions with name or acronym beginning with \"{0}\" returned {1} results", new Object[] { param, suggestions.size() });
+				logger.log(Level.FINE, "Suggestion for institutions with name or acronym beginning with \"{0}\" returned {1} results", new Object[] { param, suggestions.size() });
 				return suggestions;
 			}
 		}
 		return null;
 	}
 
+	/** Getter for telephones. */
+	public List<Telephone> getTelephones() {
+		return telephones;
+	}
+
+	/** Setter for telephones. */
+	public void setTelephones(List<Telephone> telephones) {
+		this.telephones = telephones;
+	}
+
+	/** Getter for telephone. */
+	public Telephone getTelephone() {
+		return telephone;
+	}
+
+	/** Setter for telephone. */
+	public void setTelephone(Telephone telephone) {
+		this.telephone = telephone;
+		logger.log(Level.FINEST, "Telephone \"{0}\" has been selected", telephone);
+	}
+
 	/**
-	 * Adds a new and empty attendance to the list of attendances of the spiritist, so its fields can be filled. This
-	 * method is intended to be used with AJAX.
+	 * Creates a new and empty telephone so the telephone fields can be filled. 
+	 * 
+	 * This method is intended to be used with AJAX, through the PrimeFaces Collector component.
+	 */
+	public void newTelephone() {
+		telephone = new Telephone();
+		logger.log(Level.FINEST, "Empty telephone created as selected telephone");
+	}
+	
+	public void resetTelephone() {
+		telephone = null;
+		logger.log(Level.FINEST, "Telephone has been reset -- no telephone is selected");
+	}
+
+	/** Getter for attendances. */
+	public List<Attendance> getAttendances() {
+		return attendances;
+	}
+
+	/** Setter for attendances. */
+	public void setAttendances(List<Attendance> attendances) {
+		this.attendances = attendances;
+	}
+
+	/** Getter for attendance. */
+	public Attendance getAttendance() {
+		return attendance;
+	}
+
+	/** Setter for attendance. */
+	public void setAttendance(Attendance attendance) {
+		this.attendance = attendance;
+		logger.log(Level.FINEST, "Attendance \"{0}\" has been selected", attendance);
+	}
+
+	/**
+	 * Creates a new and empty attendance so the attendance fields can be filled. 
+	 * 
+	 * This method is intended to be used with AJAX, through the PrimeFaces Collector component.
 	 */
 	public void newAttendance() {
-		logger.log(Level.INFO, "Adding a new attendance to the list");
-		selectedAttendance = new Attendance();
-		attendances.add(selectedAttendance);
+		attendance = new Attendance();
+		logger.log(Level.FINEST, "Empty attendance created as selected attendance");
 	}
-
-	/**
-	 * Removes one of the attendances of the list of attendances of the spiritist. This method is intended to be used with
-	 * AJAX.
-	 */
-	public void removeAttendance() {
-		logger.log(Level.INFO, "Removing an attendance from the list: {0}", selectedAttendance);
-		attendances.remove(selectedAttendance);
-	}
-
-	/**
-	 * Unsets the institution of a given attendance so it can be changed. 
-	 * 
-	 * This method is intended to be used with AJAX.
-	 */
-	public void removeInstitutionFromAttendance() {
-		logger.log(Level.INFO, "Unsetting the institution {0} from the attendance {1}", new Object[] { selectedAttendance.getInstitution(), selectedAttendance });
-		selectedAttendance.setInstitution(null);
+	
+	public void resetAttendance() {
+		attendance = null;
+		logger.log(Level.FINEST, "Attendance has been reset -- no attendance is selected");
 	}
 }

@@ -37,10 +37,6 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 	@EJB
 	private MailingListDAO mailingListDAO;
 
-	/** The DAO for MailingAddressee objects. */
-	// @EJB
-	// private MailingAddresseeDAO mailingAddresseeDAO;
-
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#createNewEntity() */
 	@Override
 	protected MailingList createNewEntity() {
@@ -51,6 +47,12 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 	@Override
 	protected BaseDAO<MailingList> getDAO() {
 		return mailingListDAO;
+	}
+
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#authorize() */
+	@Override
+	public void authorize() {
+		// Overridden to implement authorization. @RolesAllowed is placed in the whole class.
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validateCreate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
@@ -65,15 +67,15 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 		try {
 			MailingList anotherEntity = mailingListDAO.retrieveByName(entity.getName());
 			if (anotherEntity != null) {
-				logger.log(Level.WARNING, "Update of mailing list \"{0}\" violates validation rule: mailing list with id {1} has same name", new Object[] { entity.getName(), anotherEntity.getId() });
+				logger.log(Level.INFO, "Creation of mailing list \"{0}\" violates validation rule 1: mailing list with id {1} has same name", new Object[] { entity.getName(), anotherEntity.getId() });
 				crudException = addValidationError(crudException, crudExceptionMessage, "name", "manageMailingLists.error.repeatedName");
 			}
 		}
 		catch (PersistentObjectNotFoundException e) {
-			logger.log(Level.INFO, "Rule 1 OK - there's no other mailing list with the same name: {0}", entity.getName());
+			logger.log(Level.FINE, "Rule 1 OK - there's no other mailing list with the same name: {0}", entity.getName());
 		}
 		catch (MultiplePersistentObjectsFoundException e) {
-			logger.log(Level.SEVERE, "Creation of mailing list with name \"" + entity.getName() + "\" threw an exception: a query for a list with this name returned multiple results!", e);
+			logger.log(Level.WARNING, "Creation of mailing list with name \"" + entity.getName() + "\" threw an exception: a query for a list with this name returned multiple results!", e);
 			crudException = addValidationError(crudException, crudExceptionMessage, "email", "manageMailingLists.error.multipleInstancesError");
 		}
 
@@ -94,15 +96,15 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 		try {
 			MailingList anotherEntity = mailingListDAO.retrieveByName(entity.getName());
 			if ((anotherEntity != null) && (!anotherEntity.getId().equals(entity.getId()))) {
-				logger.log(Level.WARNING, "Update of mailing list \"{0}\" (id {1}) violates validation rule: mailing list with id {2} has same name", new Object[] { entity.getName(), entity.getId(), anotherEntity.getId() });
+				logger.log(Level.INFO, "Update of mailing list \"{0}\" (id {1}) violates validation rule 1: mailing list with id {2} has same name", new Object[] { entity.getName(), entity.getId(), anotherEntity.getId() });
 				crudException = addValidationError(crudException, crudExceptionMessage, "name", "manageMailingLists.error.repeatedName");
 			}
 		}
 		catch (PersistentObjectNotFoundException e) {
-			logger.log(Level.INFO, "Rule 1 OK - there's no other mailing list with the same name: {0}", entity.getName());
+			logger.log(Level.FINE, "Rule 1 OK - there's no other mailing list with the same name: {0}", entity.getName());
 		}
 		catch (MultiplePersistentObjectsFoundException e) {
-			logger.log(Level.SEVERE, "Creation of mailing list with name \"" + entity.getName() + "\" threw an exception: a query for a list with this name returned multiple results!", e);
+			logger.log(Level.WARNING, "Creation of mailing list with name \"" + entity.getName() + "\" threw an exception: a query for a list with this name returned multiple results!", e);
 			crudException = addValidationError(crudException, crudExceptionMessage, "email", "manageMailingLists.error.multipleInstancesError");
 		}
 
@@ -117,13 +119,13 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 		switch (operation) {
 		case CREATE:
 		case UPDATE:
-			logger.log(Level.INFO, "Storing mailing list: {0}", entity.getName());
+			logger.log(Level.FINER, "Storing mailing list: \"{0}\"...", entity.getName());
 			break;
 		case RETRIEVE:
-			logger.log(Level.INFO, "Loading mailing list with id {0}: {1}", new Object[] { entity.getId(), entity.getName() });
+			logger.log(Level.FINE, "Loaded mailing list with id {0} ({1})...", new Object[] { entity.getId(), entity.getName() });
 			break;
 		case DELETE:
-			logger.log(Level.INFO, "Deleting mailing list with id {0}: {1}", new Object[] { entity.getId(), entity.getName() });
+			logger.log(Level.FINE, "Deleted mailing list with id {0} ({1})...", new Object[] { entity.getId(), entity.getName() });
 			break;
 		}
 	}
@@ -133,7 +135,7 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 	protected void log(CrudOperation operation, List<MailingList> entities, int ... interval) {
 		switch (operation) {
 		case LIST:
-			logger.log(Level.INFO, "Listing mailing lists from {0} to {1}: {2} mailing list(s) loaded.", new Object[] { interval[0], interval[1], entities.size() });
+			logger.log(Level.FINE, "Retrieved mailing list in interval [{0}, {1}): {2} list(s) loaded.", new Object[] { interval[0], interval[1], entities.size() });
 		}
 	}
 }

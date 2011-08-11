@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Utility class with methods related to text manipulation.
@@ -11,6 +13,9 @@ import java.security.NoSuchAlgorithmException;
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 public final class TextUtils {
+	/** The logger. */
+	private static final Logger logger = Logger.getLogger(TextUtils.class.getCanonicalName());
+
 	/**
 	 * Produces the MD5 hash for a given string. Useful for generating hashes of passwords, for example.
 	 * 
@@ -36,6 +41,7 @@ public final class TextUtils {
 		// If the hash doesn't have 32 digits, prepend a zero.
 		if (s.length() % 2 != 0) s = "0" + s;
 
+		logger.log(Level.FINEST, "MD5 hash produced: {0}", s);
 		return s;
 	}
 
@@ -68,6 +74,7 @@ public final class TextUtils {
 		// If the hash doesn't have an even number of digits, prepend a zero.
 		if (s.length() % 2 != 0) s = "0" + s;
 
+		logger.log(Level.FINEST, "{0} hash produced: {1}", new Object[] { algorithm, s });
 		return s;
 	}
 }

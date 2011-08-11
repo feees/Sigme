@@ -36,7 +36,7 @@ public interface CityDAO extends BaseDAO<City> {
 	/**
 	 * Retrieves the city that has the exact name and state acronym.
 	 * 
-	 * @param cityName The exact name of the city to be retrieved.
+	 * @param name The exact name of the city to be retrieved.
 	 * @param stateAcronym The exact acronym of the state of the city to be retrieved.
 	 * 
 	 * @return A City object that matches the query.
@@ -46,5 +46,5 @@ public interface CityDAO extends BaseDAO<City> {
 	 * @throws MultiplePersistentObjectsFoundException
 	 *           If there are more than one city with the exact name and state acronym given.
 	 */
-	City retrieveByNameAndStateAcronym(String cityName, String stateAcronym) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+	City retrieveByNameAndStateAcronym(String name, String stateAcronym) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 }

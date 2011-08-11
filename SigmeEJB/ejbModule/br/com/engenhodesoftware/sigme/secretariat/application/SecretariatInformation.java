@@ -36,6 +36,7 @@ public class SecretariatInformation implements Serializable {
 	public SortedSet<MailingAddresseeType> getAddresseeTypes() {
 		// If the addressee types haven't yet been loaded, load them.
 		if (addresseeTypes == null) {
+			logger.log(Level.FINER, "Application-scoped set of mailing addressee types not yet initialized. Loading...");
 			addresseeTypes = new TreeSet<MailingAddresseeType>();
 			addresseeTypes.addAll(Arrays.asList(MailingAddresseeType.values()));
 			logger.log(Level.INFO, "Loaded {0} mailing list addressee types.", addresseeTypes.size());
@@ -47,9 +48,10 @@ public class SecretariatInformation implements Serializable {
 	public SortedSet<MailingAddresseeScope> getAddresseeScopes() {
 		// If the addressee scopes haven't yet been loaded, load them.
 		if (addresseeScopes == null) {
+			logger.log(Level.FINER, "Application-scoped set of mailing addressee scopes not yet initialized. Loading...");
 			addresseeScopes = new TreeSet<MailingAddresseeScope>();
 			addresseeScopes.addAll(Arrays.asList(MailingAddresseeScope.values()));
-			logger.log(Level.INFO, "Loaded {0} mailing list addressee types.", addresseeScopes.size());
+			logger.log(Level.INFO, "Loaded {0} mailing list addressee scopes.", addresseeScopes.size());
 		}
 		return addresseeScopes;
 	}
