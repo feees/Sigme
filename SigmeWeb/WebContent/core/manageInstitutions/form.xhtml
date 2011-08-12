@@ -38,12 +38,12 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:type" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.type']}" /></ui:define>
-							<h:selectOneMenu id="type" value="#{manageInstitutionsAction.selectedEntity.type}" converter="#{coreController.institutionTypeConverter}" required="true" disabled="#{manageInstitutionsAction.readOnly}">
-								<f:selectItem itemLabel="#{msgsCore['manageInstitutions.form.type.blankOption']}" itemValue="#{null}" />
-								<f:selectItems value="#{coreController.institutionTypes}" />
-								<p:ajax listener="#{manageInstitutionsAction.handleInstitutionTypeChange}" update="regionalName typeField" />
+							<p:selectOneMenu id="type" value="#{manageInstitutionsAction.selectedEntity.type}" converter="#{coreController.institutionTypeConverter}" required="true" disabled="#{manageInstitutionsAction.readOnly}">
+								<f:selectItem itemLabel="#{msgsCore['manageInstitutions.form.type.blankOption']}" itemValue="" />
+								<f:selectItems value="#{coreController.institutionTypes}" var="type" itemLabel="#{type.type}" itemValue="#{type}" />
+								<p:ajax listener="#{manageInstitutionsAction.handleInstitutionTypeChange}" update="regionalName typeField" onsuccess="findObjectById('form:acronym').focus();" />
 								<p:ajax event="blur" update="typeField" />
-							</h:selectOneMenu>
+							</p:selectOneMenu>
 						</ui:decorate>
 					</h:panelGroup>
 					<h:panelGroup id="acronymField">
@@ -173,9 +173,9 @@
 					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
 						<h:panelGroup rendered="#{! manageInstitutionsAction.readOnly}">
 							<p:commandButton action="#{manageInstitutionsAction.list}" value="#{msgs['crud.button.cancel']}" immediate="true" image="buttonCancel" />
-							<p:commandButton action="#{manageInstitutionsAction.save}" value="#{msgs['crud.button.save']}" image="buttonOk" />
+							<p:commandButton action="#{manageInstitutionsAction.save}" value="#{msgs['crud.button.save']}" image="buttonOk" update=":form :globalMessages" />
 							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}" action="#{manageInstitutionsAction.list}" immediate="true" />
-							<p:hotkey bind="#{msgs['crud.hotkey.save']}" action="#{manageInstitutionsAction.save}" />
+							<p:hotkey bind="#{msgs['crud.hotkey.save']}" action="#{manageInstitutionsAction.save}" update=":form :globalMessages" />
 						</h:panelGroup>
 						<h:panelGroup rendered="#{manageInstitutionsAction.readOnly}">
 							<p:commandButton action="#{manageInstitutionsAction.list}" value="#{msgs['crud.button.back']}" immediate="true" image="buttonBack" />
@@ -202,11 +202,11 @@
 							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 								<ui:param name="fieldName" value="telephoneForm:telephoneType" />
 								<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.type']}" /></ui:define>
-								<h:selectOneMenu id="telephoneType" value="#{manageInstitutionsAction.telephone.type}" converter="#{coreController.contactTypeConverter}" required="true" disabled="#{manageInstitutionsAction.readOnly}">
-									<f:selectItem itemLabel="#{msgsCore['manageInstitutions.form.telephone.type.blankOption']}" itemValue="#{null}" />
-									<f:selectItems value="#{coreController.contactTypes}" />
+								<p:selectOneMenu id="telephoneType" value="#{manageInstitutionsAction.telephoneType}" converter="#{coreController.contactTypeConverter}" required="true" disabled="#{manageInstitutionsAction.readOnly}">
+									<f:selectItem itemLabel="#{msgsCore['manageInstitutions.form.telephone.type.blankOption']}" itemValue="" />
+									<f:selectItems value="#{coreController.contactTypes}" var="type" itemLabel="#{type.type}" itemValue="#{type}" />
 									<p:ajax update="telephoneTypeField" />
-								</h:selectOneMenu>
+								</p:selectOneMenu>
 							</ui:decorate>
 						</h:panelGroup>
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">

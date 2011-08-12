@@ -30,6 +30,7 @@ import br.com.engenhodesoftware.util.ejb3.application.filters.ReverseMultipleCho
 import br.com.engenhodesoftware.util.ejb3.controller.CrudAction;
 import br.com.engenhodesoftware.util.people.domain.Address;
 import br.com.engenhodesoftware.util.people.domain.City;
+import br.com.engenhodesoftware.util.people.domain.ContactType;
 import br.com.engenhodesoftware.util.people.domain.Telephone;
 import br.com.engenhodesoftware.util.people.persistence.CityDAO;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
@@ -225,7 +226,15 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 	 *          The selection event supplied by PrimeFaces' auto-complete component.
 	 */
 	public void handleCitySelection(SelectEvent event) {
-		logger.log(Level.FINER, "Handling select event for city ({0})...", event.getObject());
+		Object obj = event.getObject();
+		logger.log(Level.FINER, "Handling select event for city ({0})...", obj);
+		
+		// If the city has been properly passed by the event, set it in the object so the regional is properly handled.
+		if (obj instanceof City) {
+			selectedEntity.getAddress().setCity((City)obj);
+			logger.log(Level.FINE, "City of institution \"{0}\" has been set to \"{1}\"", new Object[] { selectedEntity, obj });
+		}
+		
 		setRegional();
 	}
 
@@ -300,6 +309,16 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 		this.telephone = telephone;
 		logger.log(Level.FINEST, "Telephone \"{0}\" has been selected", telephone);
 	}
+	
+	/** */
+	public ContactType getTelephoneType() {
+		return (telephone == null) ? null : telephone.getType();
+	}
+	
+	/** */
+	public void setTelephoneType(ContactType type) {
+		if (telephone != null) telephone.setType(type);
+	}
 
 	/**
 	 * Creates a new and empty telephone so the telephone fields can be filled. 
@@ -311,6 +330,9 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 		logger.log(Level.FINEST, "Empty telephone created as selected telephone");
 	}
 	
+	/**
+	 * TODO: document this method.
+	 */
 	public void resetTelephone() {
 		telephone = null;
 		logger.log(Level.FINEST, "Telephone has been reset -- no telephone is selected");
