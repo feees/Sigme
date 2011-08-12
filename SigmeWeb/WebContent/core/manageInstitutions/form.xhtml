@@ -22,7 +22,7 @@
 		<div class="crud">
 			<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 				<h:form id="form">
-					<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.focusFirstField']}" handler="findObjectById('form:name').focus();" />
+					<p:hotkey bind="#{msgs['crud.hotkey.focusFirstField']}" handler="findObjectById('form:name').focus();" />
 					
 					<h:panelGroup id="nameField">
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
@@ -172,14 +172,14 @@
 
 					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
 						<h:panelGroup rendered="#{! manageInstitutionsAction.readOnly}">
-							<p:commandButton action="#{manageInstitutionsAction.list}" value="#{msgsCore['manageInstitutions.button.cancel']}" immediate="true" image="buttonCancel" />
-							<p:commandButton action="#{manageInstitutionsAction.save}" value="#{msgsCore['manageInstitutions.button.save']}" image="buttonOk" />
-							<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.backToList']}" action="#{manageInstitutionsAction.list}" immediate="true" />
-							<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.save']}" action="#{manageInstitutionsAction.save}" />
+							<p:commandButton action="#{manageInstitutionsAction.list}" value="#{msgs['crud.button.cancel']}" immediate="true" image="buttonCancel" />
+							<p:commandButton action="#{manageInstitutionsAction.save}" value="#{msgs['crud.button.save']}" image="buttonOk" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}" action="#{manageInstitutionsAction.list}" immediate="true" />
+							<p:hotkey bind="#{msgs['crud.hotkey.save']}" action="#{manageInstitutionsAction.save}" />
 						</h:panelGroup>
 						<h:panelGroup rendered="#{manageInstitutionsAction.readOnly}">
-							<p:commandButton action="#{manageInstitutionsAction.list}" value="#{msgsCore['manageInstitutions.button.back']}" immediate="true" image="buttonBack" />
-							<p:hotkey bind="#{msgsCore['manageInstitutions.hotkey.backToList']}" action="#{manageInstitutionsAction.list}" immediate="true" />
+							<p:commandButton action="#{manageInstitutionsAction.list}" value="#{msgs['crud.button.back']}" immediate="true" image="buttonBack" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}" action="#{manageInstitutionsAction.list}" immediate="true" />
 						</h:panelGroup>
 					</ui:decorate>
 				</h:form>
@@ -210,8 +210,8 @@
 							</ui:decorate>
 						</h:panelGroup>
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-							<p:commandButton action="#{manageInstitutionsAction.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgsCore['manageInstitutions.button.cancel']}" image="buttonCancel" />
-							<p:commandButton action="#{manageInstitutionsAction.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgsCore['manageInstitutions.button.save']}" image="buttonOk" process="@form" update=":form:telephonesField">
+							<p:commandButton action="#{manageInstitutionsAction.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.cancel']}" image="buttonCancel" />
+							<p:commandButton action="#{manageInstitutionsAction.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.save']}" image="buttonOk" process="@form" update=":form:telephonesField">
 								<p:collector value="#{manageInstitutionsAction.telephone}" addTo="#{manageInstitutionsAction.telephones}" />
 							</p:commandButton>
 						</ui:decorate>
@@ -222,11 +222,11 @@
 	</ui:define>
 	
 	<ui:define name="help">
-		<h4><h:outputText value="#{msgsCore['manageInstitutions.help.hotkeys']}" />:</h4>
+		<h4><h:outputText value="#{msgs['text.hotkeys']}" />:</h4>
 		<ul>
-			<li><b><h:outputText value="#{msgsCore['manageInstitutions.hotkey.focusFirstField']}" /></b>: <h:outputText value="#{msgsCore['manageInstitutions.help.hotkeys.focusFirstField']}" />;</li>
-			<li><b><h:outputText value="#{msgsCore['manageInstitutions.hotkey.backToList']}" /></b>: <h:outputText value="#{msgsCore['manageInstitutions.help.hotkeys.backToList']}" />;</li>
-			<li><b><h:outputText value="#{msgsCore['manageInstitutions.hotkey.save']}" /></b>: <h:outputText value="#{msgsCore['manageInstitutions.help.hotkeys.save']}" />.</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.focusFirstField']}" /></b>: <h:outputText value="#{msgs['crud.help.hotkeys.focusFirstField']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.backToList']}" /></b>: <h:outputText value="#{msgs['crud.help.hotkeys.backToList']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.save']}" /></b>: <h:outputText value="#{msgs['crud.help.hotkeys.save']}" />.</li>
 		</ul>
 	</ui:define>
 </ui:composition>

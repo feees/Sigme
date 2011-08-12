@@ -140,6 +140,12 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 		selectedEntity.setAttendances(new TreeSet<Attendance>(attendances));
 	}
 
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#summarizeSelectedEntity() */
+	@Override
+	protected String summarizeSelectedEntity() {
+		return (selectedEntity == null) ? "" : selectedEntity.getShortName();
+	}
+
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#listTrash() */
 	@Override
 	protected String listTrash() {

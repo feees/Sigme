@@ -404,6 +404,19 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	}
 
 	/**
+	 * Returns a summarized string representation of the selected entity, so we can inform the user what has been just 
+	 * created or updated. The basic implementation just returns the default string representation of the entity 
+	 * (toString()), therefore if that representation is not summarized enough for a faces message, it is advised to 
+	 * override it.
+	 * 
+	 * @return A string summarizing the selected entity.
+	 */
+	protected String summarizeSelectedEntity() {
+		logger.log(Level.INFO, "summarizeSelectedEntity() not overridden by subclass. Returning the entity's toString(): {0}", selectedEntity);
+		return "" + selectedEntity;
+	}
+	
+	/**
 	 * Builds a string with the contents of the trash, so we can inform the user what has been just deleted. The basic
 	 * implementation just returns the size of the trash, therefore it is advised to override it.
 	 * 
@@ -770,12 +783,12 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 			if (selectedEntity.getId() == null) {
 				getCrudService().validateCreate(selectedEntity);
 				getCrudService().create(selectedEntity);
-				addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.createSucceeded");
+				addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.createSucceeded", summarizeSelectedEntity());
 			}
 			else {
 				getCrudService().validateUpdate(selectedEntity);
 				getCrudService().update(selectedEntity);
-				addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.updateSucceeded");
+				addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.updateSucceeded", summarizeSelectedEntity());
 			}
 		}
 		catch (CrudException crudException) {

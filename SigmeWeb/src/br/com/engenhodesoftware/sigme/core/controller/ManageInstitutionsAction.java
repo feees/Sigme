@@ -150,6 +150,12 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 		setRegional();
 	}
 
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#summarizeSelectedEntity() */
+	@Override
+	protected String summarizeSelectedEntity() {
+		return (selectedEntity == null) ? "" : selectedEntity.getAcronym();
+	}
+
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#listTrash() */
 	@Override
 	protected String listTrash() {
