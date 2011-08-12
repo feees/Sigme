@@ -310,12 +310,22 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 		logger.log(Level.FINEST, "Telephone \"{0}\" has been selected", telephone);
 	}
 	
-	/** */
+	/** 
+	 * Getter for the type attribute of the telephone, created because PrimeFaces p:selectOneMenu complains of the EL 
+	 * #{manageInstitutionsAction.telephone.type} if telephone is null. This method checks for nulls.
+	 * 
+	 * See: http://forum.primefaces.org/viewtopic.php?f=3&t=14128&p=43494#p43494 
+	 */
 	public ContactType getTelephoneType() {
 		return (telephone == null) ? null : telephone.getType();
 	}
 	
-	/** */
+	/** 
+	 * Setter for the type attribute of the telephone, created because PrimeFaces p:selectOneMenu complains of the EL 
+	 * #{manageInstitutionsAction.telephone.type} if telephone is null. This method checks for nulls.
+	 * 
+	 * See: http://forum.primefaces.org/viewtopic.php?f=3&t=14128&p=43494#p43494 
+	 */
 	public void setTelephoneType(ContactType type) {
 		if (telephone != null) telephone.setType(type);
 	}
