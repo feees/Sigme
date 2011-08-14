@@ -117,6 +117,9 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	protected Spiritist validate(Spiritist newEntity, Spiritist oldEntity) {
+		// Never changes the password on updates.
+		if (oldEntity != null) newEntity.setPassword(oldEntity.getPassword());
+		
 		// Sets the current date/time as last update date of the institution.
 		newEntity.setLastUpdateDate(new Date(System.currentTimeMillis()));
 

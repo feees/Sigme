@@ -23,6 +23,7 @@ import br.com.engenhodesoftware.util.ejb3.application.filters.ManyToManyFilter;
 import br.com.engenhodesoftware.util.ejb3.controller.CrudAction;
 import br.com.engenhodesoftware.util.people.domain.Address;
 import br.com.engenhodesoftware.util.people.domain.City;
+import br.com.engenhodesoftware.util.people.domain.ContactType;
 import br.com.engenhodesoftware.util.people.domain.Telephone;
 import br.com.engenhodesoftware.util.people.persistence.CityDAO;
 
@@ -244,6 +245,26 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 		logger.log(Level.FINEST, "Telephone \"{0}\" has been selected", telephone);
 	}
 
+	/** 
+	 * Getter for the type attribute of the telephone, created because PrimeFaces p:selectOneMenu complains of the EL 
+	 * #{manageSpiritistsAction.telephone.type} if telephone is null. This method checks for nulls.
+	 * 
+	 * See: http://forum.primefaces.org/viewtopic.php?f=3&t=14128&p=43494#p43494 
+	 */
+	public ContactType getTelephoneType() {
+		return (telephone == null) ? null : telephone.getType();
+	}
+	
+	/** 
+	 * Setter for the type attribute of the telephone, created because PrimeFaces p:selectOneMenu complains of the EL 
+	 * #{manageSpiritistsAction.telephone.type} if telephone is null. This method checks for nulls.
+	 * 
+	 * See: http://forum.primefaces.org/viewtopic.php?f=3&t=14128&p=43494#p43494 
+	 */
+	public void setTelephoneType(ContactType type) {
+		if (telephone != null) telephone.setType(type);
+	}
+
 	/**
 	 * Creates a new and empty telephone so the telephone fields can be filled. 
 	 * 
@@ -254,6 +275,9 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 		logger.log(Level.FINEST, "Empty telephone created as selected telephone");
 	}
 	
+	/**
+	 * TODO: document this method.
+	 */
 	public void resetTelephone() {
 		telephone = null;
 		logger.log(Level.FINEST, "Telephone has been reset -- no telephone is selected");
@@ -290,6 +314,9 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 		logger.log(Level.FINEST, "Empty attendance created as selected attendance");
 	}
 	
+	/**
+	 * TODO: document this method.
+	 */
 	public void resetAttendance() {
 		attendance = null;
 		logger.log(Level.FINEST, "Attendance has been reset -- no attendance is selected");
