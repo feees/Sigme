@@ -137,3 +137,10 @@ a:hover { }
 #footer a {
 	color: #FFFFFF;
 }
+
+/* Bottom */
+
+#bottom {
+	width: 980px;
+	margin: 0 auto;
+}

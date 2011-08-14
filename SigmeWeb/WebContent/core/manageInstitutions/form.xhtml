@@ -109,9 +109,10 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:zipCode" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.zipCode']}" /></ui:define>
-							<p:inputMask id="zipCode" mask="99999-999" required="false" value="#{manageInstitutionsAction.selectedEntity.address.zipCode}" size="10" disabled="#{manageInstitutionsAction.readOnly}">
+							<p:inputMask id="zipCode" mask="#{core['format.zipCode.primefaces']}" required="false" value="#{manageInstitutionsAction.selectedEntity.address.zipCode}" size="10" disabled="#{manageInstitutionsAction.readOnly}">
 								<p:ajax event="blur" update="zipCodeField" />
 							</p:inputMask>
+							<h:outputText value=" (#{msgs['format.zipCode.label']})" />
 						</ui:decorate>
 					</h:panelGroup>
 
@@ -184,7 +185,11 @@
 					</ui:decorate>
 				</h:form>
 			</ui:decorate>
+		</div>
+	</ui:define>
 
+	<ui:define name="body">
+		<div class="crud">
 			<!-- Dialog with the new telephone form. -->
 			<p:dialog header="#{msgsCore['manageInstitutions.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="580" position="40,-300" showEffect="fade" hideEffect="fade">
 				<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
