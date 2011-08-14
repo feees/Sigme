@@ -58,7 +58,7 @@
 							<ui:param name="fieldName" value="form:birthDate" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageSpiritists.form.birthDate']}" /></ui:define>
 							<p:inputMask id="birthDate" mask="#{msgs['format.date.primefaces']}" value="#{manageSpiritistsAction.selectedEntity.birthDate}" disabled="#{manageSpiritistsAction.readOnly}">
-								<f:convertDateTime type="date" pattern="#{msgs['format.date.jsf']}" />
+								<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" />
 							</p:inputMask>
 							<h:outputText value=" (#{msgs['format.date.label']})" />
 						</ui:decorate>
@@ -77,7 +77,9 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield-novalidation.xhtml">
 							<ui:param name="fieldName" value="form:lastUpdateDate" />
 							<ui:define name="label"><h:outputText id="lastUpdateDate" value="#{msgsCore['manageSpiritists.form.lastUpdateDate']}" /></ui:define>
-							<p:inputText value="#{manageSpiritistsAction.selectedEntity.lastUpdateDate}" disabled="true"><f:convertDateTime type="both" dateStyle="medium" timeStyle="short" /></p:inputText>
+							<p:inputText value="#{manageSpiritistsAction.selectedEntity.lastUpdateDate}" disabled="true">
+								<f:convertDateTime type="both" pattern="#{msgs['format.datetime.java']}" />
+							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
 
@@ -182,13 +184,17 @@
 									emptyMessage="#{msgsCore['manageSpiritists.text.noAttendances']}">
 									
 								<p:column headerText="#{msgsCore['manageSpiritists.form.institution']}">
-									<h:outputText value=" " />
+									<h:outputText value="#{attendance.institution.acronym}" />
 								</p:column>
 								<p:column headerText="#{msgsCore['manageSpiritists.form.attendance.start']}">
-									<h:outputText value=" " />
+									<h:outputText value="#{attendance.startDate}">
+										<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" />
+									</h:outputText>
 								</p:column>
 								<p:column headerText="#{msgsCore['manageSpiritists.form.attendance.end']}">
-									<h:outputText value=" " />
+									<h:outputText value="#{attendance.endDate}">
+										<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" />
+									</h:outputText>
 								</p:column>
 								
 								<p:ajax event="rowSelect" update="form:telephoneButtons" />
