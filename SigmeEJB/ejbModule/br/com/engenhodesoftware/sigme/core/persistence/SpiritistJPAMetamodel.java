@@ -20,9 +20,6 @@ import br.com.engenhodesoftware.util.people.domain.Telephone;
  */
 @StaticMetamodel(Spiritist.class)
 public class SpiritistJPAMetamodel {
-	public static volatile SingularAttribute<Spiritist, String> name;
-	public static volatile SingularAttribute<Spiritist, Date> birthDate;
-	public static volatile SingularAttribute<Spiritist, Character> gender;
 	public static volatile SingularAttribute<Spiritist, String> shortName;
 	public static volatile SingularAttribute<Spiritist, String> email;
 	public static volatile SingularAttribute<Spiritist, String> password;

@@ -15,6 +15,7 @@ import javax.persistence.criteria.Root;
 
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 import br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO;
+import br.com.engenhodesoftware.util.people.persistence.PersonJPAMetamodel;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
@@ -61,7 +62,7 @@ public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistD
 	protected List<Order> getOrderList(CriteriaBuilder cb, Root<Spiritist> root) {
 		// Orders by name.
 		List<Order> orderList = new ArrayList<Order>();
-		orderList.add(cb.asc(root.get(SpiritistJPAMetamodel.name)));
+		orderList.add(cb.asc(root.get(PersonJPAMetamodel.name)));
 		return orderList;
 	}
 
@@ -93,8 +94,8 @@ public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistD
 		Root<Spiritist> root = cq.from(Spiritist.class);
 
 		// Filters the query with the name or the acronym.
-		cq.where(cb.like(cb.lower(root.get(SpiritistJPAMetamodel.name)), "%" + param.toLowerCase() + "%"));
-		cq.orderBy(cb.asc(root.get(SpiritistJPAMetamodel.name)));
+		cq.where(cb.like(cb.lower(root.get(PersonJPAMetamodel.name)), "%" + param.toLowerCase() + "%"));
+		cq.orderBy(cb.asc(root.get(PersonJPAMetamodel.name)));
 
 		// Returns the list of spiritists.
 		List<Spiritist> result = entityManager.createQuery(cq).getResultList();
