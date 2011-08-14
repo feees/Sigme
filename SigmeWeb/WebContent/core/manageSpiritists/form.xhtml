@@ -197,13 +197,13 @@
 									</h:outputText>
 								</p:column>
 								
-								<p:ajax event="rowSelect" update="form:telephoneButtons" />
+								<p:ajax event="rowSelect" update="form:attendanceButtons" />
 							</p:dataTable>
-							<h:panelGroup id="telephoneButtons">
+							<h:panelGroup id="attendanceButtons">
 								<div class="sigmeFormInternalButton">
-									<p:commandButton action="#{manageSpiritistsAction.newTelephone}" onsuccess="telephoneDialog.show()" image="buttonAdd" title="#{msgsCore['manageSpiritists.button.anotherTelephone']}" disabled="#{manageSpiritistsAction.readOnly}" update=":telephoneForm" />
-									<p:commandButton onsuccess="telephoneDialog.show()" image="buttonEdit" title="#{msgsCore['manageSpiritists.button.editTelephone']}" disabled="#{manageSpiritistsAction.readOnly or (manageSpiritistsAction.telephone == null)}" update=":telephoneForm" />
-									<p:commandButton action="#{manageSpiritistsAction.resetTelephone}" image="buttonRemove" title="#{msgsCore['manageSpiritists.button.removeTelephone']}" disabled="#{manageSpiritistsAction.readOnly or (manageSpiritistsAction.telephone == null)}" process="@this" update="telephonesField">
+									<p:commandButton action="#{manageSpiritistsAction.newAttendance}" onsuccess="attendanceDialog.show()" image="buttonAdd" title="#{msgsCore['manageSpiritists.button.anotherAttendance']}" disabled="#{manageSpiritistsAction.readOnly}" update=":attendanceForm" />
+									<p:commandButton onsuccess="attendanceDialog.show()" image="buttonEdit" title="#{msgsCore['manageSpiritists.button.editAttendance']}" disabled="#{manageSpiritistsAction.readOnly or (manageSpiritistsAction.attendance == null)}" update=":attendanceForm" />
+									<p:commandButton action="#{manageSpiritistsAction.resetAttendance}" image="buttonRemove" title="#{msgsCore['manageSpiritists.button.removeAttendance']}" disabled="#{manageSpiritistsAction.readOnly or (manageSpiritistsAction.attendance == null)}" process="@this" update="attendanceField">
 										<p:collector value="#{manageSpiritistsAction.telephone}" removeFrom="#{manageSpiritistsAction.telephones}" />
 									</p:commandButton>
 								</div>
