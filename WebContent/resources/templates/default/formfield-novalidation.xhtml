@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+								xmlns:ui="http://java.sun.com/jsf/facelets"
+								xmlns:h="http://java.sun.com/jsf/html"
+								xmlns:f="http://java.sun.com/jsf/core"
+								xmlns:p="http://primefaces.prime.com.tr/ui">
+
+	<div class="sigmeFormField">
+		<div class="label">
+			<ui:insert name="label" />:
+		</div>
+		<div class="field">
+			<p:message for="#{fieldName}" rendered="#{fieldName != null}" />
+			<ui:insert />
+		</div>
+		<div class="clear"></div>
+	</div>
+</ui:composition>
