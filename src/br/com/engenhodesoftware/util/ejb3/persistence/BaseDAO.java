@@ -119,4 +119,11 @@ public interface BaseDAO<T extends PersistentObject> extends Serializable {
 	 *          The object to delete.
 	 */
 	void delete(T object);
+	
+	/**
+	 * TODO: document this method.
+	 * @param object
+	 * @return
+	 */
+	T merge(T object);
 }

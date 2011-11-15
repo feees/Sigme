@@ -172,14 +172,19 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 			goFirst();
 		return entities;
 	}
-
+	
 	/** Getter for lazyEntities. */
 	public LazyDataModel<T> getLazyEntities() {
 		if (lazyEntities == null) {
 			count();
-			lazyEntities = new LazyDataModel<T>() {
-				private static final long serialVersionUID = -7530065697374570235L;
+			lazyEntities = new PrimefacesLazyEntityDataModel<T>(getCrudService()) {
+				/** Serialization id. */
+				private static final long serialVersionUID = 1117380513193004406L;
 
+				/**
+				 * @see org.primefaces.model.LazyDataModel#load(int, int, java.lang.String, org.primefaces.model.SortOrder,
+				 *      java.util.Map)
+				 */
 				@Override
 				public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
 					firstEntityIndex = first;
@@ -224,10 +229,30 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	}
 
 	/**
+	 * Informs to other methods (and web pages) what is the maximum number of entities to be displayed in a listing page,
+	 * divided by 2. This method exists so it can be overridden by subclasses if desired.
+	 * 
+	 * @return The maximum number of entities to be displayed in the page at a time.
+	 */
+	public int getHalfMaxEntitiesPerPage() {
+		return MAX_ENTITIES_PER_PAGE / 2;
+	}
+
+	/**
+	 * Informs to other methods (and web pages) what is the maximum number of entities to be displayed in a listing page,
+	 * multiplied by 2. This method exists so it can be overridden by subclasses if desired.
+	 * 
+	 * @return The maximum number of entities to be displayed in the page at a time.
+	 */
+	public int getDoubleMaxEntitiesPerPage() {
+		return MAX_ENTITIES_PER_PAGE * 2;
+	}
+
+	/**
 	 * Informs to other methods what is the view path where the web pages are to be located. This method may be overridden
 	 * by subclasses if they don't follow the standard naming convention for Crud Actions, which is:
-	 * <code>com.yourdomain.yoursystem.package.controller.ManageObjectAction</code> which would lead to a view path
-	 * of <code>/package/manageObject/</code>.
+	 * <code>com.yourdomain.yoursystem.package.controller.ManageObjectAction</code> which would lead to a view path of
+	 * <code>/package/manageObject/</code>.
 	 * 
 	 * @return The view path string.
 	 */
@@ -277,8 +302,8 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	/**
 	 * Informs to other methods what is the name of the variable that represents the resource bundle with i18n messages.
 	 * This method may be overridden by subclasses if they don't follow the standard naming convention for Crud Actions,
-	 * which is: <code>com.yourdomain.yoursystem.package.controller.ManageObjectAction</code> which would lead to a
-	 * bundle variable name of <code>msgsPackage</code>.
+	 * which is: <code>com.yourdomain.yoursystem.package.controller.ManageObjectAction</code> which would lead to a bundle
+	 * variable name of <code>msgsPackage</code>.
 	 * 
 	 * @return The name of the resource bundle variable.
 	 */
@@ -300,7 +325,8 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 			}
 
 			// Adds the "msgs" prefix and capitalizes the first letter.
-			if (pkg.length() > 1) pkg = "msgs" + Character.toUpperCase(pkg.charAt(0)) + pkg.substring(1);
+			if (pkg.length() > 1)
+				pkg = "msgs" + Character.toUpperCase(pkg.charAt(0)) + pkg.substring(1);
 
 			// The bundle name is the result of the manipulation of the class' package.
 			bundleName = pkg;
@@ -404,9 +430,9 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	}
 
 	/**
-	 * Returns a summarized string representation of the selected entity, so we can inform the user what has been just 
-	 * created or updated. The basic implementation just returns the default string representation of the entity 
-	 * (toString()), therefore if that representation is not summarized enough for a faces message, it is advised to 
+	 * Returns a summarized string representation of the selected entity, so we can inform the user what has been just
+	 * created or updated. The basic implementation just returns the default string representation of the entity
+	 * (toString()), therefore if that representation is not summarized enough for a faces message, it is advised to
 	 * override it.
 	 * 
 	 * @return A string summarizing the selected entity.
@@ -415,7 +441,7 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 		logger.log(Level.INFO, "summarizeSelectedEntity() not overridden by subclass. Returning the entity's toString(): {0}", selectedEntity);
 		return "" + selectedEntity;
 	}
-	
+
 	/**
 	 * Builds a string with the contents of the trash, so we can inform the user what has been just deleted. The basic
 	 * implementation just returns the size of the trash, therefore it is advised to override it.
@@ -438,6 +464,9 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 			// its data, avoiding some problems such as stale data and lazy-loading.
 			logger.log(Level.INFO, "Retrieving from the application layer entity with id {0}", id);
 			selectedEntity = getCrudService().retrieve(id);
+
+			// Asks the CRUD service to fetch any lazy collection that possibly exists.
+			selectedEntity = getCrudService().fetchLazy(selectedEntity);
 
 			// Check if the entity is sane (no nulls where there shouldn't be).
 			checkSelectedEntity();
@@ -736,7 +765,11 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 		// Retrieves the existing entity that was selected, if not already done by the JSF component.
 		if (selectedEntity == null)
 			retrieveExistingEntity(id);
-		else checkSelectedEntity();
+		else {
+			// Asks the CRUD service to fetch any lazy collection that possibly exists.
+			selectedEntity = getCrudService().fetchLazy(selectedEntity);
+			checkSelectedEntity();
+		}
 
 		// Goes to the form.
 		return getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
@@ -761,7 +794,11 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 		// Retrieves the existing entity that was selected, if not already done by the JSF component.
 		if (selectedEntity == null)
 			retrieveExistingEntity(id);
-		else checkSelectedEntity();
+		else {
+			// Asks the CRUD service to fetch any lazy collection that possibly exists.
+			selectedEntity = getCrudService().fetchLazy(selectedEntity);
+			checkSelectedEntity();
+		}
 
 		// Goes to the form.
 		return getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();

@@ -282,6 +282,13 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		em.remove(em.merge(object));
 	}
 
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#merge(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	@Override
+	public T merge(T object) {
+		EntityManager em = getEntityManager();
+		return em.merge(object);
+	}
+
 	/**
 	 * Builds a criteria query to return that retrieves the number of domain objects (the object count) according to the
 	 * given filter (and its embedded criteria).

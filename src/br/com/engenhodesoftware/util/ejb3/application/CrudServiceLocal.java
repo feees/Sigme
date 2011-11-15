@@ -149,4 +149,11 @@ public interface CrudServiceLocal<T extends PersistentObject> extends Serializab
 	 * @return A list of existing entities in the given range that match the given filter (an empty list if none exist).
 	 */
 	List<T> filter(Filter<?> filter, String filterParam, int ... interval);
+
+	/**
+	 * TODO: document this method.
+	 * @param entity
+	 * @return
+	 */
+	T fetchLazy(T entity);
 }

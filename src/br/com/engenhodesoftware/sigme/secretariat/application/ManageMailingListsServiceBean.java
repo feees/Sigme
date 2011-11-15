@@ -138,4 +138,13 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 			logger.log(Level.FINE, "Retrieved mailing list in interval [{0}, {1}): {2} list(s) loaded.", new Object[] { interval[0], interval[1], entities.size() });
 		}
 	}
+
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#fetchLazy(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	@Override
+	public MailingList fetchLazy(MailingList entity) {
+		// Loads the addresses collection, which is lazy.
+		entity = getDAO().merge(entity);
+		entity.getAddressees().size();
+		return entity;
+	}
 }

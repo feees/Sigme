@@ -150,4 +150,14 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 			logger.log(Level.FINE, "Retrieved spiritists in interval [{0}, {1}): {2} spiritist(s) loaded.", new Object[] { interval[0], interval[1], entities.size() });
 		}
 	}
+
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#fetchLazy(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	@Override
+	public Spiritist fetchLazy(Spiritist entity) {
+		// Loads telephones and attendances collections, which are lazy.
+		entity = getDAO().merge(entity);
+		entity.getAttendances().size();
+		entity.getTelephones().size();
+		return entity;
+	}
 }

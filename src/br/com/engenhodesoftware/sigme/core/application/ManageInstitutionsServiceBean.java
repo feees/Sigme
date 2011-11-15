@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
 
 import br.com.engenhodesoftware.sigme.core.domain.Institution;
 import br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO;
@@ -25,6 +26,7 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObj
  * @see br.com.engenhodesoftware.sigme.core.application.ManageInstitutionsService
  */
 @Stateless
+@TransactionAttribute
 public class ManageInstitutionsServiceBean extends CrudService<Institution> implements ManageInstitutionsService {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
@@ -146,5 +148,14 @@ public class ManageInstitutionsServiceBean extends CrudService<Institution> impl
 		case LIST:
 			logger.log(Level.FINE, "Retrieved institutions in interval [{0}, {1}): {2} institution(s) loaded.", new Object[] { interval[0], interval[1], entities.size() });
 		}
+	}
+
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#fetchLazy(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	@Override
+	public Institution fetchLazy(Institution entity) {
+		// Loads the telephones collection, which is lazy.
+		entity = getDAO().merge(entity);
+		entity.getTelephones().size();
+		return entity;
 	}
 }

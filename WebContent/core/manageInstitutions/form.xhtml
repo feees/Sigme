@@ -3,7 +3,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.prime.com.tr/ui"
+                xmlns:p="http://primefaces.org/ui"
                 template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
 
 	<ui:define name="title">
@@ -111,7 +111,7 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:zipCode" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.zipCode']}" /></ui:define>
-							<p:inputMask id="zipCode" mask="#{core['format.zipCode.primefaces']}" required="false" value="#{manageInstitutionsAction.selectedEntity.address.zipCode}" size="10" disabled="#{manageInstitutionsAction.readOnly}">
+							<p:inputMask id="zipCode" mask="#{msgs['format.zipCode.primefaces']}" required="false" value="#{manageInstitutionsAction.selectedEntity.address.zipCode}" size="10" disabled="#{manageInstitutionsAction.readOnly}">
 								<p:ajax event="blur" update="zipCodeField" />
 							</p:inputMask>
 							<h:outputText value=" (#{msgs['format.zipCode.label']})" />
@@ -147,6 +147,7 @@
 									id="telephones"
 									value="#{manageInstitutionsAction.telephones}" 
 									var="telephone" 
+									rowKey="#{telephone.id}"
 									selection="#{manageInstitutionsAction.telephone}" 
 									selectionMode="single"
 									loadingMessage="#{msgs['text.ajax.loading']}" 
@@ -191,16 +192,16 @@
 	</ui:define>
 
 	<ui:define name="bottom">
-		<div class="crud">
-			<!-- Dialog with the new telephone form. -->
-			<p:dialog header="#{msgsCore['manageInstitutions.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="580" position="40,-300" showEffect="fade" hideEffect="fade">
+		<!-- Dialog with the new telephone form. -->
+		<p:dialog header="#{msgsCore['manageInstitutions.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="680" showEffect="fade" hideEffect="fade">
+			<div class="crud">
 				<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 					<h:form id="telephoneForm">
 						<h:panelGroup id="telephoneNumberField">
 							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 								<ui:param name="fieldName" value="telephoneForm:telephoneNumber" />
 								<ui:define name="label"><h:outputText value="#{msgsCore['manageInstitutions.form.telephone.number']}" /></ui:define>
-								<p:inputMask id="telephoneNumber" value="#{manageInstitutionsAction.telephone.number}" mask="(99) 9999-9999" size="20" required="true">
+								<p:inputMask id="telephoneNumber" value="#{manageInstitutionsAction.telephone.number}" mask="#{msgs['format.telephone.primefaces']}" size="20" required="true">
 									<p:ajax event="blur" update="telephoneNumberField" />
 								</p:inputMask>
 							</ui:decorate>
@@ -224,8 +225,8 @@
 						</ui:decorate>
 					</h:form>
 				</ui:decorate>
-			</p:dialog>
-		</div>
+			</div>
+		</p:dialog>
 	</ui:define>
 	
 	<ui:define name="help">

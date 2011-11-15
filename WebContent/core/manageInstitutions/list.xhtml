@@ -3,7 +3,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-								xmlns:p="http://primefaces.prime.com.tr/ui"
+								xmlns:p="http://primefaces.org/ui"
                 template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
 
 	<ui:define name="title"><h:outputText value="#{msgsCore['manageInstitutions.title']}" /></ui:define>
@@ -57,7 +57,7 @@
 						value="#{manageInstitutionsAction.lazyEntities}" 
 						var="entity" 
 						rows="#{manageInstitutionsAction.maxEntitiesPerPage}" 
-						rowsPerPageTemplate="#{manageInstitutionsAction.maxEntitiesPerPage / 2},#{manageInstitutionsAction.maxEntitiesPerPage},#{manageInstitutionsAction.maxEntitiesPerPage * 2}"
+						rowsPerPageTemplate="#{manageInstitutionsAction.halfMaxEntitiesPerPage},#{manageInstitutionsAction.maxEntitiesPerPage},#{manageInstitutionsAction.doubleMaxEntitiesPerPage}"
 						lazy="true" 
 						paginator="true" 
 						selection="#{manageInstitutionsAction.selectedEntity}" 
