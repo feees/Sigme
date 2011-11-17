@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import br.com.engenhodesoftware.sigme.core.application.InstallSystemService;
 import br.com.engenhodesoftware.sigme.core.application.exceptions.SystemInstallFailedException;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
-import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
+import br.com.engenhodesoftware.util.ejb3.controller.JSFController;
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the
@@ -20,7 +20,7 @@ import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Model
-public class InstallSystemController extends JSFAction {
+public class InstallSystemController extends JSFController {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 

@@ -249,6 +249,7 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 	@Override
 	public T fetchLazy(T entity) {
 		// Default implementation is to return the entity itself (there are no lazy attributes).
+		logger.log(Level.FINEST, "Using default implementation for fetchLazy(): returning the same entity, unchanged");
 		return entity;
 	}
 }

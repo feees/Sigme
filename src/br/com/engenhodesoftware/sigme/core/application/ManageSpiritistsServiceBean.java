@@ -12,7 +12,7 @@ import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 import br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO;
 import br.com.engenhodesoftware.util.ejb3.application.CrudException;
 import br.com.engenhodesoftware.util.ejb3.application.CrudOperation;
-import br.com.engenhodesoftware.util.ejb3.application.CrudService;
+import br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean;
 import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
@@ -25,7 +25,7 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObj
  * @see br.com.engenhodesoftware.sigme.core.application.ManageSpiritistsService
  */
 @Stateless
-public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implements ManageSpiritistsService {
+public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> implements ManageSpiritistsService {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -36,25 +36,25 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 	@EJB
 	private SpiritistDAO spiritistDAO;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#createNewEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#createNewEntity() */
 	@Override
 	protected Spiritist createNewEntity() {
 		return new Spiritist();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#getDAO() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#getDAO() */
 	@Override
 	protected BaseDAO<Spiritist> getDAO() {
 		return spiritistDAO;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#authorize() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#authorize() */
 	@Override
 	public void authorize() {
 		// Overridden to implement authorization. @RolesAllowed is placed in the whole class.
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validateCreate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#validateCreate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void validateCreate(Spiritist entity) throws CrudException {
 		// Possibly throwing a CRUD Exception to indicate validation error.
@@ -83,7 +83,7 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 			throw crudException;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validateUpdate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#validateUpdate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void validateUpdate(Spiritist entity) throws CrudException {
 		// Possibly throwing a CRUD Exception to indicate validation error.
@@ -112,7 +112,7 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 			throw crudException;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#validate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	protected Spiritist validate(Spiritist newEntity, Spiritist oldEntity) {
 		// Never changes the password on updates.
@@ -124,7 +124,7 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 		return newEntity;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	protected void log(CrudOperation operation, Spiritist entity) {
 		switch (operation) {
@@ -142,7 +142,7 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 		}
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, java.util.List, int[]) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, java.util.List, int[]) */
 	@Override
 	protected void log(CrudOperation operation, List<Spiritist> entities, int ... interval) {
 		switch (operation) {
@@ -151,10 +151,11 @@ public class ManageSpiritistsServiceBean extends CrudService<Spiritist> implemen
 		}
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#fetchLazy(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#fetchLazy(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public Spiritist fetchLazy(Spiritist entity) {
 		// Loads telephones and attendances collections, which are lazy.
+		logger.log(Level.FINER, "Fecthing lazy attributes for spiritist \"{0}\"", entity);
 		entity = getDAO().merge(entity);
 		entity.getAttendances().size();
 		entity.getTelephones().size();

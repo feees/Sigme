@@ -24,13 +24,6 @@ public interface InstallSystemService extends Serializable {
 	 * @param administrator
 	 *          The information on the first spiritist to register in the system, which will be considered the
 	 *          administrator.
-	 */
-	/**
-	 * Registers the administrator of the system and saves the initial data that will enable the system to be used.
-	 * 
-	 * @param administrator
-	 *          The information on the first spiritist to register in the system, which will be considered the
-	 *          administrator.
 	 * 
 	 * @throws SystemInstallFailedException
 	 *           If any failure occurs during system installation (e.g., missing data file).

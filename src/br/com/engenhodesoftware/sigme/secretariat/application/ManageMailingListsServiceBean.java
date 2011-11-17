@@ -12,7 +12,7 @@ import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
 import br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO;
 import br.com.engenhodesoftware.util.ejb3.application.CrudException;
 import br.com.engenhodesoftware.util.ejb3.application.CrudOperation;
-import br.com.engenhodesoftware.util.ejb3.application.CrudService;
+import br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean;
 import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
@@ -26,7 +26,7 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObj
  */
 @Stateless
 @RolesAllowed({ "USER" })
-public class ManageMailingListsServiceBean extends CrudService<MailingList> implements ManageMailingListsService {
+public class ManageMailingListsServiceBean extends CrudServiceBean<MailingList> implements ManageMailingListsService {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -37,25 +37,25 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 	@EJB
 	private MailingListDAO mailingListDAO;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#createNewEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#createNewEntity() */
 	@Override
 	protected MailingList createNewEntity() {
 		return new MailingList();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#getDAO() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#getDAO() */
 	@Override
 	protected BaseDAO<MailingList> getDAO() {
 		return mailingListDAO;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#authorize() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#authorize() */
 	@Override
 	public void authorize() {
 		// Overridden to implement authorization. @RolesAllowed is placed in the whole class.
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validateCreate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#validateCreate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void validateCreate(MailingList entity) throws CrudException {
 		// Possibly throwing a CRUD Exception to indicate validation error.
@@ -84,7 +84,7 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 			throw crudException;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#validateUpdate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#validateUpdate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void validateUpdate(MailingList entity) throws CrudException {
 		// Possibly throwing a CRUD Exception to indicate validation error.
@@ -113,7 +113,7 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 			throw crudException;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	protected void log(CrudOperation operation, MailingList entity) {
 		switch (operation) {
@@ -130,7 +130,7 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 		}
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, java.util.List, int[]) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, java.util.List, int[]) */
 	@Override
 	protected void log(CrudOperation operation, List<MailingList> entities, int ... interval) {
 		switch (operation) {
@@ -139,10 +139,11 @@ public class ManageMailingListsServiceBean extends CrudService<MailingList> impl
 		}
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#fetchLazy(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#fetchLazy(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public MailingList fetchLazy(MailingList entity) {
 		// Loads the addresses collection, which is lazy.
+		logger.log(Level.FINER, "Fecthing lazy attributes for mailing list \"{0}\"", entity);
 		entity = getDAO().merge(entity);
 		entity.getAddressees().size();
 		return entity;

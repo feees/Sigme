@@ -119,11 +119,16 @@ public interface BaseDAO<T extends PersistentObject> extends Serializable {
 	 *          The object to delete.
 	 */
 	void delete(T object);
-	
+
 	/**
-	 * TODO: document this method.
+	 * Merges the object with the current persistence session. This method should be called by service classes when they
+	 * are about to use an attribute of an object which is persisted lazily in order to avoid Lazy Initialization
+	 * Exceptions.
+	 * 
 	 * @param object
-	 * @return
+	 *          The object to merge.
+	 * 
+	 * @return The merged object.
 	 */
 	T merge(T object);
 }

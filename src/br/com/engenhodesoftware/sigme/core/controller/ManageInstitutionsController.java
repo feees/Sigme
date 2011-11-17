@@ -27,7 +27,7 @@ import br.com.engenhodesoftware.util.ejb3.application.filters.CriterionType;
 import br.com.engenhodesoftware.util.ejb3.application.filters.LikeFilter;
 import br.com.engenhodesoftware.util.ejb3.application.filters.MultipleChoiceFilter;
 import br.com.engenhodesoftware.util.ejb3.application.filters.ReverseMultipleChoiceFilter;
-import br.com.engenhodesoftware.util.ejb3.controller.CrudAction;
+import br.com.engenhodesoftware.util.ejb3.controller.CrudController;
 import br.com.engenhodesoftware.util.people.domain.Address;
 import br.com.engenhodesoftware.util.people.domain.City;
 import br.com.engenhodesoftware.util.people.domain.ContactType;
@@ -46,7 +46,7 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObj
  */
 @Named
 @SessionScoped
-public class ManageInstitutionsController extends CrudAction<Institution> {
+public class ManageInstitutionsController extends CrudController<Institution> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -75,7 +75,7 @@ public class ManageInstitutionsController extends CrudAction<Institution> {
 	/** Input: a telephone being added or edited. */
 	private Telephone telephone;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getCrudService() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<Institution> getCrudService() {
 		// Checks if the current user has the authorization to use this functionality.
@@ -84,7 +84,7 @@ public class ManageInstitutionsController extends CrudAction<Institution> {
 		return manageInstitutionsService;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#createNewEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#createNewEntity() */
 	@Override
 	protected Institution createNewEntity() {
 		logger.log(Level.FINER, "Initializing an empty institution...");
@@ -99,7 +99,7 @@ public class ManageInstitutionsController extends CrudAction<Institution> {
 		return newEntity;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#checkSelectedEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#checkSelectedEntity() */
 	@Override
 	protected void checkSelectedEntity() {
 		logger.log(Level.FINER, "Checking selected institution ({0})...", selectedEntity);
@@ -114,7 +114,7 @@ public class ManageInstitutionsController extends CrudAction<Institution> {
 		telephones = new ArrayList<Telephone>(selectedEntity.getTelephones());
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#initFilters() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#initFilters() */
 	@Override
 	protected void initFilters() {
 		logger.log(Level.FINER, "Initializing filter types...");
@@ -139,7 +139,7 @@ public class ManageInstitutionsController extends CrudAction<Institution> {
 		addFilter(new MultipleChoiceFilter<InstitutionType>("manageInstitutions.filter.byType", "type", getI18nMessage("msgsCore", "manageInstitutions.text.filter.byType"), institutionTypes, labels));
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#prepEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#prepEntity() */
 	@Override
 	protected void prepEntity() {
 		logger.log(Level.FINER, "Preparing institution for storage ({0})...", selectedEntity);
@@ -151,13 +151,13 @@ public class ManageInstitutionsController extends CrudAction<Institution> {
 		setRegional();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#summarizeSelectedEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#summarizeSelectedEntity() */
 	@Override
 	protected String summarizeSelectedEntity() {
 		return (selectedEntity == null) ? "" : selectedEntity.getAcronym();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#listTrash() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#listTrash() */
 	@Override
 	protected String listTrash() {
 		// List the acronyms of the deleted institutions.

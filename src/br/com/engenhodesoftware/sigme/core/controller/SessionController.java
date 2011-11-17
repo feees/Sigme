@@ -20,7 +20,7 @@ import br.com.engenhodesoftware.sigme.core.application.CoreInformation;
 import br.com.engenhodesoftware.sigme.core.application.SessionInformation;
 import br.com.engenhodesoftware.sigme.core.application.exceptions.LoginFailedException;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
-import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
+import br.com.engenhodesoftware.util.ejb3.controller.JSFController;
 
 /**
  * Session-scoped managed bean that provides to web pages the login service, indication if the user is logged in, the
@@ -30,7 +30,7 @@ import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
  */
 @Named
 @SessionScoped
-public class SessionController extends JSFAction {
+public class SessionController extends JSFController {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 

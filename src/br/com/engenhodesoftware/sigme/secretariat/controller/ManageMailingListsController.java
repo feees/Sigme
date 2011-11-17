@@ -23,7 +23,7 @@ import br.com.engenhodesoftware.sigme.secretariat.domain.ScopedMailingAddressee;
 import br.com.engenhodesoftware.sigme.secretariat.domain.SpiritistMailingAddressee;
 import br.com.engenhodesoftware.util.ejb3.application.CrudService;
 import br.com.engenhodesoftware.util.ejb3.application.filters.LikeFilter;
-import br.com.engenhodesoftware.util.ejb3.controller.CrudAction;
+import br.com.engenhodesoftware.util.ejb3.controller.CrudController;
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the
@@ -35,7 +35,7 @@ import br.com.engenhodesoftware.util.ejb3.controller.CrudAction;
  */
 @Named
 @SessionScoped
-public class ManageMailingListsController extends CrudAction<MailingList> {
+public class ManageMailingListsController extends CrudController<MailingList> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -60,7 +60,7 @@ public class ManageMailingListsController extends CrudAction<MailingList> {
 	/** Input: the addressee being added or edited. */
 	private MailingAddressee addressee;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getCrudService() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<MailingList> getCrudService() {
 		// Checks if the current user has the authorization to use this functionality.
@@ -69,7 +69,7 @@ public class ManageMailingListsController extends CrudAction<MailingList> {
 		return manageMailingListsService;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#createNewEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#createNewEntity() */
 	@Override
 	protected MailingList createNewEntity() {
 		logger.log(Level.FINER, "Initializing an empty mailing list...");
@@ -83,7 +83,7 @@ public class ManageMailingListsController extends CrudAction<MailingList> {
 		return newEntity;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#checkSelectedEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#checkSelectedEntity() */
 	@Override
 	protected void checkSelectedEntity() {
 		logger.log(Level.FINER, "Checking selected mailing list ({0})...", selectedEntity);
@@ -94,7 +94,7 @@ public class ManageMailingListsController extends CrudAction<MailingList> {
 		addressees = new ArrayList<MailingAddressee>(selectedEntity.getAddressees());
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#initFilters() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#initFilters() */
 	@Override
 	protected void initFilters() {
 		logger.log(Level.FINER, "Initializing filter types...");
@@ -104,7 +104,7 @@ public class ManageMailingListsController extends CrudAction<MailingList> {
 		addFilter(new LikeFilter("manageMailingLists.filter.byDescription", "description", getI18nMessage("secretariat", "manageMailingLists.text.filter.byDescription")));
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#prepEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#prepEntity() */
 	@Override
 	protected void prepEntity() {
 		logger.log(Level.FINER, "Preparing mailing list for storage ({0})...", selectedEntity);
@@ -113,7 +113,7 @@ public class ManageMailingListsController extends CrudAction<MailingList> {
 		selectedEntity.setAddressees(new TreeSet<MailingAddressee>(addressees));
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#listTrash() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#listTrash() */
 	@Override
 	protected String listTrash() {
 		// List the names of the deleted mailing lists.

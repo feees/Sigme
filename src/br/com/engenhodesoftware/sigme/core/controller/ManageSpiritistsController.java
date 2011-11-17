@@ -20,7 +20,7 @@ import br.com.engenhodesoftware.util.ejb3.application.filters.Criterion;
 import br.com.engenhodesoftware.util.ejb3.application.filters.CriterionType;
 import br.com.engenhodesoftware.util.ejb3.application.filters.LikeFilter;
 import br.com.engenhodesoftware.util.ejb3.application.filters.ManyToManyFilter;
-import br.com.engenhodesoftware.util.ejb3.controller.CrudAction;
+import br.com.engenhodesoftware.util.ejb3.controller.CrudController;
 import br.com.engenhodesoftware.util.people.domain.Address;
 import br.com.engenhodesoftware.util.people.domain.City;
 import br.com.engenhodesoftware.util.people.domain.ContactType;
@@ -37,7 +37,7 @@ import br.com.engenhodesoftware.util.people.persistence.CityDAO;
  */
 @Named
 @SessionScoped
-public class ManageSpiritistsController extends CrudAction<Spiritist> {
+public class ManageSpiritistsController extends CrudController<Spiritist> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -71,7 +71,7 @@ public class ManageSpiritistsController extends CrudAction<Spiritist> {
 	/** Input: the new password to set. */
 	private String newPassword;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getCrudService() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<Spiritist> getCrudService() {
 		// Checks if the current user has the authorization to use this functionality.
@@ -80,7 +80,7 @@ public class ManageSpiritistsController extends CrudAction<Spiritist> {
 		return manageSpiritistsService;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#createNewEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#createNewEntity() */
 	@Override
 	protected Spiritist createNewEntity() {
 		logger.log(Level.FINER, "Initializing an empty spiritist...");
@@ -96,7 +96,7 @@ public class ManageSpiritistsController extends CrudAction<Spiritist> {
 		return newEntity;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#checkSelectedEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#checkSelectedEntity() */
 	@Override
 	protected void checkSelectedEntity() {
 		logger.log(Level.FINER, "Checking selected spiritist ({0})...", selectedEntity);
@@ -116,7 +116,7 @@ public class ManageSpiritistsController extends CrudAction<Spiritist> {
 		attendances = new ArrayList<Attendance>(selectedEntity.getAttendances());
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#initFilters() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#initFilters() */
 	@Override
 	protected void initFilters() {
 		logger.log(Level.FINER, "Initializing filter types...");
@@ -128,7 +128,7 @@ public class ManageSpiritistsController extends CrudAction<Spiritist> {
 		addFilter(new ManyToManyFilter("manageSpiritists.filter.byInactiveAttendance", "attendances", getI18nMessage("msgsCore", "manageSpiritists.text.filter.byInactiveAttendance"), "institution.name, institution.acronym", true, new Criterion("endDate", CriterionType.IS_NOT_NULL)));
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#prepEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#prepEntity() */
 	@Override
 	protected void prepEntity() {
 		logger.log(Level.FINER, "Preparing spiritist for storage ({0})...", selectedEntity);
@@ -141,13 +141,13 @@ public class ManageSpiritistsController extends CrudAction<Spiritist> {
 		selectedEntity.setAttendances(new TreeSet<Attendance>(attendances));
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#summarizeSelectedEntity() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#summarizeSelectedEntity() */
 	@Override
 	protected String summarizeSelectedEntity() {
 		return (selectedEntity == null) ? "" : selectedEntity.getShortName();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#listTrash() */
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#listTrash() */
 	@Override
 	protected String listTrash() {
 		// List the short names of the deleted spiritists.

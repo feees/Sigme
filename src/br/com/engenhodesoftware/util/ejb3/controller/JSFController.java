@@ -9,12 +9,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 /**
- * Abstract class that can be implemented by action classes for JSF pages (managed beans). Provides useful methods, such
- * as adding field and global internationalized messages to the Faces context.
+ * Abstract class that can be implemented by controller classes for JSF pages (managed beans). Provides useful methods,
+ * such as adding field and global internationalized messages to the Faces context.
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
-public abstract class JSFAction implements Serializable {
+public abstract class JSFController implements Serializable {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -100,7 +100,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): global message with specified severity and simple summary and detail messages.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -111,7 +111,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): global message with specified severity and including only a simple summary.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -122,7 +122,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): global message without a specific severity and simple summary and detail messages.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -133,7 +133,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): global message without a specific severity and including only a simple summary.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -144,7 +144,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): global message with specified severity and parameterized summary and detail messages.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -155,7 +155,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): global message with specified severity and including only a parameterized summary.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -167,7 +167,7 @@ public abstract class JSFAction implements Serializable {
 	 * Shortcut to addI18nMessage(): global message without a specific severity and parameterized summary and detail
 	 * messages.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -179,7 +179,7 @@ public abstract class JSFAction implements Serializable {
 	 * Shortcut to addI18nMessage(): global message without a specific severity and including only a parameterized
 	 * summary.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -190,7 +190,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): field message with specified severity and simple summary and detail messages.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -201,7 +201,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): field message with specified severity and including only a simple summary.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -212,7 +212,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): field message without a specific severity and simple summary and detail messages.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -223,7 +223,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): field message without a specific severity and including only a simple summary.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -234,7 +234,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): field message with specified severity and parameterized summary and detail messages.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -245,7 +245,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): field message with specified severity and including only a parameterized summary.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -257,7 +257,7 @@ public abstract class JSFAction implements Serializable {
 	 * Shortcut to addI18nMessage(): field message without a specific severity and parameterized summary and detail
 	 * messages.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */
@@ -268,7 +268,7 @@ public abstract class JSFAction implements Serializable {
 	/**
 	 * Shortcut to addI18nMessage(): field message without a specific severity and including only a parameterized summary.
 	 * 
-	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFAction#addI18nMessage(java.lang.String, java.lang.String,
+	 * @see br.com.engenhodesoftware.util.ejb3.controller.JSFController#addI18nMessage(java.lang.String, java.lang.String,
 	 *      javax.faces.application.FacesMessage.Severity, java.lang.String, java.lang.Object[], java.lang.String,
 	 *      java.lang.Object[])
 	 */

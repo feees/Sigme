@@ -285,6 +285,9 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#merge(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public T merge(T object) {
+		logger.log(Level.FINER, "Merging an object of class {0}: \"{1}\"...", new Object[] { getDomainClass().getName(), object });
+
+		// Uses the Persistence Context to merge an object.
 		EntityManager em = getEntityManager();
 		return em.merge(object);
 	}

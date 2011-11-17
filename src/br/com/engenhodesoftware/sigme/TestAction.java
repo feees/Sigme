@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
+import br.com.engenhodesoftware.util.ejb3.controller.JSFController;
 import br.com.engenhodesoftware.util.people.domain.ContactType;
 import br.com.engenhodesoftware.util.people.domain.Telephone;
 
@@ -20,7 +20,7 @@ import br.com.engenhodesoftware.util.people.domain.Telephone;
  */
 @Named
 @SessionScoped
-public class TestAction extends JSFAction {
+public class TestAction extends JSFController {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 

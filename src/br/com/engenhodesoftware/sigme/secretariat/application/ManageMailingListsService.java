@@ -3,7 +3,7 @@ package br.com.engenhodesoftware.sigme.secretariat.application;
 import javax.ejb.Local;
 
 import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
-import br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal;
+import br.com.engenhodesoftware.util.ejb3.application.CrudService;
 
 /**
  * Local EJB interface for the component that implements the "Manage Mailing Lists" use case.
@@ -11,7 +11,7 @@ import br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal;
  * This use case consists of a CRUD for the class MailingList and uses the mini CRUD framework for EJB3.
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
- * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal
+ * @see br.com.engenhodesoftware.util.ejb3.application.CrudService
  */
 @Local
-public interface ManageMailingListsService extends CrudServiceLocal<MailingList> {}
+public interface ManageMailingListsService extends CrudService<MailingList> {}

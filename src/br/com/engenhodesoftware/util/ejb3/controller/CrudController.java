@@ -15,7 +15,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import br.com.engenhodesoftware.util.ejb3.application.CrudException;
-import br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal;
+import br.com.engenhodesoftware.util.ejb3.application.CrudService;
 import br.com.engenhodesoftware.util.ejb3.application.CrudValidationError;
 import br.com.engenhodesoftware.util.ejb3.application.filters.Filter;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
@@ -34,10 +34,10 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
- * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal
+ * @see br.com.engenhodesoftware.util.ejb3.application.CrudService
  * @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject
  */
-public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
+public abstract class CrudController<T extends PersistentObject> extends JSFController {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -45,7 +45,7 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	private static final int MAX_ENTITIES_PER_PAGE = 10;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(CrudAction.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(CrudController.class.getCanonicalName());
 
 	/** The view path where the web pages are located. */
 	protected String viewPath;
@@ -172,7 +172,7 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 			goFirst();
 		return entities;
 	}
-	
+
 	/** Getter for lazyEntities. */
 	public LazyDataModel<T> getLazyEntities() {
 		if (lazyEntities == null) {
@@ -250,8 +250,8 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 
 	/**
 	 * Informs to other methods what is the view path where the web pages are to be located. This method may be overridden
-	 * by subclasses if they don't follow the standard naming convention for Crud Actions, which is:
-	 * <code>com.yourdomain.yoursystem.package.controller.ManageObjectAction</code> which would lead to a view path of
+	 * by subclasses if they don't follow the standard naming convention for Crud Controllers, which is:
+	 * <code>com.yourdomain.yoursystem.package.controller.ManageObjectController</code> which would lead to a view path of
 	 * <code>/package/manageObject/</code>.
 	 * 
 	 * @return The view path string.
@@ -274,10 +274,10 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 				pkg = "/" + pkg;
 			}
 
-			// Searches for the name of the service according to convention (class name, removing trailing Action).
+			// Searches for the name of the service according to convention (class name, removing trailing Controller).
 			idx = classFullName.lastIndexOf(".");
 			service = (idx == -1) ? classFullName : classFullName.substring(idx + 1);
-			idx = service.indexOf("Action");
+			idx = service.indexOf("Controller");
 			if (idx != -1)
 				service = service.substring(0, idx);
 			if (service.length() > 1)
@@ -301,9 +301,9 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 
 	/**
 	 * Informs to other methods what is the name of the variable that represents the resource bundle with i18n messages.
-	 * This method may be overridden by subclasses if they don't follow the standard naming convention for Crud Actions,
-	 * which is: <code>com.yourdomain.yoursystem.package.controller.ManageObjectAction</code> which would lead to a bundle
-	 * variable name of <code>msgsPackage</code>.
+	 * This method may be overridden by subclasses if they don't follow the standard naming convention for Crud
+	 * Controllers, which is: <code>com.yourdomain.yoursystem.package.controller.ManageObjectController</code> which would
+	 * lead to a bundle variable name of <code>msgsPackage</code>.
 	 * 
 	 * @return The name of the resource bundle variable.
 	 */
@@ -336,10 +336,10 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	}
 
 	/**
-	 * Informs to other methods what is the default prefix for resource bundle messages for this action. This method may
-	 * be overridden by subclasses if they don't follow the standard naming convention for Crud Actions, which is:
-	 * <code>com.yourdomain.yoursystem.package-name.controller.ManageObjectAction</code> which would lead to a prefix of
-	 * <code>manageObject</code>.
+	 * Informs to other methods what is the default prefix for resource bundle messages for this controller. This method
+	 * may be overridden by subclasses if they don't follow the standard naming convention for Crud Controllers, which is:
+	 * <code>com.yourdomain.yoursystem.package-name.controller.ManageObjectController</code> which would lead to a prefix
+	 * of <code>manageObject</code>.
 	 * 
 	 * @return The prefix for resource bundle keys.
 	 */
@@ -351,10 +351,10 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 			String service = "";
 			String classFullName = getClass().getCanonicalName();
 
-			// Searches for the name of the service according to convention (class name, removing trailing Action).
+			// Searches for the name of the service according to convention (class name, removing trailing Controller).
 			idx = classFullName.lastIndexOf(".");
 			service = (idx == -1) ? classFullName : classFullName.substring(idx + 1);
-			idx = service.indexOf("Action");
+			idx = service.indexOf("Controller");
 			if (idx != -1)
 				service = service.substring(0, idx);
 			if (service.length() > 1)
@@ -385,7 +385,7 @@ public abstract class CrudAction<T extends PersistentObject> extends JSFAction {
 	 * 
 	 * @return A service class that complies to the CRUD specification.
 	 */
-	protected abstract CrudServiceLocal<T> getCrudService();
+	protected abstract CrudService<T> getCrudService();
 
 	/**
 	 * Method called by the constructor to initialize the entity and any auxiliary properties. Must be overridden by
