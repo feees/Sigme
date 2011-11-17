@@ -260,6 +260,25 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		return result;
 	}
 
+	/** @throws MultiplePersistentObjectsFoundException 
+	 * @throws PersistentObjectNotFoundException 
+	 * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#retrieveByUuid(java.lang.String) */
+	@Override
+	public T retrieveByUuid(String uuid) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+		logger.log(Level.FINER, "Retrieving object of class \"{0}\" with UUID {1}...", new Object[] { getDomainClass().getName(), uuid });
+
+		// Constructs the query over the PersistentObject class.
+		EntityManager em = getEntityManager();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(getDomainClass());
+		Root<T> root = cq.from(getDomainClass());
+
+		// Filters the query with the name.
+		cq.where(cb.equal(root.get("uuid"), uuid));
+		T result = executeSingleResultQuery(cq, uuid);
+		return result;
+	}
+
 	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#save(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void save(T object) {

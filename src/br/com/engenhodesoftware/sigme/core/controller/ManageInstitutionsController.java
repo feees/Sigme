@@ -28,11 +28,13 @@ import br.com.engenhodesoftware.util.ejb3.application.filters.LikeFilter;
 import br.com.engenhodesoftware.util.ejb3.application.filters.MultipleChoiceFilter;
 import br.com.engenhodesoftware.util.ejb3.application.filters.ReverseMultipleChoiceFilter;
 import br.com.engenhodesoftware.util.ejb3.controller.CrudController;
+import br.com.engenhodesoftware.util.ejb3.controller.PrimefacesSelectableEntityDataModel;
 import br.com.engenhodesoftware.util.people.domain.Address;
 import br.com.engenhodesoftware.util.people.domain.City;
 import br.com.engenhodesoftware.util.people.domain.ContactType;
 import br.com.engenhodesoftware.util.people.domain.Telephone;
 import br.com.engenhodesoftware.util.people.persistence.CityDAO;
+import br.com.engenhodesoftware.util.people.persistence.TelephoneDAO;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
@@ -65,12 +67,19 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 	@EJB
 	private RegionalDAO regionalDAO;
 
+	/** The DAO for Telephone objects. */
+	@EJB
+	private TelephoneDAO telephoneDAO;
+
 	/** The controller class that holds references to constant lists, converters, etc. */
 	@Inject
 	private CoreController coreController;
 
 	/** Output: the list of telephone numbers. */
 	private List<Telephone> telephones;
+	
+	/** Output: the model for the data table of telephones. */
+	private PrimefacesSelectableEntityDataModel<Telephone> telephonesModel;
 
 	/** Input: a telephone being added or edited. */
 	private Telephone telephone;
@@ -95,6 +104,7 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 
 		// Create an empty telephone list.
 		telephones = new ArrayList<Telephone>();
+		telephonesModel = new PrimefacesSelectableEntityDataModel<Telephone>(telephones, telephoneDAO);
 
 		return newEntity;
 	}
@@ -112,6 +122,7 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 		if (selectedEntity.getTelephones() == null)
 			selectedEntity.setTelephones(new TreeSet<Telephone>());
 		telephones = new ArrayList<Telephone>(selectedEntity.getTelephones());
+		telephonesModel = new PrimefacesSelectableEntityDataModel<Telephone>(telephones, telephoneDAO);
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#initFilters() */
@@ -294,11 +305,6 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 		return telephones;
 	}
 
-	/** Setter for telephones. */
-	public void setTelephones(List<Telephone> telephones) {
-		this.telephones = telephones;
-	}
-
 	/** Getter for telephone. */
 	public Telephone getTelephone() {
 		return telephone;
@@ -308,6 +314,11 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 	public void setTelephone(Telephone telephone) {
 		this.telephone = telephone;
 		logger.log(Level.FINEST, "Telephone \"{0}\" has been selected", telephone);
+	}
+
+	/** Getter for telephonesModel. */
+	public PrimefacesSelectableEntityDataModel<Telephone> getTelephonesModel() {
+		return telephonesModel;
 	}
 	
 	/** 
@@ -341,7 +352,9 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 	}
 	
 	/**
-	 * TODO: document this method.
+	 * Resets the telephone so no telephone is selected.
+	 * 
+	 * This method is intended to be used with AJAX.
 	 */
 	public void resetTelephone() {
 		telephone = null;

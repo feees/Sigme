@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import br.com.engenhodesoftware.util.ejb3.application.filters.Filter;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Base interface for all DAO classes in the system. Instances manipulated by DAOs that implement this interface must
@@ -103,6 +105,21 @@ public interface BaseDAO<T extends PersistentObject> extends Serializable {
 	 * @return The persistent object that has the given id.
 	 */
 	T retrieveById(Long id);
+
+	/**
+	 * Obtains a persistent object given its UUID.
+	 * 
+	 * @param uuid
+	 *          The persistent object's UUID.
+	 * 
+	 * @return The persistent object that has the given UUID.
+	 * 
+	 * @throws PersistentObjectNotFoundException
+	 *           If there are no entities with the exact UUID given.
+	 * @throws MultiplePersistentObjectsFoundException
+	 *           If there are more than one entity with the exact UUID given.
+	 */
+	T retrieveByUuid(String uuid) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 
 	/**
 	 * Stores an object in the persistent media.
