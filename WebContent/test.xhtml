@@ -11,7 +11,7 @@
 		<title>Test</title>
 	</h:head>
 	<h:body>
-		<h1>Test</h1>
+		<h1>Test 2</h1>
 		
 		<hr />
 		
@@ -24,8 +24,7 @@
 		<hr />
 		
 		<h:form id="form">
-			<p:commandButton onclick="testDialog.show()" value="Show" />
-			<p:commandButton onclick="testDialog.hide()" value="Hide" />
+			<p:commandButton actionListener="#{testController.newTelephone}" value="Test" onsuccess="testDialog.show()" update=":form" />
 		</h:form>
 	</h:body>
 </f:view>

@@ -161,8 +161,8 @@
 							</p:dataTable>
 							<h:panelGroup id="telephoneButtons">
 								<div class="sigmeFormInternalButton">
-									<p:commandButton action="#{manageSpiritistsController.newTelephone}" onsuccess="telephoneDialog.show()" image="buttonAdd" title="#{msgsCore['manageSpiritists.button.anotherTelephone']}" disabled="#{manageSpiritistsController.readOnly}" update=":telephoneForm" />
-									<p:commandButton onsuccess="telephoneDialog.show()" image="buttonEdit" title="#{msgsCore['manageSpiritists.button.editTelephone']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.telephone == null)}" update=":telephoneForm" />
+									<p:commandButton action="#{manageSpiritistsController.newTelephone}" onsuccess="telephoneDialog.show()" image="buttonAdd" title="#{msgsCore['manageSpiritists.button.anotherTelephone']}" disabled="#{manageSpiritistsController.readOnly}" update=":telephoneForm" process="@this" />
+									<p:commandButton onsuccess="telephoneDialog.show()" image="buttonEdit" title="#{msgsCore['manageSpiritists.button.editTelephone']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.telephone == null)}" update=":telephoneForm" process="@this" />
 									<p:commandButton action="#{manageSpiritistsController.resetTelephone}" image="buttonRemove" title="#{msgsCore['manageSpiritists.button.removeTelephone']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.telephone == null)}" process="@this" update="telephonesField">
 										<p:collector value="#{manageSpiritistsController.telephone}" removeFrom="#{manageSpiritistsController.telephones}" />
 									</p:commandButton>
@@ -228,9 +228,7 @@
 				</h:form>
 			</ui:decorate>
 		</div>
-	</ui:define>
 
-	<ui:define name="bottom">
 		<!-- Dialog with the new telephone form. -->
 		<p:dialog header="#{msgsCore['manageSpiritists.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="580" showEffect="fade" hideEffect="fade">
 			<div class="crud">
