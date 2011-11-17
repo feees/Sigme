@@ -21,7 +21,7 @@ import br.com.engenhodesoftware.sigme.core.domain.Institution;
 import br.com.engenhodesoftware.sigme.core.domain.InstitutionType;
 import br.com.engenhodesoftware.sigme.core.domain.Regional;
 import br.com.engenhodesoftware.sigme.core.persistence.RegionalDAO;
-import br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal;
+import br.com.engenhodesoftware.util.ejb3.application.CrudService;
 import br.com.engenhodesoftware.util.ejb3.application.filters.Criterion;
 import br.com.engenhodesoftware.util.ejb3.application.filters.CriterionType;
 import br.com.engenhodesoftware.util.ejb3.application.filters.LikeFilter;
@@ -46,12 +46,12 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObj
  */
 @Named
 @SessionScoped
-public class ManageInstitutionsAction extends CrudAction<Institution> {
+public class ManageInstitutionsController extends CrudAction<Institution> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageInstitutionsAction.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(ManageInstitutionsController.class.getCanonicalName());
 
 	/** The "Manage Institutions" service. */
 	@EJB
@@ -77,7 +77,7 @@ public class ManageInstitutionsAction extends CrudAction<Institution> {
 
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getCrudService() */
 	@Override
-	protected CrudServiceLocal<Institution> getCrudService() {
+	protected CrudService<Institution> getCrudService() {
 		// Checks if the current user has the authorization to use this functionality.
 		manageInstitutionsService.authorize();
 

@@ -20,7 +20,7 @@ import br.com.engenhodesoftware.util.ejb3.controller.JSFAction;
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Model
-public class InstallSystemAction extends JSFAction {
+public class InstallSystemController extends JSFAction {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class InstallSystemAction extends JSFAction {
 	private static final String VIEW_PATH = "/core/installSystem/";
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(InstallSystemAction.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(InstallSystemController.class.getCanonicalName());
 
 	/** The "Install System" service. */
 	@EJB

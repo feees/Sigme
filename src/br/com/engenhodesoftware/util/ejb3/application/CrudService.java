@@ -1,247 +1,163 @@
 package br.com.engenhodesoftware.util.ejb3.application;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import br.com.engenhodesoftware.util.ejb3.application.filters.Filter;
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
 
 /**
- * Abstract application class that implements CrudServiceLocal, providing general functionality that can be reused by
- * application classes that are specific to the application being developed.
+ * Interface for application classes (service classes) that implement CRUD use cases (use cases that define five
+ * scenarios: list, create, retrieve, update and delete). A CRUD use case, and therefore its implementing class, refers
+ * to a class, that is manipulated in that use case.
  * 
- * Concrete subclasses must implement abstract methods to fill in the blanks that are application-specific, such as what
- * is the DAO class and how to create an empty new entity.
+ * This interface defines methods that service classes should provide implementation for. It uses a generic types,
+ * <code>T</code>, to represent the class that is manipulated by the use case, which must implement PersistentObject.
  * 
- * This abstract class provides empty implementations for validate methods to make them optional for the bean developer.
- * One very important such method is
+ * For instance, to implement a CRUD service for a Product class, use:
+ * <code>public class ProductCrudService implements CrudServiceLocal&lt;Product&gt;</code>. Product must implement
+ * PersistentObject.
+ * 
+ * This interface can be used together with interfaces/classes that are used in the presentation layer, forming a simple
+ * CRUD framework that integrates with Java EE 6 and makes the task of implementing CRUD use cases easier. It also
+ * provides a default implementation, CrudService.
  * 
  * <i>This class is part of the Engenho de Software CRUD framework for EJB3 (Java EE 6).</i>
  * 
- * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal
- * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO
+ * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean
  * @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
-public abstract class CrudService<T extends PersistentObject> implements CrudServiceLocal<T> {
-	/** Serialization id. */
-	private static final long serialVersionUID = 1L;
-
-	/** The logger. */
-	private static final Logger logger = Logger.getLogger(CrudService.class.getCanonicalName());
-
+public interface CrudService<T extends PersistentObject> extends Serializable {
 	/**
-	 * Provides the DAO so the objects can be retrieved, stored and deleted from the database. As this is class-specific,
-	 * this method must be overridden by the subclasses.
-	 * 
-	 * @return The actual DAO.
+	 * Empty method called by CrudAction every time the CrudService class is obtained. If this method is overridden in the
+	 * concrete implementation of the CrudService and annotated with RolesAllowed authorization will be enforced by the
+	 * Crud framework.
 	 */
-	protected abstract BaseDAO<T> getDAO();
+	void authorize();
 
 	/**
-	 * Creates an empty entity to be stored. As this is class-specific, this method must be overridden by the subclasses.
+	 * Checks if there are errors with object creation.
 	 * 
-	 * @return An empty entity.
-	 */
-	protected abstract T createNewEntity();
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#authorize() */
-	public void authorize() {
-		logger.log(Level.FINE, "Authorization not overridden by subclass. No need for authorization.");
-	}
-
-	/**
-	 * Callback method that allows subclasses to intercept the moment exactly before the persisting (creating or updating)
-	 * of the entity object in order to perform any checks that might be necessary due to manipulation of this object in
-	 * the presentation layer.
-	 * 
-	 * @param newEntity
-	 *          The entity to be persisted.
-	 * @param oldEntity
-	 *          The old entity from the database, in case of updates.
-	 * 
-	 * @return The entity object that is going to be persisted.
-	 */
-	protected T validate(T newEntity, T oldEntity) {
-		logger.log(Level.FINE, "Validation not overridden by subclass. No need for validation.");
-		return newEntity;
-	}
-
-	/**
-	 * Logs operations over one entity, i.e., creation, retrieval, udpate or deletion of an entity. Default implementation
-	 * does nothing, so logging is optional in the subclasses.
-	 * 
-	 * @param operation
-	 *          The operation that is being logged.
 	 * @param entity
-	 *          The entity that is being manipulated.
+	 *          Entity object coming from the presentation layer, containing the data that is going to be sent to the
+	 *          create() method for entity creation.
+	 * 
+	 * @throws Exception
+	 *           In case business constraints aren't followed.
 	 */
-	protected void log(CrudOperation operation, T entity) {
-		logger.log(Level.FINE, "Logging (for operations over single entities) not overridden by subclass. No need for this type of logging.");
-	}
+	void validateCreate(T entity) throws CrudException;
 
 	/**
-	 * Logs operations over many entities, i.e., listing of entities. Default implementation does nothing, so logging is
-	 * optional in the subclasses.
+	 * Checks if there are errors with object update.
 	 * 
-	 * @param operation
-	 *          The opration that is being logged.
-	 * @param entities
-	 *          The entities that are being manipulated.
+	 * @param entity
+	 *          Entity object coming from the presentation layer, containing the ID of the existing entity and the data,
+	 *          both of which are going to be sent to the update() method for entity update.
+	 * 
+	 * @throws Exception
+	 *           In case business constraints aren't followed.
+	 */
+	void validateUpdate(T entity) throws CrudException;
+
+	/**
+	 * Checks if there are errors with object deletion.
+	 * 
+	 * @param entity
+	 *          Entity object coming from the presentation layer, containing the ID of the existing entity that is going
+	 *          to be sent to the delete() method for entity deletion.
+	 * 
+	 * @throws Exception
+	 *           In case business constraints aren't followed.
+	 */
+	void validateDelete(T entity) throws CrudException;
+
+	/**
+	 * Informs how many persistent objects of the manipulated class exist in the persistent store.
+	 * 
+	 * @return The persistent object count.
+	 */
+	long count();
+
+	/**
+	 * Informs how many persistent objects of the manipulated class match the filter criteria.
+	 * 
+	 * @param filterType
+	 *          The type of filtering.
+	 * @param filter
+	 *          The search string for the filtering.
+	 * 
+	 * @return The persistent object count.
+	 */
+	long countFiltered(Filter<?> filterType, String filter);
+
+	/**
+	 * Creates a new entity of the manipulated class, i.e., persists a new instance.
+	 * 
+	 * @param entity
+	 *          A new entity object to be persisted.
+	 */
+	void create(T entity);
+
+	/**
+	 * Retrieves an existing entity from the persistent store, given its ID.
+	 * 
+	 * @param id
+	 *          The ID of the existing entity.
+	 * 
+	 * @return The existing entity or <code>null</code>, if the given ID doesn't correspond to any entities.
+	 */
+	T retrieve(Long id);
+
+	/**
+	 * Updates the data of an existing entity in the persistent store.
+	 * 
+	 * @param entity
+	 *          An existing entity object to be persisted.
+	 */
+	void update(T entity);
+
+	/**
+	 * Deletes an existing entity, i.e., removes it from the persistent store.
+	 * 
+	 * @param entity
+	 *          An existing entity object to be deleted.
+	 */
+	void delete(T entity);
+
+	/**
+	 * List existing entities, given a range.
+	 * 
 	 * @param interval
 	 *          Array of size 2 with the interval [a, b) (retrieves objects from index a through b-1).
+	 * 
+	 * @return A list of existing entities in the given range (an empty list if none exist).
 	 */
-	protected void log(CrudOperation operation, List<T> entities, int ... interval) {
-		logger.log(Level.FINE, "Logging (for operations over multiple entities) not overridden by subclass. No need for this type of logging.");
-	}
+	List<T> list(int ... interval);
 
 	/**
-	 * Helper method that adds a validation error to an existing CRUD exception or creates a new one in case it doesn't
-	 * exist yet. This method creates a global message.
+	 * List existing entities given a filter and a range.
 	 * 
-	 * @param crudException
-	 *          The possibly-existing CRUD exception.
-	 * @param message
-	 *          The developer-friendly message for the exception.
-	 * @param messageKey
-	 *          The key to find the error message in the resource bundle.
-	 * @param messageParams
-	 *          The params to be inserted in the error message.
+	 * @param filter
+	 *          Type of filter to apply.
+	 * @param filterParam
+	 *          Filter parameter.
+	 * @param interval
+	 *          Array of size 2 with the interval [a, b) (retrieves objects from index a through b-1).
 	 * 
-	 * @return The newly-created CRUD exception or the old CRUD exception with a new validation error.
+	 * @return A list of existing entities in the given range that match the given filter (an empty list if none exist).
 	 */
-	protected CrudException addValidationError(CrudException crudException, String message, String messageKey, Object ... messageParams) {
-		logger.log(Level.FINER, "Adding a validation error with key \"{0}\"...", messageKey);
-		
-		if (crudException == null) {
-			crudException = new CrudException(message, messageKey, messageParams);
-		}
-		else {
-			crudException.addValidationError(messageKey, messageParams);
-		}
-		return crudException;
-	}
+	List<T> filter(Filter<?> filter, String filterParam, int ... interval);
 
 	/**
-	 * Helper method that adds a validation error to an existing CRUD exception or creates a new one in case it doesn't
-	 * exist yet. This method attaches the message to a specific field in the form.
+	 * Fetches all lazy attributes of the entity from the persistent store. If there are no lazy attributes, this method
+	 * should return the entity itself.
 	 * 
-	 * @param crudException
-	 *          The possibly-existing CRUD exception.
-	 * @param message
-	 *          The developer-friendly message for the exception.
-	 * @param fieldName
-	 *          The name of the field to which the message should be attached.
-	 * @param messageKey
-	 *          The key to find the error message in the resource bundle.
-	 * @param messageParams
-	 *          The params to be inserted in the error message.
+	 * @param entity
+	 *          The entity whose lazy attributes should be retrieved.
 	 * 
-	 * @return The newly-created CRUD exception or the old CRUD exception with a new validation error.
+	 * @return The same entity, with lazy attributes loaded.
 	 */
-	protected CrudException addValidationError(CrudException crudException, String message, String fieldName, String messageKey, Object ... messageParams) {
-		logger.log(Level.FINER, "Adding field validation error with key \"{0}\" to field \"{1}\"...", new Object[] { messageKey, fieldName });
-
-		if (crudException == null) {
-			crudException = new CrudException(message, fieldName, messageKey, messageParams);
-		}
-		else {
-			crudException.addValidationError(fieldName, messageKey, messageParams);
-		}
-		return crudException;
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#validateCreate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
-	@Override
-	public void validateCreate(T entity) throws CrudException {
-		logger.log(Level.FINE, "Validation of CREATE not overridden by subclass. No need for this type of validation.");
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#validateUpdate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
-	@Override
-	public void validateUpdate(T entity) throws CrudException {
-		logger.log(Level.FINE, "Validation of UPDATE not overridden by subclass. No need for this type of validation.");
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#validateDelete(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
-	@Override
-	public void validateDelete(T entity) throws CrudException {
-		logger.log(Level.FINE, "Validation of DELETE not overridden by subclass. No need for this type of validation.");
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#count() */
-	@Override
-	public long count() {
-		logger.log(Level.FINER, "Retrieving the object count...");
-		return getDAO().retrieveCount();
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#countFiltered(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String) */
-	@Override
-	public long countFiltered(Filter<?> filter, String value) {
-		logger.log(Level.FINER, "Retrieving a filtered object count (filter \"{0}\" with value \"{1}\")...", new Object[] { filter.getKey(), value });
-		return getDAO().retrieveFilteredCount(filter, value);
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#create(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
-	@Override
-	public void create(T entity) {
-		// Validates the entity before persisting.
-		entity = validate(entity, null);
-
-		// Save the entity.
-		log(CrudOperation.CREATE, entity);
-		getDAO().save(entity);
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#retrieve(java.lang.Long) */
-	@Override
-	public T retrieve(Long id) {
-		// Retrieves the real entity from the database.
-		T entity = getDAO().retrieveById(id);
-		log(CrudOperation.RETRIEVE, entity);
-		return entity;
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#update(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
-	@Override
-	public void update(T entity) {
-		// Validates the entity before persisting.
-		entity = validate(entity, getDAO().retrieveById(entity.getId()));
-
-		// Save the entity.
-		log(CrudOperation.UPDATE, entity);
-		getDAO().save(entity);
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#delete(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
-	@Override
-	public void delete(T entity) {
-		// Retrieves the real entity from the database.
-		entity = getDAO().retrieveById(entity.getId());
-		if (entity != null) {
-			// Deletes the entity.
-			getDAO().delete(entity);
-			log(CrudOperation.DELETE, entity);
-		}
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#list(int[]) */
-	@Override
-	public List<T> list(int ... interval) {
-		List<T> entities = getDAO().retrieveSome(interval);
-		log(CrudOperation.LIST, entities, interval);
-		return entities;
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal#filter(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String, int[]) */
-	@Override
-	public List<T> filter(Filter<?> filter, String filterParam, int ... interval) {
-		List<T> entities = getDAO().retrieveSomeWithFilter(filter, filterParam, interval);
-		log(CrudOperation.LIST, entities, interval);
-		return entities;
-	}
+	T fetchLazy(T entity);
 }

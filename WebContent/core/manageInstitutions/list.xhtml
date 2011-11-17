@@ -14,19 +14,19 @@
 		<div class="crud">
 			<!-- Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
 			<h:form id="filterForm">
-				<h:panelGroup id="filterBar" rendered="#{(not empty manageInstitutionsAction.filters)}">
+				<h:panelGroup id="filterBar" rendered="#{(not empty manageInstitutionsController.filters)}">
 					<div class="crudFilterBar">
 						<h:outputText value="#{msgs['crud.text.filter']} " />
-						<p:selectOneMenu id="filter" required="true" value="#{manageInstitutionsAction.filterKey}">
-							<f:selectItems value="#{manageInstitutionsAction.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
-							<f:ajax event="change" execute="@form" listener="#{manageInstitutionsAction.changeFilter}" render="@form :listingForm :buttonsForm" />
+						<p:selectOneMenu id="filter" required="true" value="#{manageInstitutionsController.filterKey}">
+							<f:selectItems value="#{manageInstitutionsController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
+							<f:ajax event="change" execute="@form" listener="#{manageInstitutionsController.changeFilter}" render="@form :listingForm :buttonsForm" />
 						</p:selectOneMenu>
 						<h:outputText value=": " />
-						<p:inputText id="filterText" size="20" required="false" value="#{manageInstitutionsAction.filterParam}" rendered="#{manageInstitutionsAction.filter.options == null}" />
-						<p:selectOneMenu id="filterSelect" required="false" value="#{manageInstitutionsAction.filterParam}" rendered="#{manageInstitutionsAction.filter.options != null}">
-							<f:selectItems value="#{manageInstitutionsAction.filter.reversedOptionsLabels}" />
+						<p:inputText id="filterText" size="20" required="false" value="#{manageInstitutionsController.filterParam}" rendered="#{manageInstitutionsController.filter.options == null}" />
+						<p:selectOneMenu id="filterSelect" required="false" value="#{manageInstitutionsController.filterParam}" rendered="#{manageInstitutionsController.filter.options != null}">
+							<f:selectItems value="#{manageInstitutionsController.filter.reversedOptionsLabels}" />
 						</p:selectOneMenu>
-						<p:commandLink action="#{manageInstitutionsAction.filter}" process="@form" update=":listingForm :buttonsForm">
+						<p:commandLink action="#{manageInstitutionsController.filter}" process="@form" update=":listingForm :buttonsForm">
 							<h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/button-find.png" title="#{msgs['crud.button.filter']}" />
 						</p:commandLink>
 						<p:hotkey bind="#{msgs['crud.hotkey.filterFocus']}" handler="if (findObjectById('filterForm:filterText') != null) findObjectById('filterForm:filterText').focus(); else findObjectById('filterForm:filterSelect').focus();" />
@@ -37,16 +37,16 @@
 			<!-- The listing form. -->
 			<h:form id="listingForm">
 				<!-- Filter information (displayed when the listing is being filtered. -->
-				<h:panelGroup id="filterInfo" rendered="#{manageInstitutionsAction.filtering}">
+				<h:panelGroup id="filterInfo" rendered="#{manageInstitutionsController.filtering}">
 					<div class="crudFilterInfo">
 						<h:outputFormat value="#{msgs['crud.text.filterInfo']} ">
-							<f:param value="#{manageInstitutionsAction.filter.label}" />
-							<f:param value="#{manageInstitutionsAction.filterLabel}" />
+							<f:param value="#{manageInstitutionsController.filter.label}" />
+							<f:param value="#{manageInstitutionsController.filterLabel}" />
 						</h:outputFormat>
-						<p:commandLink action="#{manageInstitutionsAction.cancelFilter}" process="@form" update=":listingForm :buttonsForm">
+						<p:commandLink action="#{manageInstitutionsController.cancelFilter}" process="@form" update=":listingForm :buttonsForm">
 							<h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/button-close.png" title="#{msgs['crud.button.cancelFilter']}" />
 						</p:commandLink>
-						<p:hotkey bind="#{msgs['crud.hotkey.clearFilter']}" action="#{manageInstitutionsAction.cancelFilter}" process="@form" update=":listingForm :buttonsForm" />
+						<p:hotkey bind="#{msgs['crud.hotkey.clearFilter']}" action="#{manageInstitutionsController.cancelFilter}" process="@form" update=":listingForm :buttonsForm" />
 					</div>
 				</h:panelGroup>
 
@@ -54,18 +54,18 @@
 				<h:panelGroup id="listing" styleClass="listing">
 					<p:dataTable
 						widgetVar="listingTable"
-						value="#{manageInstitutionsAction.lazyEntities}" 
+						value="#{manageInstitutionsController.lazyEntities}" 
 						var="entity" 
-						rows="#{manageInstitutionsAction.maxEntitiesPerPage}" 
-						rowsPerPageTemplate="#{manageInstitutionsAction.halfMaxEntitiesPerPage},#{manageInstitutionsAction.maxEntitiesPerPage},#{manageInstitutionsAction.doubleMaxEntitiesPerPage}"
+						rows="#{manageInstitutionsController.maxEntitiesPerPage}" 
+						rowsPerPageTemplate="#{manageInstitutionsController.halfMaxEntitiesPerPage},#{manageInstitutionsController.maxEntitiesPerPage},#{manageInstitutionsController.doubleMaxEntitiesPerPage}"
 						lazy="true" 
 						paginator="true" 
-						selection="#{manageInstitutionsAction.selectedEntity}" 
+						selection="#{manageInstitutionsController.selectedEntity}" 
 						selectionMode="single" 
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
 						paginatorPosition="bottom" 
 						loadingMessage="#{msgs['text.ajax.loading']}" 
-						emptyMessage="#{manageInstitutionsAction.filtering ? msgsCore['manageInstitutions.text.noEntitiesFiltered'] : msgsCore['manageInstitutions.text.noEntities']}">
+						emptyMessage="#{manageInstitutionsController.filtering ? msgsCore['manageInstitutions.text.noEntitiesFiltered'] : msgsCore['manageInstitutions.text.noEntities']}">
 
 						<p:column headerText="#{msgsCore['manageInstitutions.form.name']}">
 							<h:outputText value="#{entity.name}" />
@@ -89,28 +89,28 @@
 			<!-- Buttons shown below the listing. -->
 			<h:form id="buttonsForm">
 				<div class="crudButtons">
-					<p:commandButton action="#{manageInstitutionsAction.create}" value="#{msgs['crud.button.create']}" image="buttonNew" />
-					<p:commandButton action="#{manageInstitutionsAction.retrieve}" value="#{msgs['crud.button.retrieve']}" image="buttonView" disabled="#{manageInstitutionsAction.selectedEntity == null}" />
-					<p:commandButton action="#{manageInstitutionsAction.update}" value="#{msgs['crud.button.update']}" image="buttonEdit" disabled="#{manageInstitutionsAction.selectedEntity == null}" />
-					<p:commandButton action="#{manageInstitutionsAction.trash}" value="#{msgs['crud.button.delete']}" image="buttonTrash" disabled="#{manageInstitutionsAction.selectedEntity == null}" process="@this" update="trashForm" />
-					<p:hotkey bind="#{msgs['crud.hotkey.create']}" action="#{manageInstitutionsAction.create}" />
-					<p:hotkey bind="#{msgs['crud.hotkey.retrieve']}" action="#{manageInstitutionsAction.retrieve}" rendered="#{manageInstitutionsAction.selectedEntity != null}" />
-					<p:hotkey bind="#{msgs['crud.hotkey.update']}" action="#{manageInstitutionsAction.update}" rendered="#{manageInstitutionsAction.selectedEntity != null}" />
-					<p:hotkey bind="#{msgs['crud.hotkey.delete']}" action="#{manageInstitutionsAction.trash}" rendered="#{manageInstitutionsAction.selectedEntity != null}" process="@this" update="trashForm" />
+					<p:commandButton action="#{manageInstitutionsController.create}" value="#{msgs['crud.button.create']}" image="buttonNew" />
+					<p:commandButton action="#{manageInstitutionsController.retrieve}" value="#{msgs['crud.button.retrieve']}" image="buttonView" disabled="#{manageInstitutionsController.selectedEntity == null}" />
+					<p:commandButton action="#{manageInstitutionsController.update}" value="#{msgs['crud.button.update']}" image="buttonEdit" disabled="#{manageInstitutionsController.selectedEntity == null}" />
+					<p:commandButton action="#{manageInstitutionsController.trash}" value="#{msgs['crud.button.delete']}" image="buttonTrash" disabled="#{manageInstitutionsController.selectedEntity == null}" process="@this" update="trashForm" />
+					<p:hotkey bind="#{msgs['crud.hotkey.create']}" action="#{manageInstitutionsController.create}" />
+					<p:hotkey bind="#{msgs['crud.hotkey.retrieve']}" action="#{manageInstitutionsController.retrieve}" rendered="#{manageInstitutionsController.selectedEntity != null}" />
+					<p:hotkey bind="#{msgs['crud.hotkey.update']}" action="#{manageInstitutionsController.update}" rendered="#{manageInstitutionsController.selectedEntity != null}" />
+					<p:hotkey bind="#{msgs['crud.hotkey.delete']}" action="#{manageInstitutionsController.trash}" rendered="#{manageInstitutionsController.selectedEntity != null}" process="@this" update="trashForm" />
 				</div>
 			</h:form>
 
 			<!-- The trash panel: shows entities that have been selected for deletion. -->
 			<h:form id="trashForm">
-				<p:panel id="trashPanel" styleClass="trashPanel" header="#{msgs['crud.text.trashHeader']}" toggleable="true" rendered="#{not empty manageInstitutionsAction.trashCan}">
-					<p:dataList value="#{manageInstitutionsAction.trashCan}" var="entity" type="unordered">
+				<p:panel id="trashPanel" styleClass="trashPanel" header="#{msgs['crud.text.trashHeader']}" toggleable="true" rendered="#{not empty manageInstitutionsController.trashCan}">
+					<p:dataList value="#{manageInstitutionsController.trashCan}" var="entity" type="unordered">
 						#{entity.name}
 					</p:dataList>
 					<div class="sigmeFormInternalButton">
-						<p:commandButton action="#{manageInstitutionsAction.cancelDeletion}" value="#{msgs['crud.button.cancelDeletion']}" image="buttonCancel" update="trashForm buttonsForm listingForm" />
-						<p:commandButton action="#{manageInstitutionsAction.delete}" value="#{msgs['crud.button.confirmDeletion']}" image="buttonOk" />
-						<p:hotkey bind="#{msgs['crud.hotkey.cancelDeletion']}" action="#{manageInstitutionsAction.cancelDeletion}" update="trashForm buttonsForm listingForm" />
-						<p:hotkey bind="#{msgs['crud.hotkey.confirmDeletion']}" action="#{manageInstitutionsAction.delete}" />
+						<p:commandButton action="#{manageInstitutionsController.cancelDeletion}" value="#{msgs['crud.button.cancelDeletion']}" image="buttonCancel" update="trashForm buttonsForm listingForm" />
+						<p:commandButton action="#{manageInstitutionsController.delete}" value="#{msgs['crud.button.confirmDeletion']}" image="buttonOk" />
+						<p:hotkey bind="#{msgs['crud.hotkey.cancelDeletion']}" action="#{manageInstitutionsController.cancelDeletion}" update="trashForm buttonsForm listingForm" />
+						<p:hotkey bind="#{msgs['crud.hotkey.confirmDeletion']}" action="#{manageInstitutionsController.delete}" />
 					</div>
 				</p:panel>
 			</h:form>

@@ -29,8 +29,8 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:name" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.name']}" /></ui:define>
-							<p:inputText id="name" value="#{installSystemAction.admin.name}" size="30" required="true">
-								<f:ajax event="blur" render="nameField shortNameField" listener="#{installSystemAction.suggestShortName}" />
+							<p:inputText id="name" value="#{installSystemController.admin.name}" size="30" required="true">
+								<f:ajax event="blur" render="nameField shortNameField" listener="#{installSystemController.suggestShortName}" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -39,7 +39,7 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:email" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.email']}" /></ui:define>
-							<p:inputText id="email" value="#{installSystemAction.admin.email}" size="30" required="true">
+							<p:inputText id="email" value="#{installSystemController.admin.email}" size="30" required="true">
 								<f:ajax event="blur" render="emailField" />
 							</p:inputText>
 						</ui:decorate>
@@ -49,7 +49,7 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:shortName" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.shortName']}" /></ui:define>
-							<p:inputText id="shortName" value="#{installSystemAction.admin.shortName}" size="15" required="true">
+							<p:inputText id="shortName" value="#{installSystemController.admin.shortName}" size="15" required="true">
 								<f:ajax event="blur" render="shortNameField" />
 							</p:inputText>
 						</ui:decorate>
@@ -59,7 +59,7 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:password" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.password']}" /></ui:define>
-							<p:password id="password" minLength="6" value="#{installSystemAction.admin.password}" size="15" required="true" promptLabel="#{msgs['password.prompt']}" weakLabel="#{msgs['password.weak']}" goodLabel="#{msgs['password.good']}" strongLabel="#{msgs['password.strong']}" />
+							<p:password id="password" minLength="6" value="#{installSystemController.admin.password}" size="15" required="true" promptLabel="#{msgs['password.prompt']}" weakLabel="#{msgs['password.weak']}" goodLabel="#{msgs['password.good']}" strongLabel="#{msgs['password.strong']}" />
 						</ui:decorate>
 					</h:panelGroup>
 
@@ -67,14 +67,14 @@
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:repeatPassword" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.repeatPassword']}" /></ui:define>
-							<p:password id="repeatPassword" value="#{installSystemAction.repeatPassword}" size="15" required="true" feedback="false">
-								<f:ajax event="blur" render=":globalMessages" listener="#{installSystemAction.checkPasswords}" execute="password repeatPassword" />
+							<p:password id="repeatPassword" value="#{installSystemController.repeatPassword}" size="15" required="true" feedback="false">
+								<f:ajax event="blur" render=":globalMessages" listener="#{installSystemController.checkPasswords}" execute="password repeatPassword" />
 							</p:password>
 						</ui:decorate>
 					</h:panelGroup>
 
 					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-						<p:commandButton action="#{installSystemAction.registerAdministrator}" value="#{msgsCore['installSystem.button.registerAdministrator']}" image="buttonOk" onclick="waitDialog.show()" oncomplete="waitDialog.hide()" update=":globalMessages form" />
+						<p:commandButton action="#{installSystemController.registerAdministrator}" value="#{msgsCore['installSystem.button.registerAdministrator']}" image="buttonOk" onclick="waitDialog.show()" oncomplete="waitDialog.hide()" update=":globalMessages form" />
 					</ui:decorate>
 				</h:form>
 			</ui:decorate>

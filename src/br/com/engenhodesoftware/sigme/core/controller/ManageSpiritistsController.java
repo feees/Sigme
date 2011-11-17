@@ -15,7 +15,7 @@ import br.com.engenhodesoftware.sigme.core.domain.Attendance;
 import br.com.engenhodesoftware.sigme.core.domain.Institution;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 import br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO;
-import br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal;
+import br.com.engenhodesoftware.util.ejb3.application.CrudService;
 import br.com.engenhodesoftware.util.ejb3.application.filters.Criterion;
 import br.com.engenhodesoftware.util.ejb3.application.filters.CriterionType;
 import br.com.engenhodesoftware.util.ejb3.application.filters.LikeFilter;
@@ -37,12 +37,12 @@ import br.com.engenhodesoftware.util.people.persistence.CityDAO;
  */
 @Named
 @SessionScoped
-public class ManageSpiritistsAction extends CrudAction<Spiritist> {
+public class ManageSpiritistsController extends CrudAction<Spiritist> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageSpiritistsAction.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(ManageSpiritistsController.class.getCanonicalName());
 
 	/** The "Manage Spiritist" service. */
 	@EJB
@@ -73,7 +73,7 @@ public class ManageSpiritistsAction extends CrudAction<Spiritist> {
 
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getCrudService() */
 	@Override
-	protected CrudServiceLocal<Spiritist> getCrudService() {
+	protected CrudService<Spiritist> getCrudService() {
 		// Checks if the current user has the authorization to use this functionality.
 		manageSpiritistsService.authorize();
 

@@ -21,7 +21,7 @@ import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
 import br.com.engenhodesoftware.sigme.secretariat.domain.RegionalMailingAddressee;
 import br.com.engenhodesoftware.sigme.secretariat.domain.ScopedMailingAddressee;
 import br.com.engenhodesoftware.sigme.secretariat.domain.SpiritistMailingAddressee;
-import br.com.engenhodesoftware.util.ejb3.application.CrudServiceLocal;
+import br.com.engenhodesoftware.util.ejb3.application.CrudService;
 import br.com.engenhodesoftware.util.ejb3.application.filters.LikeFilter;
 import br.com.engenhodesoftware.util.ejb3.controller.CrudAction;
 
@@ -35,12 +35,12 @@ import br.com.engenhodesoftware.util.ejb3.controller.CrudAction;
  */
 @Named
 @SessionScoped
-public class ManageMailingListsAction extends CrudAction<MailingList> {
+public class ManageMailingListsController extends CrudAction<MailingList> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageMailingListsAction.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(ManageMailingListsController.class.getCanonicalName());
 
 	/** The "Manage MailingLists" service. */
 	@EJB
@@ -62,7 +62,7 @@ public class ManageMailingListsAction extends CrudAction<MailingList> {
 
 	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudAction#getCrudService() */
 	@Override
-	protected CrudServiceLocal<MailingList> getCrudService() {
+	protected CrudService<MailingList> getCrudService() {
 		// Checks if the current user has the authorization to use this functionality.
 		manageMailingListsService.authorize();
 
