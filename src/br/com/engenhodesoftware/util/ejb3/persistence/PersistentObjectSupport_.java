@@ -15,4 +15,5 @@ import br.com.engenhodesoftware.util.ejb3.domain.DomainObjectSupport_;
 @StaticMetamodel(PersistentObjectSupport.class)
 public class PersistentObjectSupport_ extends DomainObjectSupport_ {
 	public static volatile SingularAttribute<PersistentObjectSupport, Long> id;
+	public static volatile SingularAttribute<PersistentObjectSupport, Long> version;
 }
