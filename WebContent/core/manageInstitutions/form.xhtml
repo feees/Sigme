@@ -191,7 +191,7 @@
 		</div>
 
 		<!-- Dialog with the new telephone form. -->
-		<p:dialog header="#{msgsCore['manageInstitutions.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="680" showEffect="fade" hideEffect="fade">
+		<p:dialog header="#{msgsCore['manageInstitutions.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="680" showEffect="fade" hideEffect="fade" onShow="findObjectById('telephoneForm:telephoneNumber').focus();">
 			<div class="crud">
 				<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 					<h:form id="telephoneForm">

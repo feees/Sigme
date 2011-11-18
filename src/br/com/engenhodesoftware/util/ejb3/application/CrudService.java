@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import br.com.engenhodesoftware.util.ejb3.application.filters.Filter;
+import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
 
 /**
@@ -36,6 +37,12 @@ public interface CrudService<T extends PersistentObject> extends Serializable {
 	 * Crud framework.
 	 */
 	void authorize();
+	
+	/**
+	 * TODO: document this method.
+	 * @return
+	 */
+	BaseDAO<T> getCrudDAO();
 
 	/**
 	 * Checks if there are errors with object creation.

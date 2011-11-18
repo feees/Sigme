@@ -5,7 +5,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import br.com.engenhodesoftware.util.ejb3.application.filters.Filter;
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
 
 /**
@@ -32,14 +31,6 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(CrudServiceBean.class.getCanonicalName());
-
-	/**
-	 * Provides the DAO so the objects can be retrieved, stored and deleted from the database. As this is class-specific,
-	 * this method must be overridden by the subclasses.
-	 * 
-	 * @return The actual DAO.
-	 */
-	protected abstract BaseDAO<T> getDAO();
 
 	/**
 	 * Creates an empty entity to be stored. As this is class-specific, this method must be overridden by the subclasses.
@@ -176,14 +167,14 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 	@Override
 	public long count() {
 		logger.log(Level.FINER, "Retrieving the object count...");
-		return getDAO().retrieveCount();
+		return getCrudDAO().retrieveCount();
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#countFiltered(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String) */
 	@Override
 	public long countFiltered(Filter<?> filter, String value) {
 		logger.log(Level.FINER, "Retrieving a filtered object count (filter \"{0}\" with value \"{1}\")...", new Object[] { filter.getKey(), value });
-		return getDAO().retrieveFilteredCount(filter, value);
+		return getCrudDAO().retrieveFilteredCount(filter, value);
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#create(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
@@ -194,14 +185,14 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 
 		// Save the entity.
 		log(CrudOperation.CREATE, entity);
-		getDAO().save(entity);
+		getCrudDAO().save(entity);
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#retrieve(java.lang.Long) */
 	@Override
 	public T retrieve(Long id) {
 		// Retrieves the real entity from the database.
-		T entity = getDAO().retrieveById(id);
+		T entity = getCrudDAO().retrieveById(id);
 		log(CrudOperation.RETRIEVE, entity);
 		return entity;
 	}
@@ -210,21 +201,21 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 	@Override
 	public void update(T entity) {
 		// Validates the entity before persisting.
-		entity = validate(entity, getDAO().retrieveById(entity.getId()));
+		entity = validate(entity, getCrudDAO().retrieveById(entity.getId()));
 
 		// Save the entity.
 		log(CrudOperation.UPDATE, entity);
-		getDAO().save(entity);
+		getCrudDAO().save(entity);
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#delete(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void delete(T entity) {
 		// Retrieves the real entity from the database.
-		entity = getDAO().retrieveById(entity.getId());
+		entity = getCrudDAO().retrieveById(entity.getId());
 		if (entity != null) {
 			// Deletes the entity.
-			getDAO().delete(entity);
+			getCrudDAO().delete(entity);
 			log(CrudOperation.DELETE, entity);
 		}
 	}
@@ -232,7 +223,7 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#list(int[]) */
 	@Override
 	public List<T> list(int ... interval) {
-		List<T> entities = getDAO().retrieveSome(interval);
+		List<T> entities = getCrudDAO().retrieveSome(interval);
 		log(CrudOperation.LIST, entities, interval);
 		return entities;
 	}
@@ -240,7 +231,7 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#filter(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String, int[]) */
 	@Override
 	public List<T> filter(Filter<?> filter, String filterParam, int ... interval) {
-		List<T> entities = getDAO().retrieveSomeWithFilter(filter, filterParam, interval);
+		List<T> entities = getCrudDAO().retrieveSomeWithFilter(filter, filterParam, interval);
 		log(CrudOperation.LIST, entities, interval);
 		return entities;
 	}

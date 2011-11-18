@@ -177,7 +177,7 @@ public abstract class CrudController<T extends PersistentObject> extends JSFCont
 	public LazyDataModel<T> getLazyEntities() {
 		if (lazyEntities == null) {
 			count();
-			lazyEntities = new PrimefacesLazyEntityDataModel<T>(getCrudService()) {
+			lazyEntities = new PrimefacesLazyEntityDataModel<T>(getCrudService().getCrudDAO()) {
 				/** Serialization id. */
 				private static final long serialVersionUID = 1117380513193004406L;
 

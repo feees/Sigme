@@ -203,8 +203,8 @@
 							</p:dataTable>
 							<h:panelGroup id="attendanceButtons">
 								<div class="sigmeFormInternalButton">
-									<p:commandButton action="#{manageSpiritistsController.newAttendance}" onsuccess="attendanceDialog.show()" image="buttonAdd" title="#{msgsCore['manageSpiritists.button.anotherAttendance']}" disabled="#{manageSpiritistsController.readOnly}" update=":attendanceForm" />
-									<p:commandButton onsuccess="attendanceDialog.show()" image="buttonEdit" title="#{msgsCore['manageSpiritists.button.editAttendance']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.attendance == null)}" update=":attendanceForm" />
+									<p:commandButton action="#{manageSpiritistsController.newAttendance}" onsuccess="attendanceDialog.show()" image="buttonAdd" title="#{msgsCore['manageSpiritists.button.anotherAttendance']}" disabled="#{manageSpiritistsController.readOnly}" update=":attendanceForm" process="@this" />
+									<p:commandButton onsuccess="attendanceDialog.show()" image="buttonEdit" title="#{msgsCore['manageSpiritists.button.editAttendance']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.attendance == null)}" update=":attendanceForm" process="@this" />
 									<p:commandButton action="#{manageSpiritistsController.resetAttendance}" image="buttonRemove" title="#{msgsCore['manageSpiritists.button.removeAttendance']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.attendance == null)}" process="@this" update="attendanceField">
 										<p:collector value="#{manageSpiritistsController.telephone}" removeFrom="#{manageSpiritistsController.telephones}" />
 									</p:commandButton>
@@ -230,7 +230,7 @@
 		</div>
 
 		<!-- Dialog with the new telephone form. -->
-		<p:dialog header="#{msgsCore['manageSpiritists.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="580" showEffect="fade" hideEffect="fade">
+		<p:dialog header="#{msgsCore['manageSpiritists.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="680" showEffect="fade" hideEffect="fade" onShow="findObjectById('telephoneForm:telephoneNumber').focus();">
 			<div class="crud">
 				<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 					<h:form id="telephoneForm">

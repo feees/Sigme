@@ -6,9 +6,10 @@ import java.util.logging.Logger;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SelectableDataModel;
 
-import br.com.engenhodesoftware.util.ejb3.application.CrudService;
 import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Abstract implementation of a PrimeFaces' lazy data model for persistent entities.
@@ -23,17 +24,9 @@ public abstract class PrimefacesLazyEntityDataModel<T extends PersistentObject> 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(PrimefacesLazyEntityDataModel.class.getCanonicalName());
 	
-	/** If the data model is being used in a CRUD, the CRUD Service class provides access to row data. */
-	private CrudService<T> crudService;
-	
 	/** If not used in a CRUD, the controller should provide the DAO that can access the row data. */
 	private BaseDAO<T> entityDAO;
 	
-	/** Constructor. */
-	public PrimefacesLazyEntityDataModel(CrudService<T> crudService) {
-		this.crudService = crudService;
-	}
-
 	/** Constructor. */
 	public PrimefacesLazyEntityDataModel(BaseDAO<T> entityDAO) {
 		this.entityDAO = entityDAO;
@@ -43,7 +36,7 @@ public abstract class PrimefacesLazyEntityDataModel<T extends PersistentObject> 
 	@Override
 	public Object getRowKey(T object) {
 		logger.log(Level.FINEST, "Obtaining the row key of object \"{0}\" from the data model", object);
-		return object.getId();
+		return object.getUuid();
 	}
 
 	/** @see org.primefaces.model.LazyDataModel#getRowData(java.lang.String) */
@@ -52,13 +45,14 @@ public abstract class PrimefacesLazyEntityDataModel<T extends PersistentObject> 
 		logger.log(Level.FINEST, "Obtaining the row data for key \"{0}\" from the data model", rowKey);
 		
 		try {
-			Long id = Long.parseLong(rowKey);
-			if (crudService != null)
-				return crudService.retrieve(id);
-			else
-				return entityDAO.retrieveById(id);
+			return entityDAO.retrieveByUuid(rowKey);
 		}
-		catch (NumberFormatException e) {
+		catch (PersistentObjectNotFoundException e) {
+			logger.log(Level.WARNING, "Trying to obtain row data from entity with UUID {0} but no entity with that UUID was found");
+			return null;
+		}
+		catch (MultiplePersistentObjectsFoundException e) {
+			logger.log(Level.WARNING, "Trying to obtain row data from entity with UUID {0} but multiple entities with that UUID were found");
 			return null;
 		}
 	}

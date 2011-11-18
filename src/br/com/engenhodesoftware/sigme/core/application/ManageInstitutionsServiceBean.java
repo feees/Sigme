@@ -44,9 +44,9 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 		return new Institution();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#getDAO() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#getCrudDAO() */
 	@Override
-	protected BaseDAO<Institution> getDAO() {
+	public BaseDAO<Institution> getCrudDAO() {
 		return institutionDAO;
 	}
 
@@ -155,7 +155,7 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 	public Institution fetchLazy(Institution entity) {
 		// Loads the telephones collection, which is lazy.
 		logger.log(Level.FINER, "Fecthing lazy attributes for institution \"{0}\"", entity);
-		entity = getDAO().merge(entity);
+		entity = getCrudDAO().merge(entity);
 		entity.getTelephones().size();
 		return entity;
 	}

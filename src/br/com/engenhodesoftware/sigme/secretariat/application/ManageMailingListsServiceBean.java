@@ -43,9 +43,9 @@ public class ManageMailingListsServiceBean extends CrudServiceBean<MailingList> 
 		return new MailingList();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#getDAO() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#getCrudDAO() */
 	@Override
-	protected BaseDAO<MailingList> getDAO() {
+	public BaseDAO<MailingList> getCrudDAO() {
 		return mailingListDAO;
 	}
 
@@ -144,7 +144,7 @@ public class ManageMailingListsServiceBean extends CrudServiceBean<MailingList> 
 	public MailingList fetchLazy(MailingList entity) {
 		// Loads the addresses collection, which is lazy.
 		logger.log(Level.FINER, "Fecthing lazy attributes for mailing list \"{0}\"", entity);
-		entity = getDAO().merge(entity);
+		entity = getCrudDAO().merge(entity);
 		entity.getAddressees().size();
 		return entity;
 	}
