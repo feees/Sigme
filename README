@@ -20,7 +20,7 @@ Para executar o Sigme em sua máquina, siga as instruções abaixo:
 	* Eclipse Indigo (versão Java EE);
 	* Plug-in EGit para o Eclipse;
 	* JBoss connector para o Eclipse;
-	* JBoss AS Web 7;
+	* JBoss AS Web 7.0.2 (recebi relatos de problemas na implantação se utilizada a versão 7.0.0);
 	* MySQL 5;
 
 2. Se ainda não o fez, adicione o JBoss como um servidor dentro do Eclipse;
