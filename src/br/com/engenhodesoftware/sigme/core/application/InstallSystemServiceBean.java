@@ -16,13 +16,13 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import br.com.engenhodesoftware.sigme.core.application.exceptions.SystemInstallFailedException;
 import br.com.engenhodesoftware.sigme.core.domain.InstitutionType;
 import br.com.engenhodesoftware.sigme.core.domain.Regional;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 import br.com.engenhodesoftware.sigme.core.persistence.InstitutionTypeDAO;
 import br.com.engenhodesoftware.sigme.core.persistence.RegionalDAO;
 import br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO;
+import br.com.engenhodesoftware.sigme.secretariat.application.SecretariatInformation;
 import br.com.engenhodesoftware.util.ResourceUtil;
 import br.com.engenhodesoftware.util.TextUtils;
 import br.com.engenhodesoftware.util.people.domain.Address;
@@ -78,6 +78,10 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** Global information about the application. */
 	@EJB
 	private CoreInformation coreInformation;
+	
+	/** Information bean for the Secretariat module. */
+	@EJB
+	private SecretariatInformation secretariatInformation;
 
 	/** Map of states used to initialize the cities. */
 	private static Map<String, State> states = new HashMap<String, State>();
@@ -114,6 +118,11 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			logger.log(Level.FINER, "Persisting data...\n\t- Short name = {0}\n\t- Last update date = {1}\n\t- Last login date = {2}", new Object[] { admin.getShortName(), admin.getLastUpdateDate(), admin.getLastLoginDate() });
 			spiritistDAO.save(admin);
 			logger.log(Level.FINE, "The administrator has been saved: {0} ({1})", new Object[] { admin.getName(), admin.getEmail() });
+			
+			// Installs other modules.
+			logger.log(Level.FINER, "Executing install procedure in other modules...");
+			secretariatInformation.installModule();
+			logger.log(Level.FINE, "Install procedures from Sigme modules executed successfully.");
 
 			// Signals that the system is installed.
 			logger.log(Level.FINER, "Signaling the system as being installed...");
@@ -256,6 +265,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			lineScanner.useDelimiter("(\\s*\\|\\s*)");
 			regional.setNumber(lineScanner.nextInt());
 			regional.setName(lineScanner.next());
+			lineScanner.close();
 			Set<City> regionalCities = new HashSet<City>();
 
 			// Read cities that belong to the regional.
@@ -315,6 +325,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			InstitutionType type = new InstitutionType();
 			type.setType(lineScanner.next());
 			type.setPartOfRegional(Boolean.valueOf(lineScanner.next()));
+			lineScanner.close();
 
 			logger.log(Level.FINEST, "Storing institution type: {0}", type);
 			institutionTypeDAO.save(type);

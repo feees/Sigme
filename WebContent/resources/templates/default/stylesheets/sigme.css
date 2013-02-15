@@ -15,7 +15,6 @@
 /* Reducing the size of the font in PrimeFaces widgets: */
 .ui-widget {
 	font-size: 10pt;
-	margin: 0 0 3px 2px;
 }
 
 /* Reducing the size of the font in autocomplete lists. */
@@ -34,6 +33,12 @@
 .ui-inputfield.ui-state-disabled {
 	opacity: 1;
 }
+
+/* Spacing next to menu icons in the main menu. */
+.ui-menuitem-icon {
+	margin-right: 5px;
+}
+
 
 
 
@@ -131,7 +136,7 @@ div.sigmeFormInternalButton {
 /* Listing page - Filter bar. */
 div.crud div.crudFilterBar {
 	margin: 0 20px 0 auto;
-	text-align: right;
+	float: right;
 }
 
 div.crud div.crudFilterBar img {
@@ -139,9 +144,8 @@ div.crud div.crudFilterBar img {
 }
 
 /* Fixing alignment on filter list box. */
-div.crud div.crudFilterBar .ui-helper-clearfix::after {
-	content: none;
-}
+div.crud div.crudFilterBar .ui-helper-clearfix { margin-bottom: -7px; }
+div.crud div.crudFilterBar .ui-inputtext { margin-bottom: 5px; }
 
 /* Listing page - Filter info. */
 div.crud div.crudFilterInfo {

@@ -89,10 +89,10 @@
 			<!-- Buttons shown below the listing. -->
 			<h:form id="buttonsForm">
 				<div class="crudButtons">
-					<p:commandButton action="#{manageInstitutionsController.create}" value="#{msgs['crud.button.create']}" image="buttonNew" />
-					<p:commandButton action="#{manageInstitutionsController.retrieve}" value="#{msgs['crud.button.retrieve']}" image="buttonView" disabled="#{manageInstitutionsController.selectedEntity == null}" />
-					<p:commandButton action="#{manageInstitutionsController.update}" value="#{msgs['crud.button.update']}" image="buttonEdit" disabled="#{manageInstitutionsController.selectedEntity == null}" />
-					<p:commandButton action="#{manageInstitutionsController.trash}" value="#{msgs['crud.button.delete']}" image="buttonTrash" disabled="#{manageInstitutionsController.selectedEntity == null}" process="@this" update=":trashForm" />
+					<p:commandButton action="#{manageInstitutionsController.create}" value="#{msgs['crud.button.create']}" icon="buttonNew" />
+					<p:commandButton action="#{manageInstitutionsController.retrieve}" value="#{msgs['crud.button.retrieve']}" icon="buttonView" disabled="#{manageInstitutionsController.selectedEntity == null}" />
+					<p:commandButton action="#{manageInstitutionsController.update}" value="#{msgs['crud.button.update']}" icon="buttonEdit" disabled="#{manageInstitutionsController.selectedEntity == null}" />
+					<p:commandButton action="#{manageInstitutionsController.trash}" value="#{msgs['crud.button.delete']}" icon="buttonTrash" disabled="#{manageInstitutionsController.selectedEntity == null}" process="@this" update=":trashForm" />
 					<p:hotkey bind="#{msgs['crud.hotkey.create']}" action="#{manageInstitutionsController.create}" />
 					<p:hotkey bind="#{msgs['crud.hotkey.retrieve']}" action="#{manageInstitutionsController.retrieve}" rendered="#{manageInstitutionsController.selectedEntity != null}" />
 					<p:hotkey bind="#{msgs['crud.hotkey.update']}" action="#{manageInstitutionsController.update}" rendered="#{manageInstitutionsController.selectedEntity != null}" />
@@ -107,8 +107,8 @@
 						#{entity.name}
 					</p:dataList>
 					<div class="sigmeFormInternalButton">
-						<p:commandButton action="#{manageInstitutionsController.cancelDeletion}" value="#{msgs['crud.button.cancelDeletion']}" image="buttonCancel" update=":trashForm :buttonsForm :listingForm" />
-						<p:commandButton action="#{manageInstitutionsController.delete}" value="#{msgs['crud.button.confirmDeletion']}" image="buttonOk" />
+						<p:commandButton action="#{manageInstitutionsController.cancelDeletion}" value="#{msgs['crud.button.cancelDeletion']}" icon="buttonCancel" update=":trashForm :buttonsForm :listingForm" />
+						<p:commandButton action="#{manageInstitutionsController.delete}" value="#{msgs['crud.button.confirmDeletion']}" icon="buttonOk" />
 						<p:hotkey bind="#{msgs['crud.hotkey.cancelDeletion']}" action="#{manageInstitutionsController.cancelDeletion}" update=":trashForm :buttonsForm :listingForm" />
 						<p:hotkey bind="#{msgs['crud.hotkey.confirmDeletion']}" action="#{manageInstitutionsController.delete}" />
 					</div>

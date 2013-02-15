@@ -5,8 +5,13 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 
 /**
  * Abstract class that can be implemented by controller classes for JSF pages (managed beans). Provides useful methods,
@@ -17,6 +22,54 @@ import javax.faces.context.FacesContext;
 public abstract class JSFController implements Serializable {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * TODO: document this method.
+	 * @return
+	 */
+	protected FacesContext getCurrentInstance() {
+		return FacesContext.getCurrentInstance();
+	}
+	
+	/**
+	 * TODO: document this method.
+	 * @return
+	 */
+	protected ExternalContext getExternalContext() {
+		return getCurrentInstance().getExternalContext();
+	}
+	
+	/**
+	 * TODO: document this method.
+	 * @return
+	 */
+	protected ELContext getELContext() {
+		return getCurrentInstance().getELContext();
+	}
+	
+	/**
+	 * TODO: document this method.
+	 * @return
+	 */
+	protected Flash getFlash() {
+		return getExternalContext().getFlash();
+	}
+	
+	/**
+	 * TODO: document this method.
+	 * @return
+	 */
+	protected Application getApplication() {
+		return getCurrentInstance().getApplication();
+	}
+	
+	/**
+	 * TODO: document this method.
+	 * @return
+	 */
+	protected ExpressionFactory getExpressionFactory() {
+		return getApplication().getExpressionFactory();
+	}
 
 	/**
 	 * Obtains an internationalized message, given the bundle and key. If parameters are provided, the message is

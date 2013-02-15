@@ -89,12 +89,12 @@ public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistD
 	public List<Spiritist> findByName(String param) {
 		logger.log(Level.FINE, "Retrieving all spiritists whose name contain \"{0}\"...", param);
 
-		// Constructs the query over the Institution class.
+		// Constructs the query over the Spiritist class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Spiritist> cq = cb.createQuery(Spiritist.class);
 		Root<Spiritist> root = cq.from(Spiritist.class);
 
-		// Filters the query with the name or the acronym.
+		// Filters the query with the name.
 		cq.where(cb.like(cb.lower(root.get(Person_.name)), "%" + param.toLowerCase() + "%"));
 		cq.orderBy(cb.asc(root.get(Person_.name)));
 

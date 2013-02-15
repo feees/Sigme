@@ -9,7 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 
 import br.com.engenhodesoftware.sigme.core.application.InstallSystemService;
-import br.com.engenhodesoftware.sigme.core.application.exceptions.SystemInstallFailedException;
+import br.com.engenhodesoftware.sigme.core.application.SystemInstallFailedException;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 import br.com.engenhodesoftware.util.ejb3.controller.JSFController;
 
@@ -87,7 +87,14 @@ public class InstallSystemController extends JSFController {
 	 * 
 	 * This method is intended to be used with AJAX.
 	 */
-	public boolean checkPasswords() {
+	public void ajaxCheckPasswords() {
+		checkPasswords();
+	}
+	
+	/**
+	 * @return
+	 */
+	private boolean checkPasswords() {
 		if (((repeatPassword != null) && (!repeatPassword.equals(admin.getPassword()))) || ((repeatPassword == null) && (admin.getPassword() != null))) {
 			logger.log(Level.INFO, "Password and repeated password are not the same");
 			addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_WARN, "installSystem.error.passwordsDontMatch.summary", "installSystem.error.passwordsDontMatch.detail");

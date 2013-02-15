@@ -1,7 +1,5 @@
 package br.com.engenhodesoftware.sigme.secretariat.domain;
 
-import java.util.SortedSet;
-
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
@@ -35,12 +33,12 @@ public abstract class MailingAddressee extends PersistentObjectSupport implement
 
 	/** Mailing list to which this addressee belongs. */
 	@ManyToOne(cascade = CascadeType.MERGE)
-	private MailingList mailingList;
+	protected MailingList mailingList;
 
-	/** Type of addressee (normal, copy or carbon copy). */
+	/** Type of addressee (normal, copy or blind copy). */
 	@Basic
 	@NotNull
-	private MailingAddresseeType type;
+	protected MailingAddresseeType type;
 
 	/** Getter for mailingList. */
 	public MailingList getMailingList() {
@@ -75,14 +73,6 @@ public abstract class MailingAddressee extends PersistentObjectSupport implement
 		// By default, addressees aren't scoped. ScopedMailingAddressee overrides this.
 		return false;
 	}
-
-	/**
-	 * Returns a set with all e-mail addresses of the recipients. This method is intended to be overridden by concrete
-	 * subclasses.
-	 * 
-	 * @return A set of strings, each of which an e-mail address.
-	 */
-	protected abstract SortedSet<String> getEmailAddresses();
 
 	/** @see java.lang.Comparable#compareTo(java.lang.Object) */
 	@Override

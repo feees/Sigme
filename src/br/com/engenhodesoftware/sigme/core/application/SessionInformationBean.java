@@ -10,8 +10,6 @@ import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 
-import br.com.engenhodesoftware.sigme.core.application.exceptions.LoginFailedException;
-import br.com.engenhodesoftware.sigme.core.application.exceptions.LoginFailedReason;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 import br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO;
 import br.com.engenhodesoftware.util.TextUtils;
@@ -77,18 +75,18 @@ public class SessionInformationBean implements SessionInformation {
 			else {
 				// Passwords don't match.
 				logger.log(Level.INFO, "Spiritist \"{0}\" not logged in: password didn't match.", username);
-				throw new LoginFailedException(LoginFailedReason.INCORRECT_PASSWORD);
+				throw new LoginFailedException(LoginFailedException.LoginFailedReason.INCORRECT_PASSWORD);
 			}
 		}
 		catch (PersistentObjectNotFoundException e) {
 			// No spiritist was found with the given username.
 			logger.log(Level.INFO, "User \"{0}\" not logged in: no registered spiritist found with given username.", username);
-			throw new LoginFailedException(e, LoginFailedReason.UNKNOWN_USERNAME);
+			throw new LoginFailedException(e, LoginFailedException.LoginFailedReason.UNKNOWN_USERNAME);
 		}
 		catch (MultiplePersistentObjectsFoundException e) {
 			// Multiple spiritists were found with the same username.
 			logger.log(Level.WARNING, "User \"{0}\" not logged in: there are more than one registered spiritist with the given username.", username);
-			throw new LoginFailedException(e, LoginFailedReason.MULTIPLE_USERS);
+			throw new LoginFailedException(e, LoginFailedException.LoginFailedReason.MULTIPLE_USERS);
 		}
 		catch (EJBTransactionRolledbackException e) {
 			// Unknown original cause. Throw the EJB exception.
@@ -98,7 +96,7 @@ public class SessionInformationBean implements SessionInformation {
 		catch (NoSuchAlgorithmException e) {
 			// No MD5 hash generation algorithm found by the JVM.
 			logger.log(Level.SEVERE, "Logging in user \"" + username + "\" triggered an exception during MD5 hash generation.", e);
-			throw new LoginFailedException(LoginFailedReason.MD5_ERROR);
+			throw new LoginFailedException(LoginFailedException.LoginFailedReason.MD5_ERROR);
 		}
 	}
 }

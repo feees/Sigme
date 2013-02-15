@@ -1,4 +1,4 @@
-package br.com.engenhodesoftware.sigme.core.application.exceptions;
+package br.com.engenhodesoftware.sigme.core.application;
 
 /**
  * Application exception that represents the fact that the system installation process has failed to complete.

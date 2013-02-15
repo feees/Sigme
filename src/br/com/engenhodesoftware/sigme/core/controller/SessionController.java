@@ -17,8 +17,8 @@ import org.primefaces.model.DefaultMenuModel;
 import org.primefaces.model.MenuModel;
 
 import br.com.engenhodesoftware.sigme.core.application.CoreInformation;
+import br.com.engenhodesoftware.sigme.core.application.LoginFailedException;
 import br.com.engenhodesoftware.sigme.core.application.SessionInformation;
-import br.com.engenhodesoftware.sigme.core.application.exceptions.LoginFailedException;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 import br.com.engenhodesoftware.util.ejb3.controller.JSFController;
 
@@ -153,15 +153,7 @@ public class SessionController extends JSFController {
 		Submenu menu;
 		MenuItem item;
 		logger.log(Level.FINER, "Initializing the dynamic menu model for the PrimeFaces menu component...");
-
-		// The path to the icons.
-		String iconPath = "/resources/templates/" + coreInformation.getDecorator() + "/icons/";
-
-		// The expression factory creates expressions to the methods in our action classes.
-		// FacesContext facesCtx = FacesContext.getCurrentInstance();
-		// ELContext elCtx = facesCtx.getELContext();
-		// ExpressionFactory expFact = facesCtx.getApplication().getExpressionFactory();
-
+	
 		// Create the menu model.
 		menuModel = new DefaultMenuModel();
 
@@ -179,7 +171,7 @@ public class SessionController extends JSFController {
 				logger.log(Level.FINE, "User is logged in. Logout menu item to be added.");
 				item = new MenuItem();
 				item.setValue(getI18nMessage("msgs", "menu.access.logout"));
-				item.setIcon(iconPath + "menu-access-logout.png");
+				item.setIcon("menuAccessLogout");
 				item.setUrl("/logout");
 				menu.getChildren().add(item);
 			}
@@ -187,7 +179,7 @@ public class SessionController extends JSFController {
 				logger.log(Level.FINE, "User is not logged in. Login menu item to be added.");
 				item = new MenuItem();
 				item.setValue(getI18nMessage("msgs", "menu.access.login"));
-				item.setIcon(iconPath + "menu-access-login.png");
+				item.setIcon("menuAccessLogin");
 				item.setUrl("/login.faces");
 				menu.getChildren().add(item);
 			}
@@ -196,7 +188,7 @@ public class SessionController extends JSFController {
 			if (isLoggedIn()) {
 				logger.log(Level.FINE, "User is logged in. Menus and items for all functionalities to be added.");
 				
-				/* Sub-menu: CRUDs. */
+				/* Sub-menu: CRUDs (Core). */
 				menu = new Submenu();
 				menu.setLabel(getI18nMessage("msgsCore", "core.menu.cruds"));
 				menuModel.addSubmenu(menu);
@@ -204,15 +196,29 @@ public class SessionController extends JSFController {
 				// Menu item: Manage Institutions.
 				item = new MenuItem();
 				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.manageInstitutions"));
-				item.setIcon(iconPath + "menu-core-cruds-manageInstitutions.png");
+				item.setIcon("menuCoreCrudsManageInstitutions");
 				item.setUrl("/core/manageInstitutions/list.faces");
 				menu.getChildren().add(item);
 
 				// Menu item: Manage Spiritists.
 				item = new MenuItem();
 				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.manageSpiritists"));
-				item.setIcon(iconPath + "menu-core-cruds-manageSpiritists.png");
+				item.setIcon("menuCoreCrudsManageSpiritists");
 				item.setUrl("/core/manageSpiritists/list.faces");
+				menu.getChildren().add(item);
+
+				
+				/* Sub-menu: Mailing (Secretariat). */
+				menu = new Submenu();
+				menu.setLabel(getI18nMessage("msgsSecretariat", "secretariat.menu.mailing"));
+				menuModel.addSubmenu(menu);
+
+				// Menu item: Send Mailing.
+				item = new MenuItem();
+				item.setValue(getI18nMessage("msgsSecretariat", "secretariat.menu.mailing.sendMailing"));
+				item.setIcon("menuSecretariatMailingSendMailing");
+				item.setAjax(false);
+				item.setActionExpression(getExpressionFactory().createMethodExpression(getELContext(), "#{sendMailingController.begin}", String.class, new Class[0]));
 				menu.getChildren().add(item);
 			}
 		}
@@ -228,7 +234,7 @@ public class SessionController extends JSFController {
 			// Menu item: Install System.
 			item = new MenuItem();
 			item.setValue(getI18nMessage("msgsCore", "core.menu.installSystem.install"));
-			item.setIcon(iconPath + "menu-core-installSystem-install.png");
+			item.setIcon("menuCoreInstallSystem");
 			item.setUrl("/core/installSystem/index.faces");
 			menu.getChildren().add(item);
 		}
@@ -268,8 +274,8 @@ public class SessionController extends JSFController {
 
 	// Now that the system is going to be shared with others, how about identifying the 1st user and providing auto-login for her?
 	public String autoLogin() {
-		email = "decom@feees.org.br";
-		password = "brasileiro";
+		email = "vitorsouza@gmail.com";
+		password = "123";
 		return login();
 	}
 }

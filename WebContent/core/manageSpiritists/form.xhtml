@@ -157,13 +157,13 @@
 									<h:outputText value="#{telephone.type}" />
 								</p:column>
 								
-								<p:ajax event="rowSelect" update="form:telephoneButtons" />
+								<p:ajax event="rowSelect" update=":form:telephoneButtons" />
 							</p:dataTable>
 							<h:panelGroup id="telephoneButtons">
 								<div class="sigmeFormInternalButton">
-									<p:commandButton action="#{manageSpiritistsController.newTelephone}" onsuccess="telephoneDialog.show()" image="buttonAdd" title="#{msgsCore['manageSpiritists.button.anotherTelephone']}" disabled="#{manageSpiritistsController.readOnly}" update=":telephoneForm" process="@this" />
-									<p:commandButton onsuccess="telephoneDialog.show()" image="buttonEdit" title="#{msgsCore['manageSpiritists.button.editTelephone']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.telephone == null)}" update=":telephoneForm" process="@this" />
-									<p:commandButton action="#{manageSpiritistsController.resetTelephone}" image="buttonRemove" title="#{msgsCore['manageSpiritists.button.removeTelephone']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.telephone == null)}" process="@this" update="telephonesField">
+									<p:commandButton action="#{manageSpiritistsController.newTelephone}" onsuccess="telephoneDialog.show()" icon="buttonAdd" title="#{msgsCore['manageSpiritists.button.anotherTelephone']}" disabled="#{manageSpiritistsController.readOnly}" update=":telephoneForm" process="@this" />
+									<p:commandButton onsuccess="telephoneDialog.show()" icon="buttonEdit" title="#{msgsCore['manageSpiritists.button.editTelephone']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.telephone == null)}" update=":telephoneForm" process="@this" />
+									<p:commandButton action="#{manageSpiritistsController.resetTelephone}" icon="buttonRemove" title="#{msgsCore['manageSpiritists.button.removeTelephone']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.telephone == null)}" process="@this" update="telephonesField">
 										<p:collector value="#{manageSpiritistsController.telephone}" removeFrom="#{manageSpiritistsController.telephones}" />
 									</p:commandButton>
 								</div>
@@ -199,13 +199,13 @@
 									</h:outputText>
 								</p:column>
 								
-								<p:ajax event="rowSelect" update="form:attendanceButtons" />
+								<p:ajax event="rowSelect" update=":form:attendanceButtons" />
 							</p:dataTable>
 							<h:panelGroup id="attendanceButtons">
 								<div class="sigmeFormInternalButton">
-									<p:commandButton action="#{manageSpiritistsController.newAttendance}" onsuccess="attendanceDialog.show()" image="buttonAdd" title="#{msgsCore['manageSpiritists.button.anotherAttendance']}" disabled="#{manageSpiritistsController.readOnly}" update=":attendanceForm" process="@this" />
-									<p:commandButton onsuccess="attendanceDialog.show()" image="buttonEdit" title="#{msgsCore['manageSpiritists.button.editAttendance']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.attendance == null)}" update=":attendanceForm" process="@this" />
-									<p:commandButton action="#{manageSpiritistsController.resetAttendance}" image="buttonRemove" title="#{msgsCore['manageSpiritists.button.removeAttendance']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.attendance == null)}" process="@this" update="attendanceField">
+									<p:commandButton action="#{manageSpiritistsController.newAttendance}" onsuccess="attendanceDialog.show()" icon="buttonAdd" title="#{msgsCore['manageSpiritists.button.anotherAttendance']}" disabled="#{manageSpiritistsController.readOnly}" update=":attendanceForm" process="@this" />
+									<p:commandButton onsuccess="attendanceDialog.show()" icon="buttonEdit" title="#{msgsCore['manageSpiritists.button.editAttendance']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.attendance == null)}" update=":attendanceForm" process="@this" />
+									<p:commandButton action="#{manageSpiritistsController.resetAttendance}" icon="buttonRemove" title="#{msgsCore['manageSpiritists.button.removeAttendance']}" disabled="#{manageSpiritistsController.readOnly or (manageSpiritistsController.attendance == null)}" process="@this" update="attendancesField">
 										<p:collector value="#{manageSpiritistsController.telephone}" removeFrom="#{manageSpiritistsController.telephones}" />
 									</p:commandButton>
 								</div>
@@ -215,13 +215,13 @@
 
 					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
 						<h:panelGroup rendered="#{! manageSpiritistsController.readOnly}">
-							<p:commandButton action="#{manageSpiritistsController.list}" value="#{msgs['crud.button.cancel']}" immediate="true" image="buttonCancel" />
-							<p:commandButton action="#{manageSpiritistsController.save}" value="#{msgs['crud.button.save']}" image="buttonOk" update=":form :globalMessages" />
+							<p:commandButton action="#{manageSpiritistsController.list}" value="#{msgs['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
+							<p:commandButton action="#{manageSpiritistsController.save}" value="#{msgs['crud.button.save']}" icon="buttonOk" update=":form :globalMessages" />
 							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}" action="#{manageSpiritistsController.list}" immediate="true" />
 							<p:hotkey bind="#{msgs['crud.hotkey.save']}" action="#{manageSpiritistsController.save}" update=":form :globalMessages" />
 						</h:panelGroup>
 						<h:panelGroup rendered="#{manageSpiritistsController.readOnly}">
-							<p:commandButton action="#{manageSpiritistsController.list}" value="#{msgs['crud.button.back']}" immediate="true" image="buttonBack" />
+							<p:commandButton action="#{manageSpiritistsController.list}" value="#{msgs['crud.button.back']}" immediate="true" icon="buttonBack" />
 							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}" action="#{manageSpiritistsController.list}" immediate="true" />
 						</h:panelGroup>
 					</ui:decorate>
@@ -230,7 +230,7 @@
 		</div>
 
 		<!-- Dialog with the new telephone form. -->
-		<p:dialog header="#{msgsCore['manageSpiritists.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="680" showEffect="fade" hideEffect="fade" onShow="findObjectById('telephoneForm:telephoneNumber').focus();">
+		<p:dialog header="#{msgsCore['manageSpiritists.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="680" showEffect="fade" hideEffect="fade" onshow="findObjectById('telephoneForm:telephoneNumber').focus();">
 			<div class="crud">
 				<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 					<h:form id="telephoneForm">
@@ -255,8 +255,8 @@
 							</ui:decorate>
 						</h:panelGroup>
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-							<p:commandButton action="#{manageSpiritistsController.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.cancel']}" image="buttonCancel" />
-							<p:commandButton action="#{manageSpiritistsController.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.save']}" image="buttonOk" process="@form" update=":form:telephonesField">
+							<p:commandButton action="#{manageSpiritistsController.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.cancel']}" icon="buttonCancel" />
+							<p:commandButton action="#{manageSpiritistsController.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.save']}" icon="buttonOk" process="@form" update=":form:telephonesField">
 								<p:collector value="#{manageSpiritistsController.telephone}" addTo="#{manageSpiritistsController.telephones}" />
 							</p:commandButton>
 						</ui:decorate>
@@ -264,6 +264,10 @@
 				</ui:decorate>
 			</div>
 		</p:dialog>
+		
+		<!-- FIXME: add attendances dialog. Haven't I done this already? -->
+		<h:form id="attendanceForm">
+		</h:form>
 	</ui:define>
 	
 	<ui:define name="help">

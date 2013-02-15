@@ -138,6 +138,8 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 		case DELETE:
 			logger.log(Level.FINE, "Deleted institution with id {0} ({1})...", new Object[] { entity.getId(), entity.getName() });
 			break;
+		default:
+			logger.log(Level.WARNING, "CRUD bean received unknown operation logging: {0}", new Object[] { operation });
 		}
 	}
 
@@ -147,6 +149,9 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 		switch (operation) {
 		case LIST:
 			logger.log(Level.FINE, "Retrieved institutions in interval [{0}, {1}): {2} institution(s) loaded.", new Object[] { interval[0], interval[1], entities.size() });
+			break;
+		default:
+			logger.log(Level.WARNING, "CRUD bean received unknown operation logging: {0}", new Object[] { operation });
 		}
 	}
 

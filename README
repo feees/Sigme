@@ -16,20 +16,26 @@ Este projeto utiliza as seguintes tecnologias:
 
 Para executar o Sigme em sua máquina, siga as instruções abaixo:
 
-1. Instale os seguintes softwares caso você já não os tenha instalados em seu computador:
+
+[A] INSTALAÇÃO DAS FERRAMENTAS E OBTENÇÃO DO CÓDIGO FONTE:
+
+A1. Instale os seguintes softwares caso você já não os tenha instalados em seu computador:
 	* Eclipse Indigo (versão Java EE);
 	* Plug-in EGit para o Eclipse;
 	* JBoss connector para o Eclipse;
-	* JBoss AS Web 7.0.2 (recebi relatos de problemas na implantação se utilizada a versão 7.0.0);
+	* JBoss AS Web 7.0.2.Final (Web Profile Only, Java EE6 Certified);
 	* MySQL 5;
 
-2. Se ainda não o fez, adicione o JBoss como um servidor dentro do Eclipse;
+A2. Se ainda não o fez, adicione o JBoss como um servidor dentro do Eclipse;
 
-3. Utilizando o EGit dentro do Eclipse, clone o repositório como um novo projeto, ajustando qualquer problema como, por exemplo, o projeto apontar para uma JVM que não existe;
+A3. Utilizando o EGit dentro do Eclipse, clone o repositório como um novo projeto, ajustando qualquer problema como, por exemplo, o projeto apontar para uma JVM que não existe;
 
-4. No site do MySQL, faça o download do MySQL Connector/J (ex.: mysql-connector-java-5.1.18-bin.jar), crie um diretório com/mysql/main dentro de ${DIRETÓRIO_JBOSS}/modules e coloque o JAR do Connector/J nesta pasta;
 
-5. Nesta mesma pasta, junto do JAR do MySQL Connector/J, crie um arquivo com o nome module.xml com o seguinte conteúdo:
+[B] CONFIGURAÇÃO DA FONTE DE DADOS NO SERVIDOR:
+
+B1. No site do MySQL, faça o download do MySQL Connector/J (ex.: mysql-connector-java-5.1.18-bin.jar), crie um diretório com/mysql/main dentro de ${DIRETÓRIO_JBOSS}/modules e coloque o JAR do Connector/J nesta pasta;
+
+B2. Nesta mesma pasta, junto do JAR do MySQL Connector/J, crie um arquivo com o nome module.xml com o seguinte conteúdo:
 
 <?xml version="1.0" encoding="UTF-8"?>
  
@@ -43,7 +49,7 @@ Para executar o Sigme em sua máquina, siga as instruções abaixo:
 </module>
 
 
-6. Edite o arquivo ${DIRETÓRIO_JBOSS}/standalone/configuration/standalone.xml, procure a tag <datasources> e, dentro dela, adicione a seguinte configuração:
+B3. Edite o arquivo ${DIRETÓRIO_JBOSS}/standalone/configuration/standalone.xml, procure a tag <datasources> e, dentro dela, adicione a seguinte configuração:
 
 <datasource jndi-name="java:/jboss/datasources/Sigme" pool-name="sigmePool" enabled="true" jta="true" use-java-context="true" use-ccm="true">
 	<connection-url>jdbc:mysql://localhost:3306/sigme</connection-url>
@@ -59,20 +65,96 @@ Para executar o Sigme em sua máquina, siga as instruções abaixo:
 </datasource>
 
 
-7. Neste mesmo arquivo, dentro da tag <datasources>, subtag <drivers>, adicione a seguinte configuração:
+B4. Neste mesmo arquivo, dentro da tag <datasources>, subtag <drivers>, adicione a seguinte configuração:
 
 <driver name="mysql" module="com.mysql"/>
 
 
-8. Utilizando alguma ferramenta de administração do MySQL, crie um banco de dados chamado sigme e também um usuário chamado sigme com senha sigme e com acesso completo ao banco de dados sigme;
+B5. Utilizando alguma ferramenta de administração do MySQL, crie um banco de dados chamado sigme e também um usuário chamado sigme com senha sigme e com acesso completo ao banco de dados sigme;
 
-9. Abra Java Resources / src / META-INF / persistence.xml e descomente a propriedade hibernate.hbm2ddl.auto para a primeira execução do sistema;
 
-10. Execute o projeto Sigme no servidor JBoss e abra-o em seu navegador (http://localhost:8080/Sigme/). Você deverá ver a tela inicial com o link "Instalar Sistema" à esquerda. Caso isso não aconteça e você receba exceções com relação a tabelas não existirem no banco de dados, experimente fazer o undeploy do Sigme, reiniciar o servidor e efetuar um novo deploy. Assegure-se de ter seguido atentamente os passos 4 a 9;
+[C] CONFIGURAÇÃO DE UMA FILA JMS PARA ENVIO DE MENSAGENS
 
-11. Caso a primeira execução ocorra sem problemas (confira também que uma série de tabelas foi criada no banco de dados sigme dentro do MySQL), comente novamente a propriedade especificada no passo 9;
+C1. Edite o arquivo ${DIRETÓRIO_JBOSS}/standalone/configuration/standalone.xml, procure a tag <extension module="org.jboss.as.naming"/> e, acima dela, adicione a seguinte configuração:
 
-12. Clique em "Instalar Sistema" e siga as instruções do próprio Sigme para completar a instalação.
+<extension module="org.jboss.as.messaging"/>
+
+
+C2. Neste mesmo arquivo, localize a tag <subsystem xmlns="urn:jboss:domain:naming:1.0"/> e, acima dela, adicione a seguinte configuração:
+
+<subsystem xmlns="urn:jboss:domain:messaging:1.0">
+    <!-- Default journal file size is 10Mb, reduced here to 100k for faster first boot -->
+    <journal-file-size>102400</journal-file-size>
+    <journal-min-files>2</journal-min-files>
+    <journal-type>NIO</journal-type>
+    
+    <!-- disable messaging persistence -->
+    <persistence-enabled>false</persistence-enabled>
+
+    <connectors>
+       <in-vm-connector name="localConnector" server-id="0" />
+    </connectors>
+
+    <acceptors>
+       <in-vm-acceptor name="localAcceptor" server-id="0" />
+    </acceptors>
+
+    <security-settings>
+       <security-setting match="#">
+           <permission type="createNonDurableQueue" roles="guest"/>
+           <permission type="deleteNonDurableQueue" roles="guest"/>
+            <permission type="consume" roles="guest"/>
+            <permission type="send" roles="guest"/>
+       </security-setting>
+    </security-settings>
+
+    <address-settings>
+       <!--default for catch all-->
+       <address-setting match="#">
+          <dead-letter-address>jms.queue.DLQ</dead-letter-address>
+          <expiry-address>jms.queue.ExpiryQueue</expiry-address>
+          <redelivery-delay>0</redelivery-delay>
+          <max-size-bytes>10485760</max-size-bytes>
+          <message-counter-history-day-limit>10</message-counter-history-day-limit>
+          <address-full-policy>BLOCK</address-full-policy>
+       </address-setting>
+    </address-settings>
+
+   <jms-connection-factories>
+      <connection-factory name="connectionFactory">
+         <connectors>
+            <connector-ref connector-name="localConnector"/>
+         </connectors>
+         <entries>
+            <entry name="jms/ConnectionFactory"/>
+         </entries>
+      </connection-factory>
+   </jms-connection-factories>
+
+    <jms-destinations>
+        <jms-queue name="backgroundEventQueue">
+            <entry name="jms/BackgroundEventQueue"/>
+        </jms-queue>
+    </jms-destinations>
+</subsystem>
+
+
+C3. Como JMS (messaging) não faz parte do Web Profile, retorne ao site do JBoss e faça download também da versão completa (Everything, NOT Java EE6 Certified), descompacte-a em um outro local do seu disco rígido e copie os seguintes módulos para sua instalação certificada do JBoss (dentro de ${DIRETÓRIO_JBOSS}/modules):
+
+- org/jboss/as/messaging
+- org/hornetq/* (ambos "main" e "ra")
+
+
+
+[D] PRIMEIRA EXECUÇÃO / INSTALAÇÃO DO SIGME:
+
+D1. Abra Java Resources / src / META-INF / persistence.xml e descomente a propriedade hibernate.hbm2ddl.auto para a primeira execução do sistema;
+
+D2. Execute o projeto Sigme no servidor JBoss e abra-o em seu navegador (http://localhost:8080/Sigme/). Você deverá ver a tela inicial com o link "Instalar Sistema" à esquerda. Caso isso não aconteça e você receba exceções com relação a tabelas não existirem no banco de dados, experimente fazer o undeploy do Sigme, reiniciar o servidor e efetuar um novo deploy. Assegure-se de ter seguido atentamente os passos 4 a 9;
+
+D3. Caso a primeira execução ocorra sem problemas (confira também que uma série de tabelas foi criada no banco de dados sigme dentro do MySQL), comente novamente a propriedade especificada no passo 9;
+
+D4. Clique em "Instalar Sistema" e siga as instruções do próprio Sigme para completar a instalação.
 
 
 

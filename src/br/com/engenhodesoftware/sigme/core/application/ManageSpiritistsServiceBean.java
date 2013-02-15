@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
 
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 import br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO;
@@ -25,6 +26,7 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObj
  * @see br.com.engenhodesoftware.sigme.core.application.ManageSpiritistsService
  */
 @Stateless
+@TransactionAttribute
 public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> implements ManageSpiritistsService {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
@@ -139,6 +141,8 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 		case DELETE:
 			logger.log(Level.FINE, "Deleted spiritist with id {0} ({1})...", new Object[] { entity.getId(), entity.getEmail() });
 			break;
+		default:
+			logger.log(Level.WARNING, "CRUD bean received unknown operation logging: {0}", new Object[] { operation });
 		}
 	}
 
@@ -148,6 +152,9 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 		switch (operation) {
 		case LIST:
 			logger.log(Level.FINE, "Retrieved spiritists in interval [{0}, {1}): {2} spiritist(s) loaded.", new Object[] { interval[0], interval[1], entities.size() });
+			break;
+		default:
+			logger.log(Level.WARNING, "CRUD bean received unknown operation logging: {0}", new Object[] { operation });
 		}
 	}
 

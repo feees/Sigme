@@ -1,5 +1,6 @@
 package br.com.engenhodesoftware.sigme.secretariat.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -65,6 +66,17 @@ public class MailingList extends PersistentObjectSupport implements Comparable<M
 	/** Setter for addressees. */
 	public void setAddressees(Set<MailingAddressee> addressees) {
 		this.addressees = addressees;
+	}
+	
+	/**
+	 * TODO: document this method.
+	 * @param addressee
+	 */
+	public void addAddressee(MailingAddressee addressee) {
+		if (addressees == null)
+			addressees = new HashSet<MailingAddressee>();
+		addressees.add(addressee);
+		addressee.setMailingList(this);
 	}
 
 	/** @see java.lang.Comparable#compareTo(java.lang.Object) */

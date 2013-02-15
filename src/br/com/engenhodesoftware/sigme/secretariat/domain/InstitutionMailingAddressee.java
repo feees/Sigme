@@ -1,8 +1,5 @@
 package br.com.engenhodesoftware.sigme.secretariat.domain;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -38,15 +35,5 @@ public class InstitutionMailingAddressee extends ScopedMailingAddressee {
 	/** Setter for institution. */
 	public void setInstitution(Institution institution) {
 		this.institution = institution;
-	}
-
-	/** @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee#getEmailAddresses() */
-	@Override
-	protected SortedSet<String> getEmailAddresses() {
-		SortedSet<String> emails = new TreeSet<String>();
-
-		// Implement the retrieval of emails. Remember this is scoped (active, inactive, all)!
-
-		return emails;
 	}
 }

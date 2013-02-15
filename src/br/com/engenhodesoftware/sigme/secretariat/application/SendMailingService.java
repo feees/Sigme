@@ -15,5 +15,10 @@ import br.com.engenhodesoftware.sigme.secretariat.domain.Mailing;
  */
 @Local
 public interface SendMailingService extends Serializable {
-	void sendMailing(Mailing mailing);
+	/**
+	 * TODO: document this method.
+	 * @param mailing
+	 * @throws InvalidMailingException
+	 */
+	void sendMailing(Mailing mailing) throws InvalidMailingException;
 }

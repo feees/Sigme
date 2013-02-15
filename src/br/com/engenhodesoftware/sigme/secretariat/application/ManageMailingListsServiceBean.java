@@ -127,6 +127,8 @@ public class ManageMailingListsServiceBean extends CrudServiceBean<MailingList> 
 		case DELETE:
 			logger.log(Level.FINE, "Deleted mailing list with id {0} ({1})...", new Object[] { entity.getId(), entity.getName() });
 			break;
+		default:
+			logger.log(Level.WARNING, "CRUD bean received unknown operation logging: {0}", new Object[] { operation });
 		}
 	}
 
@@ -136,6 +138,9 @@ public class ManageMailingListsServiceBean extends CrudServiceBean<MailingList> 
 		switch (operation) {
 		case LIST:
 			logger.log(Level.FINE, "Retrieved mailing list in interval [{0}, {1}): {2} list(s) loaded.", new Object[] { interval[0], interval[1], entities.size() });
+			break;
+		default:
+			logger.log(Level.WARNING, "CRUD bean received unknown operation logging: {0}", new Object[] { operation });
 		}
 	}
 

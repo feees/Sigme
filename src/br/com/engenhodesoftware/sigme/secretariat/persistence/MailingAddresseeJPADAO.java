@@ -1,5 +1,6 @@
 package br.com.engenhodesoftware.sigme.secretariat.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -134,5 +135,28 @@ public class MailingAddresseeJPADAO extends BaseJPADAO<MailingAddressee> impleme
 		List<String> result = entityManager.createQuery(cq).getResultList();
 		logger.log(Level.INFO, "Retrieve email addresses of regional mailing addressee \"{0}\" returned \"{1}\" addresses", new Object[] { addressee.getId(), result.size() });
 		return result;
+	}
+
+	/** @see br.com.engenhodesoftware.sigme.secretariat.persistence.MailingAddresseeDAO#retrieveOptInValidEmails() */
+	@Override
+	public List<String> retrieveOptInValidEmails() {
+		logger.log(Level.FINE, "Retrieving email addresses from all Spiritists that did not opt-out and are not marked as undeliverable.");
+
+		// Constructs the query over the Spiritist class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Spiritist> cq = cb.createQuery(Spiritist.class);
+		Root<Spiritist> root = cq.from(Spiritist.class);
+
+		// FIXME: add filters for opt-out and undeliverables.
+
+		// Obtains the list of spiritists from the query.
+		List<Spiritist> result = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Creating global addressee with \"{0}\" spiritists", result.size());
+		
+		// Creates and returns a list of emails with the addresses of all spiritists from the query.
+		List<String> list = new ArrayList<String>();
+		for (Spiritist spiritist : result)
+			list.add(spiritist.getEmail());
+		return list;
 	}
 }

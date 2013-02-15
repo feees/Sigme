@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
 import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
@@ -53,24 +52,17 @@ public class MailingListJPADAO extends BaseJPADAO<MailingList> implements Mailin
 		return entityManager;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder, javax.persistence.criteria.Root) */
-	@Override
-	protected List<Order> getOrderList(CriteriaBuilder cb, Root<MailingList> root) {
-		// Default order is by name. return "order by obj.name asc";
-		return super.getOrderList(cb, root);
-	}
-
 	/** @see br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO#retrieveByName(java.lang.String) */
 	@Override
 	public MailingList retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		logger.log(Level.FINE, "Retrieving the mailing list whose name is \"{0}\"...", name);
 
-		// Constructs the query over the Spiritist class.
+		// Constructs the query over the MailingList class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<MailingList> cq = cb.createQuery(MailingList.class);
 		Root<MailingList> root = cq.from(MailingList.class);
 
-		// Filters the query with the email.
+		// Filters the query with the name.
 		cq.where(cb.equal(root.get(MailingList_.name), name));
 		MailingList result = executeSingleResultQuery(cq, name);
 		logger.log(Level.INFO, "Retrieve mailing list by the name \"{0}\" returned \"{1}\"", new Object[] { name, result });
@@ -82,7 +74,7 @@ public class MailingListJPADAO extends BaseJPADAO<MailingList> implements Mailin
 	public List<MailingList> findByName(String param) {
 		logger.log(Level.FINE, "Retrieving all mailing lists whose name contains \"{0}\"...", param);
 
-		// Constructs the query over the Institution class.
+		// Constructs the query over the MailingList class.
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<MailingList> cq = cb.createQuery(MailingList.class);
 		Root<MailingList> root = cq.from(MailingList.class);

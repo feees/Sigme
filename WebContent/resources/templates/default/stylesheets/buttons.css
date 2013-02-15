@@ -6,38 +6,23 @@
         Provides styles for buttons.
 */
 
-.buttonAdd {
-	background-image: url(../icons/button-add.png) !important;
-}
+/* MENU ITEMS */
+.menuAccessLogin 					{ background-image: url(../icons/menu-access-login.png) !important; }
+.menuAccessLogout 					{ background-image: url(../icons/menu-access-logout.png) !important; }
+.menuCoreCrudsManageInstitutions 	{ background-image: url(../icons/menu-core-cruds-manageInstitutions.png) !important; }
+.menuCoreCrudsManageSpiritists 		{ background-image: url(../icons/menu-core-cruds-manageSpiritists.png) !important; }
+.menuCoreInstallSystem 				{ background-image: url(../icons/menu-core-installSystem.png) !important; }
+.menuSecretariatMailingSendMailing 	{ background-image: url(../icons/menu-secretariat-mailing-sendMailing.png) !important; }
 
-.buttonBack {
-	background-image: url(../icons/button-back.png) !important;
-}
+/* BUTTONS */
 
-.buttonCancel {
-	background-image: url(../icons/button-cancel.png) !important;
-}
-
-.buttonEdit {
-	background-image: url(../icons/button-edit.png) !important;
-}
-
-.buttonNew {
-	background-image: url(../icons/button-new.png) !important;
-}
-
-.buttonOk {
-	background-image: url(../icons/button-ok.png) !important;
-}
-
-.buttonRemove {
-	background-image: url(../icons/button-remove.png) !important;
-}
-
-.buttonTrash {
-	background-image: url(../icons/button-trash.png) !important;
-}
-
-.buttonView {
-	background-image: url(../icons/button-view.png) !important;
-}
+.buttonAdd 		{ background-image: url(../icons/button-add.png) !important; }
+.buttonBack 	{ background-image: url(../icons/button-back.png) !important; }
+.buttonCancel 	{ background-image: url(../icons/button-cancel.png) !important; }
+.buttonEdit 	{ background-image: url(../icons/button-edit.png) !important; }
+.buttonNew 		{ background-image: url(../icons/button-new.png) !important; }
+.buttonOk 		{ background-image: url(../icons/button-ok.png) !important; }
+.buttonRemove 	{ background-image: url(../icons/button-remove.png) !important; }
+.buttonSendmail { background-image: url(../icons/button-sendmail.png) !important; }
+.buttonTrash 	{ background-image: url(../icons/button-trash.png) !important; }
+.buttonView 	{ background-image: url(../icons/button-view.png) !important; }

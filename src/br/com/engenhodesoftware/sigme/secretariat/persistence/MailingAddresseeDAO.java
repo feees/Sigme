@@ -46,4 +46,10 @@ public interface MailingAddresseeDAO extends BaseDAO<MailingAddressee> {
 	 *         with the institutions of the regional).
 	 */
 	List<String> retrieveEmailsFromRegionalMailingAddressee(RegionalMailingAddressee addressee);
+	
+	/**
+	 * TODO: document this method.
+	 * @return
+	 */
+	List<String> retrieveOptInValidEmails();
 }

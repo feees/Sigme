@@ -68,13 +68,13 @@
 							<ui:param name="fieldName" value="form:repeatPassword" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.repeatPassword']}" /></ui:define>
 							<p:password id="repeatPassword" value="#{installSystemController.repeatPassword}" size="15" required="true" feedback="false">
-								<f:ajax event="blur" render=":globalMessages" listener="#{installSystemController.checkPasswords}" execute="password repeatPassword" />
+								<f:ajax event="blur" render=":globalMessages" listener="#{installSystemController.ajaxCheckPasswords}" execute="password repeatPassword" />
 							</p:password>
 						</ui:decorate>
 					</h:panelGroup>
 
 					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-						<p:commandButton action="#{installSystemController.registerAdministrator}" value="#{msgsCore['installSystem.button.registerAdministrator']}" image="buttonOk" onclick="waitDialog.show()" oncomplete="waitDialog.hide()" update=":globalMessages form" />
+						<p:commandButton action="#{installSystemController.registerAdministrator}" value="#{msgsCore['installSystem.button.registerAdministrator']}" icon="buttonOk" onclick="waitDialog.show()" oncomplete="waitDialog.hide()" update=":globalMessages form" />
 					</ui:decorate>
 				</h:form>
 			</ui:decorate>

@@ -11,20 +11,10 @@
 		<title>Test</title>
 	</h:head>
 	<h:body>
-		<h1>Test 2</h1>
+		<h1>Test</h1>
 		
-		<hr />
-		
-		<p:dialog header="Test Dialog" widgetVar="testDialog" showEffect="fade" hideEffect="fade" >
-			<p>1st par</p>
-			<p>2nd par</p>
-			<p>3rd par</p>
-		</p:dialog>
-		
-		<hr />
-		
-		<h:form id="form">
-			<p:commandButton actionListener="#{testController.newTelephone}" value="Test" onsuccess="testDialog.show()" update=":form" />
+		<h:form>
+			<h:commandLink action="#{testController.test}" value="Test" />
 		</h:form>
 	</h:body>
 </f:view>

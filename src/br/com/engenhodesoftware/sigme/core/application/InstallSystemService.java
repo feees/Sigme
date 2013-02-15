@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.ejb.Local;
 
-import br.com.engenhodesoftware.sigme.core.application.exceptions.SystemInstallFailedException;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 
 /**

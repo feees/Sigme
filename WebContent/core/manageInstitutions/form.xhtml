@@ -164,9 +164,9 @@
 							</p:dataTable>
 							<h:panelGroup id="telephoneButtons">
 								<div class="sigmeFormInternalButton">
-									<p:commandButton action="#{manageInstitutionsController.newTelephone}" onsuccess="telephoneDialog.show()" image="buttonAdd" title="#{msgsCore['manageInstitutions.button.anotherTelephone']}" disabled="#{manageInstitutionsController.readOnly}" process="@this" update=":telephoneForm" />
-									<p:commandButton onsuccess="telephoneDialog.show()" image="buttonEdit" title="#{msgsCore['manageInstitutions.button.editTelephone']}" disabled="#{manageInstitutionsController.readOnly or (manageInstitutionsController.telephone == null)}" process="@this" update=":telephoneForm" />
-									<p:commandButton action="#{manageInstitutionsController.resetTelephone}" image="buttonRemove" title="#{msgsCore['manageInstitutions.button.removeTelephone']}" disabled="#{manageInstitutionsController.readOnly or (manageInstitutionsController.telephone == null)}" process="@this" update="telephonesField">
+									<p:commandButton action="#{manageInstitutionsController.newTelephone}" onsuccess="telephoneDialog.show()" icon="buttonAdd" title="#{msgsCore['manageInstitutions.button.anotherTelephone']}" disabled="#{manageInstitutionsController.readOnly}" process="@this" update=":telephoneForm" />
+									<p:commandButton onsuccess="telephoneDialog.show()" icon="buttonEdit" title="#{msgsCore['manageInstitutions.button.editTelephone']}" disabled="#{manageInstitutionsController.readOnly or (manageInstitutionsController.telephone == null)}" process="@this" update=":telephoneForm" />
+									<p:commandButton action="#{manageInstitutionsController.resetTelephone}" icon="buttonRemove" title="#{msgsCore['manageInstitutions.button.removeTelephone']}" disabled="#{manageInstitutionsController.readOnly or (manageInstitutionsController.telephone == null)}" process="@this" update="telephonesField">
 										<p:collector value="#{manageInstitutionsController.telephone}" removeFrom="#{manageInstitutionsController.telephones}" />
 									</p:commandButton>
 								</div>
@@ -176,13 +176,13 @@
 
 					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
 						<h:panelGroup rendered="#{! manageInstitutionsController.readOnly}">
-							<p:commandButton action="#{manageInstitutionsController.list}" value="#{msgs['crud.button.cancel']}" immediate="true" image="buttonCancel" />
-							<p:commandButton action="#{manageInstitutionsController.save}" value="#{msgs['crud.button.save']}" image="buttonOk" update=":form :globalMessages" />
+							<p:commandButton action="#{manageInstitutionsController.list}" value="#{msgs['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
+							<p:commandButton action="#{manageInstitutionsController.save}" value="#{msgs['crud.button.save']}" icon="buttonOk" update=":form :globalMessages" />
 							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}" action="#{manageInstitutionsController.list}" immediate="true" />
 							<p:hotkey bind="#{msgs['crud.hotkey.save']}" action="#{manageInstitutionsController.save}" update=":form :globalMessages" />
 						</h:panelGroup>
 						<h:panelGroup rendered="#{manageInstitutionsController.readOnly}">
-							<p:commandButton action="#{manageInstitutionsController.list}" value="#{msgs['crud.button.back']}" immediate="true" image="buttonBack" />
+							<p:commandButton action="#{manageInstitutionsController.list}" value="#{msgs['crud.button.back']}" immediate="true" icon="buttonBack" />
 							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}" action="#{manageInstitutionsController.list}" immediate="true" />
 						</h:panelGroup>
 					</ui:decorate>
@@ -216,8 +216,8 @@
 							</ui:decorate>
 						</h:panelGroup>
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-							<p:commandButton action="#{manageInstitutionsController.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.cancel']}" image="buttonCancel" />
-							<p:commandButton action="#{manageInstitutionsController.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.save']}" image="buttonOk" process="@form" update=":form:telephonesField">
+							<p:commandButton action="#{manageInstitutionsController.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.cancel']}" icon="buttonCancel" />
+							<p:commandButton action="#{manageInstitutionsController.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.save']}" icon="buttonOk" process="@form" update=":form:telephonesField">
 								<p:collector value="#{manageInstitutionsController.telephone}" addTo="#{manageInstitutionsController.telephones}" />
 							</p:commandButton>
 						</ui:decorate>

@@ -23,7 +23,7 @@ import br.com.engenhodesoftware.util.people.domain.Telephone;
  * Any user of the system, be them spiritist in real life or not, is represented by this class. Although this might seem
  * an inconsistency, I thought it would be better than calling everyone "User", which is such an overloaded term.
  * 
- * The term "spiritist" is taken from the translation from the Portuguese "Esp√≠rita", which as a noun means a person
+ * The term "spiritist" is taken from the translation from the Portuguese "Espírita", which as a noun means a person
  * that adheres to the religion Spiritism (see, e.g., http://en.wikipedia.org/wiki/Spiritism). It is consistent with the
  * name of the "International Spiritist Council" (http://www.spirites.org/isc/portal/), which is "an organisation
  * resulting from the union, on a world-wide scale, of the Associations representative of the National Spiritist

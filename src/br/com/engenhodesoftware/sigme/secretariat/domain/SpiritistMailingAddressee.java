@@ -1,8 +1,5 @@
 package br.com.engenhodesoftware.sigme.secretariat.domain;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -34,13 +31,5 @@ public class SpiritistMailingAddressee extends MailingAddressee {
 	/** Setter for spiritist. */
 	public void setSpiritist(Spiritist spiritist) {
 		this.spiritist = spiritist;
-	}
-
-	/** @see br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee#getEmailAddresses() */
-	@Override
-	protected SortedSet<String> getEmailAddresses() {
-		SortedSet<String> emails = new TreeSet<String>();
-		emails.add(spiritist.getEmail());
-		return emails;
 	}
 }
