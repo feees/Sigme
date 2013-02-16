@@ -7,8 +7,8 @@ import javax.ejb.Singleton;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
+//import org.apache.commons.mail.EmailException;
+//import org.apache.commons.mail.SimpleEmail;
 
 import br.com.engenhodesoftware.sigme.secretariat.domain.Mailing;
 import br.com.engenhodesoftware.util.jms.BackgroundEvent;
@@ -49,19 +49,19 @@ public class Mailer implements Serializable {
 		// Add the default sender (email and name) to the properties file. Should we allow to change the sender?
 		// Group senders or send individual emails? The former might be faster, the latter allows for personalization.
 		// Google for best practices in mailing, if the SMTP server needs configuration, etc. Contact UOL Host. Talk to the guy that is hosting Sigme at Acnet.
-		SimpleEmail email = new SimpleEmail();
-		try {
-			email.setHostName(smtpConfig.getHostName());
-			email.setSmtpPort(smtpConfig.getPort());
-			email.addTo("jdoe@somewhere.org", "John Doe");
-			email.setFrom("me@apache.org", "Me");
-			email.setSubject(mailing.getSubject());
-			email.setMsg(mailing.getBody());
-			email.send();
-			System.out.println("###### Mailer sent a test email");
-		}
-		catch (EmailException e) {
-			e.printStackTrace();
-		}
+//		SimpleEmail email = new SimpleEmail();
+//		try {
+//			email.setHostName(smtpConfig.getHostName());
+//			email.setSmtpPort(smtpConfig.getPort());
+//			email.addTo("jdoe@somewhere.org", "John Doe");
+//			email.setFrom("me@apache.org", "Me");
+//			email.setSubject(mailing.getSubject());
+//			email.setMsg(mailing.getBody());
+//			email.send();
+//			System.out.println("###### Mailer sent a test email");
+//		}
+//		catch (EmailException e) {
+//			e.printStackTrace();
+//		}
 	}
 }
