@@ -1,6 +1,7 @@
 package br.com.engenhodesoftware.sigme.secretariat.application;
 
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,9 +11,15 @@ import javax.ejb.TransactionAttribute;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
+import br.com.engenhodesoftware.sigme.secretariat.domain.EmailDelivery;
 import br.com.engenhodesoftware.sigme.secretariat.domain.Mailing;
+import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
+import br.com.engenhodesoftware.sigme.secretariat.persistence.EmailDeliveryDAO;
 import br.com.engenhodesoftware.sigme.secretariat.persistence.MailingDAO;
+import br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO;
 import br.com.engenhodesoftware.util.jms.InForeground;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Stateless session bean implementing the "Send Mailing" use case component. See the implemented interface
@@ -34,10 +41,24 @@ public class SendMailingServiceBean implements SendMailingService {
 	@EJB
 	private MailingDAO mailingDAO;
 
+	/** The DAO for MailingList objects. */
+	@EJB
+	private MailingListDAO mailingListDAO;
+	
+	/** TODO: document this field. */
+	@EJB
+	private EmailDeliveryDAO emailDeliveryDAO;
+
 	/** CDI Event to decouple the creation of the mailing and its distribution. */
 	@Inject
 	@InForeground
 	private Event<SendMailingEvent> mailingEvent;
+
+	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#retrieveSingleMailingList() */
+	@Override
+	public MailingList retrieveSingleMailingList() {
+		return mailingListDAO.retrieveSingleMailingList();
+	}
 
 	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#sendMailing(br.com.engenhodesoftware.sigme.secretariat.domain.Mailing) */
 	public void sendMailing(Mailing mailing) throws InvalidMailingException {
@@ -68,5 +89,29 @@ public class SendMailingServiceBean implements SendMailingService {
 
 		// Fires a CDI event so the mailing can be processed in the background.
 		mailingEvent.fire(new SendMailingEvent(mailing));
+	}
+
+	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#retrieveSentMailing(java.lang.String) */
+	@Override
+	public Mailing retrieveSentMailing(String uuid) throws InvalidMailingException {
+		try {
+			return mailingDAO.retrieveByUuid(uuid);
+		}
+		catch (PersistentObjectNotFoundException | MultiplePersistentObjectsFoundException e) {
+			throw new InvalidMailingException();
+		}
+	}
+
+	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#isMailingDelivered(br.com.engenhodesoftware.sigme.secretariat.domain.Mailing) */
+	@Override
+	public Boolean isMailingDelivered(Mailing mailing) {
+		List<EmailDelivery> pendingDeliveries = emailDeliveryDAO.findPendingDeliveriesFromMailing(mailing);
+		return pendingDeliveries.isEmpty();
+	}
+
+	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#viewMailingDeliveries(br.com.engenhodesoftware.sigme.secretariat.domain.Mailing) */
+	@Override
+	public List<EmailDelivery> viewMailingDeliveries(Mailing mailing) {
+		return emailDeliveryDAO.findDeliveriesFromMailing(mailing);
 	}
 }

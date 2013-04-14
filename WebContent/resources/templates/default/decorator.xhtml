@@ -15,15 +15,15 @@ Released for free under a Creative Commons Attribution 2.5 License
 <f:view contentType="text/html">
 	<h:head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<link type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/templates/#{coreInfo.decorator}/stylesheets/buttons.css" />
-		<link type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/templates/#{coreInfo.decorator}/stylesheets/regeneracy.css" />
-		<link type="text/css" rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/templates/#{coreInfo.decorator}/stylesheets/sigme.css" />
 		<script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/resources/scripts/sigme.js" />
 		<title><h:outputText value="Sigme :: " /> <ui:insert name="title" /></title>
 		<ui:insert name="head" />
 	</h:head>
 
 	<h:body>
+		<h:outputStylesheet name="templates/#{coreInfo.decorator}/stylesheets/buttons.css" />
+		<h:outputStylesheet name="templates/#{coreInfo.decorator}/stylesheets/regeneracy.css" />
+		<h:outputStylesheet name="templates/#{coreInfo.decorator}/stylesheets/sigme.css" />
 		<!-- Sigme Ajax status indicator: -->
 		<div id="ajaxStatus">
 			<h:form id="statusForm">

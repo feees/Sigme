@@ -7,22 +7,23 @@
 */
 
 /* MENU ITEMS */
-.menuAccessLogin 					{ background-image: url(../icons/menu-access-login.png) !important; }
-.menuAccessLogout 					{ background-image: url(../icons/menu-access-logout.png) !important; }
-.menuCoreCrudsManageInstitutions 	{ background-image: url(../icons/menu-core-cruds-manageInstitutions.png) !important; }
-.menuCoreCrudsManageSpiritists 		{ background-image: url(../icons/menu-core-cruds-manageSpiritists.png) !important; }
-.menuCoreInstallSystem 				{ background-image: url(../icons/menu-core-installSystem.png) !important; }
-.menuSecretariatMailingSendMailing 	{ background-image: url(../icons/menu-secretariat-mailing-sendMailing.png) !important; }
+.menuAccessLogin 					{ background-image: url(/Sigme/resources/templates/default/icons/menu-access-login.png) !important; }
+.menuAccessLogout 					{ background-image: url(/Sigme/resources/templates/default/icons/menu-access-logout.png) !important; }
+.menuCoreCrudsManageInstitutions 	{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-manageInstitutions.png) !important; }
+.menuCoreCrudsManageSpiritists 		{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-manageSpiritists.png) !important; }
+.menuCoreInstallSystem 				{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-installSystem-install.png) !important; }
+.menuSecretariatMailingSendMailing 	{ background-image: url(/Sigme/resources/templates/default/icons/menu-secretariat-mailing-sendMailing.png) !important; }
 
 /* BUTTONS */
 
-.buttonAdd 		{ background-image: url(../icons/button-add.png) !important; }
-.buttonBack 	{ background-image: url(../icons/button-back.png) !important; }
-.buttonCancel 	{ background-image: url(../icons/button-cancel.png) !important; }
-.buttonEdit 	{ background-image: url(../icons/button-edit.png) !important; }
-.buttonNew 		{ background-image: url(../icons/button-new.png) !important; }
-.buttonOk 		{ background-image: url(../icons/button-ok.png) !important; }
-.buttonRemove 	{ background-image: url(../icons/button-remove.png) !important; }
-.buttonSendmail { background-image: url(../icons/button-sendmail.png) !important; }
-.buttonTrash 	{ background-image: url(../icons/button-trash.png) !important; }
-.buttonView 	{ background-image: url(../icons/button-view.png) !important; }
+.buttonAdd 		{ background-image: url(/Sigme/resources/templates/default/icons/button-add.png) !important; }
+.buttonBack 	{ background-image: url(/Sigme/resources/templates/default/icons/button-back.png) !important; }
+.buttonCancel 	{ background-image: url(/Sigme/resources/templates/default/icons/button-cancel.png) !important; }
+.buttonEdit 	{ background-image: url(/Sigme/resources/templates/default/icons/button-edit.png) !important; }
+.buttonNew 		{ background-image: url(/Sigme/resources/templates/default/icons/button-new.png) !important; }
+.buttonOk 		{ background-image: url(/Sigme/resources/templates/default/icons/button-ok.png) !important; }
+.buttonRemove 	{ background-image: url(/Sigme/resources/templates/default/icons/button-remove.png) !important; }
+.buttonReport 	{ background-image: url(/Sigme/resources/templates/default/icons/button-report.png) !important; }
+.buttonSendmail { background-image: url(/Sigme/resources/templates/default/icons/button-sendmail.png) !important; }
+.buttonTrash 	{ background-image: url(/Sigme/resources/templates/default/icons/button-trash.png) !important; }
+.buttonView 	{ background-image: url(/Sigme/resources/templates/default/icons/button-view.png) !important; }

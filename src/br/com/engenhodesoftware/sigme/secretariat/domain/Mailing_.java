@@ -22,4 +22,5 @@ public class Mailing_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<Mailing, String> subject;
 	public static volatile SingularAttribute<Mailing, String> body;
 	public static volatile SingularAttribute<Mailing, Date> sentDate;
+	public static volatile SetAttribute<Mailing, EmailDelivery> deliveries;
 }

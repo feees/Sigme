@@ -22,6 +22,14 @@ import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 @Local
 public interface MailingAddresseeDAO extends BaseDAO<MailingAddressee> {
 	/**
+	 * TODO: document this method.
+	 * 
+	 * @param addressee
+	 * @return
+	 */
+	List<String> retrieveEmailsFromAddressee(MailingAddressee addressee);
+
+	/**
 	 * Retrieves the e-mail addresses of all spiritists included in an institution mailing addressee. This means all
 	 * spiritists which have the appropriate attendance (depends on the scope -- active, inactive, all) for the given
 	 * institution.
@@ -46,9 +54,10 @@ public interface MailingAddresseeDAO extends BaseDAO<MailingAddressee> {
 	 *         with the institutions of the regional).
 	 */
 	List<String> retrieveEmailsFromRegionalMailingAddressee(RegionalMailingAddressee addressee);
-	
+
 	/**
 	 * TODO: document this method.
+	 * 
 	 * @return
 	 */
 	List<String> retrieveOptInValidEmails();

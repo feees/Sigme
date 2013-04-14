@@ -22,6 +22,13 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObj
 @Local
 public interface MailingListDAO extends BaseDAO<MailingList> {
 	/**
+	 * TODO: document this method.
+	 * 
+	 * @return
+	 */
+	MailingList retrieveSingleMailingList();
+
+	/**
 	 * Retrieves the mailing list that has the exact name specified in the parameter.
 	 * 
 	 * @param email

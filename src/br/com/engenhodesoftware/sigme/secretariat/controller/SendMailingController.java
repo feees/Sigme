@@ -63,6 +63,9 @@ public class SendMailingController extends JSFController {
 	/** Param: the message's contents. */
 	private String message;
 
+	/** Param: the mailing's UUID. */
+	private String sentMailingUuid;
+
 	/** Getter for recipients. */
 	public List<MailingList> getRecipients() {
 		return recipients;
@@ -96,6 +99,11 @@ public class SendMailingController extends JSFController {
 	/** Setter for message. */
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	/** Getter for sentMailingUuid. */
+	public String getSentMailingUuid() {
+		return sentMailingUuid;
 	}
 
 	/**
@@ -139,6 +147,13 @@ public class SendMailingController extends JSFController {
 			logger.log(Level.FINER, "Beginning new conversation for \"Send Mailing\" use case: {0}.", conversation.getId());
 		}
 
+		// If there is only one mailing list registered in the system, uses it by default as recipient.
+		MailingList singleList = sendMailingService.retrieveSingleMailingList();
+		if (singleList != null) {
+			logger.log(Level.FINER, "Mailing list \"{0}\" is the only one in the system. Using it by default as recipient.", singleList.getName());
+			recipients.add(singleList);
+		}
+
 		// Open the initial page for the use case.
 		return VIEW_PATH + "index.faces?faces-redirect=true";
 	}
@@ -172,6 +187,7 @@ public class SendMailingController extends JSFController {
 			recipients.addAll(this.recipients);
 			Mailing mailing = new Mailing(recipients, subject, message);
 			sendMailingService.sendMailing(mailing);
+			sentMailingUuid = mailing.getUuid();
 		}
 		catch (InvalidMailingException e) {
 			logger.log(Level.FINE, "Received invalid mailing exception while trying to send the mailing.");

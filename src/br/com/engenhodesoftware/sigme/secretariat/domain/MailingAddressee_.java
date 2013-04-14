@@ -16,5 +16,4 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport_;
 @StaticMetamodel(MailingAddressee.class)
 public class MailingAddressee_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<MailingAddressee, MailingList> mailingList;
-	public static volatile SingularAttribute<MailingAddressee, MailingAddresseeType> type;
 }

@@ -20,6 +20,7 @@ import br.com.engenhodesoftware.sigme.core.domain.Institution;
 import br.com.engenhodesoftware.sigme.core.domain.Institution_;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist_;
+import br.com.engenhodesoftware.sigme.secretariat.domain.AllMailingAddressee;
 import br.com.engenhodesoftware.sigme.secretariat.domain.InstitutionMailingAddressee;
 import br.com.engenhodesoftware.sigme.secretariat.domain.InstitutionMailingAddressee_;
 import br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee;
@@ -61,6 +62,23 @@ public class MailingAddresseeJPADAO extends BaseJPADAO<MailingAddressee> impleme
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
+	}
+
+	/** @see br.com.engenhodesoftware.sigme.secretariat.persistence.MailingAddresseeDAO#retrieveEmailsFromAddressee(br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddressee) */
+	@Override
+	public List<String> retrieveEmailsFromAddressee(MailingAddressee addressee) {
+		logger.log(Level.FINE, "Resolving the type of addressee: {0}", addressee.getClass().getName());
+
+		// Checks the type of addressee and calls the appropriate method.
+		if (addressee instanceof AllMailingAddressee)
+			return retrieveOptInValidEmails();
+		if (addressee instanceof InstitutionMailingAddressee)
+			return retrieveEmailsFromInstitutionMailingAddressee((InstitutionMailingAddressee) addressee);
+		if (addressee instanceof RegionalMailingAddressee)
+			return retrieveEmailsFromRegionalMailingAddressee((RegionalMailingAddressee) addressee);
+
+		// If it's none of the above, returns an empty list.
+		return new ArrayList<String>();
 	}
 
 	/** @see br.com.engenhodesoftware.sigme.secretariat.persistence.MailingAddresseeDAO#retrieveEmailsFromInstitutionMailingAddressee(br.com.engenhodesoftware.sigme.secretariat.domain.InstitutionMailingAddressee) */
@@ -146,13 +164,14 @@ public class MailingAddresseeJPADAO extends BaseJPADAO<MailingAddressee> impleme
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Spiritist> cq = cb.createQuery(Spiritist.class);
 		Root<Spiritist> root = cq.from(Spiritist.class);
+		cq.select(root);
 
 		// FIXME: add filters for opt-out and undeliverables.
 
 		// Obtains the list of spiritists from the query.
 		List<Spiritist> result = entityManager.createQuery(cq).getResultList();
 		logger.log(Level.INFO, "Creating global addressee with \"{0}\" spiritists", result.size());
-		
+
 		// Creates and returns a list of emails with the addresses of all spiritists from the query.
 		List<String> list = new ArrayList<String>();
 		for (Spiritist spiritist : result)

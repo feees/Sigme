@@ -11,9 +11,15 @@
 	<ui:define name="body">
 		<h1><h:outputText value="#{msgsSecretariat['sendMailing.title']}" /></h1>
 
-		<p><h:outputText value="#{msgsSecretariat['sendMailing.text.done']}" /></p>
+		<p><h:outputFormat value="#{msgsSecretariat['sendMailing.text.done']}">
+			<f:param value="#{flash.sendMailingController.subject}" />
+		</h:outputFormat></p>
 		
-		<p>[<h:outputText value="#{flash.sendMailingController.subject}" />]</p>
+		<h:form id="form">
+			<center><p:button outcome="report" value="#{msgsSecretariat['sendMailing.button.viewReport']}" icon="buttonReport">
+				<f:param name="uuid" value="#{flash.sendMailingController.sentMailingUuid}" />
+			</p:button></center>
+		</h:form>
 	</ui:define>
 </ui:composition>
 

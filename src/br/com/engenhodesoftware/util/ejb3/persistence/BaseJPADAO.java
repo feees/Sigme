@@ -311,6 +311,21 @@ public abstract class BaseJPADAO<T extends PersistentObject> implements BaseDAO<
 		return em.merge(object);
 	}
 
+	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#refresh(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	@Override
+	public T refresh(T object) {
+		logger.log(Level.FINER, "Refreshing an object of class {0}: \"{1}\"...", new Object[] { getDomainClass().getName(), object });
+		
+		// If the object is not persistent, it cannot be refreshed.
+		if (! object.isPersistent())
+			return object;
+		
+		// Otherwise, uses the Persitence Context to re-retrieve the object.
+		EntityManager em = getEntityManager();
+		T result = (T) em.find(getDomainClass(), object.getId());
+		return result;
+	}
+
 	/**
 	 * Builds a criteria query to return that retrieves the number of domain objects (the object count) according to the
 	 * given filter (and its embedded criteria).

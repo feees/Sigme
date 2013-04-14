@@ -44,7 +44,7 @@ a:hover { }
 	margin: 0;
 	padding: 0;
 	color: #000000;
-	background: url(../images/logo.png) no-repeat left 15px;
+	background: url(/Sigme/resources/templates/default/images/logo.png) no-repeat left 15px;
 }
 
 #logo h1 {

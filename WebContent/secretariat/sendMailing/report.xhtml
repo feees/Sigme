@@ -1,0 +1,91 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title"><h:outputText value="#{msgsSecretariat['viewMailingReport.title']}" /></ui:define>
+
+	<ui:define name="body">
+		<h1><h:outputText value="#{msgsSecretariat['viewMailingReport.title']}" /></h1>
+		
+		<h:panelGroup id="mailingReport" rendered="#{viewMailingReportController.mailing != null}"	>
+			<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+				<h:form id="form">
+
+					<!-- General information about the mailing. -->
+					<div class="crud">
+						<h:panelGroup id="subjectField">
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+								<ui:define name="label"><h:outputText value="#{msgsSecretariat['viewMailingReport.form.subject']}" /></ui:define>
+								<h:outputText value="#{viewMailingReportController.mailing.subject}" />
+							</ui:decorate>
+						</h:panelGroup>
+						<h:panelGroup id="dateField">
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+								<ui:define name="label"><h:outputText value="#{msgsSecretariat['viewMailingReport.form.sentDate']}" /></ui:define>
+								<h:outputFormat value="#{viewMailingReportController.mailing.sentDate}">
+									<f:convertDateTime type="both" pattern="#{msgs['format.datetime.java']}" />
+								</h:outputFormat>
+							</ui:decorate>
+						</h:panelGroup>
+						<h:panelGroup id="statusField">
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+								<ui:define name="label"><h:outputText value="#{msgsSecretariat['viewMailingReport.form.status']}" /></ui:define>
+								<h:outputText value="#{msgsSecretariat['viewMailingReport.table.delivery.status.pending']}" rendered="#{not viewMailingReportController.delivered}" />
+								<h:outputText value="#{msgsSecretariat['viewMailingReport.table.delivery.status.sent']}" rendered="#{viewMailingReportController.delivered}" />
+							</ui:decorate>
+						</h:panelGroup>
+					</div>
+					
+					
+					<!-- The message that was sent. -->
+					<p:panel id="messagePanel" header="#{msgsSecretariat['viewMailingReport.text.messageBody']}" toggleable="true" collapsed="true" style="margin-top: 15px; margin-bottom: 15px;">
+						<h:outputText value="#{viewMailingReportController.mailing.body}" />
+					</p:panel>
+
+<!--
+FIXME: Add paginator and lazy loading later.
+
+OR, EVEN BETTER, Live Scroll?
+
+ 							rows="#{vieMailingReportController.maxDataTableRowsPerPage}" 
+							rowsPerPageTemplate="#{vieMailingReportController.halfMaxDataTableRowsPerPage},#{vieMailingReportController.maxDataTableRowsPerPage},#{vieMailingReportController.doubleMaxDataTableRowsPerPage}"
+							lazy="true" 
+							paginator="true" 
+							paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+							paginatorPosition="bottom" 
+							loadingMessage="#{msgs['text.ajax.loading']}"
+--> 
+
+					<!-- Status of each email delivery. -->
+					<p:panel id="detailedStatusPanel" header="#{msgsSecretariat['viewMailingReport.text.detailedStatus']}" toggleable="true" collapsed="false">
+						<p:dataTable
+							widgetVar="deliveriesTable"
+							value="#{viewMailingReportController.deliveries}" 
+							var="delivery" 
+							emptyMessage="#{msgsSecretariat['viewMailingReport.text.noDeliveries']}"
+							styleClass="no-header">
+	
+							<p:column>
+								<h:outputText value="#{delivery.recipientEmail}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{msgsSecretariat['viewMailingReport.table.delivery.status.error']}: #{delivery.errorMessage}" rendered="#{not empty delivery.errorMessage}" />
+								<h:outputText value="#{msgsSecretariat['viewMailingReport.table.delivery.status.pending']}" rendered="#{(empty delivery.errorMessage) and (not delivery.messageSent)}" />
+								<h:outputText value="#{msgsSecretariat['viewMailingReport.table.delivery.status.sent']}" rendered="#{(empty delivery.errorMessage) and (delivery.messageSent)}" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+					
+					<!-- Auto-refresh the status of each email delivery and the overall status every T seconds. -->
+					<p:poll update="detailedStatusPanel statusField" stop="#{viewMailingReportController.delivered}" />
+
+				</h:form>
+			</ui:decorate>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+

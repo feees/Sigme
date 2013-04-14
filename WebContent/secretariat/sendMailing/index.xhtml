@@ -10,7 +10,7 @@
 	
 	<ui:define name="body">
 		<h1><h:outputText value="#{msgsSecretariat['sendMailing.title']}" /></h1>
-
+		
 		<p><h:outputText value="#{msgsSecretariat['sendMailing.text.instructions']}" /></p>
 
 		<!-- The form to be filled with mailing list and message. -->
@@ -29,10 +29,10 @@
 							loadingMessage="#{msgs['text.ajax.loading']}" 
 							emptyMessage="#{msgsSecretariat['sendMailing.text.noRecipients']}">
 							
-						<p:column headerText="#{msgsSecretariat['sendMailing.form.recipients.name']}">
+						<p:column headerText="#{msgsSecretariat['sendMailing.form.recipients.name']}" width="200">
 							<h:outputText value="#{recipient.name}" />
 						</p:column>
-						<p:column headerText="#{msgsSecretariat['sendMailing.form.recipients.description']}">
+						<p:column headerText="#{msgsSecretariat['sendMailing.form.recipients.description']}" width="450">
 							<h:outputText value="#{recipient.description}" />
 						</p:column>
 						

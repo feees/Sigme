@@ -23,6 +23,39 @@ public abstract class JSFController implements Serializable {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 	
+	/** Maximum number of data table rows to show per page by default. */
+	protected static final int MAX_DATA_TABLE_ROWS_PER_PAGE = 10;
+	
+	/**
+	 * Informs to other methods (and web pages) what is the maximum number of rows to be displayed in a data page. This method exists so it can be overridden by subclasses if desired.
+	 * 
+	 * @return The maximum number of rows to be displayed in a data table at a time.
+	 */
+	public int getMaxDataTableRowsPerPage() {
+		return MAX_DATA_TABLE_ROWS_PER_PAGE;
+	}
+
+	/**
+	 * Informs to other methods (and web pages) what is the maximum number of entities to be displayed in a listing page,
+	 * divided by 2. This method exists so it can be overridden by subclasses if desired.
+	 * 
+	 * @return The maximum number of entities to be displayed in the page at a time.
+	 */
+	public int getHalfMaxDataTableRowsPerPage() {
+		return MAX_DATA_TABLE_ROWS_PER_PAGE / 2;
+	}
+
+	/**
+	 * Informs to other methods (and web pages) what is the maximum number of entities to be displayed in a listing page,
+	 * multiplied by 2. This method exists so it can be overridden by subclasses if desired.
+	 * 
+	 * @return The maximum number of entities to be displayed in the page at a time.
+	 */
+	public int getDoubleMaxDataTableRowsPerPage() {
+		return MAX_DATA_TABLE_ROWS_PER_PAGE * 2;
+	}
+
+	
 	/**
 	 * TODO: document this method.
 	 * @return

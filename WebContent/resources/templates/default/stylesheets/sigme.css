@@ -1,5 +1,9 @@
 /*** PRIMEFACES WIDGETS ***/
 
+body {
+	font-size: 10pt;
+}
+
 /* Aligning the menu in the center of the sidebar: */
 .wijmo-wijmenu {
 	margin-left: auto;
@@ -13,11 +17,11 @@
 }
 
 /* Reducing the size of the font in PrimeFaces widgets: */
-.ui-widget {
+.ui-widget, .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
 	font-size: 10pt;
 }
 
-/* Reducing the size of the font in autocomplete lists. */
+/* Reducing even further the size of the font in autocomplete lists. */
 .ui-autocomplete-list {
 	font-size: 8pt;
 }
@@ -39,7 +43,18 @@
 	margin-right: 5px;
 }
 
+/* Tables obey their specified sizes and word wrap text in columns. */
+.ui-datatable table {
+	table-layout: fixed;
+}
+.ui-datatable tbody td {
+   white-space:normal !important;
+}
 
+/* For tables without header. */
+.no-header table thead tr {
+    display: none;
+}
 
 
 /*** SIGME HELP PANEL. ***/

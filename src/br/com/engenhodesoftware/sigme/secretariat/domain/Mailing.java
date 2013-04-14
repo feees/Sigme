@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,7 +29,7 @@ public class Mailing extends PersistentObjectSupport implements Comparable<Maili
 	private static final long serialVersionUID = 1L;
 
 	/** Recipient mailing lists of this mailing. */
-	@OneToMany
+	@ManyToMany
 	private Set<MailingList> recipients = new HashSet<MailingList>();
 
 	/** Subject of the message. */
@@ -44,6 +46,10 @@ public class Mailing extends PersistentObjectSupport implements Comparable<Maili
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date sentDate;
+
+	/** TODO: document this field. */
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "mailing")
+	private Set<EmailDelivery> deliveries;
 
 	/** Default constructor. */
 	public Mailing() {}
@@ -93,6 +99,26 @@ public class Mailing extends PersistentObjectSupport implements Comparable<Maili
 	/** Setter for sentDate. */
 	public void setSentDate(Date sentDate) {
 		this.sentDate = sentDate;
+	}
+
+	/** Getter for deliveries. */
+	public Set<EmailDelivery> getDeliveries() {
+		if (deliveries == null) deliveries = new HashSet<>();
+		return deliveries;
+	}
+
+	/** Setter for deliveries. */
+	public void setDeliveries(Set<EmailDelivery> deliveries) {
+		this.deliveries = deliveries;
+	}
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param delivery
+	 */
+	public void addDelivery(EmailDelivery delivery) {
+		getDeliveries().add(delivery);
 	}
 
 	/** @see java.lang.Comparable#compareTo(java.lang.Object) */

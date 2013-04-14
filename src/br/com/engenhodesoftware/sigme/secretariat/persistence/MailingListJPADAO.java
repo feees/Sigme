@@ -52,6 +52,19 @@ public class MailingListJPADAO extends BaseJPADAO<MailingList> implements Mailin
 		return entityManager;
 	}
 
+	/** @see br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO#retrieveSingleMailingList() */
+	@Override
+	public MailingList retrieveSingleMailingList() {
+		logger.log(Level.FINE, "Retrieving the only existing mailing list (if that's the case, otherwise returns null)");
+
+		// If there's a single mailing list registered, returns it.
+		long count = retrieveCount();
+		if (count == 1) return retrieveAll().get(0);
+		
+		// Otherwise, returns null.
+		return null;
+	}
+
 	/** @see br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO#retrieveByName(java.lang.String) */
 	@Override
 	public MailingList retrieveByName(String name) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {

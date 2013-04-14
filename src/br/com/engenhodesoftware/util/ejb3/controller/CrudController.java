@@ -41,9 +41,6 @@ public abstract class CrudController<T extends PersistentObject> extends JSFCont
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
-	/** Maximum number of entities to show in each page. */
-	private static final int MAX_ENTITIES_PER_PAGE = 10;
-
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(CrudController.class.getCanonicalName());
 
@@ -216,36 +213,6 @@ public abstract class CrudController<T extends PersistentObject> extends JSFCont
 	public void setSelectedEntity(T selectedEntity) {
 		this.selectedEntity = selectedEntity;
 		logger.log(Level.FINEST, "Entity \"{0}\" has been selected", selectedEntity);
-	}
-
-	/**
-	 * Informs to other methods (and web pages) what is the maximum number of entities to be displayed in a listing page.
-	 * This method exists so it can be overridden by subclasses if desired.
-	 * 
-	 * @return The maximum number of entities to be displayed in the page at a time.
-	 */
-	public int getMaxEntitiesPerPage() {
-		return MAX_ENTITIES_PER_PAGE;
-	}
-
-	/**
-	 * Informs to other methods (and web pages) what is the maximum number of entities to be displayed in a listing page,
-	 * divided by 2. This method exists so it can be overridden by subclasses if desired.
-	 * 
-	 * @return The maximum number of entities to be displayed in the page at a time.
-	 */
-	public int getHalfMaxEntitiesPerPage() {
-		return MAX_ENTITIES_PER_PAGE / 2;
-	}
-
-	/**
-	 * Informs to other methods (and web pages) what is the maximum number of entities to be displayed in a listing page,
-	 * multiplied by 2. This method exists so it can be overridden by subclasses if desired.
-	 * 
-	 * @return The maximum number of entities to be displayed in the page at a time.
-	 */
-	public int getDoubleMaxEntitiesPerPage() {
-		return MAX_ENTITIES_PER_PAGE * 2;
 	}
 
 	/**
@@ -491,7 +458,7 @@ public abstract class CrudController<T extends PersistentObject> extends JSFCont
 		lazyEntities = null;
 
 		// Updates the index of the last entity and checks if it has gone over the limit.
-		lastEntityIndex = firstEntityIndex + MAX_ENTITIES_PER_PAGE;
+		lastEntityIndex = firstEntityIndex + MAX_DATA_TABLE_ROWS_PER_PAGE;
 		if (lastEntityIndex > entityCount)
 			lastEntityIndex = (int) entityCount;
 	}
@@ -547,7 +514,7 @@ public abstract class CrudController<T extends PersistentObject> extends JSFCont
 		// Only moves to the previous page if there is one.
 		if (firstEntityIndex > 0) {
 			// Shift the first entity index backward by the max number of entities in a page.
-			firstEntityIndex -= MAX_ENTITIES_PER_PAGE;
+			firstEntityIndex -= MAX_DATA_TABLE_ROWS_PER_PAGE;
 
 			// Checks if, by any chance, the above shifting took the first entity index too far and correct it.
 			if (firstEntityIndex < 0)
@@ -574,10 +541,10 @@ public abstract class CrudController<T extends PersistentObject> extends JSFCont
 		// Only moves to the next page if there is one.
 		if (lastEntityIndex < entityCount) {
 			// Shift the first entity index forward by the max number of entities in a page.
-			firstEntityIndex += MAX_ENTITIES_PER_PAGE;
+			firstEntityIndex += MAX_DATA_TABLE_ROWS_PER_PAGE;
 
 			// Set the last entity index to a full page of entities starting from the first index.
-			lastEntityIndex = firstEntityIndex + MAX_ENTITIES_PER_PAGE;
+			lastEntityIndex = firstEntityIndex + MAX_DATA_TABLE_ROWS_PER_PAGE;
 
 			// Retrieve the entities from the application layer.
 			retrieveEntities();
@@ -599,12 +566,12 @@ public abstract class CrudController<T extends PersistentObject> extends JSFCont
 		else {
 			// Calculates how many entities there are in the last page (the remainder of dividing the count by the max
 			// entities in a page).
-			int remainder = ((int) entityCount % MAX_ENTITIES_PER_PAGE);
+			int remainder = ((int) entityCount % MAX_DATA_TABLE_ROWS_PER_PAGE);
 
 			// Check if the remainder is zero, in which case the last page is full. Otherwise, the remainder is the number of
 			// entities in
 			// the last page. Sets the first and last index accordingly.
-			firstEntityIndex = (remainder == 0) ? (int) entityCount - MAX_ENTITIES_PER_PAGE : (int) entityCount - remainder;
+			firstEntityIndex = (remainder == 0) ? (int) entityCount - MAX_DATA_TABLE_ROWS_PER_PAGE : (int) entityCount - remainder;
 			lastEntityIndex = (int) entityCount;
 		}
 

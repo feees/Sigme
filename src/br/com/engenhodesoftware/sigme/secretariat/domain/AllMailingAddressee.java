@@ -15,9 +15,4 @@ import javax.persistence.Entity;
 public class AllMailingAddressee extends MailingAddressee {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
-	
-	/** Constructor. */
-	public AllMailingAddressee() {
-		this.type = MailingAddresseeType.BCC;
-	}
 }

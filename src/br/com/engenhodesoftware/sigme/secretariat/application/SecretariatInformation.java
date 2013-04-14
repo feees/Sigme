@@ -16,7 +16,6 @@ import javax.ejb.Singleton;
 
 import br.com.engenhodesoftware.sigme.secretariat.domain.AllMailingAddressee;
 import br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddresseeScope;
-import br.com.engenhodesoftware.sigme.secretariat.domain.MailingAddresseeType;
 import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
 import br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO;
 import br.com.engenhodesoftware.sigme.secretariat.view.I18n;
@@ -35,26 +34,26 @@ public class SecretariatInformation implements Serializable {
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(SecretariatInformation.class.getCanonicalName());
-	
+
+	// FIXME: the SMTP configuration should be part of the system installation, not a properties file in the source code!
+	// Moreover, only hostname and port were included, the sender email address is missing.
+
 	/** The qualified name of the module's properties file. */
 	private static final String PROPERTIES_FILE_PATH = "/br/com/engenhodesoftware/sigme/secretariat/application/module.properties";
-	
+
 	/** The module's properties. */
 	private Properties properties = new Properties();
-	
+
 	/** The SMTP configuration. */
 	private SmtpConfig smtpConfig;
 
-	/** Output: the list of mailing list addressee types. */
-	private SortedSet<MailingAddresseeType> addresseeTypes;
-
 	/** Output: the list of mailing list addressee scopes. */
 	private SortedSet<MailingAddresseeScope> addresseeScopes;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private MailingListDAO mailingListDAO;
-	
+
 	/**
 	 * TODO: document this method.
 	 */
@@ -65,7 +64,8 @@ public class SecretariatInformation implements Serializable {
 			InputStream is = ResourceUtil.getResourceAsStream(PROPERTIES_FILE_PATH);
 			logger.log(Level.INFO, "Loading properties for the Secretariat module from file: {0}", PROPERTIES_FILE_PATH);
 			properties.load(is);
-			
+			is.close();
+
 			// Reads the SMTP configuration, making it avaliable to the Mailer via getSmtpConfig().
 			String hostName = properties.getProperty("secretariat.smtp.hostname");
 			String sPort = properties.getProperty("secretariat.smtp.port");
@@ -91,19 +91,7 @@ public class SecretariatInformation implements Serializable {
 	public SmtpConfig getSmtpConfig() {
 		return smtpConfig;
 	}
-
-	/** Getter for addresseeTypes. */
-	public SortedSet<MailingAddresseeType> getAddresseeTypes() {
-		// If the addressee types haven't yet been loaded, load them.
-		if (addresseeTypes == null) {
-			logger.log(Level.FINER, "Application-scoped set of mailing addressee types not yet initialized. Loading...");
-			addresseeTypes = new TreeSet<MailingAddresseeType>();
-			addresseeTypes.addAll(Arrays.asList(MailingAddresseeType.values()));
-			logger.log(Level.INFO, "Loaded {0} mailing list addressee types.", addresseeTypes.size());
-		}
-		return addresseeTypes;
-	}
-
+	
 	/** Getter for addresseeScopes. */
 	public SortedSet<MailingAddresseeScope> getAddresseeScopes() {
 		// If the addressee scopes haven't yet been loaded, load them.
@@ -115,7 +103,7 @@ public class SecretariatInformation implements Serializable {
 		}
 		return addresseeScopes;
 	}
-	
+
 	/**
 	 * TODO: document this method.
 	 */
@@ -125,26 +113,26 @@ public class SecretariatInformation implements Serializable {
 		MailingList mailingList = new MailingList();
 		AllMailingAddressee addressee = new AllMailingAddressee();
 		mailingList.addAddressee(addressee);
-		
+
 		// Assigns its name and description.
 		mailingList.setName(I18n.getString("MailingList.all.name"));
 		mailingList.setDescription(I18n.getString("MailingList.all.description"));
-		
+
 		// Persists it.
 		mailingListDAO.save(mailingList);
 		logger.log(Level.INFO, "Mailing list for all registered spiritists created successfully.");
 	}
-	
+
 	/**
 	 * TODO: document this type.
-	 *
+	 * 
 	 * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
 	 * @version 1.0
 	 */
 	public static class SmtpConfig {
 		/** TODO: document this field. */
 		private String hostName;
-		
+
 		/** TODO: document this field. */
 		private int port;
 

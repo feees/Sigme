@@ -148,4 +148,6 @@ public interface BaseDAO<T extends PersistentObject> extends Serializable {
 	 * @return The merged object.
 	 */
 	T merge(T object);
+	
+	T refresh(T object);
 }
