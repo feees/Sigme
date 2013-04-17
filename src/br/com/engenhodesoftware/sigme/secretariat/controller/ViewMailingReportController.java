@@ -1,11 +1,9 @@
 package br.com.engenhodesoftware.sigme.secretariat.controller;
 
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -16,7 +14,10 @@ import br.com.engenhodesoftware.sigme.secretariat.application.InvalidMailingExce
 import br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService;
 import br.com.engenhodesoftware.sigme.secretariat.domain.EmailDelivery;
 import br.com.engenhodesoftware.sigme.secretariat.domain.Mailing;
-import br.com.engenhodesoftware.util.ejb3.controller.JSFController;
+import br.com.engenhodesoftware.util.ejb3.application.ListingService;
+import br.com.engenhodesoftware.util.ejb3.application.filters.Filter;
+import br.com.engenhodesoftware.util.ejb3.application.filters.MultipleChoiceFilter;
+import br.com.engenhodesoftware.util.ejb3.controller.ListingController;
 
 /**
  * TODO: document this type.
@@ -26,7 +27,7 @@ import br.com.engenhodesoftware.util.ejb3.controller.JSFController;
  */
 @Named
 @SessionScoped
-public class ViewMailingReportController extends JSFController {
+public class ViewMailingReportController extends ListingController<EmailDelivery> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -39,12 +40,19 @@ public class ViewMailingReportController extends JSFController {
 
 	/** TODO: document this field. */
 	private Mailing mailing;
-
+	
 	/** TODO: document this field. */
-	private Boolean delivered;
+	Filter<Mailing> mailingFilter = new MultipleChoiceFilter<Mailing>("viewMailingReport.filter.byMailing", "mailing", null, null, null);
 
-	/** TODO: document this field. */
-	private List<EmailDelivery> deliveries;
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.ListingController#getListingService() */
+	@Override
+	protected ListingService<EmailDelivery> getListingService() {
+		return sendMailingService;
+	}
+
+	/** @see br.com.engenhodesoftware.util.ejb3.controller.ListingController#initFilters() */
+	@Override
+	protected void initFilters() { /* No filtering. */ }
 
 	/**
 	 * TODO: document this method.
@@ -57,7 +65,13 @@ public class ViewMailingReportController extends JSFController {
 		// If the UUID was specified and either the mailing hasn't been loaded or is a different one, loads the mailing.
 		if ((uuid != null) && ((mailing == null) || (!uuid.equals(mailing.getUuid()))))
 			try {
+				logger.log(Level.FINE, "Loading a new mailing from UUID {0}", uuid);
 				mailing = sendMailingService.retrieveSentMailing(uuid);
+				
+				// A filter that constraints the listing to the deliveries of a single mailing is always set.
+				filter = mailingFilter;
+				filtering = true;
+				filterParam = mailing.getId().toString();				
 			}
 			catch (InvalidMailingException e) {
 				addGlobalI18nMessage("msgsSecretariat", FacesMessage.SEVERITY_ERROR, "viewMailingReport.error.invalidUuid.summary", "viewMailingReport.error.invalidUuid.detail");
@@ -76,18 +90,7 @@ public class ViewMailingReportController extends JSFController {
 	 * @return
 	 */
 	public Boolean getDelivered() {
-		logger.log(Level.FINE, "Checking if mailing \"{0}\" (sent on {1}) has been fully delivered...", new Object[] { mailing.getSubject(), mailing.getSentDate() });
+		logger.log(Level.FINER, "Checking if mailing \"{0}\" (sent on {1}) has been fully delivered...", new Object[] { mailing.getSubject(), mailing.getSentDate() });
 		return sendMailingService.isMailingDelivered(mailing);
-	}
-
-	/**
-	 * TODO: document this method.
-	 * 
-	 * @return
-	 */
-	public List<EmailDelivery> getDeliveries() {
-		deliveries = sendMailingService.viewMailingDeliveries(mailing);
-		logger.log(Level.FINE, "Retrieving deliveries for mailing \"{0}\" (sent on {1}) returned {2} results.", new Object[] { mailing.getSubject(), mailing.getSentDate(), deliveries.size() });
-		return deliveries;
 	}
 }

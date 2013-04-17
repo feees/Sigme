@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -22,9 +24,18 @@ import javax.faces.context.Flash;
 public abstract class JSFController implements Serializable {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
+
+	/** The logger. */
+	private static final Logger logger = Logger.getLogger(JSFController.class.getCanonicalName());
 	
 	/** Maximum number of data table rows to show per page by default. */
 	protected static final int MAX_DATA_TABLE_ROWS_PER_PAGE = 10;
+
+	/** The name of the message bundle variable to be used in i18n messages. */
+	protected String bundleName;
+
+	/** The resource bundle prefix for messages. */
+	protected String bundlePrefix;
 	
 	/**
 	 * Informs to other methods (and web pages) what is the maximum number of rows to be displayed in a data page. This method exists so it can be overridden by subclasses if desired.
@@ -102,6 +113,74 @@ public abstract class JSFController implements Serializable {
 	 */
 	protected ExpressionFactory getExpressionFactory() {
 		return getApplication().getExpressionFactory();
+	}
+
+	/**
+	 * Informs to other methods what is the name of the variable that represents the resource bundle with i18n messages.
+	 * This method may be overridden by subclasses if they don't follow the standard naming convention for Crud
+	 * Controllers, which is: <code>com.yourdomain.yoursystem.package.controller.ManageObjectController</code> which would
+	 * lead to a bundle variable name of <code>msgsPackage</code>.
+	 * 
+	 * @return The name of the resource bundle variable.
+	 */
+	public String getBundleName() {
+		// If this method is not overridden, tries to guess the bundle name from the class name.
+		if (bundleName == null) {
+			// Starts with the fully-qualified name of the class (package and name).
+			int idx;
+			String pkg = "";
+			String classFullName = getClass().getCanonicalName();
+
+			// Searches for the name of the package according to the name convention (before ".controller.").
+			idx = classFullName.indexOf(".controller.");
+			if (idx != -1) {
+				pkg = classFullName.substring(0, idx);
+				idx = pkg.lastIndexOf('.');
+				if (idx != -1)
+					pkg = pkg.substring(idx + 1);
+			}
+
+			// Adds the "msgs" prefix and capitalizes the first letter.
+			if (pkg.length() > 1)
+				pkg = "msgs" + Character.toUpperCase(pkg.charAt(0)) + pkg.substring(1);
+
+			// The bundle name is the result of the manipulation of the class' package.
+			bundleName = pkg;
+			logger.log(Level.INFO, "Bundle name not provided by subclass, thus guessing from naming convention: {0}", bundleName);
+		}
+		return bundleName;
+	}
+
+	/**
+	 * Informs to other methods what is the default prefix for resource bundle messages for this controller. This method
+	 * may be overridden by subclasses if they don't follow the standard naming convention for Crud Controllers, which is:
+	 * <code>com.yourdomain.yoursystem.package-name.controller.ManageObjectController</code> which would lead to a prefix
+	 * of <code>manageObject</code>.
+	 * 
+	 * @return The prefix for resource bundle keys.
+	 */
+	public String getBundlePrefix() {
+		// If the bundle prefix is not specified by the subclass, tries to guess it from the class name.
+		if (bundlePrefix == null) {
+			// Starts with the fully-qualified name of the class (package and name).
+			int idx;
+			String service = "";
+			String classFullName = getClass().getCanonicalName();
+
+			// Searches for the name of the service according to convention (class name, removing trailing Controller).
+			idx = classFullName.lastIndexOf(".");
+			service = (idx == -1) ? classFullName : classFullName.substring(idx + 1);
+			idx = service.indexOf("Controller");
+			if (idx != -1)
+				service = service.substring(0, idx);
+			if (service.length() > 1)
+				service = Character.toLowerCase(service.charAt(0)) + service.substring(1);
+
+			// The bundle prefix is the name of class adapted as before.
+			bundlePrefix = service;
+			logger.log(Level.INFO, "Bundle prefix not provided by subclass, thus guessing from naming convention: {0}", bundlePrefix);
+		}
+		return bundlePrefix;
 	}
 
 	/**

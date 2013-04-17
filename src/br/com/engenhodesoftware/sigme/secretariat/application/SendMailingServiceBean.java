@@ -17,6 +17,8 @@ import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
 import br.com.engenhodesoftware.sigme.secretariat.persistence.EmailDeliveryDAO;
 import br.com.engenhodesoftware.sigme.secretariat.persistence.MailingDAO;
 import br.com.engenhodesoftware.sigme.secretariat.persistence.MailingListDAO;
+import br.com.engenhodesoftware.util.ejb3.application.ListingServiceBean;
+import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.com.engenhodesoftware.util.jms.InForeground;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
@@ -30,7 +32,7 @@ import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObj
  */
 @Stateless
 @TransactionAttribute
-public class SendMailingServiceBean implements SendMailingService {
+public class SendMailingServiceBean extends ListingServiceBean<EmailDelivery> implements SendMailingService {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -53,6 +55,12 @@ public class SendMailingServiceBean implements SendMailingService {
 	@Inject
 	@InForeground
 	private Event<SendMailingEvent> mailingEvent;
+
+	/** @see br.com.engenhodesoftware.util.ejb3.application.ListingService#getDAO() */
+	@Override
+	public BaseDAO<EmailDelivery> getDAO() {
+		return emailDeliveryDAO;
+	}
 
 	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#retrieveSingleMailingList() */
 	@Override
@@ -107,11 +115,5 @@ public class SendMailingServiceBean implements SendMailingService {
 	public Boolean isMailingDelivered(Mailing mailing) {
 		List<EmailDelivery> pendingDeliveries = emailDeliveryDAO.findPendingDeliveriesFromMailing(mailing);
 		return pendingDeliveries.isEmpty();
-	}
-
-	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#viewMailingDeliveries(br.com.engenhodesoftware.sigme.secretariat.domain.Mailing) */
-	@Override
-	public List<EmailDelivery> viewMailingDeliveries(Mailing mailing) {
-		return emailDeliveryDAO.findDeliveriesFromMailing(mailing);
 	}
 }

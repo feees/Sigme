@@ -1,13 +1,11 @@
 package br.com.engenhodesoftware.sigme.secretariat.application;
 
-import java.io.Serializable;
-import java.util.List;
-
 import javax.ejb.Local;
 
 import br.com.engenhodesoftware.sigme.secretariat.domain.EmailDelivery;
 import br.com.engenhodesoftware.sigme.secretariat.domain.Mailing;
 import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
+import br.com.engenhodesoftware.util.ejb3.application.ListingService;
 
 /**
  * Local EJB interface for the "Send Mailing" use case.
@@ -18,7 +16,7 @@ import br.com.engenhodesoftware.sigme.secretariat.domain.MailingList;
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
 @Local
-public interface SendMailingService extends Serializable {
+public interface SendMailingService extends ListingService<EmailDelivery> {
 	/**
 	 * TODO: document this method.
 	 * 
@@ -49,12 +47,4 @@ public interface SendMailingService extends Serializable {
 	 * @return
 	 */
 	Boolean isMailingDelivered(Mailing mailing);
-
-	/**
-	 * TODO: document this method.
-	 * 
-	 * @param mailing
-	 * @return
-	 */
-	List<EmailDelivery> viewMailingDeliveries(Mailing mailing);
 }

@@ -85,8 +85,9 @@ public class MultipleChoiceFilter<T> extends AbstractFilter<T> {
 	 */
 	private Map<String, String> reverseMap(Map<String, String> map) {
 		Map<String, String> reverseMap = new LinkedHashMap<String, String>();
-		for (Map.Entry<String, String> entry : map.entrySet())
-			reverseMap.put(entry.getValue(), entry.getKey());
+		if (map != null)
+			for (Map.Entry<String, String> entry : map.entrySet())
+				reverseMap.put(entry.getValue(), entry.getKey());
 		return reverseMap;
 	}
 }

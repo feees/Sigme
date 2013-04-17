@@ -46,26 +46,21 @@
 						<h:outputText value="#{viewMailingReportController.mailing.body}" />
 					</p:panel>
 
-<!--
-FIXME: Add paginator and lazy loading later.
-
-OR, EVEN BETTER, Live Scroll?
-
- 							rows="#{vieMailingReportController.maxDataTableRowsPerPage}" 
-							rowsPerPageTemplate="#{vieMailingReportController.halfMaxDataTableRowsPerPage},#{vieMailingReportController.maxDataTableRowsPerPage},#{vieMailingReportController.doubleMaxDataTableRowsPerPage}"
-							lazy="true" 
-							paginator="true" 
-							paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
-							paginatorPosition="bottom" 
-							loadingMessage="#{msgs['text.ajax.loading']}"
---> 
-
 					<!-- Status of each email delivery. -->
 					<p:panel id="detailedStatusPanel" header="#{msgsSecretariat['viewMailingReport.text.detailedStatus']}" toggleable="true" collapsed="false">
 						<p:dataTable
 							widgetVar="deliveriesTable"
-							value="#{viewMailingReportController.deliveries}" 
+							value="#{viewMailingReportController.lazyEntities}" 
 							var="delivery" 
+							rows="#{viewMailingReportController.maxDataTableRowsPerPage}" 
+							rowsPerPageTemplate="#{viewMailingReportController.halfMaxDataTableRowsPerPage},#{viewMailingReportController.maxDataTableRowsPerPage},#{viewMailingReportController.doubleMaxDataTableRowsPerPage}"
+							lazy="true" 
+							paginator="true" 
+							selection="#{viewMailingReportController.selectedEntity}" 
+							selectionMode="single" 
+							paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+							paginatorPosition="bottom" 
+							loadingMessage="#{msgs['text.ajax.loading']}" 
 							emptyMessage="#{msgsSecretariat['viewMailingReport.text.noDeliveries']}"
 							styleClass="no-header">
 	
@@ -78,6 +73,10 @@ OR, EVEN BETTER, Live Scroll?
 								<h:outputText value="#{msgsSecretariat['viewMailingReport.table.delivery.status.sent']}" rendered="#{(empty delivery.errorMessage) and (delivery.messageSent)}" />
 							</p:column>
 						</p:dataTable>
+						<p:hotkey bind="ctrl+left" handler="goToFirstPage(listingTable);" />
+						<p:hotkey bind="left" handler="goToPreviousPage(listingTable);" />
+						<p:hotkey bind="right" handler="goToNextPage(listingTable);" />
+						<p:hotkey bind="ctrl+right" handler="goToLastPage(listingTable);" />
 					</p:panel>
 					
 					<!-- Auto-refresh the status of each email delivery and the overall status every T seconds. -->

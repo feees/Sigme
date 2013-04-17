@@ -44,9 +44,9 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 		return new Spiritist();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#getCrudDAO() */
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#getDAO() */
 	@Override
-	public BaseDAO<Spiritist> getCrudDAO() {
+	public BaseDAO<Spiritist> getDAO() {
 		return spiritistDAO;
 	}
 
@@ -163,7 +163,7 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 	public Spiritist fetchLazy(Spiritist entity) {
 		// Loads telephones and attendances collections, which are lazy.
 		logger.log(Level.FINER, "Fecthing lazy attributes for spiritist \"{0}\"", entity);
-		entity = getCrudDAO().merge(entity);
+		entity = getDAO().merge(entity);
 		entity.getAttendances().size();
 		entity.getTelephones().size();
 		return entity;

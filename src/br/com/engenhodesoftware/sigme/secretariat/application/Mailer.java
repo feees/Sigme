@@ -129,11 +129,11 @@ public class Mailer implements Serializable {
 				String email = delivery.getRecipientEmail();
 				
 				try {
-					logger.log(Level.FINE, "Sleeping for 5 seconds...");
-					Thread.sleep(5000);
+					logger.log(Level.FINE, "Sleeping for 2 seconds...");
+					Thread.sleep(2000);
 				}
 				catch (InterruptedException e) {
-					logger.log(Level.SEVERE, "Exception while sleeping for 5 seconds.", e);
+					logger.log(Level.SEVERE, "Exception while sleeping.", e);
 				}
 				
 				logger.log(Level.FINE, "Sending mailing \"{0}\" to: {1}", new Object[] { subject, email });

@@ -1,10 +1,8 @@
 package br.com.engenhodesoftware.util.ejb3.application;
 
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import br.com.engenhodesoftware.util.ejb3.application.filters.Filter;
 import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
 
 /**
@@ -25,7 +23,7 @@ import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject;
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @version 1.1
  */
-public abstract class CrudServiceBean<T extends PersistentObject> implements CrudService<T> {
+public abstract class CrudServiceBean<T extends PersistentObject> extends ListingServiceBean<T> implements CrudService<T> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -38,11 +36,6 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 	 * @return An empty entity.
 	 */
 	protected abstract T createNewEntity();
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#authorize() */
-	public void authorize() {
-		logger.log(Level.FINE, "Authorization not overridden by subclass. No need for authorization.");
-	}
 
 	/**
 	 * Callback method that allows subclasses to intercept the moment exactly before the persisting (creating or updating)
@@ -72,21 +65,6 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 	 */
 	protected void log(CrudOperation operation, T entity) {
 		logger.log(Level.FINE, "Logging (for operations over single entities) not overridden by subclass. No need for this type of logging.");
-	}
-
-	/**
-	 * Logs operations over many entities, i.e., listing of entities. Default implementation does nothing, so logging is
-	 * optional in the subclasses.
-	 * 
-	 * @param operation
-	 *          The opration that is being logged.
-	 * @param entities
-	 *          The entities that are being manipulated.
-	 * @param interval
-	 *          Array of size 2 with the interval [a, b) (retrieves objects from index a through b-1).
-	 */
-	protected void log(CrudOperation operation, List<T> entities, int ... interval) {
-		logger.log(Level.FINE, "Logging (for operations over multiple entities) not overridden by subclass. No need for this type of logging.");
 	}
 
 	/**
@@ -163,20 +141,6 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 		logger.log(Level.FINE, "Validation of DELETE not overridden by subclass. No need for this type of validation.");
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#count() */
-	@Override
-	public long count() {
-		logger.log(Level.FINER, "Retrieving the object count...");
-		return getCrudDAO().retrieveCount();
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#countFiltered(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String) */
-	@Override
-	public long countFiltered(Filter<?> filter, String value) {
-		logger.log(Level.FINER, "Retrieving a filtered object count (filter \"{0}\" with value \"{1}\")...", new Object[] { filter.getKey(), value });
-		return getCrudDAO().retrieveFilteredCount(filter, value);
-	}
-
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#create(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void create(T entity) {
@@ -185,14 +149,14 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 
 		// Save the entity.
 		log(CrudOperation.CREATE, entity);
-		getCrudDAO().save(entity);
+		getDAO().save(entity);
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#retrieve(java.lang.Long) */
 	@Override
 	public T retrieve(Long id) {
 		// Retrieves the real entity from the database.
-		T entity = getCrudDAO().retrieveById(id);
+		T entity = getDAO().retrieveById(id);
 		log(CrudOperation.RETRIEVE, entity);
 		return entity;
 	}
@@ -201,46 +165,22 @@ public abstract class CrudServiceBean<T extends PersistentObject> implements Cru
 	@Override
 	public void update(T entity) {
 		// Validates the entity before persisting.
-		entity = validate(entity, getCrudDAO().retrieveById(entity.getId()));
+		entity = validate(entity, getDAO().retrieveById(entity.getId()));
 
 		// Save the entity.
 		log(CrudOperation.UPDATE, entity);
-		getCrudDAO().save(entity);
+		getDAO().save(entity);
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#delete(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void delete(T entity) {
 		// Retrieves the real entity from the database.
-		entity = getCrudDAO().retrieveById(entity.getId());
+		entity = getDAO().retrieveById(entity.getId());
 		if (entity != null) {
 			// Deletes the entity.
-			getCrudDAO().delete(entity);
+			getDAO().delete(entity);
 			log(CrudOperation.DELETE, entity);
 		}
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#list(int[]) */
-	@Override
-	public List<T> list(int ... interval) {
-		List<T> entities = getCrudDAO().retrieveSome(interval);
-		log(CrudOperation.LIST, entities, interval);
-		return entities;
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#filter(br.com.engenhodesoftware.util.ejb3.application.filters.Filter, java.lang.String, int[]) */
-	@Override
-	public List<T> filter(Filter<?> filter, String filterParam, int ... interval) {
-		List<T> entities = getCrudDAO().retrieveSomeWithFilter(filter, filterParam, interval);
-		log(CrudOperation.LIST, entities, interval);
-		return entities;
-	}
-
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#fetchLazy(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
-	@Override
-	public T fetchLazy(T entity) {
-		// Default implementation is to return the entity itself (there are no lazy attributes).
-		logger.log(Level.FINEST, "Using default implementation for fetchLazy(): returning the same entity, unchanged");
-		return entity;
 	}
 }
