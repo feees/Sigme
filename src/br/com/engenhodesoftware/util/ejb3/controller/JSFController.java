@@ -30,6 +30,9 @@ public abstract class JSFController implements Serializable {
 	
 	/** Maximum number of data table rows to show per page by default. */
 	protected static final int MAX_DATA_TABLE_ROWS_PER_PAGE = 10;
+	
+	/** TODO: document this field. */
+	protected static final int DEFAULT_REFRESH_RATE = 2;
 
 	/** The name of the message bundle variable to be used in i18n messages. */
 	protected String bundleName;
@@ -44,6 +47,14 @@ public abstract class JSFController implements Serializable {
 	 */
 	public int getMaxDataTableRowsPerPage() {
 		return MAX_DATA_TABLE_ROWS_PER_PAGE;
+	}
+	
+	/**
+	 * TODO: document this method.
+	 * @return
+	 */
+	public int getRefreshRate() {
+		return DEFAULT_REFRESH_RATE;
 	}
 
 	/**

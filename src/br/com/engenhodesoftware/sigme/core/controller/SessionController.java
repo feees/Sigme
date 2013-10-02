@@ -209,17 +209,17 @@ public class SessionController extends JSFController {
 
 				
 				/* Sub-menu: Mailing (Secretariat). */
-				menu = new Submenu();
-				menu.setLabel(getI18nMessage("msgsSecretariat", "secretariat.menu.mailing"));
-				menuModel.addSubmenu(menu);
-
-				// Menu item: Send Mailing.
-				item = new MenuItem();
-				item.setValue(getI18nMessage("msgsSecretariat", "secretariat.menu.mailing.sendMailing"));
-				item.setIcon("menuSecretariatMailingSendMailing");
-				item.setAjax(false);
-				item.setActionExpression(getExpressionFactory().createMethodExpression(getELContext(), "#{sendMailingController.begin}", String.class, new Class[0]));
-				menu.getChildren().add(item);
+//				menu = new Submenu();
+//				menu.setLabel(getI18nMessage("msgsSecretariat", "secretariat.menu.mailing"));
+//				menuModel.addSubmenu(menu);
+//
+//				// Menu item: Send Mailing.
+//				item = new MenuItem();
+//				item.setValue(getI18nMessage("msgsSecretariat", "secretariat.menu.mailing.sendMailing"));
+//				item.setIcon("menuSecretariatMailingSendMailing");
+//				item.setAjax(false);
+//				item.setActionExpression(getExpressionFactory().createMethodExpression(getELContext(), "#{sendMailingController.begin}", String.class, new Class[0]));
+//				menu.getChildren().add(item);
 			}
 		}
 		// If the system hasn't been installed yet, show the System Installation sub-menu.

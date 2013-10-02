@@ -1,7 +1,5 @@
 package br.com.engenhodesoftware.sigme.secretariat.persistence;
 
-import java.util.List;
-
 import javax.ejb.Local;
 
 import br.com.engenhodesoftware.sigme.secretariat.domain.EmailDelivery;
@@ -26,7 +24,7 @@ public interface EmailDeliveryDAO extends BaseDAO<EmailDelivery> {
 	 * @param mailing
 	 * @return
 	 */
-	List<EmailDelivery> findDeliveriesFromMailing(Mailing mailing);
+	long countDeliveriesFromMailing(Mailing mailing);
 
 	/**
 	 * TODO: document this method.
@@ -34,5 +32,21 @@ public interface EmailDeliveryDAO extends BaseDAO<EmailDelivery> {
 	 * @param mailing
 	 * @return
 	 */
-	List<EmailDelivery> findPendingDeliveriesFromMailing(Mailing mailing);
+	long countPendingDeliveriesFromMailing(Mailing mailing);
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param mailing
+	 * @return
+	 */
+	long countSentDeliveriesFromMailing(Mailing mailing);
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param mailing
+	 * @return
+	 */
+	long countErrorDeliveriesFromMailing(Mailing mailing);
 }

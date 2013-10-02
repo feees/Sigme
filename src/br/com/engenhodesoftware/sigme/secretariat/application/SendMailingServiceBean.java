@@ -1,7 +1,6 @@
 package br.com.engenhodesoftware.sigme.secretariat.application;
 
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,7 +45,7 @@ public class SendMailingServiceBean extends ListingServiceBean<EmailDelivery> im
 	/** The DAO for MailingList objects. */
 	@EJB
 	private MailingListDAO mailingListDAO;
-	
+
 	/** TODO: document this field. */
 	@EJB
 	private EmailDeliveryDAO emailDeliveryDAO;
@@ -71,7 +70,7 @@ public class SendMailingServiceBean extends ListingServiceBean<EmailDelivery> im
 	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#sendMailing(br.com.engenhodesoftware.sigme.secretariat.domain.Mailing) */
 	public void sendMailing(Mailing mailing) throws InvalidMailingException {
 		logger.log(Level.FINEST, "Executing use case \"Send Mailing\"...");
-		
+
 		// Checks if a mailing was properly supplied.
 		if (mailing == null) {
 			logger.log(Level.WARNING, "Received null mailing object. Throwing exception.");
@@ -113,7 +112,31 @@ public class SendMailingServiceBean extends ListingServiceBean<EmailDelivery> im
 	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#isMailingDelivered(br.com.engenhodesoftware.sigme.secretariat.domain.Mailing) */
 	@Override
 	public Boolean isMailingDelivered(Mailing mailing) {
-		List<EmailDelivery> pendingDeliveries = emailDeliveryDAO.findPendingDeliveriesFromMailing(mailing);
-		return pendingDeliveries.isEmpty();
+		long count = emailDeliveryDAO.countPendingDeliveriesFromMailing(mailing);
+		return (count == 0);
+	}
+
+	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#countTotalDeliveries(br.com.engenhodesoftware.sigme.secretariat.domain.Mailing) */
+	@Override
+	public long countTotalDeliveries(Mailing mailing) {
+		return emailDeliveryDAO.countDeliveriesFromMailing(mailing);
+	}
+
+	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#countPendingDeliveries(br.com.engenhodesoftware.sigme.secretariat.domain.Mailing) */
+	@Override
+	public long countPendingDeliveries(Mailing mailing) {
+		return emailDeliveryDAO.countPendingDeliveriesFromMailing(mailing);
+	}
+
+	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#countSentDeliveries(br.com.engenhodesoftware.sigme.secretariat.domain.Mailing) */
+	@Override
+	public long countSentDeliveries(Mailing mailing) {
+		return emailDeliveryDAO.countSentDeliveriesFromMailing(mailing);
+	}
+
+	/** @see br.com.engenhodesoftware.sigme.secretariat.application.SendMailingService#countErrorDeliveries(br.com.engenhodesoftware.sigme.secretariat.domain.Mailing) */
+	@Override
+	public long countErrorDeliveries(Mailing mailing) {
+		return emailDeliveryDAO.countErrorDeliveriesFromMailing(mailing);
 	}
 }

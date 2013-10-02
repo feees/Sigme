@@ -47,4 +47,36 @@ public interface SendMailingService extends ListingService<EmailDelivery> {
 	 * @return
 	 */
 	Boolean isMailingDelivered(Mailing mailing);
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param mailing
+	 * @return
+	 */
+	long countTotalDeliveries(Mailing mailing);
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param mailing
+	 * @return
+	 */
+	long countPendingDeliveries(Mailing mailing);
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param mailing
+	 * @return
+	 */
+	long countSentDeliveries(Mailing mailing);
+
+	/**
+	 * TODO: document this method.
+	 * 
+	 * @param mailing
+	 * @return
+	 */
+	long countErrorDeliveries(Mailing mailing);
 }

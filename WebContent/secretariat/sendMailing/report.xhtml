@@ -45,6 +45,13 @@
 					<p:panel id="messagePanel" header="#{msgsSecretariat['viewMailingReport.text.messageBody']}" toggleable="true" collapsed="true" style="margin-top: 15px; margin-bottom: 15px;">
 						<h:outputText value="#{viewMailingReportController.mailing.body}" />
 					</p:panel>
+					
+					<!-- General delivery status. -->
+					<p:panel id="generalStatusPanel" header="#{msgsSecretariat['viewMailingReport.text.generalStatus']}" toggleable="true" collapsed="false" style="margin-top: 15px; margin-bottom: 15px;">
+						<p:barChart id="statusBarChart" value="#{viewMailingReportController.statusModel}" min="0" max="#{viewMailingReportController.statusModelMaxValue}" style="height:300px">
+							<p:ajax event="itemSelect" listener="#{viewMailingReportController.filterDetailedStatus}" update="detailedStatusPanel" />
+						</p:barChart>
+					</p:panel>
 
 					<!-- Status of each email delivery. -->
 					<p:panel id="detailedStatusPanel" header="#{msgsSecretariat['viewMailingReport.text.detailedStatus']}" toggleable="true" collapsed="false">
@@ -80,8 +87,7 @@
 					</p:panel>
 					
 					<!-- Auto-refresh the status of each email delivery and the overall status every T seconds. -->
-					<p:poll update="detailedStatusPanel statusField" stop="#{viewMailingReportController.delivered}" />
-
+					<p:poll update="generalStatusPanel detailedStatusPanel statusField" stop="#{viewMailingReportController.delivered}" interval="#{viewMailingReportController.refreshRate}" />
 				</h:form>
 			</ui:decorate>
 		</h:panelGroup>
