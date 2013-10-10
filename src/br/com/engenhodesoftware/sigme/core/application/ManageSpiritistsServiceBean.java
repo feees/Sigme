@@ -61,28 +61,28 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 	public void validateCreate(Spiritist entity) throws CrudException {
 		// Possibly throwing a CRUD Exception to indicate validation error.
 		CrudException crudException = null;
-		String crudExceptionMessage = "The spiritist \"" + entity.getEmail() + "\" cannot be created due to validation errors.";
+		String email = entity.getEmail();
+		String crudExceptionMessage = "The spiritist \"" + entity.getName() + "(" + email + ")\" cannot be created due to validation errors.";
 
 		// Validates business rules.
 		// Rule 1: cannot have two spiritists with the same email.
-		try {
-			Spiritist anotherEntity = spiritistDAO.retrieveByEmail(entity.getEmail());
+		if (email != null && email.length() > 0) try {
+			Spiritist anotherEntity = spiritistDAO.retrieveByEmail(email);
 			if (anotherEntity != null) {
-				logger.log(Level.INFO, "Creation of spiritist \"{0}\" violates validation rule 1: spiritist with id {1} has same email", new Object[] { entity.getEmail(), anotherEntity.getId() });
+				logger.log(Level.INFO, "Creation of spiritist \"{0}\" violates validation rule 1: spiritist with id {1} has same email", new Object[] { email, anotherEntity.getId() });
 				crudException = addValidationError(crudException, crudExceptionMessage, "email", "manageSpiritists.error.repeatedEmail", anotherEntity.getLastUpdateDate());
 			}
 		}
 		catch (PersistentObjectNotFoundException e) {
-			logger.log(Level.FINE, "Rule 1 OK - there's no other spiritist with the same email: {0}", entity.getEmail());
+			logger.log(Level.FINE, "Rule 1 OK - there's no other spiritist with the same email: {0}", email);
 		}
 		catch (MultiplePersistentObjectsFoundException e) {
-			logger.log(Level.WARNING, "Creation of spiritist with email \"" + entity.getEmail() + "\" threw an exception: a query for spiritists with this email returned multiple results!", e);
+			logger.log(Level.WARNING, "Creation of spiritist with email \"" + email + "\" threw an exception: a query for spiritists with this email returned multiple results!", e);
 			crudException = addValidationError(crudException, crudExceptionMessage, "name", "manageSpiritists.error.multipleInstancesError");
 		}
 
 		// If one of the rules was violated, throw the exception.
-		if (crudException != null)
-			throw crudException;
+		if (crudException != null) throw crudException;
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#validateUpdate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
@@ -90,43 +90,49 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 	public void validateUpdate(Spiritist entity) throws CrudException {
 		// Possibly throwing a CRUD Exception to indicate validation error.
 		CrudException crudException = null;
-		String crudExceptionMessage = "The spiritist \"" + entity.getEmail() + "\" cannot be updated due to validation errors.";
+		String email = entity.getEmail();
+		String crudExceptionMessage = "The spiritist \"" + email + "(" + email + ")\" cannot be updated due to validation errors.";
 
 		// Validates business rules.
 		// Rule 1: cannot have two spiritists with the same name.
-		try {
-			Spiritist anotherEntity = spiritistDAO.retrieveByEmail(entity.getEmail());
+		if (email != null && email.length() > 0) try {
+			Spiritist anotherEntity = spiritistDAO.retrieveByEmail(email);
 			if ((anotherEntity != null) && (!anotherEntity.getId().equals(entity.getId()))) {
-				logger.log(Level.INFO, "Update of spiritist \"{0}\" violates validation rule 1: spiritist with id {1} has same email", new Object[] { entity.getEmail(), anotherEntity.getId() });
+				logger.log(Level.INFO, "Update of spiritist \"{0}\" violates validation rule 1: spiritist with id {1} has same email", new Object[] { email, anotherEntity.getId() });
 				crudException = addValidationError(crudException, crudExceptionMessage, "email", "manageSpiritists.error.repeatedEmail", anotherEntity.getLastUpdateDate());
 			}
 		}
 		catch (PersistentObjectNotFoundException e) {
-			logger.log(Level.FINE, "Rule 1 OK - there's no other spiritist with the same email: {0}", entity.getEmail());
+			logger.log(Level.FINE, "Rule 1 OK - there's no other spiritist with the same email: {0}", email);
 		}
 		catch (MultiplePersistentObjectsFoundException e) {
-			logger.log(Level.WARNING, "Creation of spiritist with email \"" + entity.getEmail() + "\" threw an exception: a query for spiritists with this email returned multiple results!", e);
+			logger.log(Level.WARNING, "Creation of spiritist with email \"" + email + "\" threw an exception: a query for spiritists with this email returned multiple results!", e);
 			crudException = addValidationError(crudException, crudExceptionMessage, "name", "manageSpiritists.error.multipleInstancesError");
 		}
 
 		// If one of the rules was violated, throw the exception.
-		if (crudException != null)
-			throw crudException;
+		if (crudException != null) throw crudException;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#validate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/**
+	 * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#validate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject,
+	 *      br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject)
+	 */
 	@Override
 	protected Spiritist validate(Spiritist newEntity, Spiritist oldEntity) {
 		// Never changes the password on updates.
 		if (oldEntity != null) newEntity.setPassword(oldEntity.getPassword());
-		
+
 		// Sets the current date/time as last update date of the institution.
 		newEntity.setLastUpdateDate(new Date(System.currentTimeMillis()));
 
 		return newEntity;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/**
+	 * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation,
+	 *      br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject)
+	 */
 	@Override
 	protected void log(CrudOperation operation, Spiritist entity) {
 		switch (operation) {
@@ -146,7 +152,10 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 		}
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, java.util.List, int[]) */
+	/**
+	 * @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation,
+	 *      java.util.List, int[])
+	 */
 	@Override
 	protected void log(CrudOperation operation, List<Spiritist> entities, int ... interval) {
 		switch (operation) {

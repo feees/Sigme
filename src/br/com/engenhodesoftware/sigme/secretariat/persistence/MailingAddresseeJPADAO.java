@@ -175,7 +175,7 @@ public class MailingAddresseeJPADAO extends BaseJPADAO<MailingAddressee> impleme
 		// Creates and returns a list of emails with the addresses of all spiritists from the query.
 		List<String> list = new ArrayList<String>();
 		for (Spiritist spiritist : result)
-			list.add(spiritist.getEmail());
+			if (spiritist.getEmail() != null) list.add(spiritist.getEmail());
 		return list;
 	}
 }

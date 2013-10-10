@@ -70,11 +70,15 @@
 						<p:column headerText="#{msgsCore['manageSpiritists.form.name']}">
 							<h:outputText value="#{entity.name}" />
 						</p:column>
-						<p:column headerText="#{msgsCore['manageSpiritists.form.shortName']}">
+						<p:column headerText="#{msgsCore['manageSpiritists.form.shortName']}" width="100">
 							<h:outputText value="#{entity.shortName}" />
 						</p:column>
 						<p:column headerText="#{msgsCore['manageSpiritists.form.email']}">
 							<h:outputText value="#{entity.email}" />
+						</p:column>
+						<p:column headerText="#{msgsCore['manageSpiritists.form.active']}" width="50">
+							<h:outputText value="#{msgsCore['manageSpiritists.form.active.true']}" rendered="#{entity.active}" />
+							<h:outputText value="#{msgsCore['manageSpiritists.form.active.false']}" rendered="#{not entity.active}" />
 						</p:column>
 						
 						<p:ajax event="rowSelect" update=":buttonsForm" />
@@ -107,9 +111,9 @@
 						#{entity.name}
 					</p:dataList>
 					<div class="sigmeFormInternalButton">
-						<p:commandButton action="#{manageSpiritistsController.cancelDeletion}" value="#{msgs['crud.button.cancelDeletion']}" icon="buttonCancel" update="trashForm buttonsForm listingForm" />
+						<p:commandButton action="#{manageSpiritistsController.cancelDeletion}" value="#{msgs['crud.button.cancelDeletion']}" icon="buttonCancel" update=":trashForm :buttonsForm :listingForm" />
 						<p:commandButton action="#{manageSpiritistsController.delete}" value="#{msgs['crud.button.confirmDeletion']}" icon="buttonOk" />
-						<p:hotkey bind="#{msgs['crud.hotkey.cancelDeletion']}" action="#{manageSpiritistsController.cancelDeletion}" update="trashForm buttonsForm listingForm" />
+						<p:hotkey bind="#{msgs['crud.hotkey.cancelDeletion']}" action="#{manageSpiritistsController.cancelDeletion}" update=":trashForm :buttonsForm :listingForm" />
 						<p:hotkey bind="#{msgs['crud.hotkey.confirmDeletion']}" action="#{manageSpiritistsController.delete}" />
 					</div>
 				</p:panel>

@@ -55,7 +55,7 @@ public class Spiritist extends Person {
 
 	/** The person's unique tax code (in Brazil, CPF, or "Cadastro de Pessoas Físicas"). */
 	@Basic
-	@Size(max = 11)
+	@Size(max = 14)
 	private String taxCode;
 
 	/** The physical address where the person lives. */
@@ -280,11 +280,5 @@ public class Spiritist extends Person {
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	public static void main(String[] args) throws Exception {
-		String tc = checkTaxCode("089.902.567-63");
-		System.out.println(tc);
-		System.out.println(formatTaxCode(tc));
 	}
 }

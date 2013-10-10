@@ -32,6 +32,22 @@
 							<p:inputText id="name" value="#{manageSpiritistsController.selectedEntity.name}" size="50" required="true" disabled="#{manageSpiritistsController.readOnly}">
 								<p:ajax event="blur" update="nameField shortNameField" listener="#{manageSpiritistsController.suggestShortName}" />
 							</p:inputText>
+							<strong>
+								<h:outputText value="#{msgsCore['manageSpiritists.text.active']}" rendered="#{manageSpiritistsController.selectedEntity.active}" />
+								<h:outputText value="#{msgsCore['manageSpiritists.text.notActive']}" rendered="#{not manageSpiritistsController.selectedEntity.active}" />
+							</strong>
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="taxCodeField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:taxCode" />
+							<ui:param name="tooltip" value="#{msgsCore['manageSpiritists.form.taxCode.tooltip']}" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['manageSpiritists.form.taxCode']}" /></ui:define>
+							<p:inputMask id="taxCode" mask="#{msgs['format.taxCode.primefaces']}" value="#{manageSpiritistsController.selectedEntity.taxCode}" size="20" required="#{manageSpiritistsController.selectedEntity.active}" disabled="#{manageSpiritistsController.readOnly}">
+								<f:validator validatorId="sigmeTaxCodeValidator" />
+								<p:ajax event="blur" update="taxCodeField" />
+							</p:inputMask>
+							<h:outputText value=" (#{msgs['format.taxCode.label']})" />
 						</ui:decorate>
 					</h:panelGroup>
 					<h:panelGroup id="emailField">
@@ -39,7 +55,7 @@
 							<ui:param name="fieldName" value="form:email" />
 							<ui:param name="tooltip" value="#{msgsCore['manageSpiritists.form.email.tooltip']}" />
 							<ui:define name="label"><h:outputText value="#{msgsCore['manageSpiritists.form.email']}" /></ui:define>
-							<p:inputText id="email" value="#{manageSpiritistsController.selectedEntity.email}" size="30" required="true" disabled="#{manageSpiritistsController.readOnly}">
+							<p:inputText id="email" value="#{manageSpiritistsController.selectedEntity.email}" size="30" required="#{manageSpiritistsController.selectedEntity.active}" disabled="#{manageSpiritistsController.readOnly}">
 								<p:ajax event="blur" update="emailField" />
 							</p:inputText>
 						</ui:decorate>

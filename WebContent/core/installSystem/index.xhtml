@@ -35,6 +35,18 @@
 						</ui:decorate>
 					</h:panelGroup>
 
+					<h:panelGroup id="taxCodeField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:taxCode" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.taxCode']}" /></ui:define>
+							<p:inputMask id="taxCode" mask="#{msgs['format.taxCode.primefaces']}" value="#{installSystemController.admin.taxCode}" size="20" required="true">
+								<f:validator validatorId="sigmeTaxCodeValidator" />
+								<p:ajax event="blur" update="taxCodeField" />
+							</p:inputMask>
+							<h:outputText value=" (#{msgs['format.taxCode.label']})" />
+						</ui:decorate>
+					</h:panelGroup>
+
 					<h:panelGroup id="emailField">
 						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:email" />

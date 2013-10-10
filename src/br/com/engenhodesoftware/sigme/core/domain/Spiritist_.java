@@ -20,6 +20,7 @@ import br.com.engenhodesoftware.util.people.domain.Telephone;
 @StaticMetamodel(Spiritist.class)
 public class Spiritist_ extends Person_ {
 	public static volatile SingularAttribute<Spiritist, String> shortName;
+	public static volatile SingularAttribute<Spiritist, String> taxCode;
 	public static volatile SingularAttribute<Spiritist, String> email;
 	public static volatile SingularAttribute<Spiritist, String> password;
 	public static volatile SingularAttribute<Spiritist, Address> address;
