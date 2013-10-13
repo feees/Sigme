@@ -138,7 +138,7 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 		switch (operation) {
 		case CREATE:
 		case UPDATE:
-			logger.log(Level.FINER, "Storing spiritist: {1} ({0})...", new Object[] { entity.getName(), entity.getEmail() });
+			logger.log(Level.FINER, "Storing spiritist: {0} / {1} / {2} ...", new Object[] { entity.getName(), entity.getEmail(), entity.getTaxCode() });
 			logger.log(Level.FINER, "Persisting data...\n\t- Birthdate = {0}\n\t- Gender = {1}\n\t- Short name = {2}\n\t- Address = {3}\n\t- Telephones = {4}\n\t- {5} attendances", new Object[] { entity.getBirthDate(), entity.getGender(), entity.getShortName(), entity.getAddress(), entity.getTelephones(), entity.getAttendances().size() });
 			break;
 		case RETRIEVE:

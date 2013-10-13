@@ -190,7 +190,8 @@ public class Spiritist extends Person {
 	/**
 	 * Verifies if the tax code is valid (well-formed), throwing an exception if it isn't. This method verifies the tax
 	 * code according to the Brazilian format for tax codes (i.e., CPF or "Cadastro de Pessoas Físicas"): a CPF has 9
-	 * digits plus 2 check digits that are calculated using modulo 11.
+	 * digits plus 2 check digits that are calculated using modulo 11. If a null or empty value is supplied, it returns
+	 * null and throws no exceptions.
 	 * 
 	 * This code is based on code from an article (in Portuguese) found at DevMedia's portal:
 	 * http://www.devmedia.com.br/validando-o-cpf-em-uma-aplicacao-java/22097
@@ -201,6 +202,9 @@ public class Spiritist extends Person {
 	 *           If the supplied tax code is not valid.
 	 */
 	private static String checkTaxCode(String taxCode) throws InvalidTaxCodeException {
+		// Do not check null or empty values.
+		if (taxCode == null || taxCode.length() == 0) return null;
+
 		// Stripts the taxCode of any character that is not a digit (a number).
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < taxCode.length(); i++) {

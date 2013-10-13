@@ -14,8 +14,18 @@
 		<h1>Test</h1>
 		
 		<h:form>
-			<h:commandLink action="#{testController.test}" value="Test" />
+			<p>
+			Nome: <p:inputText id="name" value="#{manageSpiritistsController.selectedEntity.name}" size="50" required="true" /><br />
+			Short: <p:inputText id="shortName" value="#{manageSpiritistsController.selectedEntity.shortName}" size="20" required="true" /><br />
+			
+			<p:commandButton action="#{manageSpiritistsController.save}" value="Cadastrar" />
+			</p>
+			
+			<hr />
+			
+			<p><h:messages /></p>
 		</h:form>
 	</h:body>
 </f:view>
 </html>
+
