@@ -43,7 +43,7 @@
 							<f:param value="#{manageInstitutionsController.filter.label}" />
 							<f:param value="#{manageInstitutionsController.filterLabel}" />
 						</h:outputFormat>
-						<p:commandLink action="#{manageInstitutionsController.cancelFilter}" process="@form" update=":listingForm :buttonsForm">
+						<p:commandLink action="#{manageInstitutionsController.cancelFilter}" process="@form" update="@form :buttonsForm">
 							<h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/button-close.png" title="#{msgs['crud.button.cancelFilter']}" />
 						</p:commandLink>
 						<p:hotkey bind="#{msgs['crud.hotkey.clearFilter']}" action="#{manageInstitutionsController.cancelFilter}" process="@form" update=":listingForm :buttonsForm" />

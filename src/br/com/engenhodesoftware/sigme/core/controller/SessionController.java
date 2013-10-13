@@ -11,10 +11,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import org.primefaces.component.menuitem.MenuItem;
-import org.primefaces.component.submenu.Submenu;
-import org.primefaces.model.DefaultMenuModel;
-import org.primefaces.model.MenuModel;
+import org.primefaces.model.menu.DefaultMenuItem;
+import org.primefaces.model.menu.DefaultMenuModel;
+import org.primefaces.model.menu.DefaultSubMenu;
+import org.primefaces.model.menu.MenuModel;
 
 import br.com.engenhodesoftware.sigme.core.application.CoreInformation;
 import br.com.engenhodesoftware.sigme.core.application.LoginFailedException;
@@ -150,8 +150,8 @@ public class SessionController extends JSFController {
 	 * is logged in and what functionality the user has access to.
 	 */
 	private void initMenuModel() {
-		Submenu menu;
-		MenuItem item;
+		DefaultSubMenu menu;
+		DefaultMenuItem item;
 		logger.log(Level.FINER, "Initializing the dynamic menu model for the PrimeFaces menu component...");
 	
 		// Create the menu model.
@@ -162,26 +162,26 @@ public class SessionController extends JSFController {
 			logger.log(Level.FINE, "System is installed correctly. User menu to be built.");
 
 			/* Sub-menu: Access Control. */
-			menu = new Submenu();
+			menu = new DefaultSubMenu();
 			menu.setLabel(getI18nMessage("msgs", "menu.access"));
-			menuModel.addSubmenu(menu);
+			menuModel.addElement(menu);
 
 			// Menu item: Login (if the user hasn't been identified yet) / Logout (if she has).
 			if (isLoggedIn()) {
 				logger.log(Level.FINE, "User is logged in. Logout menu item to be added.");
-				item = new MenuItem();
+				item = new DefaultMenuItem();
 				item.setValue(getI18nMessage("msgs", "menu.access.logout"));
 				item.setIcon("menuAccessLogout");
 				item.setUrl("/logout");
-				menu.getChildren().add(item);
+				menu.addElement(item);
 			}
 			else {
 				logger.log(Level.FINE, "User is not logged in. Login menu item to be added.");
-				item = new MenuItem();
+				item = new DefaultMenuItem();
 				item.setValue(getI18nMessage("msgs", "menu.access.login"));
 				item.setIcon("menuAccessLogin");
 				item.setUrl("/login.faces");
-				menu.getChildren().add(item);
+				menu.addElement(item);
 			}
 
 			// All other menus should only be shown if the user is identified.
@@ -189,23 +189,23 @@ public class SessionController extends JSFController {
 				logger.log(Level.FINE, "User is logged in. Menus and items for all functionalities to be added.");
 				
 				/* Sub-menu: CRUDs (Core). */
-				menu = new Submenu();
+				menu = new DefaultSubMenu();
 				menu.setLabel(getI18nMessage("msgsCore", "core.menu.cruds"));
-				menuModel.addSubmenu(menu);
+				menuModel.addElement(menu);
 
 				// Menu item: Manage Institutions.
-				item = new MenuItem();
+				item = new DefaultMenuItem();
 				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.manageInstitutions"));
 				item.setIcon("menuCoreCrudsManageInstitutions");
 				item.setUrl("/core/manageInstitutions/list.faces");
-				menu.getChildren().add(item);
+				menu.addElement(item);
 
 				// Menu item: Manage Spiritists.
-				item = new MenuItem();
+				item = new DefaultMenuItem();
 				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.manageSpiritists"));
 				item.setIcon("menuCoreCrudsManageSpiritists");
 				item.setUrl("/core/manageSpiritists/list.faces");
-				menu.getChildren().add(item);
+				menu.addElement(item);
 
 				
 				/* Sub-menu: Mailing (Secretariat). */
@@ -227,16 +227,16 @@ public class SessionController extends JSFController {
 			logger.log(Level.FINE, "The system is not yet installed. System installation menu to be added.");
 
 			/* Sub-menu: System Installation. */
-			menu = new Submenu();
+			menu = new DefaultSubMenu();
 			menu.setLabel(getI18nMessage("msgsCore", "core.menu.installSystem"));
-			menuModel.addSubmenu(menu);
+			menuModel.addElement(menu);
 
 			// Menu item: Install System.
-			item = new MenuItem();
+			item = new DefaultMenuItem();
 			item.setValue(getI18nMessage("msgsCore", "core.menu.installSystem.install"));
 			item.setIcon("menuCoreInstallSystem");
 			item.setUrl("/core/installSystem/index.faces");
-			menu.getChildren().add(item);
+			menu.addElement(item);
 		}
 	}
 
