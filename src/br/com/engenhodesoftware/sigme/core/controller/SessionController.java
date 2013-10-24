@@ -235,7 +235,7 @@ public class SessionController extends JSFController {
 			item = new DefaultMenuItem();
 			item.setValue(getI18nMessage("msgsCore", "core.menu.installSystem.install"));
 			item.setIcon("menuCoreInstallSystem");
-			item.setUrl("/core/installSystem/index.faces");
+			item.setCommand("#{installSystemController.begin}");
 			menu.addElement(item);
 		}
 	}

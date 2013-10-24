@@ -16,11 +16,15 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import br.com.engenhodesoftware.sigme.core.domain.Institution;
 import br.com.engenhodesoftware.sigme.core.domain.InstitutionType;
 import br.com.engenhodesoftware.sigme.core.domain.Regional;
+import br.com.engenhodesoftware.sigme.core.domain.SigmeConfiguration;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
+import br.com.engenhodesoftware.sigme.core.persistence.InstitutionDAO;
 import br.com.engenhodesoftware.sigme.core.persistence.InstitutionTypeDAO;
 import br.com.engenhodesoftware.sigme.core.persistence.RegionalDAO;
+import br.com.engenhodesoftware.sigme.core.persistence.SigmeConfigurationDAO;
 import br.com.engenhodesoftware.sigme.core.persistence.SpiritistDAO;
 import br.com.engenhodesoftware.sigme.secretariat.application.SecretariatInformation;
 import br.com.engenhodesoftware.util.ResourceUtil;
@@ -55,6 +59,14 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	@EJB
 	private SpiritistDAO spiritistDAO;
 
+	/** The DAO for Institution objects. */
+	@EJB
+	private InstitutionDAO institutionDAO;
+	
+	/** The DAO for SigmeConfiguration objects. */
+	@EJB
+	private SigmeConfigurationDAO sigmeConfigurationDAO;
+
 	/** The DAO for State objects. */
 	@EJB
 	private StateDAO stateDAO;
@@ -78,7 +90,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** Global information about the application. */
 	@EJB
 	private CoreInformation coreInformation;
-	
+
 	/** Information bean for the Secretariat module. */
 	@EJB
 	private SecretariatInformation secretariatInformation;
@@ -89,36 +101,56 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** Map of cities used to initialize the regionals. */
 	private static Map<String, City> cities = new HashMap<String, City>();
 
-	/** @see br.com.engenhodesoftware.sigme.core.application.InstallSystemService#installSystem(br.com.engenhodesoftware.sigme.core.domain.Spiritist) */
+	/**
+	 * @see br.com.engenhodesoftware.sigme.core.application.InstallSystemService#installSystem(br.com.engenhodesoftware.sigme.core.domain.Spiritist,
+	 *      br.com.engenhodesoftware.sigme.core.domain.Institution)
+	 */
 	@Override
-	public void installSystem(Spiritist admin) throws SystemInstallFailedException {
+	public void installSystem(Spiritist admin, Institution owner) throws SystemInstallFailedException {
 		logger.log(Level.FINER, "Installing system...");
 
 		try {
-			// Encodes the password.
+			// Encodes the admin's password and creates empty address objects (to avoid null problems).
 			admin.setPassword(TextUtils.produceMd5Hash(admin.getPassword()));
 			admin.setAddress(new Address());
+			owner.setAddress(new Address());
 
 			// Register the last update date / login date.
 			Date now = new Date(System.currentTimeMillis());
 			admin.setLastUpdateDate(now);
 			admin.setLastLoginDate(now);
+			owner.setLastUpdateDate(now);
 			logger.log(Level.FINE, "Admin's last update date and last login date have been set as: {0}", now);
+			logger.log(Level.FINE, "Owner's last update date has been set as: {0}", now);
 
 			// Initializes the database.
 			logger.log(Level.FINER, "Initializing the database with data stored in \"{0}\"...", INIT_DATA_PATH);
 			initState();
 			initCity();
 			initRegional();
-			initInstitutionType();
+			InstitutionType federationType = initInstitutionType();
 			initContactType();
 			logger.log(Level.FINE, "Database initialization finished.");
 
 			// Saves the administrator.
-			logger.log(Level.FINER, "Persisting data...\n\t- Short name = {0}\n\t- Last update date = {1}\n\t- Last login date = {2}", new Object[] { admin.getShortName(), admin.getLastUpdateDate(), admin.getLastLoginDate() });
+			logger.log(Level.FINER, "Persisting admin data...\n\t- Short name = {0}\n\t- Last update date = {1}\n\t- Last login date = {2}", new Object[] { admin.getShortName(), admin.getLastUpdateDate(), admin.getLastLoginDate() });
 			spiritistDAO.save(admin);
 			logger.log(Level.FINE, "The administrator has been saved: {0} ({1})", new Object[] { admin.getName(), admin.getEmail() });
-			
+
+			// Saves the institution as a federation.
+			logger.log(Level.FINER, "Persisting owner data...\n\t- Acronym = {0}\n\t- Last update date = {1}", new Object[] { owner.getAcronym(), owner.getLastUpdateDate() });
+			owner.setType(federationType);
+			institutionDAO.save(owner);
+			logger.log(Level.FINE, "The owner has been saved: {0} ({1})", new Object[] { owner.getName(), owner.getAcronym() });
+
+			// Sets the owner institution in Sigme's configuration.
+			SigmeConfiguration config = new SigmeConfiguration();
+			config.setCreationDate(now);
+			config.setOwner(owner);
+			logger.log(Level.FINER, "Persisting configuration data...\n\t- Date = {0}\n\t- Owner = {1}", new Object[] { config.getCreationDate(), config.getOwner().getName() });
+			sigmeConfigurationDAO.save(config);
+			logger.log(Level.FINE, "The configuration has been saved");
+
 			// Installs other modules.
 			logger.log(Level.FINER, "Executing install procedure in other modules...");
 			secretariatInformation.installModule();
@@ -193,7 +225,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 *           If the data file is not found.
 	 * @throws URISyntaxException
 	 *           If the URI used to locate the data file has any kind of problems.
-	 *           
+	 * 
 	 * @see br.com.engenhodesoftware.sigme.core.application.InstallSystemServiceBean#INIT_DATA_PATH
 	 */
 	private void initCity() throws FileNotFoundException, URISyntaxException {
@@ -246,7 +278,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 *           If the data file is not found.
 	 * @throws URISyntaxException
 	 *           If the URI used to locate the data file has any kind of problems.
-	 *           
+	 * 
 	 * @see br.com.engenhodesoftware.sigme.core.application.InstallSystemServiceBean#INIT_DATA_PATH
 	 */
 	private void initRegional() throws FileNotFoundException, URISyntaxException {
@@ -302,14 +334,19 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 * data path should contain the information that should be registered (e.g. Spiritist Institution, Non-spiritist
 	 * Institution, Spiritist Federation, etc.).
 	 * 
+	 * @return The institution type that represents a Spiritist Federation. This should be marked in the data file and is
+	 *         returned so it can be used in the installation process.
+	 * 
 	 * @throws FileNotFoundException
 	 *           If the data file is not found.
 	 * @throws URISyntaxException
 	 *           If the URI used to locate the data file has any kind of problems.
-	 *           
+	 * 
 	 * @see br.com.engenhodesoftware.sigme.core.application.InstallSystemServiceBean#INIT_DATA_PATH
 	 */
-	private void initInstitutionType() throws FileNotFoundException, URISyntaxException {
+	private InstitutionType initInstitutionType() throws FileNotFoundException, URISyntaxException {
+		InstitutionType federation = null;
+		
 		// Loads the file with the data from the classpath.
 		File dataFile = ResourceUtil.getResourceAsFile(INIT_DATA_PATH + "InstitutionType.data");
 		logger.log(Level.FINE, "Adding institution types to the database from file: {0}", dataFile.getAbsolutePath());
@@ -325,6 +362,9 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			InstitutionType type = new InstitutionType();
 			type.setType(lineScanner.next());
 			type.setPartOfRegional(Boolean.valueOf(lineScanner.next()));
+			
+			// Checks if the last parameter of the data faile. When true, it means this is the spiritist federation.
+			if (Boolean.valueOf(lineScanner.next())) federation = type;
 			lineScanner.close();
 
 			logger.log(Level.FINEST, "Storing institution type: {0}", type);
@@ -334,6 +374,8 @@ public class InstallSystemServiceBean implements InstallSystemService {
 
 		logger.log(Level.FINE, "Stored {0} institution types in the database", count);
 		scanner.close();
+		
+		return federation;
 	}
 
 	/**
@@ -345,7 +387,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 *           If the data file is not found.
 	 * @throws URISyntaxException
 	 *           If the URI used to locate the data file has any kind of problems.
-	 *           
+	 * 
 	 * @see br.com.engenhodesoftware.sigme.core.application.InstallSystemServiceBean#INIT_DATA_PATH
 	 */
 	private void initContactType() throws FileNotFoundException, URISyntaxException {

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.ejb.Local;
 
+import br.com.engenhodesoftware.sigme.core.domain.Institution;
 import br.com.engenhodesoftware.sigme.core.domain.Spiritist;
 
 /**
@@ -23,9 +24,11 @@ public interface InstallSystemService extends Serializable {
 	 * @param administrator
 	 *          The information on the first spiritist to register in the system, which will be considered the
 	 *          administrator.
+	 * @param owner
+	 *          The institution that owns this Sigme instance.
 	 * 
 	 * @throws SystemInstallFailedException
 	 *           If any failure occurs during system installation (e.g., missing data file).
 	 */
-	void installSystem(Spiritist administrator) throws SystemInstallFailedException;
+	void installSystem(Spiritist administrator, Institution owner) throws SystemInstallFailedException;
 }

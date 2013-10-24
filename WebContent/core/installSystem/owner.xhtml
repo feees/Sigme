@@ -1,0 +1,59 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+								xmlns:p="http://primefaces.org/ui"
+                template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title"><h:outputText value="#{msgsCore['installSystem.title']}" /></ui:define>
+	
+	<ui:define name="body">
+		<h1><h:outputText value="#{msgsCore['installSystem.title']}" /></h1>
+
+		<!-- Shown only if the system is already installed. -->
+		<h:panelGroup id="systemInstalled" rendered="#{coreInfo.systemInstalled}">
+			<p><h:outputText value="#{msgsCore['installSystem.text.systemAlreadyInstalled']}" /></p>
+		</h:panelGroup>
+
+		<!-- Shown when the system is not yet installed. -->
+		<h:panelGroup id="systemNotInstalled" rendered="#{! coreInfo.systemInstalled}">
+			<p><h:outputText value="#{msgsCore['installSystem.text.instructions.owner']}" /></p>
+
+			<!-- The form to be filled with information on the administrator. -->
+			<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+				<h:form id="form">
+					<p:focus />
+					
+					<h:panelGroup id="nameField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:name" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.owner.name']}" /></ui:define>
+							<p:inputText id="name" value="#{installSystemController.owner.name}" size="50" required="true">
+								<p:ajax event="blur" update="nameField acronymField" listener="#{installSystemController.suggestAcronym}" />
+							</p:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="acronymField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:acronym" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['installSystem.field.owner.acronym']}" /></ui:define>
+							<p:inputText id="acronym" value="#{installSystemController.owner.acronym}" size="10" required="true">
+								<p:ajax event="blur" update="acronymField" />
+							</p:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+						<p:commandButton action="#{installSystemController.registerOwnerInstitution}" value="#{msgsCore['installSystem.button.registerOwnerInstitution']}" icon="buttonOk" onclick="waitDialog.show()" oncomplete="waitDialog.hide()" update=":globalMessages form" />
+					</ui:decorate>
+				</h:form>
+			</ui:decorate>
+	
+			<!-- A dialog box that is shown to warn the user to wait until installation finishes. -->
+			<p:dialog header="#{msgsCore['installSystem.dialog.wait.title']}" widgetVar="waitDialog" modal="true" height="100">
+				<h:outputText value="#{msgsCore['installSystem.dialog.wait.contents']}" />
+			</p:dialog>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>

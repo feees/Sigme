@@ -9,17 +9,23 @@
 
 		<p><h:outputText value="#{msgs['text.welcome']}" /></p>
 		
+		
+		
+		<h2><h:outputText value="#{msgs['title.about']}" /></h2>
+		
+		<p><h:outputText value="#{msgs['text.welcome.about']}" /><a href='https://github.com/vitorsouza/Sigme/'>GitHub</a>.</p>
+
+		<p><h:outputText value="#{msgs['text.welcome.owner']}" /><a href="http://www.feees.org.br/">Federação Espírita do Estado do Espírito Santo</a> (Feees).</p>
+		
+		
+		
+		<h2><h:outputText value="#{msgs['title.register']}" /></h2>
+		
+		<p><h:outputFormat value="#{msgs['text.welcome.register']}"><f:param value="Feees" /></h:outputFormat></p>
+		
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
 
-		<p>
-			<p:panel header="#{msgs['text.noteheader']}" style="width: 500px" rendered="true">
-				<h:outputText value="#{msgs['text.note']}" />
-
-				<h:form>
-					<p align="center"><h:commandLink action="#{sessionController.autoLogin}" value="Auto-login" /></p>
-				</h:form>
-			</p:panel>
-		</p>
+		<h:form><p align="right"><h:commandLink action="#{sessionController.autoLogin}" value="(auto-login)" /></p></h:form>
 	</ui:composition>
 </html>

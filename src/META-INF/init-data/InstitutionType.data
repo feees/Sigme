@@ -1,5 +1,5 @@
-Casa espírita não-adesa | true
-Casa espírita adesa | true
-Federativa espírita | false
-Outra instituição espírita | false
-Não-espírita | false
+Casa espírita não-adesa | true | false
+Casa espírita adesa | true | false
+Federativa espírita | false | true
+Outra instituição espírita | false | false
+Não-espírita | false | false
