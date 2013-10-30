@@ -15,9 +15,12 @@
 		
 		<p><h:outputText value="#{msgs['text.welcome.about']}" /><a href='https://github.com/vitorsouza/Sigme/'>GitHub</a>.</p>
 
-		<p><h:outputText value="#{msgs['text.welcome.owner']}" /><a href="http://www.feees.org.br/">Federação Espírita do Estado do Espírito Santo</a> (Feees).</p>
-		
-		
+		<p><h:outputText value="#{msgs['text.welcome.owner']}" /><strong>
+			<h:outputLink value="#{coreInfo.owner.webPage}" rendered="#{coreInfo.owner.webPage != null}"><h:outputText value="#{coreInfo.owner.name}" /></h:outputLink>
+			<h:outputText value="#{coreInfo.owner.name}" rendered="#{coreInfo.owner.webPage == null}" /></strong>
+			<h:outputText value=" (#{coreInfo.owner.acronym})." /></p>
+			
+				
 		
 		<h2><h:outputText value="#{msgs['title.register']}" /></h2>
 		

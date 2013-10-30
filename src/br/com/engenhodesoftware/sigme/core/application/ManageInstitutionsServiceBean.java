@@ -37,6 +37,10 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 	/** The DAO for Institution objects. */
 	@EJB
 	private InstitutionDAO institutionDAO;
+	
+	/** The information singleton for the core module. */
+	@EJB
+	private CoreInformation coreInformation;
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#createNewEntity() */
 	@Override
@@ -121,6 +125,21 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 		newEntity.setLastUpdateDate(new Date(System.currentTimeMillis()));
 
 		return newEntity;
+	}
+
+	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#update(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	@Override
+	public void update(Institution entity) {
+		// Calls the method in the superclass to update the institution.
+		super.update(entity);
+		
+		// Checks if the updated institution is the owner. In that case, renew the information in the core module.
+		try {
+			if (coreInformation.getOwner().equals(entity)) coreInformation.loadConfiguration(); 
+		}
+		catch (PersistentObjectNotFoundException e) {
+			logger.log(Level.WARNING, "Checking if updated institution is owner to reload configuration threw an exception.", e); 
+		}
 	}
 
 	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */

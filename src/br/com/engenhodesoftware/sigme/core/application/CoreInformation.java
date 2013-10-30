@@ -15,13 +15,17 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 
+import br.com.engenhodesoftware.sigme.core.domain.Institution;
 import br.com.engenhodesoftware.sigme.core.domain.InstitutionType;
 import br.com.engenhodesoftware.sigme.core.domain.Regional;
+import br.com.engenhodesoftware.sigme.core.domain.SigmeConfiguration;
 import br.com.engenhodesoftware.sigme.core.persistence.InstitutionTypeDAO;
 import br.com.engenhodesoftware.sigme.core.persistence.RegionalDAO;
+import br.com.engenhodesoftware.sigme.core.persistence.SigmeConfigurationDAO;
 import br.com.engenhodesoftware.util.ResourceUtil;
 import br.com.engenhodesoftware.util.people.domain.ContactType;
 import br.com.engenhodesoftware.util.people.persistence.ContactTypeDAO;
+import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Singleton bean that stores in memory information that is useful for the entire application, i.e., read-only
@@ -37,15 +41,19 @@ public class CoreInformation implements Serializable {
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(CoreInformation.class.getCanonicalName());
-	
+
 	/** The qualified name of the module's properties file. */
 	private static final String PROPERTIES_FILE_PATH = "/br/com/engenhodesoftware/sigme/core/application/module.properties";
-	
+
 	/** The default locale. */
 	public static Locale DEFAULT_LOCALE = Locale.getDefault();
-	
+
 	/** The module's properties. */
 	private Properties properties = new Properties();
+
+	/** The DAO for SigmeConfiguration objects. */
+	@EJB
+	private SigmeConfigurationDAO sigmeConfigurationDAO;
 
 	/** The DAO for InstitutionType objects. */
 	@EJB
@@ -58,6 +66,9 @@ public class CoreInformation implements Serializable {
 	/** The DAO for Regional objects. */
 	@EJB
 	private RegionalDAO regionalDAO;
+	
+	/** The owner of the running Sigme instance. */
+	private Institution owner;
 
 	/** Indicates if the system is properly installed. */
 	private Boolean systemInstalled;
@@ -73,9 +84,11 @@ public class CoreInformation implements Serializable {
 
 	/** The list of regionals (cache of objects that don't change very often). */
 	private SortedSet<Regional> regionals;
-	
+
 	/**
-	 * TODO: document this method.
+	 * Initialization method for the core module.
+	 * 
+	 * Reads the properties file for this module and stores the information in the singleton instance of this class.
 	 */
 	@PostConstruct
 	public void init() {
@@ -84,11 +97,11 @@ public class CoreInformation implements Serializable {
 			InputStream is = ResourceUtil.getResourceAsStream(PROPERTIES_FILE_PATH);
 			logger.log(Level.INFO, "Loading properties for the Core module from file: {0}", PROPERTIES_FILE_PATH);
 			properties.load(is);
-			
+
 			// Sets the default locale using information from the properties file, if available.
 			String language = properties.getProperty("core.language");
 			String country = properties.getProperty("core.country");
-			if ((language != null) && (country != null) && (! language.isEmpty()) && (! country.isEmpty())) {
+			if ((language != null) && (country != null) && (!language.isEmpty()) && (!country.isEmpty())) {
 				logger.log(Level.FINE, "Setting default locale to: {0}-{1}", new Object[] { language, country });
 				DEFAULT_LOCALE = new Locale(language, country);
 			}
@@ -96,6 +109,19 @@ public class CoreInformation implements Serializable {
 		catch (IOException e) {
 			logger.log(Level.SEVERE, "Could not initialize Core module from properties file {0}. The module might not work properly!", PROPERTIES_FILE_PATH);
 		}
+	}
+
+	/** Getter for owner. */
+	public Institution getOwner() throws PersistentObjectNotFoundException {
+		// If not done before, retrieves the owner.
+		if (owner == null) loadConfiguration();
+		return owner;
+	}
+	
+	/** (Re)loads the configuration information. */
+	public void loadConfiguration() throws PersistentObjectNotFoundException {
+		SigmeConfiguration cfg = sigmeConfigurationDAO.retrieveCurrentConfiguration();
+		owner = cfg.getOwner();
 	}
 
 	/** Alias for isSystemInstalled(). */
@@ -128,7 +154,7 @@ public class CoreInformation implements Serializable {
 	public String getDecorator() {
 		return decorator;
 	}
-	
+
 	/** Getter for the default locale. */
 	public Locale getDefaultLocale() {
 		return DEFAULT_LOCALE;
