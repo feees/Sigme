@@ -39,7 +39,7 @@ public class SecretariatInformation implements Serializable {
 	// Moreover, only hostname and port were included, the sender email address is missing.
 
 	/** The qualified name of the module's properties file. */
-	private static final String PROPERTIES_FILE_PATH = "/br/com/engenhodesoftware/sigme/secretariat/application/module.properties";
+	private static final String PROPERTIES_FILE_PATH = "/br/org/feees/sigme/secretariat/application/module.properties";
 
 	/** The module's properties. */
 	private Properties properties = new Properties();

@@ -43,7 +43,7 @@ public class CoreInformation implements Serializable {
 	private static final Logger logger = Logger.getLogger(CoreInformation.class.getCanonicalName());
 
 	/** The qualified name of the module's properties file. */
-	private static final String PROPERTIES_FILE_PATH = "/br/com/engenhodesoftware/sigme/core/application/module.properties";
+	private static final String PROPERTIES_FILE_PATH = "/br/org/feees/sigme/core/application/module.properties";
 
 	/** The default locale. */
 	public static Locale DEFAULT_LOCALE = Locale.getDefault();
