@@ -6,19 +6,19 @@
 
 <application>
 	<!-- Defines the resource bundle that contains the standard JSF messages (overriding the ones provided). -->
-	<message-bundle>br.com.engenhodesoftware.sigme.faces</message-bundle>
+	<message-bundle>br.org.feees.sigme.faces</message-bundle>
 
 	<!-- Loads resource bundles for i18n messages and assigns names to them. -->
 	<resource-bundle>
-		<base-name>br.com.engenhodesoftware.sigme.messages</base-name>
+		<base-name>br.org.feees.sigme.messages</base-name>
 		<var>msgs</var>
 	</resource-bundle>
 	<resource-bundle>
-		<base-name>br.com.engenhodesoftware.sigme.core.view.messages</base-name>
+		<base-name>br.org.feees.sigme.core.view.messages</base-name>
 		<var>msgsCore</var>
 	</resource-bundle>
 	<resource-bundle>
-		<base-name>br.com.engenhodesoftware.sigme.secretariat.view.messages</base-name>
+		<base-name>br.org.feees.sigme.secretariat.view.messages</base-name>
 		<var>msgsSecretariat</var>
 	</resource-bundle>
 
