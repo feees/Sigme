@@ -6,9 +6,9 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-import br.com.engenhodesoftware.util.people.domain.Address;
-import br.com.engenhodesoftware.util.people.domain.Person_;
-import br.com.engenhodesoftware.util.people.domain.Telephone;
+import org.feees.sigme.people.domain.Address;
+import org.feees.sigme.people.domain.Person_;
+import org.feees.sigme.people.domain.Telephone;
 
 /**
  * Meta-model for the Spiritist domain class, which allows DAOs to perform programmatic queries using JPA2's Criteria

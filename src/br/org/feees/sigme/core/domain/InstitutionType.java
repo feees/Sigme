@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
+import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
  * Domain class that represents the types of spiritist institutions that the Spiritist Federation is interested in.
@@ -67,7 +67,7 @@ public class InstitutionType extends PersistentObjectSupport implements Comparab
 		return type.compareTo(o.type);
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport#toString() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return type;

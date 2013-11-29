@@ -9,7 +9,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
+import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
  * Abstract domain class that represents an addressee of a mailing list. Addressees are spiritists that are associated

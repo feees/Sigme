@@ -4,10 +4,10 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 import br.org.feees.sigme.core.domain.Institution;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Interface for a DAO for objects of the Institution domain class.
@@ -17,7 +17,7 @@ import br.org.feees.sigme.core.domain.Institution;
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @see br.org.feees.sigme.core.domain.Institution
- * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO
+ * @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO
  */
 @Local
 public interface InstitutionDAO extends BaseDAO<Institution> {

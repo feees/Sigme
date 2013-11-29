@@ -10,11 +10,11 @@ import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 
-import br.com.engenhodesoftware.util.TextUtils;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 import br.org.feees.sigme.core.domain.Spiritist;
 import br.org.feees.sigme.core.persistence.SpiritistDAO;
+import br.ufes.inf.nemo.util.TextUtils;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Stateful session bean implementing the session information component. See the implemented interface documentation for

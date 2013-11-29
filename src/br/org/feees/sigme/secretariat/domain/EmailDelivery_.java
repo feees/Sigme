@@ -3,7 +3,7 @@ package br.org.feees.sigme.secretariat.domain;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport_;
+import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport_;
 
 /**
  * Meta-model for the EmailDelivery domain class, which allows DAOs to perform programmatic queries using JPA2's

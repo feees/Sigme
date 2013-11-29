@@ -2,10 +2,10 @@ package br.org.feees.sigme.secretariat.application;
 
 import javax.ejb.Local;
 
-import br.com.engenhodesoftware.util.ejb3.application.ListingService;
 import br.org.feees.sigme.secretariat.domain.EmailDelivery;
 import br.org.feees.sigme.secretariat.domain.Mailing;
 import br.org.feees.sigme.secretariat.domain.MailingList;
+import br.ufes.inf.nemo.util.ejb3.application.ListingService;
 
 /**
  * Local EJB interface for the "Send Mailing" use case.

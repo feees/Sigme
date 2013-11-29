@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport_;
+import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport_;
 
 
 /**

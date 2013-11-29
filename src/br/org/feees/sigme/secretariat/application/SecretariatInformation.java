@@ -14,12 +14,12 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
-import br.com.engenhodesoftware.util.ResourceUtil;
 import br.org.feees.sigme.secretariat.domain.AllMailingAddressee;
 import br.org.feees.sigme.secretariat.domain.MailingAddresseeScope;
 import br.org.feees.sigme.secretariat.domain.MailingList;
 import br.org.feees.sigme.secretariat.persistence.MailingListDAO;
 import br.org.feees.sigme.secretariat.view.I18n;
+import br.ufes.inf.nemo.util.ResourceUtil;
 
 /**
  * Singleton bean that stores in memory information that is useful for the entire application, i.e., read-only

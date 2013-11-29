@@ -8,9 +8,10 @@ import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import br.com.engenhodesoftware.util.ejb3.controller.JSFController;
-import br.com.engenhodesoftware.util.people.domain.ContactType;
-import br.com.engenhodesoftware.util.people.domain.Telephone;
+import org.feees.sigme.people.domain.ContactType;
+import org.feees.sigme.people.domain.Telephone;
+
+import br.ufes.inf.nemo.util.ejb3.controller.JSFController;
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the

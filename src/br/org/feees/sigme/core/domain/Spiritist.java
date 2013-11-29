@@ -13,9 +13,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import br.com.engenhodesoftware.util.people.domain.Address;
-import br.com.engenhodesoftware.util.people.domain.Person;
-import br.com.engenhodesoftware.util.people.domain.Telephone;
+import org.feees.sigme.people.domain.Address;
+import org.feees.sigme.people.domain.Person;
+import org.feees.sigme.people.domain.Telephone;
 
 /**
  * Domain class that represents spiritists, i.e., the users of the system.
@@ -280,7 +280,7 @@ public class Spiritist extends Person {
 		}
 	}
 
-	/** @see br.com.engenhodesoftware.util.people.domain.Person#toString() */
+	/** @see org.feees.sigme.people.domain.Person#toString() */
 	@Override
 	public String toString() {
 		return name;

@@ -11,11 +11,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 import br.org.feees.sigme.secretariat.domain.MailingList;
 import br.org.feees.sigme.secretariat.domain.MailingList_;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Stateless session bean implementing a DAO for objects of the MailingList domain class using JPA2.
@@ -40,13 +40,13 @@ public class MailingListJPADAO extends BaseJPADAO<MailingList> implements Mailin
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
 	public Class<MailingList> getDomainClass() {
 		return MailingList.class;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;

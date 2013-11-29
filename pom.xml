@@ -13,20 +13,39 @@
       <url>http://repository.primefaces.org</url>  
       <layout>default</layout>  
     </repository>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</releases>
+			<id>br.ufes.inf.nemo</id>
+			<name>Nemo Maven Repository</name>
+			<url>http://www.inf.ufes.br/~vitorsouza/maven</url>
+			<layout>default</layout>
+		</repository>
   </repositories>
   <dependencies>
     <dependency>  
       <groupId>org.primefaces</groupId>  
       <artifactId>primefaces</artifactId>  
       <version>4.0</version>
-      <scope>runtime</scope>
     </dependency>  
     <dependency>  
       <groupId>org.primefaces.themes</groupId>  
       <artifactId>start</artifactId>  
       <version>1.0.10</version>
-      <scope>runtime</scope>
-    </dependency>  
+    </dependency>
+    <dependency>
+    	<groupId>br.ufes.inf.nemo</groupId>
+    	<artifactId>nemo-utils-java</artifactId>
+    	<version>1.0</version>
+    </dependency>
+    <dependency>
+    	<groupId>br.ufes.inf.nemo</groupId>
+    	<artifactId>nemo-utils-jee-wp</artifactId>
+    	<version>1.0</version>
+    </dependency>
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>

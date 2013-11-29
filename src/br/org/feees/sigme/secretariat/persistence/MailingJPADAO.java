@@ -4,8 +4,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO;
 import br.org.feees.sigme.secretariat.domain.Mailing;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 
 /**
  * Stateless session bean implementing a DAO for objects of the Mailing domain class using JPA2.
@@ -30,13 +30,13 @@ public class MailingJPADAO extends BaseJPADAO<Mailing> implements MailingDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
 	public Class<Mailing> getDomainClass() {
 		return Mailing.class;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;

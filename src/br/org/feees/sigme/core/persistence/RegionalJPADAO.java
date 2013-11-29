@@ -13,12 +13,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO;
-import br.com.engenhodesoftware.util.people.domain.City;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
+import org.feees.sigme.people.domain.City;
+
 import br.org.feees.sigme.core.domain.Regional;
 import br.org.feees.sigme.core.domain.Regional_;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Stateless session bean implementing a DAO for objects of the Regional domain class using JPA2.
@@ -43,19 +44,19 @@ public class RegionalJPADAO extends BaseJPADAO<Regional> implements RegionalDAO 
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
 	public Class<Regional> getDomainClass() {
 		return Regional.class;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder, javax.persistence.criteria.Root) */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder, javax.persistence.criteria.Root) */
 	@Override
 	protected List<Order> getOrderList(CriteriaBuilder cb, Root<Regional> root) {
 		// Orders by number.
@@ -64,7 +65,7 @@ public class RegionalJPADAO extends BaseJPADAO<Regional> implements RegionalDAO 
 		return orderList;
 	}
 
-	/** @see br.org.feees.sigme.core.persistence.RegionalDAO#retrieveByCity(br.com.engenhodesoftware.util.people.domain.City) */
+	/** @see br.org.feees.sigme.core.persistence.RegionalDAO#retrieveByCity(org.feees.sigme.people.domain.City) */
 	@Override
 	public Regional retrieveByCity(City city) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
 		logger.log(Level.FINE, "Retrieving the regional to which the city \"{0}\" belongs...", city);

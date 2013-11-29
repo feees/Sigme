@@ -14,29 +14,29 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.feees.sigme.people.domain.Address;
+import org.feees.sigme.people.domain.City;
+import org.feees.sigme.people.domain.ContactType;
+import org.feees.sigme.people.domain.Telephone;
+import org.feees.sigme.people.persistence.CityDAO;
+import org.feees.sigme.people.persistence.TelephoneDAO;
 import org.primefaces.event.SelectEvent;
 
-import br.com.engenhodesoftware.util.ejb3.application.CrudService;
-import br.com.engenhodesoftware.util.ejb3.application.filters.Criterion;
-import br.com.engenhodesoftware.util.ejb3.application.filters.CriterionType;
-import br.com.engenhodesoftware.util.ejb3.application.filters.LikeFilter;
-import br.com.engenhodesoftware.util.ejb3.application.filters.MultipleChoiceFilter;
-import br.com.engenhodesoftware.util.ejb3.application.filters.ReverseMultipleChoiceFilter;
-import br.com.engenhodesoftware.util.ejb3.controller.CrudController;
-import br.com.engenhodesoftware.util.ejb3.controller.PrimefacesSelectableEntityDataModel;
-import br.com.engenhodesoftware.util.people.domain.Address;
-import br.com.engenhodesoftware.util.people.domain.City;
-import br.com.engenhodesoftware.util.people.domain.ContactType;
-import br.com.engenhodesoftware.util.people.domain.Telephone;
-import br.com.engenhodesoftware.util.people.persistence.CityDAO;
-import br.com.engenhodesoftware.util.people.persistence.TelephoneDAO;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 import br.org.feees.sigme.core.application.ManageInstitutionsService;
 import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.InstitutionType;
 import br.org.feees.sigme.core.domain.Regional;
 import br.org.feees.sigme.core.persistence.RegionalDAO;
+import br.ufes.inf.nemo.util.ejb3.application.CrudService;
+import br.ufes.inf.nemo.util.ejb3.application.filters.Criterion;
+import br.ufes.inf.nemo.util.ejb3.application.filters.CriterionType;
+import br.ufes.inf.nemo.util.ejb3.application.filters.LikeFilter;
+import br.ufes.inf.nemo.util.ejb3.application.filters.MultipleChoiceFilter;
+import br.ufes.inf.nemo.util.ejb3.application.filters.ReverseMultipleChoiceFilter;
+import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
+import br.ufes.inf.nemo.util.ejb3.controller.PrimefacesSelectableEntityDataModel;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the
@@ -84,7 +84,7 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 	/** Input: a telephone being added or edited. */
 	private Telephone telephone;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#getCrudService() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<Institution> getCrudService() {
 		// Checks if the current user has the authorization to use this functionality.
@@ -93,7 +93,7 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 		return manageInstitutionsService;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#createNewEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#createNewEntity() */
 	@Override
 	protected Institution createNewEntity() {
 		logger.log(Level.FINER, "Initializing an empty institution...");
@@ -109,7 +109,7 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 		return newEntity;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#checkSelectedEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#checkSelectedEntity() */
 	@Override
 	protected void checkSelectedEntity() {
 		logger.log(Level.FINER, "Checking selected institution ({0})...", selectedEntity);
@@ -125,7 +125,7 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 		telephonesModel = new PrimefacesSelectableEntityDataModel<Telephone>(telephones, telephoneDAO);
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#initFilters() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#initFilters() */
 	@Override
 	protected void initFilters() {
 		logger.log(Level.FINER, "Initializing filter types...");
@@ -150,7 +150,7 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 		addFilter(new MultipleChoiceFilter<InstitutionType>("manageInstitutions.filter.byType", "type", getI18nMessage("msgsCore", "manageInstitutions.text.filter.byType"), institutionTypes, labels));
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#prepEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#prepEntity() */
 	@Override
 	protected void prepEntity() {
 		logger.log(Level.FINER, "Preparing institution for storage ({0})...", selectedEntity);
@@ -162,13 +162,13 @@ public class ManageInstitutionsController extends CrudController<Institution> {
 		setRegional();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#summarizeSelectedEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#summarizeSelectedEntity() */
 	@Override
 	protected String summarizeSelectedEntity() {
 		return (selectedEntity == null) ? "" : selectedEntity.getAcronym();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#listTrash() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#listTrash() */
 	@Override
 	protected String listTrash() {
 		// List the acronyms of the deleted institutions.

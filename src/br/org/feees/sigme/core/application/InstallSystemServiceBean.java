@@ -16,15 +16,14 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import br.com.engenhodesoftware.util.ResourceUtil;
-import br.com.engenhodesoftware.util.TextUtils;
-import br.com.engenhodesoftware.util.people.domain.Address;
-import br.com.engenhodesoftware.util.people.domain.City;
-import br.com.engenhodesoftware.util.people.domain.ContactType;
-import br.com.engenhodesoftware.util.people.domain.State;
-import br.com.engenhodesoftware.util.people.persistence.CityDAO;
-import br.com.engenhodesoftware.util.people.persistence.ContactTypeDAO;
-import br.com.engenhodesoftware.util.people.persistence.StateDAO;
+import org.feees.sigme.people.domain.Address;
+import org.feees.sigme.people.domain.City;
+import org.feees.sigme.people.domain.ContactType;
+import org.feees.sigme.people.domain.State;
+import org.feees.sigme.people.persistence.CityDAO;
+import org.feees.sigme.people.persistence.ContactTypeDAO;
+import org.feees.sigme.people.persistence.StateDAO;
+
 import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.InstitutionType;
 import br.org.feees.sigme.core.domain.Regional;
@@ -36,6 +35,8 @@ import br.org.feees.sigme.core.persistence.RegionalDAO;
 import br.org.feees.sigme.core.persistence.SigmeConfigurationDAO;
 import br.org.feees.sigme.core.persistence.SpiritistDAO;
 import br.org.feees.sigme.secretariat.application.SecretariatInformation;
+import br.ufes.inf.nemo.util.ResourceUtil;
+import br.ufes.inf.nemo.util.TextUtils;
 
 /**
  * Stateless session bean implementing the "Install System" use case component. See the implemented interface

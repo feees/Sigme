@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
+import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
  * Domain class that represents mailing lists to which Sigme is able to send mailings, i.e., e-mail messages that are
@@ -94,7 +94,7 @@ public class MailingList extends PersistentObjectSupport implements Comparable<M
 		return result;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport#toString() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return name;

@@ -10,11 +10,11 @@ import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.engenhodesoftware.util.ejb3.controller.JSFController;
 import br.org.feees.sigme.core.application.InstallSystemService;
 import br.org.feees.sigme.core.application.SystemInstallFailedException;
 import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.Spiritist;
+import br.ufes.inf.nemo.util.ejb3.controller.JSFController;
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the

@@ -8,7 +8,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
+import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
  * Domain class that represent the relationship between a spiritist and an institution she attends (or used to attend).

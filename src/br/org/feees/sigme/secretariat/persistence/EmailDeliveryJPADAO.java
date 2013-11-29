@@ -11,10 +11,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO;
 import br.org.feees.sigme.secretariat.domain.EmailDelivery;
 import br.org.feees.sigme.secretariat.domain.EmailDelivery_;
 import br.org.feees.sigme.secretariat.domain.Mailing;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 
 /**
  * Stateless session bean implementing a DAO for objects of the EmailDelivery domain class using JPA2.
@@ -39,13 +39,13 @@ public class EmailDeliveryJPADAO extends BaseJPADAO<EmailDelivery> implements Em
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
 	public Class<EmailDelivery> getDomainClass() {
 		return EmailDelivery.class;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;

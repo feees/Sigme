@@ -2,8 +2,8 @@ package br.org.feees.sigme.secretariat.persistence;
 
 import javax.ejb.Local;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.org.feees.sigme.secretariat.domain.Mailing;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
 
 /**
  * Interface for a DAO for objects of the Mailing domain class.
@@ -13,7 +13,7 @@ import br.org.feees.sigme.secretariat.domain.Mailing;
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @see br.org.feees.sigme.secretariat.domain.Mailing
- * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO
+ * @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO
  */
 @Local
 public interface MailingDAO extends BaseDAO<Mailing> {}

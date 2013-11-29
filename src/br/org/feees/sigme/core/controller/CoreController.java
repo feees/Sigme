@@ -11,14 +11,15 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.convert.Converter;
 import javax.inject.Named;
 
-import br.com.engenhodesoftware.util.ejb3.controller.PersistentObjectConverterFromId;
-import br.com.engenhodesoftware.util.people.domain.City;
-import br.com.engenhodesoftware.util.people.domain.ContactType;
-import br.com.engenhodesoftware.util.people.persistence.CityDAO;
-import br.com.engenhodesoftware.util.people.persistence.ContactTypeDAO;
+import org.feees.sigme.people.domain.City;
+import org.feees.sigme.people.domain.ContactType;
+import org.feees.sigme.people.persistence.CityDAO;
+import org.feees.sigme.people.persistence.ContactTypeDAO;
+
 import br.org.feees.sigme.core.application.CoreInformation;
 import br.org.feees.sigme.core.domain.InstitutionType;
 import br.org.feees.sigme.core.persistence.InstitutionTypeDAO;
+import br.ufes.inf.nemo.util.ejb3.controller.PersistentObjectConverterFromId;
 
 /**
  * Application-scoped bean that centralizes controller information for the core package. This bean differs from the

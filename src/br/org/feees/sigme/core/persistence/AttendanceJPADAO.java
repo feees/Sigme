@@ -4,8 +4,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO;
 import br.org.feees.sigme.core.domain.Attendance;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 
 /**
  * Stateless session bean implementing a DAO for objects of the Attendance domain class using JPA2.
@@ -27,13 +27,13 @@ public class AttendanceJPADAO extends BaseJPADAO<Attendance> implements Attendan
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
 	public Class<Attendance> getDomainClass() {
 		return Attendance.class;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;

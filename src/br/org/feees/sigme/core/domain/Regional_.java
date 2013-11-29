@@ -4,8 +4,9 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport_;
-import br.com.engenhodesoftware.util.people.domain.City;
+import org.feees.sigme.people.domain.City;
+
+import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport_;
 
 /**
  * Meta-model for the Regional domain class, which allows DAOs to perform programmatic queries involving this class

@@ -8,7 +8,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
+import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
  * The configuration of the tool. Stores global information that Sigme needs to operate.

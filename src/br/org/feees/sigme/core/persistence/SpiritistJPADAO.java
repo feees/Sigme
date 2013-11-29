@@ -13,12 +13,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO;
-import br.com.engenhodesoftware.util.people.domain.Person_;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
+import org.feees.sigme.people.domain.Person_;
+
 import br.org.feees.sigme.core.domain.Spiritist;
 import br.org.feees.sigme.core.domain.Spiritist_;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Stateless session bean implementing a DAO for objects of the Spiritist domain class using JPA2.
@@ -43,20 +44,20 @@ public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistD
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
 	public Class<Spiritist> getDomainClass() {
 		return Spiritist.class;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
 
 	/**
-	 * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder,
+	 * @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder,
 	 *      javax.persistence.criteria.Root)
 	 */
 	@Override

@@ -15,16 +15,16 @@ import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
 
-import br.com.engenhodesoftware.util.ejb3.application.ListingService;
-import br.com.engenhodesoftware.util.ejb3.application.filters.Criterion;
-import br.com.engenhodesoftware.util.ejb3.application.filters.CriterionType;
-import br.com.engenhodesoftware.util.ejb3.application.filters.Filter;
-import br.com.engenhodesoftware.util.ejb3.application.filters.MultipleChoiceFilter;
-import br.com.engenhodesoftware.util.ejb3.controller.ListingController;
 import br.org.feees.sigme.secretariat.application.InvalidMailingException;
 import br.org.feees.sigme.secretariat.application.SendMailingService;
 import br.org.feees.sigme.secretariat.domain.EmailDelivery;
 import br.org.feees.sigme.secretariat.domain.Mailing;
+import br.ufes.inf.nemo.util.ejb3.application.ListingService;
+import br.ufes.inf.nemo.util.ejb3.application.filters.Criterion;
+import br.ufes.inf.nemo.util.ejb3.application.filters.CriterionType;
+import br.ufes.inf.nemo.util.ejb3.application.filters.Filter;
+import br.ufes.inf.nemo.util.ejb3.application.filters.MultipleChoiceFilter;
+import br.ufes.inf.nemo.util.ejb3.controller.ListingController;
 
 /**
  * TODO: document this type.
@@ -63,13 +63,13 @@ public class ViewMailingReportController extends ListingController<EmailDelivery
 	/** TODO: document this field. */
 	private long lastUpdate;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.ListingController#getListingService() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.ListingController#getListingService() */
 	@Override
 	protected ListingService<EmailDelivery> getListingService() {
 		return sendMailingService;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.ListingController#initFilters() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.ListingController#initFilters() */
 	@Override
 	protected void initFilters() {
 		// Creates filters for displaying the detailed status: total, sent, error, pending.

@@ -10,9 +10,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO;
 import br.org.feees.sigme.core.domain.InstitutionType;
 import br.org.feees.sigme.core.domain.InstitutionType_;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 
 /**
  * Stateless session bean implementing a DAO for objects of the InstitutionType domain class using JPA2.
@@ -34,19 +34,19 @@ public class InstitutionTypeJPADAO extends BaseJPADAO<InstitutionType> implement
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
 	public Class<InstitutionType> getDomainClass() {
 		return InstitutionType.class;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder, javax.persistence.criteria.Root) */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getOrderList(javax.persistence.criteria.CriteriaBuilder, javax.persistence.criteria.Root) */
 	@Override
 	protected List<Order> getOrderList(CriteriaBuilder cb, Root<InstitutionType> root) {
 		// Orders by type (the name of the type).

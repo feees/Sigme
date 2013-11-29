@@ -14,7 +14,6 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO;
 import br.org.feees.sigme.core.domain.Attendance;
 import br.org.feees.sigme.core.domain.Attendance_;
 import br.org.feees.sigme.core.domain.Institution;
@@ -28,6 +27,7 @@ import br.org.feees.sigme.secretariat.domain.MailingAddressee;
 import br.org.feees.sigme.secretariat.domain.MailingAddresseeScope;
 import br.org.feees.sigme.secretariat.domain.RegionalMailingAddressee;
 import br.org.feees.sigme.secretariat.domain.RegionalMailingAddressee_;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 
 /**
  * Stateless session bean implementing a DAO for objects of the MailingAddressee domain class using JPA2.
@@ -52,13 +52,13 @@ public class MailingAddresseeJPADAO extends BaseJPADAO<MailingAddressee> impleme
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO#getDomainClass() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO#getDomainClass() */
 	@Override
 	public Class<MailingAddressee> getDomainClass() {
 		return MailingAddressee.class;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO#getEntityManager() */
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;

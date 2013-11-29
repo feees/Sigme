@@ -9,14 +9,14 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 
-import br.com.engenhodesoftware.util.ejb3.application.CrudException;
-import br.com.engenhodesoftware.util.ejb3.application.CrudOperation;
-import br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean;
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
 import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.persistence.InstitutionDAO;
+import br.ufes.inf.nemo.util.ejb3.application.CrudException;
+import br.ufes.inf.nemo.util.ejb3.application.CrudOperation;
+import br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Stateless session bean implementing the "Manage Institutions" use case component. See the implemented interface
@@ -42,25 +42,25 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 	@EJB
 	private CoreInformation coreInformation;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#createNewEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean#createNewEntity() */
 	@Override
 	protected Institution createNewEntity() {
 		return new Institution();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#getDAO() */
+	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudService#getDAO() */
 	@Override
 	public BaseDAO<Institution> getDAO() {
 		return institutionDAO;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#authorize() */
+	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean#authorize() */
 	@Override
 	public void authorize() {
 		// Overridden to implement authorization. @RolesAllowed is placed in the whole class.
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#validateCreate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean#validateCreate(br.ufes.inf.nemo.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void validateCreate(Institution entity) throws CrudException {
 		// Possibly throwing a CRUD Exception to indicate validation error.
@@ -89,7 +89,7 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 			throw crudException;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#validateUpdate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean#validateUpdate(br.ufes.inf.nemo.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void validateUpdate(Institution entity) throws CrudException {
 		// Possibly throwing a CRUD Exception to indicate validation error.
@@ -118,7 +118,7 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 			throw crudException;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#validate(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean#validate(br.ufes.inf.nemo.util.ejb3.persistence.PersistentObject, br.ufes.inf.nemo.util.ejb3.persistence.PersistentObject) */
 	@Override
 	protected Institution validate(Institution newEntity, Institution oldEntity) {
 		// Sets the current date/time as last update date of the institution.
@@ -127,7 +127,7 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 		return newEntity;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#update(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean#update(br.ufes.inf.nemo.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public void update(Institution entity) {
 		// Calls the method in the superclass to update the institution.
@@ -142,7 +142,7 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 		}
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean#log(br.ufes.inf.nemo.util.ejb3.application.CrudOperation, br.ufes.inf.nemo.util.ejb3.persistence.PersistentObject) */
 	@Override
 	protected void log(CrudOperation operation, Institution entity) {
 		switch (operation) {
@@ -162,7 +162,7 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 		}
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudServiceBean#log(br.com.engenhodesoftware.util.ejb3.application.CrudOperation, java.util.List, int[]) */
+	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean#log(br.ufes.inf.nemo.util.ejb3.application.CrudOperation, java.util.List, int[]) */
 	@Override
 	protected void log(CrudOperation operation, List<Institution> entities, int ... interval) {
 		switch (operation) {
@@ -174,7 +174,7 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 		}
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.application.CrudService#fetchLazy(br.com.engenhodesoftware.util.ejb3.persistence.PersistentObject) */
+	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudService#fetchLazy(br.ufes.inf.nemo.util.ejb3.persistence.PersistentObject) */
 	@Override
 	public Institution fetchLazy(Institution entity) {
 		// Loads the telephones collection, which is lazy.

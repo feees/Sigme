@@ -10,22 +10,23 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import br.com.engenhodesoftware.util.ejb3.application.CrudService;
-import br.com.engenhodesoftware.util.ejb3.application.filters.Criterion;
-import br.com.engenhodesoftware.util.ejb3.application.filters.CriterionType;
-import br.com.engenhodesoftware.util.ejb3.application.filters.LikeFilter;
-import br.com.engenhodesoftware.util.ejb3.application.filters.ManyToManyFilter;
-import br.com.engenhodesoftware.util.ejb3.controller.CrudController;
-import br.com.engenhodesoftware.util.people.domain.Address;
-import br.com.engenhodesoftware.util.people.domain.City;
-import br.com.engenhodesoftware.util.people.domain.ContactType;
-import br.com.engenhodesoftware.util.people.domain.Telephone;
-import br.com.engenhodesoftware.util.people.persistence.CityDAO;
+import org.feees.sigme.people.domain.Address;
+import org.feees.sigme.people.domain.City;
+import org.feees.sigme.people.domain.ContactType;
+import org.feees.sigme.people.domain.Telephone;
+import org.feees.sigme.people.persistence.CityDAO;
+
 import br.org.feees.sigme.core.application.ManageSpiritistsService;
 import br.org.feees.sigme.core.domain.Attendance;
 import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.Spiritist;
 import br.org.feees.sigme.core.persistence.InstitutionDAO;
+import br.ufes.inf.nemo.util.ejb3.application.CrudService;
+import br.ufes.inf.nemo.util.ejb3.application.filters.Criterion;
+import br.ufes.inf.nemo.util.ejb3.application.filters.CriterionType;
+import br.ufes.inf.nemo.util.ejb3.application.filters.LikeFilter;
+import br.ufes.inf.nemo.util.ejb3.application.filters.ManyToManyFilter;
+import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the
@@ -71,7 +72,7 @@ public class ManageSpiritistsController extends CrudController<Spiritist> {
 	/** Input: the new password to set. */
 	private String newPassword;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#getCrudService() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<Spiritist> getCrudService() {
 		// Checks if the current user has the authorization to use this functionality.
@@ -80,7 +81,7 @@ public class ManageSpiritistsController extends CrudController<Spiritist> {
 		return manageSpiritistsService;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#createNewEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#createNewEntity() */
 	@Override
 	protected Spiritist createNewEntity() {
 		logger.log(Level.FINER, "Initializing an empty spiritist...");
@@ -96,7 +97,7 @@ public class ManageSpiritistsController extends CrudController<Spiritist> {
 		return newEntity;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#checkSelectedEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#checkSelectedEntity() */
 	@Override
 	protected void checkSelectedEntity() {
 		logger.log(Level.FINER, "Checking selected spiritist ({0})...", selectedEntity);
@@ -116,7 +117,7 @@ public class ManageSpiritistsController extends CrudController<Spiritist> {
 		attendances = new ArrayList<Attendance>(selectedEntity.getAttendances());
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#initFilters() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#initFilters() */
 	@Override
 	protected void initFilters() {
 		logger.log(Level.FINER, "Initializing filter types...");
@@ -128,7 +129,7 @@ public class ManageSpiritistsController extends CrudController<Spiritist> {
 		addFilter(new ManyToManyFilter("manageSpiritists.filter.byInactiveAttendance", "attendances", getI18nMessage("msgsCore", "manageSpiritists.text.filter.byInactiveAttendance"), "institution.name, institution.acronym", true, new Criterion("endDate", CriterionType.IS_NOT_NULL)));
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#prepEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#prepEntity() */
 	@Override
 	protected void prepEntity() {
 		logger.log(Level.FINER, "Preparing spiritist for storage ({0})...", selectedEntity);
@@ -141,13 +142,13 @@ public class ManageSpiritistsController extends CrudController<Spiritist> {
 		selectedEntity.setAttendances(new TreeSet<Attendance>(attendances));
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#summarizeSelectedEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#summarizeSelectedEntity() */
 	@Override
 	protected String summarizeSelectedEntity() {
 		return (selectedEntity == null) ? "" : selectedEntity.getShortName();
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#listTrash() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#listTrash() */
 	@Override
 	protected String listTrash() {
 		// List the short names of the deleted spiritists.

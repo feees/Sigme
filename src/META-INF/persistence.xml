@@ -5,6 +5,7 @@
 	<persistence-unit name="Sigme">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:/jboss/datasources/Sigme</jta-data-source>
+		<class>br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="update" />

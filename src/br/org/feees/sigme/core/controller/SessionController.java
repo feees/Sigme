@@ -16,11 +16,11 @@ import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuModel;
 
-import br.com.engenhodesoftware.util.ejb3.controller.JSFController;
 import br.org.feees.sigme.core.application.CoreInformation;
 import br.org.feees.sigme.core.application.LoginFailedException;
 import br.org.feees.sigme.core.application.SessionInformation;
 import br.org.feees.sigme.core.domain.Spiritist;
+import br.ufes.inf.nemo.util.ejb3.controller.JSFController;
 
 /**
  * Session-scoped managed bean that provides to web pages the login service, indication if the user is logged in, the

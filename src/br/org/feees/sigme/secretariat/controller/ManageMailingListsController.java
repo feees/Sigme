@@ -10,9 +10,6 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import br.com.engenhodesoftware.util.ejb3.application.CrudService;
-import br.com.engenhodesoftware.util.ejb3.application.filters.LikeFilter;
-import br.com.engenhodesoftware.util.ejb3.controller.CrudController;
 import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.Spiritist;
 import br.org.feees.sigme.core.persistence.InstitutionDAO;
@@ -24,6 +21,9 @@ import br.org.feees.sigme.secretariat.domain.MailingList;
 import br.org.feees.sigme.secretariat.domain.RegionalMailingAddressee;
 import br.org.feees.sigme.secretariat.domain.ScopedMailingAddressee;
 import br.org.feees.sigme.secretariat.domain.SpiritistMailingAddressee;
+import br.ufes.inf.nemo.util.ejb3.application.CrudService;
+import br.ufes.inf.nemo.util.ejb3.application.filters.LikeFilter;
+import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the
@@ -60,7 +60,7 @@ public class ManageMailingListsController extends CrudController<MailingList> {
 	/** Input: the addressee being added or edited. */
 	private MailingAddressee addressee;
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#getCrudService() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#getCrudService() */
 	@Override
 	protected CrudService<MailingList> getCrudService() {
 		// Checks if the current user has the authorization to use this functionality.
@@ -69,7 +69,7 @@ public class ManageMailingListsController extends CrudController<MailingList> {
 		return manageMailingListsService;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#createNewEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#createNewEntity() */
 	@Override
 	protected MailingList createNewEntity() {
 		logger.log(Level.FINER, "Initializing an empty mailing list...");
@@ -83,7 +83,7 @@ public class ManageMailingListsController extends CrudController<MailingList> {
 		return newEntity;
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#checkSelectedEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#checkSelectedEntity() */
 	@Override
 	protected void checkSelectedEntity() {
 		logger.log(Level.FINER, "Checking selected mailing list ({0})...", selectedEntity);
@@ -94,7 +94,7 @@ public class ManageMailingListsController extends CrudController<MailingList> {
 		addressees = new ArrayList<MailingAddressee>(selectedEntity.getAddressees());
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#initFilters() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#initFilters() */
 	@Override
 	protected void initFilters() {
 		logger.log(Level.FINER, "Initializing filter types...");
@@ -104,7 +104,7 @@ public class ManageMailingListsController extends CrudController<MailingList> {
 		addFilter(new LikeFilter("manageMailingLists.filter.byDescription", "description", getI18nMessage("secretariat", "manageMailingLists.text.filter.byDescription")));
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#prepEntity() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#prepEntity() */
 	@Override
 	protected void prepEntity() {
 		logger.log(Level.FINER, "Preparing mailing list for storage ({0})...", selectedEntity);
@@ -113,7 +113,7 @@ public class ManageMailingListsController extends CrudController<MailingList> {
 		selectedEntity.setAddressees(new TreeSet<MailingAddressee>(addressees));
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.controller.CrudController#listTrash() */
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#listTrash() */
 	@Override
 	protected String listTrash() {
 		// List the names of the deleted mailing lists.

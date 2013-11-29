@@ -14,12 +14,12 @@ import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.engenhodesoftware.util.ejb3.controller.JSFController;
 import br.org.feees.sigme.secretariat.application.InvalidMailingException;
 import br.org.feees.sigme.secretariat.application.SendMailingService;
 import br.org.feees.sigme.secretariat.domain.Mailing;
 import br.org.feees.sigme.secretariat.domain.MailingList;
 import br.org.feees.sigme.secretariat.persistence.MailingListDAO;
+import br.ufes.inf.nemo.util.ejb3.controller.JSFController;
 
 /**
  * Controller class responsible for mediating the communication between user interface and application service for the

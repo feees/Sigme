@@ -9,9 +9,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.convert.Converter;
 import javax.inject.Named;
 
-import br.com.engenhodesoftware.util.ejb3.controller.PersistentObjectConverterFromId;
 import br.org.feees.sigme.secretariat.domain.MailingList;
 import br.org.feees.sigme.secretariat.persistence.MailingListDAO;
+import br.ufes.inf.nemo.util.ejb3.controller.PersistentObjectConverterFromId;
 
 /**
  * Application-scoped bean that centralizes controller information for the secretariat package. This bean differs from the

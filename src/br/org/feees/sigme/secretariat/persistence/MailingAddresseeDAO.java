@@ -4,10 +4,10 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
 import br.org.feees.sigme.secretariat.domain.InstitutionMailingAddressee;
 import br.org.feees.sigme.secretariat.domain.MailingAddressee;
 import br.org.feees.sigme.secretariat.domain.RegionalMailingAddressee;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
 
 /**
  * Interface for a DAO for objects of the MailingAddressee domain class.
@@ -17,7 +17,7 @@ import br.org.feees.sigme.secretariat.domain.RegionalMailingAddressee;
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @see br.org.feees.sigme.secretariat.domain.MailingAddressee
- * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO
+ * @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO
  */
 @Local
 public interface MailingAddresseeDAO extends BaseDAO<MailingAddressee> {

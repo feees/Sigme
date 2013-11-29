@@ -15,10 +15,9 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 
-import br.com.engenhodesoftware.util.ResourceUtil;
-import br.com.engenhodesoftware.util.people.domain.ContactType;
-import br.com.engenhodesoftware.util.people.persistence.ContactTypeDAO;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
+import org.feees.sigme.people.domain.ContactType;
+import org.feees.sigme.people.persistence.ContactTypeDAO;
+
 import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.InstitutionType;
 import br.org.feees.sigme.core.domain.Regional;
@@ -26,6 +25,8 @@ import br.org.feees.sigme.core.domain.SigmeConfiguration;
 import br.org.feees.sigme.core.persistence.InstitutionTypeDAO;
 import br.org.feees.sigme.core.persistence.RegionalDAO;
 import br.org.feees.sigme.core.persistence.SigmeConfigurationDAO;
+import br.ufes.inf.nemo.util.ResourceUtil;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Singleton bean that stores in memory information that is useful for the entire application, i.e., read-only

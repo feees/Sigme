@@ -8,8 +8,9 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport;
-import br.com.engenhodesoftware.util.people.domain.City;
+import org.feees.sigme.people.domain.City;
+
+import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
 /**
  * Domain class that represents administrative subdivisions of the state by the Spiritist Federation.
@@ -76,7 +77,7 @@ public class Regional extends PersistentObjectSupport implements Comparable<Regi
 		return number.compareTo(o.number);
 	}
 
-	/** @see br.com.engenhodesoftware.util.ejb3.persistence.PersistentObjectSupport#toString() */
+	/** @see br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport#toString() */
 	@Override
 	public String toString() {
 		return name;

@@ -2,11 +2,12 @@ package br.org.feees.sigme.core.persistence;
 
 import javax.ejb.Local;
 
-import br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO;
-import br.com.engenhodesoftware.util.people.domain.City;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.MultiplePersistentObjectsFoundException;
-import br.com.engenhodesoftware.util.people.persistence.exceptions.PersistentObjectNotFoundException;
+import org.feees.sigme.people.domain.City;
+
 import br.org.feees.sigme.core.domain.Regional;
+import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 
 /**
  * Interface for a DAO for objects of the Regional domain class.
@@ -16,7 +17,7 @@ import br.org.feees.sigme.core.domain.Regional;
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  * @see br.org.feees.sigme.core.domain.Regional
- * @see br.com.engenhodesoftware.util.ejb3.persistence.BaseDAO
+ * @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO
  */
 @Local
 public interface RegionalDAO extends BaseDAO<Regional> {
