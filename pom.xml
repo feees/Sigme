@@ -1,18 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>br.org.feees</groupId>
-  <artifactId>sigme</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>war</packaging>
-  <name>Sigme</name>
-  <description>Sistema de Informação Gerencial do Movimento Espírita</description>
-  <repositories>
-    <repository>  
-      <id>prime-repo</id>  
-      <name>PrimeFaces Maven Repository</name>  
-      <url>http://repository.primefaces.org</url>  
-      <layout>default</layout>  
-    </repository>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>br.org.feees</groupId>
+	<artifactId>sigme</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>Sigme</name>
+	<description>Sistema de Informação Gerencial do Movimento Espírita</description>
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
 		<repository>
 			<releases>
 				<enabled>true</enabled>
@@ -21,59 +22,59 @@
 			</releases>
 			<id>br.ufes.inf.nemo</id>
 			<name>Nemo Maven Repository</name>
-			<url>http://www.inf.ufes.br/~vitorsouza/maven</url>
+			<url>http://dev.nemo.inf.ufes.br/maven2</url>
 			<layout>default</layout>
 		</repository>
-  </repositories>
-  <dependencies>
-    <dependency>  
-      <groupId>org.primefaces</groupId>  
-      <artifactId>primefaces</artifactId>  
-      <version>4.0</version>
-    </dependency>  
-    <dependency>  
-      <groupId>org.primefaces.themes</groupId>  
-      <artifactId>start</artifactId>  
-      <version>1.0.10</version>
-    </dependency>
-    <dependency>
-    	<groupId>br.ufes.inf.nemo</groupId>
-    	<artifactId>nemo-utils-java</artifactId>
-    	<version>1.0</version>
-    </dependency>
-    <dependency>
-    	<groupId>br.ufes.inf.nemo</groupId>
-    	<artifactId>nemo-utils-jee-wp</artifactId>
-    	<version>1.0</version>
-    </dependency>
-  </dependencies>
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <resources>
-      <resource>
-        <directory>src</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
-        <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>2.3</version>
-        <configuration>
-          <warSourceDirectory>WebContent</warSourceDirectory>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>start</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+		<dependency>
+			<groupId>br.ufes.inf.nemo</groupId>
+			<artifactId>nemo-utils-java</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.ufes.inf.nemo</groupId>
+			<artifactId>nemo-utils-jee-wp</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

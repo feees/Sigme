@@ -42,7 +42,7 @@ import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoun
  * Controller class responsible for mediating the communication between user interface and application service for the
  * use case "Manage Institutions".
  * 
- * This use case is a CRUD and, thus, the controller also uses the mini CRUD framework for EJB3..
+ * This use case is a CRUD and, thus, the controller also uses the mini CRUD framework for EJB3.
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
