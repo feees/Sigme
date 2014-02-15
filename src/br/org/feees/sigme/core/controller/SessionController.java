@@ -176,11 +176,17 @@ public class SessionController extends JSFController {
 				menu.addElement(item);
 			}
 			else {
-				logger.log(Level.FINE, "User is not logged in. Login menu item to be added.");
+				logger.log(Level.FINE, "User is not logged in. Login/registration menu items to be added.");
 				item = new DefaultMenuItem();
 				item.setValue(getI18nMessage("msgs", "menu.access.login"));
 				item.setIcon("menuAccessLogin");
 				item.setUrl("/login.faces");
+				menu.addElement(item);
+				
+				item = new DefaultMenuItem();
+				item.setValue(getI18nMessage("msgsCore", "core.menu.register"));
+				item.setIcon("menuCoreRegister");
+				item.setCommand("#{registerController.begin}");
 				menu.addElement(item);
 			}
 
@@ -222,6 +228,7 @@ public class SessionController extends JSFController {
 //				menu.getChildren().add(item);
 			}
 		}
+		
 		// If the system hasn't been installed yet, show the System Installation sub-menu.
 		else {
 			logger.log(Level.FINE, "The system is not yet installed. System installation menu to be added.");

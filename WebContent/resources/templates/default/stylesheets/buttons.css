@@ -9,6 +9,7 @@
 /* MENU ITEMS */
 .menuAccessLogin 					{ background-image: url(/Sigme/resources/templates/default/icons/menu-access-login.png) !important; }
 .menuAccessLogout 					{ background-image: url(/Sigme/resources/templates/default/icons/menu-access-logout.png) !important; }
+.menuCoreRegister				 	{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-register.png) !important; }
 .menuCoreCrudsManageInstitutions 	{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-manageInstitutions.png) !important; }
 .menuCoreCrudsManageSpiritists 		{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-manageSpiritists.png) !important; }
 .menuCoreInstallSystem 				{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-installSystem-install.png) !important; }

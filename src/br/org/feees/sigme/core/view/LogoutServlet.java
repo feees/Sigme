@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * A servlet that serves to invalidate the user's session and, therefore, log her out of the system.
@@ -29,7 +30,8 @@ public class LogoutServlet extends HttpServlet {
 		logger.log(Level.FINER, "Invalidating a user session...");
 		
 		// Destroys the session for this user.
-		request.getSession(false).invalidate();
+		HttpSession session = request.getSession(false);
+		if (session != null) session.invalidate();
 
 		// Redirects back to the initial page.
 		response.sendRedirect(request.getContextPath());

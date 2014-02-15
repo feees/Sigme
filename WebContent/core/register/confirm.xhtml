@@ -1,0 +1,54 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title"><h:outputText value="#{msgsCore['register.title']}" /></ui:define>
+
+	<ui:define name="body">
+		<h1><h:outputText value="#{msgsCore['register.title']}" /></h1>
+		
+		<p><h:outputFormat value="#{msgsCore['register.text.instructions.enterConfirmationCode']}" escape="false"><f:param value="#{registerController.emailConfirmation.email}" /></h:outputFormat></p>
+
+		<p><h:outputText value="#{msgsCore['register.text.instructions.confirmationCodeNotReceived']}" /></p>
+
+		<div class="crud">
+			<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+				<h:form id="form">
+					<p:hotkey bind="#{msgs['crud.hotkey.focusFirstField']}" handler="findObjectById('form:confirmationCode').focus();" />
+					
+					<h:panelGroup id="confirmationCodeField">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:confirmationCode" />
+							<ui:param name="tooltip" value="#{msgsCore['register.form.confirmationCode.tooltip']}" />
+							<ui:define name="label"><h:outputText value="#{msgsCore['register.form.confirmationCode']}" /></ui:define>
+							<p:inputText id="confirmationCode" value="#{registerController.confirmationCode}" size="40" required="true" validatorMessage="#{msgs['regex.confirmationCode.message']}">
+								<f:validateRegex pattern="#{msgs['regex.confirmationCode']}" />
+								<p:ajax event="blur" update="confirmationCodeField" />
+							</p:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+						<p:commandButton action="#{registerController.cancel}" value="#{msgs['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
+						<p:commandButton action="#{registerController.verify}" value="#{msgsCore['register.button.verify']}" icon="buttonOk" update=":form :globalMessages" />
+						<p:hotkey bind="#{msgs['crud.hotkey.cancel']}" action="#{registerController.cancel}" immediate="true" />
+						<p:hotkey bind="#{msgsCore['register.hotkey.verify']}" action="#{registerController.verify}" update=":form :globalMessages" />
+					</ui:decorate>
+				</h:form>
+			</ui:decorate>
+		</div>
+	</ui:define>
+	
+	<ui:define name="help">
+		<h4><h:outputText value="#{msgs['text.hotkeys']}" />:</h4>
+		<ul>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.focusFirstField']}" /></b>: <h:outputText value="#{msgs['crud.help.hotkeys.focusFirstField']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.cancel']}" /></b>: <h:outputText value="#{msgs['crud.help.hotkeys.cancel']}" />;</li>
+			<li><b><h:outputText value="#{msgsCore['register.hotkey.verify']}" /></b>: <h:outputText value="#{msgsCore['register.help.hotkey.verify']}" />.</li>
+		</ul>
+	</ui:define>
+</ui:composition>
