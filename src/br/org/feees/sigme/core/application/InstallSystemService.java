@@ -5,7 +5,9 @@ import java.io.Serializable;
 import javax.ejb.Local;
 
 import br.org.feees.sigme.core.domain.Institution;
+import br.org.feees.sigme.core.domain.SigmeConfiguration;
 import br.org.feees.sigme.core.domain.Spiritist;
+import br.org.feees.sigme.core.exceptions.SystemInstallFailedException;
 
 /**
  * Local EJB interface for the "Install System" use case.
@@ -26,9 +28,11 @@ public interface InstallSystemService extends Serializable {
 	 *          administrator.
 	 * @param owner
 	 *          The institution that owns this Sigme instance.
+	 * @param config
+	 *          System configuration information.
 	 * 
 	 * @throws SystemInstallFailedException
 	 *           If any failure occurs during system installation (e.g., missing data file).
 	 */
-	void installSystem(Spiritist administrator, Institution owner) throws SystemInstallFailedException;
+	void installSystem(Spiritist administrator, Institution owner, SigmeConfiguration config) throws SystemInstallFailedException;
 }

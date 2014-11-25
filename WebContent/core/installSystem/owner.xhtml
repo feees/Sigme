@@ -45,7 +45,7 @@
 					</h:panelGroup>
 
 					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-						<p:commandButton action="#{installSystemController.registerOwnerInstitution}" value="#{msgsCore['installSystem.button.registerOwnerInstitution']}" icon="buttonOk" onclick="waitDialog.show()" oncomplete="waitDialog.hide()" update=":globalMessages form" />
+						<p:commandButton action="#{installSystemController.registerOwnerInstitution}" value="#{msgsCore['installSystem.button.registerOwnerInstitution']}" icon="buttonOk" update=":globalMessages form" />
 					</ui:decorate>
 				</h:form>
 			</ui:decorate>

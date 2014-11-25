@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.ejb.Local;
 
 import br.org.feees.sigme.core.domain.Spiritist;
+import br.org.feees.sigme.core.exceptions.LoginFailedException;
 
 /**
  * Local EJB interface for the session information component. This bean is responsible for storing information on each

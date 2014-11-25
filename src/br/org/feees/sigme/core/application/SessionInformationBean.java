@@ -11,6 +11,7 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 
 import br.org.feees.sigme.core.domain.Spiritist;
+import br.org.feees.sigme.core.exceptions.LoginFailedException;
 import br.org.feees.sigme.core.persistence.SpiritistDAO;
 import br.ufes.inf.nemo.util.TextUtils;
 import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;

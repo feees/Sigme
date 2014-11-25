@@ -10,25 +10,30 @@
 		<p><h:outputText value="#{msgs['text.welcome']}" /></p>
 		
 		
-		
-		<h2><h:outputText value="#{msgs['title.about']}" /></h2>
-		
-		<p><h:outputText value="#{msgs['text.welcome.about']}" /><a href='https://github.com/vitorsouza/Sigme/'>GitHub</a>.</p>
-
-		<p><h:outputText value="#{msgs['text.welcome.owner']}" /><strong>
-			<h:outputLink value="#{coreInfo.owner.webPage}" rendered="#{coreInfo.owner.webPage != null}"><h:outputText value="#{coreInfo.owner.name}" /></h:outputLink>
-			<h:outputText value="#{coreInfo.owner.name}" rendered="#{coreInfo.owner.webPage == null}" /></strong>
-			<h:outputText value=" (#{coreInfo.owner.acronym})." /></p>
+		<h:panelGroup rendered="#{coreInfo.owner != null}">
+			<h2><h:outputText value="#{msgs['title.about']}" /></h2>
 			
+			<p><h:outputText value="#{msgs['text.welcome.about']}" /><a href='https://github.com/vitorsouza/Sigme/'>GitHub</a>.</p>
+	
+			<p><h:outputText value="#{msgs['text.welcome.owner']}" /><strong>
+				<h:outputLink value="#{coreInfo.owner.webPage}" rendered="#{coreInfo.owner.webPage != null}"><h:outputText value="#{coreInfo.owner.name}" /></h:outputLink>
+				<h:outputText value="#{coreInfo.owner.name}" rendered="#{coreInfo.owner.webPage == null}" /></strong>
+				<h:outputText value=" (#{coreInfo.owner.acronym})." /></p>
 				
-		
-		<h2><h:outputText value="#{msgs['title.register']}" /></h2>
-		
-		<p><h:outputFormat value="#{msgs['text.welcome.register']}"><f:param value="Feees" /></h:outputFormat></p>
-		
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-
-		<h:form><p align="right"><h:commandLink action="#{sessionController.autoLogin}" value="(auto-login)" /></p></h:form>
+					
+			
+			<h2><h:outputText value="#{msgs['title.register']}" /></h2>
+			
+			<p><h:outputFormat value="#{msgs['text.welcome.register']}"><f:param value="#{coreInfo.owner.acronym}" /></h:outputFormat></p>
+			
+			<h:form id="registerButtonForm">
+				<p align="center"><p:commandButton action="#{registerController.begin}" value="#{msgs['button.register']}" icon="menuCoreRegister" /></p>
+			</h:form>
+			
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+	
+			<h:form><p align="right"><h:commandLink action="#{sessionController.autoLogin}" value="(auto-login)" /></p></h:form>
+		</h:panelGroup>
 	</ui:composition>
 </html>

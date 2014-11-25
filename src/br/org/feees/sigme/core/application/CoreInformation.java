@@ -22,6 +22,7 @@ import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.InstitutionType;
 import br.org.feees.sigme.core.domain.Regional;
 import br.org.feees.sigme.core.domain.SigmeConfiguration;
+import br.org.feees.sigme.core.exceptions.SystemNotConfiguredException;
 import br.org.feees.sigme.core.persistence.InstitutionTypeDAO;
 import br.org.feees.sigme.core.persistence.RegionalDAO;
 import br.org.feees.sigme.core.persistence.SigmeConfigurationDAO;
@@ -113,16 +114,28 @@ public class CoreInformation implements Serializable {
 	}
 
 	/** Getter for owner. */
-	public Institution getOwner() throws PersistentObjectNotFoundException {
+	public Institution getOwner() {
 		// If not done before, retrieves the owner.
-		if (owner == null) loadConfiguration();
+		try {
+			if (owner == null) loadConfiguration();
+		}
+		catch (SystemNotConfiguredException e) {
+			logger.log(Level.WARNING, "System is not installed. Directing to system installation.");
+			return null;
+		}
 		return owner;
 	}
 	
 	/** (Re)loads the configuration information. */
-	public void loadConfiguration() throws PersistentObjectNotFoundException {
-		SigmeConfiguration cfg = sigmeConfigurationDAO.retrieveCurrentConfiguration();
-		owner = cfg.getOwner();
+	public void loadConfiguration() throws SystemNotConfiguredException {
+		try {
+			SigmeConfiguration cfg = sigmeConfigurationDAO.retrieveCurrentConfiguration();
+			owner = cfg.getOwner();
+		}
+		catch (PersistentObjectNotFoundException e) {
+			logger.log(Level.WARNING, "Could not retrieve current system configuration! Is this the first time you run the system?");
+			throw new SystemNotConfiguredException(e);
+		}
 	}
 
 	/** Alias for isSystemInstalled(). */

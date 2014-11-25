@@ -11,9 +11,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.org.feees.sigme.core.application.InstallSystemService;
-import br.org.feees.sigme.core.application.SystemInstallFailedException;
 import br.org.feees.sigme.core.domain.Institution;
+import br.org.feees.sigme.core.domain.SigmeConfiguration;
 import br.org.feees.sigme.core.domain.Spiritist;
+import br.org.feees.sigme.core.exceptions.SystemInstallFailedException;
 import br.ufes.inf.nemo.util.ejb3.controller.JSFController;
 
 /**
@@ -51,9 +52,12 @@ public class InstallSystemController extends JSFController {
 
 	/** Input: the repeated password for the admininstrator registration. */
 	private String repeatPassword;
-	
+
 	/** Input: the institution that owns this Sigme installation. */
 	private Institution owner = new Institution();
+
+	/** Input: system configuration information. */
+	private SigmeConfiguration config = new SigmeConfiguration();
 
 	/** Getter for admin. */
 	public Spiritist getAdmin() {
@@ -85,6 +89,16 @@ public class InstallSystemController extends JSFController {
 		this.owner = owner;
 	}
 
+	/** Getter for config. */
+	public SigmeConfiguration getConfig() {
+		return config;
+	}
+
+	/** Setter for config. */
+	public void setConfig(SigmeConfiguration config) {
+		this.config = config;
+	}
+
 	/**
 	 * Analyzes the name that was given to the administrator and, if the short name field is still empty, suggests a value
 	 * for it based on the given name.
@@ -102,10 +116,10 @@ public class InstallSystemController extends JSFController {
 		}
 		else logger.log(Level.FINEST, "Short name not suggested: empty name or short name already filled (name is \"{0}\", short name is \"{1}\")", new Object[] { name, shortName });
 	}
-	
+
 	/**
 	 * Analyzes the name that was given for the institution and, if the acronym field is still empty, suggests a value for
-	 * it based on the given name. 
+	 * it based on the given name.
 	 * 
 	 * This method is intended to be used with AJAX.
 	 */
@@ -118,8 +132,7 @@ public class InstallSystemController extends JSFController {
 			StringBuilder acronymBuilder = new StringBuilder();
 			char[] chars = name.toCharArray();
 			for (char ch : chars)
-				if (Character.isUpperCase(ch))
-					acronymBuilder.append(ch);
+				if (Character.isUpperCase(ch)) acronymBuilder.append(ch);
 			owner.setAcronym(acronymBuilder.toString());
 
 			logger.log(Level.FINE, "Suggested \"{0}\" as acronym for \"{1}\"", new Object[] { owner.getAcronym(), name });
@@ -180,18 +193,30 @@ public class InstallSystemController extends JSFController {
 		// Proceeds to the next view.
 		return VIEW_PATH + "owner.xhtml?faces-redirect=true";
 	}
-	
+
 	/**
-	 * Registers the owner institution as one of the steps of system installation and ends the installation process.
+	 * Registers the owner institution as one of the steps of system installation.
 	 * 
 	 * @return The path to the web page that shows the next step in the installation process.
 	 */
 	public String registerOwnerInstitution() {
 		logger.log(Level.FINEST, "Received input data:\n\t- owner.name = {0}\n\t- owner.acronym = {1}", new Object[] { owner.getName(), owner.getAcronym() });
 
+		// Proceeds to the next view.
+		return VIEW_PATH + "smtp.xhtml?faces-redirect=true";
+	}
+
+	/**
+	 *  Saves the SMTP configuration information and ends the installation process.
+	 * 
+	 * @return The path to the web page that shows the next step in the installation process.
+	 */
+	public String saveSmtpConfig() {
+		logger.log(Level.FINEST, "Received input data:\n\t- config.smtpServerAddress = {0}\n\t- config.smtpServerPort = {1}\n\t- config.smtpUsername = {2}", new Object[] { config.getSmtpServerAddress(), config.getSmtpServerPort(), config.getSmtpUsername() });
+
 		// Installs the system.
 		try {
-			installSystemService.installSystem(admin, owner);
+			installSystemService.installSystem(admin, owner, config);
 		}
 		catch (SystemInstallFailedException e) {
 			logger.log(Level.SEVERE, "System installation threw exception", e);
@@ -204,7 +229,7 @@ public class InstallSystemController extends JSFController {
 
 		// Ends the conversation.
 		conversation.end();
-		
+
 		// Proceeds to the final view.
 		return VIEW_PATH + "done.xhtml?faces-redirect=true";
 	}

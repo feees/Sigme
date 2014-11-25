@@ -175,6 +175,6 @@ public class ViewMailingReportController extends ListingController<EmailDelivery
 		goFirst();
 		
 		// FIXME: apply a different title to the detailed status panel, depending on the filter.
-		String title = getI18nMessage("msgsSecretariat", "viewMailingReport.text.detailedStatus." + filter.getLabel());
+		//String title = getI18nMessage("msgsSecretariat", "viewMailingReport.text.detailedStatus." + filter.getLabel());
 	}
 }

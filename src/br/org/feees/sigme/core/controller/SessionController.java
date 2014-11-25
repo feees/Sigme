@@ -17,9 +17,9 @@ import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuModel;
 
 import br.org.feees.sigme.core.application.CoreInformation;
-import br.org.feees.sigme.core.application.LoginFailedException;
 import br.org.feees.sigme.core.application.SessionInformation;
 import br.org.feees.sigme.core.domain.Spiritist;
+import br.org.feees.sigme.core.exceptions.LoginFailedException;
 import br.ufes.inf.nemo.util.ejb3.controller.JSFController;
 
 /**

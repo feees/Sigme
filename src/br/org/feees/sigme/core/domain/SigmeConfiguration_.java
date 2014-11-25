@@ -18,4 +18,8 @@ import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport_;
 public class SigmeConfiguration_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<SigmeConfiguration, Date> creationDate;
 	public static volatile SingularAttribute<SigmeConfiguration, Institution> owner;
+	public static volatile SingularAttribute<SigmeConfiguration, String> smtpServerAddress;
+	public static volatile SingularAttribute<SigmeConfiguration, Integer> smtpServerPort;
+	public static volatile SingularAttribute<SigmeConfiguration, String> smtpUsername;
+	public static volatile SingularAttribute<SigmeConfiguration, String> smtpPassword;
 }

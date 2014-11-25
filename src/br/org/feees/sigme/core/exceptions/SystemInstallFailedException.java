@@ -1,4 +1,4 @@
-package br.org.feees.sigme.core.application;
+package br.org.feees.sigme.core.exceptions;
 
 /**
  * Application exception that represents the fact that the system installation process has failed to complete.

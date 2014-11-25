@@ -1,4 +1,4 @@
-package br.org.feees.sigme.core.application;
+package br.org.feees.sigme.core.exceptions;
 
 /**
  * Application exception that represents the fact that the spiritist could not be authenticated.

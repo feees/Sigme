@@ -29,6 +29,7 @@ import br.org.feees.sigme.core.domain.InstitutionType;
 import br.org.feees.sigme.core.domain.Regional;
 import br.org.feees.sigme.core.domain.SigmeConfiguration;
 import br.org.feees.sigme.core.domain.Spiritist;
+import br.org.feees.sigme.core.exceptions.SystemInstallFailedException;
 import br.org.feees.sigme.core.persistence.InstitutionDAO;
 import br.org.feees.sigme.core.persistence.InstitutionTypeDAO;
 import br.org.feees.sigme.core.persistence.RegionalDAO;
@@ -107,7 +108,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 *      br.org.feees.sigme.core.domain.Institution)
 	 */
 	@Override
-	public void installSystem(Spiritist admin, Institution owner) throws SystemInstallFailedException {
+	public void installSystem(Spiritist admin, Institution owner, SigmeConfiguration config) throws SystemInstallFailedException {
 		logger.log(Level.FINER, "Installing system...");
 
 		try {
@@ -145,7 +146,6 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			logger.log(Level.FINE, "The owner has been saved: {0} ({1})", new Object[] { owner.getName(), owner.getAcronym() });
 
 			// Sets the owner institution in Sigme's configuration.
-			SigmeConfiguration config = new SigmeConfiguration();
 			config.setCreationDate(now);
 			config.setOwner(owner);
 			logger.log(Level.FINER, "Persisting configuration data...\n\t- Date = {0}\n\t- Owner = {1}", new Object[] { config.getCreationDate(), config.getOwner().getName() });

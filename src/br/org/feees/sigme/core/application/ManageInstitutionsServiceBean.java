@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 
 import br.org.feees.sigme.core.domain.Institution;
+import br.org.feees.sigme.core.exceptions.SystemNotConfiguredException;
 import br.org.feees.sigme.core.persistence.InstitutionDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudException;
 import br.ufes.inf.nemo.util.ejb3.application.CrudOperation;
@@ -137,7 +138,7 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 		try {
 			if (coreInformation.getOwner().equals(entity)) coreInformation.loadConfiguration(); 
 		}
-		catch (PersistentObjectNotFoundException e) {
+		catch (SystemNotConfiguredException e) {
 			logger.log(Level.WARNING, "Checking if updated institution is owner to reload configuration threw an exception.", e); 
 		}
 	}

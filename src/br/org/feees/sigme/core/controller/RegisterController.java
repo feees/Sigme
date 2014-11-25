@@ -7,9 +7,10 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import br.org.feees.sigme.core.application.EmailAlreadyRegisteredException;
 import br.org.feees.sigme.core.application.RegisterService;
 import br.org.feees.sigme.core.domain.EmailConfirmation;
+import br.org.feees.sigme.core.exceptions.EmailAlreadyRegisteredException;
+import br.org.feees.sigme.core.exceptions.SystemNotConfiguredException;
 import br.ufes.inf.nemo.util.ejb3.controller.JSFController;
 
 /**
@@ -70,7 +71,7 @@ public class RegisterController extends JSFController {
 	 * 
 	 * @return The path to the web page that shows the next step of the registration process.
 	 */
-	public String send() {
+	public String send() throws SystemNotConfiguredException {
 		logger.log(Level.FINEST, "Sending confirmation code...");
 
 		// Verifies the e-mail address and sends the confirmation code.
@@ -84,7 +85,7 @@ public class RegisterController extends JSFController {
 		}
 
 		// Directs the user to the next step in the registration process.
-		return VIEW_PATH + "/confirm.xhtml?faces-redirect=true";
+		return VIEW_PATH + "confirm.xhtml?faces-redirect=true";
 	}
 
 	/**
@@ -98,7 +99,7 @@ public class RegisterController extends JSFController {
 		// FIXME: implement this.
 
 		// Directs the user to the next step in the registration process.
-		return VIEW_PATH + "/register.xhtml?faces-redirect=true";
+		return VIEW_PATH + "register.xhtml?faces-redirect=true";
 	}
 
 	/**
