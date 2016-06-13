@@ -2,6 +2,7 @@ package br.org.feees.sigme.core.domain;
 
 import java.util.Date;
 
+import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -29,4 +30,10 @@ public class Institution_ extends PersistentObjectSupport_ {
 	public static volatile SetAttribute<Institution, Telephone> telephones;
 	public static volatile SingularAttribute<Institution, InstitutionType> type;
 	public static volatile SingularAttribute<Institution, Date> lastUpdateDate;
+	
+	
+	public static volatile SingularAttribute<Institution, Management> management;
+	public static volatile ListAttribute<Institution, Management> managementHistory;
+	public static volatile ListAttribute<Institution, ManagementPosition> managementPositions;
+	
 }

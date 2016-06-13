@@ -1,10 +1,20 @@
 package br.org.feees.sigme.core.persistence;
 
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import br.org.feees.sigme.core.domain.Attendance;
+import br.org.feees.sigme.core.domain.Attendance_;
+import br.org.feees.sigme.core.domain.Spiritist;
+import br.org.feees.sigme.core.domain.Spiritist_;
 import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 
 /**
@@ -23,6 +33,8 @@ public class AttendanceJPADAO extends BaseJPADAO<Attendance> implements Attendan
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
+	private static final Logger logger = Logger.getLogger(AttendanceJPADAO.class.getCanonicalName());
+	
 	/** The application's persistent context provided by the application server. */
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -37,5 +49,24 @@ public class AttendanceJPADAO extends BaseJPADAO<Attendance> implements Attendan
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
+	}
+
+	@Override
+	public List<Attendance> retrieveByInstitution(Long institutionId) {
+		logger.log(Level.FINE, "Retrieving the attendance for the institution \"{0}\"...", institutionId);
+
+		// Constructs the query over the Spiritist class.
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Attendance> cq = cb.createQuery(Attendance.class);
+		Root<Attendance> root = cq.from(Attendance.class);
+
+		// Filters the query with the email.
+		cq.where(cb.equal(root.get(Attendance_.institution), institutionId));
+		
+		List<Attendance> list = entityManager.createQuery(cq).getResultList();
+		logger.log(Level.INFO, "Retrieve attendace by institutionId containing \"{0}\" returned \"{1}\" spiritists", new Object[] { institutionId, list.size()});
+		return list;
+		
+		
 	}
 }

@@ -20,10 +20,12 @@ import org.feees.sigme.people.persistence.ContactTypeDAO;
 
 import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.InstitutionType;
+import br.org.feees.sigme.core.domain.ManagementType;
 import br.org.feees.sigme.core.domain.Regional;
 import br.org.feees.sigme.core.domain.SigmeConfiguration;
 import br.org.feees.sigme.core.exceptions.SystemNotConfiguredException;
 import br.org.feees.sigme.core.persistence.InstitutionTypeDAO;
+import br.org.feees.sigme.core.persistence.ManagementTypeDAO;
 import br.org.feees.sigme.core.persistence.RegionalDAO;
 import br.org.feees.sigme.core.persistence.SigmeConfigurationDAO;
 import br.ufes.inf.nemo.util.ResourceUtil;
@@ -87,6 +89,11 @@ public class CoreInformation implements Serializable {
 	/** The list of regionals (cache of objects that don't change very often). */
 	private SortedSet<Regional> regionals;
 
+	@EJB
+	private ManagementTypeDAO managementTypeDAO;
+	
+	private SortedSet<ManagementType> managementTypes;
+	
 	/**
 	 * Initialization method for the core module.
 	 * 
@@ -209,4 +216,18 @@ public class CoreInformation implements Serializable {
 		}
 		return regionals;
 	}
+
+	public SortedSet<ManagementType> getManagementTypes() {
+		// If the regionals haven't yet been loaded, load them.
+		if (managementTypes == null) {
+			logger.log(Level.FINER, "Application-scoped set of managementTypes not yet initialized. Loading...");
+			managementTypes = new TreeSet<ManagementType>();
+			managementTypes.addAll(managementTypeDAO.retrieveAll());
+			logger.log(Level.INFO, "Loaded {0} managementTypes.", managementTypes.size());
+		}
+		return managementTypes;
+
+	
+	}
+
 }

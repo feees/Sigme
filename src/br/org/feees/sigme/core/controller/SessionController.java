@@ -197,7 +197,7 @@ public class SessionController extends JSFController {
 				/* Sub-menu: CRUDs (Core). */
 				menu = new DefaultSubMenu();
 				menu.setLabel(getI18nMessage("msgsCore", "core.menu.cruds"));
-				menuModel.addElement(menu);
+				menuModel.addElement(menu);	
 
 				// Menu item: Manage Institutions.
 				item = new DefaultMenuItem();
@@ -212,7 +212,44 @@ public class SessionController extends JSFController {
 				item.setIcon("menuCoreCrudsManageSpiritists");
 				item.setUrl("/core/manageSpiritists/list.faces");
 				menu.addElement(item);
+				
+				// Menu Item: Management Type
+				item = new DefaultMenuItem();
+				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.management.type"));
+				item.setIcon("menuCoreCrudsManagementType");
+				item.setUrl("/core/manageManagementType/list.faces");
+				menu.addElement(item);
+				
+				// Menu Item: Management
+				item = new DefaultMenuItem();
+				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.management"));
+				item.setIcon("menuCoreCrudsManagement");
+				item.setUrl("/core/manageManagement/list.faces");
+				menu.addElement(item);
 
+				/* Sub-menu: CRUDs (Events). */
+				menu = new DefaultSubMenu();
+				menu.setLabel(getI18nMessage("msgsEvent", "event.menu.cruds.manageEvents"));
+				menuModel.addElement(menu);	
+				/*
+				 * rodrigo.pimenta
+				 * Inserção de item para inserir eventos
+				 */
+				// Menu item: Manage Events.
+				item = new DefaultMenuItem();
+				item.setValue(getI18nMessage("msgsEvent", "event.menu.cruds.listEvents"));
+				item.setIcon("menuCoreCrudsManageEvents");
+				item.setUrl("/event/manageEvents/list.faces");
+				menu.addElement(item);
+				
+				// Menu Item: My Events
+				item = new DefaultMenuItem();
+				item.setValue(getI18nMessage("msgsEvent", "event.menu.cruds.subscribes"));
+				item.setIcon("menuCoreCrudsSubscribes");
+				item.setUrl("/event/subscriber/list.faces");
+				menu.addElement(item);
+
+				
 				
 				/* Sub-menu: Mailing (Secretariat). */
 //				menu = new Submenu();
@@ -281,8 +318,10 @@ public class SessionController extends JSFController {
 
 	// Now that the system is going to be shared with others, how about identifying the 1st user and providing auto-login for her?
 	public String autoLogin() {
-		email = "vitorsouza@gmail.com";
-		password = "123";
+		//email = "vitorsouza@gmail.com";
+		//password = "123";
+		email = "rodrigopimenta2@gmail.com";
+		password = "Rodrigo";
 		return login();
 	}
 }

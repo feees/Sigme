@@ -312,6 +312,8 @@ public class ManageSpiritistsController extends CrudController<Spiritist> {
 	 */
 	public void newAttendance() {
 		attendance = new Attendance();
+		attendance.setSpiritist(selectedEntity);
+		attendance.setInstitution(new Institution());
 		logger.log(Level.FINEST, "Empty attendance created as selected attendance");
 	}
 	

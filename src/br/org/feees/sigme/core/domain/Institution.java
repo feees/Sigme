@@ -1,6 +1,7 @@
 package br.org.feees.sigme.core.domain;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -8,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -79,6 +81,21 @@ public class Institution extends PersistentObjectSupport implements Comparable<I
 	@NotNull
 	private Date lastUpdateDate;
 
+	/*
+	 * Gestão atualmente ativa na Instituição
+	 */
+	@OneToOne (mappedBy="institution")
+	private Management management;
+
+	/*
+	 * Histórica de gestões da instituição	
+	 */
+	@OneToMany 
+	private List<Management> managementHistory;
+	
+	@OneToMany (mappedBy="institution")
+	private List<ManagementPosition> managementPositions;
+	
 	/** Getter for name. */
 	public String getName() {
 		return name;
@@ -189,5 +206,29 @@ public class Institution extends PersistentObjectSupport implements Comparable<I
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public Management getManagement() {
+		return management;
+	}
+
+	public void setManagement(Management management) {
+		this.management = management;
+	}
+
+	public List<Management> getManagementHistory() {
+		return managementHistory;
+	}
+
+	public void setManagementHistory(List<Management> managementHistory) {
+		this.managementHistory = managementHistory;
+	}
+
+	public List<ManagementPosition> getManagementPositions() {
+		return managementPositions;
+	}
+
+	public void setManagementPositions(List<ManagementPosition> managementPositions) {
+		this.managementPositions = managementPositions;
 	}
 }

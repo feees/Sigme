@@ -101,7 +101,7 @@ public class SpiritistJPADAO extends BaseJPADAO<Spiritist> implements SpiritistD
 
 		// Returns the list of spiritists.
 		List<Spiritist> result = entityManager.createQuery(cq).getResultList();
-		logger.log(Level.INFO, "Retrieve spiritist by name containing \"{0}\" returned \"{1}\" spiritists", new Object[] { param, result.size() });
+		logger.log(Level.INFO, "Retrieve spiritist by name containing \"{0}\" returned \"{1}\" spiritists", new Object[] { param, result.size()});
 		return result;
 	}
 }

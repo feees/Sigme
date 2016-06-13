@@ -1,6 +1,7 @@
 package br.org.feees.sigme.core.domain;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -8,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -16,6 +18,8 @@ import javax.validation.constraints.Size;
 import org.feees.sigme.people.domain.Address;
 import org.feees.sigme.people.domain.Person;
 import org.feees.sigme.people.domain.Telephone;
+
+import br.org.feees.sigme.event.domain.Subscriber;
 
 /**
  * Domain class that represents spiritists, i.e., the users of the system.
@@ -69,6 +73,9 @@ public class Spiritist extends Person {
 	/** Institutions that the spiritist attend. */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "spiritist")
 	private Set<Attendance> attendances;
+	
+	@OneToMany (cascade = CascadeType.ALL, mappedBy="spiritist")
+	private List<Subscriber> subscribers;
 
 	/** The last time the data about the user was updated. */
 	@Temporal(TemporalType.TIMESTAMP)
@@ -79,6 +86,12 @@ public class Spiritist extends Person {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLoginDate;
 
+	@OneToOne 
+	private Management management;
+	
+	@OneToOne
+	private ManagementPosition managementPosition;
+		
 	/** Getter for shortName. */
 	public String getShortName() {
 		return shortName;
@@ -284,5 +297,13 @@ public class Spiritist extends Person {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public Management getManagement() {
+		return management;
+	}
+
+	public void setManagement(Management management) {
+		this.management = management;
 	}
 }

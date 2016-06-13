@@ -1,0 +1,361 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsCore['manageManagement.title.create']}"
+			rendered="#{(! manageManagementController.readOnly) and (manageManagementController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsCore['manageManagement.title.update']}"
+			rendered="#{(! manageManagementController.readOnly) and (manageManagementController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsCore['manageManagement.title.retrieve']}"
+			rendered="#{manageManagementController.readOnly}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<h1>
+			<h:outputText value="#{msgsCore['manageManagement.title.create']}"
+				rendered="#{(! manageManagementController.readOnly) and (manageManagementController.selectedEntity.id == null)}" />
+			<h:outputText value="#{msgsCore['manageManagement.title.update']}"
+				rendered="#{(! manageManagementController.readOnly) and (manageManagementController.selectedEntity.id != null)}" />
+			<h:outputText value="#{msgsCore['manageManagement.title.retrieve']}"
+				rendered="#{manageManagementController.readOnly}" />
+		</h1>
+
+		<div class="crud">
+			<ui:decorate
+				template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+				<h:form id="form">
+					<p:hotkey bind="#{msgs['crud.hotkey.focusFirstField']}"
+						handler="findObjectById('form:name').focus();" />
+
+					<!--  Management Name -->
+					<h:panelGroup id="nameField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:name" />
+							<ui:param name="tooltip"
+								value="#{msgsCore['manageManagement.form.name.tooltip']}" />
+							<ui:define name="label">
+								<h:outputText value="#{msgsCore['manageManagement.form.name']}" />
+							</ui:define>
+							<p:inputText id="name"
+								value="#{manageManagementController.selectedEntity.name}"
+								size="50" required="true"
+								disabled="#{manageManagementController.readOnly}">
+								<p:ajax event="blur" update="nameField" />
+							</p:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!--  Management Description -->
+					<h:panelGroup id="descriptionField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:description" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsCore['manageManagement.form.description']}" />
+							</ui:define>
+							<p:inputTextarea rows="10" cols="50" minQueryLength="10"
+								maxlength="500" id="description"
+								counterTemplate="{0} #{msgsCore['manageManagement.text.caracteresRemaining']}"
+								value="#{manageManagementController.selectedEntity.description}"
+								required="true" counter="descriptionDisplay"
+								disabled="#{manageManagementController.readOnly}">
+								<p:ajax event="blur" update="descriptionField" />
+							</p:inputTextarea>
+							<br />
+							<h:outputText id="descriptionDisplay" />
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!-- Management Type -->
+					<h:panelGroup id="typeField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:type" />
+							<ui:define name="label">
+								<h:outputText value="#{msgsCore['manageManagement.form.type']}" />
+							</ui:define>
+							<p:selectOneMenu id="type"
+								value="#{manageManagementController.selectedEntity.type}"
+								converter="#{coreController.managementTypeConverter}"
+								required="false"
+								disabled="#{manageManagementController.readOnly}">
+								<f:selectItem
+									itemLabel="#{msgsCore['manageManagement.form.type.blankOption']}"
+									itemValue="" />
+								<f:selectItems value="#{coreController.managementTypes}"
+									var="type" itemLabel="#{type.name}" itemValue="#{name}" />
+								<p:ajax event="blur" update="typeField" />
+							</p:selectOneMenu>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!-- Institution -->
+					<h:panelGroup id="institutionField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:institution" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsCore['manageManagement.form.institution']}" />
+							</ui:define>
+							<p:selectOneMenu id="institution"
+								value="#{manageManagementController.selectedEntity.institution}"
+								converter="#{coreController.institutionConverter}"
+								required="true"
+								disabled="#{manageManagementController.readOnly}">
+								<f:selectItem
+									itemLabel="#{msgsCore['manageManagement.form.institution.blankOption']}"
+									itemValue="" />
+								<f:selectItems value="#{manageInstitutionsController.entities}"
+									var="institution" itemLabel="#{institution.name}"
+									itemValue="#{name}" />
+								<p:ajax event="blur" update="institutionField"/>
+							</p:selectOneMenu>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<h2>
+						<h:outputText value="#{msgsCore['manageManagement.text.data']}" />
+						:
+					</h2>
+
+					<!-- Management's Initial Date -->
+					<h:panelGroup id="initialDateField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:initialDate" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsCore['manageManagement.form.initialDate']}" />
+							</ui:define>
+							<p:inputMask mask="#{msgs['format.date.primefaces']}"
+								id="initialDate"
+								value="#{manageManagementController.selectedEntity.initialDate}"
+								size="50" required="true"
+								disabled="#{manageManagementController.readOnly}">
+								<f:convertDateTime type="date"
+									pattern="#{msgs['format.date.java']}" />
+								<p:ajax event="blur" update="initialDateField" />
+								<h:outputText value=" (#{msgs['format.date.label']})" />
+							</p:inputMask>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!-- Management's Final Date -->
+					<h:panelGroup id="finalDateField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:finalDate" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsCore['manageManagement.form.finalDate']}" />
+							</ui:define>
+							<p:inputMask mask="#{msgs['format.date.primefaces']}"
+								id="finalDate"
+								value="#{manageManagementController.selectedEntity.finalDate}"
+								size="50" required="true"
+								disabled="#{manageManagementController.readOnly}">
+								<f:convertDateTime type="date"
+									pattern="#{msgs['format.date.java']}" />
+								<p:ajax event="blur" update="finalDateField" />
+								<h:outputText value=" (#{msgs['format.date.label']})" />
+							</p:inputMask>
+						</ui:decorate>
+					</h:panelGroup>
+
+
+					<!-- Management Position -->
+					<h2>
+						<h:outputText
+							value="#{msgsCore['manageManagementPosition.text.position']}" />
+						:
+					</h2>
+					<h:panelGroup id="managementPositionsField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield-novalidation.xhtml">
+							<ui:param name="fieldName" value="form:managementPositions" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsCore['manageManagementPosition.text.position']}" />
+							</ui:define>
+							<p:dataTable id="managementPositions"
+								value="#{manageManagementController.managementPositions}"
+								var="managePosition" rowKey="#{managePosition.uuid}"
+								selection="#{manageManagementController.managementPosition}"
+								selectionMode="single"
+								loadingMessage="#{msgs['text.ajax.loading']}"
+								emptyMessage="#{msgsCore['manageManagementPosition.text.noManagementPosition']}">
+
+								<p:column
+									headerText="#{msgsCore['manageManagementPosition.form.name']}">
+									<h:outputText value="#{managePosition.name}" />
+								</p:column>
+								<p:column
+									headerText="#{msgsCore['manageManagementPosition.form.spiritist']}">
+									<h:outputText value="#{managePosition.spiritist.name}" />
+								</p:column>
+
+								<p:ajax event="rowSelect"
+									update=":form:managementPositionButtons" />
+							</p:dataTable>
+							<h:panelGroup id="managementPositionButtons">
+								<div class="sigmeFormInternalButton">
+									<p:commandButton id="newManagementPositionButon"
+										action="#{manageManagementController.newManagementPosition}"
+										onsuccess="PF('managementPositionDialog').show()"
+										icon="buttonAdd"
+										title="#{msgsCore['manageManagementPosition.button.anotherPosition']}"
+										disabled="#{manageManagementController.readOnly or (manageManagementController.selectedEntity.institution == null)}"
+										update=":managementPositionForm" process="@this" />
+									<p:commandButton
+										onsuccess="PF('managementPositionDialog').show()"
+										icon="buttonEdit"
+										title="#{msgsCore['manageManagementPosition.button.editPosition']}"
+										disabled="#{manageManagementController.readOnly or (manageManagementController.managementPosition == null) or
+										(manageManagementController.selectedEntity.institution == null)}"
+										update=":managementPositionForm" process="@this" />
+									<p:commandButton
+										action="#{manageManagementController.resetManagementPosition}"
+										icon="buttonRemove"
+										title="#{msgsCore['manageManagementPosition.button.removePosition']}"
+										disabled="#{manageManagementController.readOnly or (manageManagementController.managementPosition == null) or
+										(manageManagementController.selectedEntity.institution == null)}"
+										process="@this" update="managementPositionsField	">
+										<p:collector
+											value="#{manageManagementController.managementPosition}"
+											removeFrom="#{manageManagementController.managementPositions}" />
+									</p:commandButton>
+								</div>
+							</h:panelGroup>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<ui:decorate
+						template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+						<h:panelGroup rendered="#{! manageManagementController.readOnly}">
+							<p:commandButton action="#{manageManagementController.list}"
+								value="#{msgs['crud.button.cancel']}" immediate="true"
+								icon="buttonCancel" />
+							<p:commandButton action="#{manageManagementController.save}"
+								value="#{msgs['crud.button.save']}" icon="buttonOk"
+								update=":form :globalMessages" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
+								action="#{manageManagementController.list}" immediate="true" />
+							<p:hotkey bind="#{msgs['crud.hotkey.save']}"
+								action="#{manageManagementController.save}"
+								update=":form :globalMessages" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{manageManagementController.readOnly}">
+							<p:commandButton action="#{manageManagementController.list}"
+								value="#{msgs['crud.button.back']}" immediate="true"
+								icon="buttonBack" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
+								action="#{manageManagementController.list}" immediate="true" />
+						</h:panelGroup>
+					</ui:decorate>
+				</h:form>
+			</ui:decorate>
+		</div>
+
+		<!-- Dialog with the new management position form. -->
+		<p:dialog
+			header="#{msgsCore['manageManagementPosition.text.newPosition']}"
+			widgetVar="managementPositionDialog" modal="true" width="680"
+			showEffect="fade" hideEffect="fade"
+			onshow="findObjectById('managementPositionForm:name').focus();"
+			position="top">
+			<div class="crud">
+				<ui:decorate
+					template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+					<h:form id="managementPositionForm">
+
+						<!-- Management Position name -->
+						<h:panelGroup id="nameField">
+							<ui:decorate
+								template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+								<ui:param name="fieldName" value="managementPositionForm:name" />
+								<ui:define name="label">
+									<h:outputText
+										value="#{msgsCore['manageManagementPosition.form.name']}" />
+								</ui:define>
+								<p:inputText id="name"
+									value="#{manageManagementController.managementPosition.name}"
+									size="50" required="true"
+									disabled="#{manageManagementController.readOnly}">
+									<p:ajax event="blur" update="nameField" />
+								</p:inputText>
+							</ui:decorate>
+						</h:panelGroup>
+
+						<!-- Spiritist Name association -->
+						<h:panelGroup id="spiritistField">
+							<ui:decorate
+								template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+								<ui:param name="fieldName"
+									value="managementPositionForm:spiritist" />
+								<ui:define name="label">
+									<h:outputText
+										value="#{msgsCore['manageManagementPosition.form.spiritist']}" />
+								</ui:define>
+								<p:selectOneMenu id="spiritist"
+									value="#{manageManagementController.managementPosition.spiritist}"
+									converter="#{coreController.spiritistConverter}"
+									required="true"
+									disabled="#{manageManagementController.readOnly}">
+									<f:selectItem
+										itemLabel="#{msgsCore['manageManagementPosition.form.spiritist.blankOption']}"
+										itemValue="" />
+									<f:selectItems
+										value="#{manageManagementController.attendances}"
+										var="attendance" itemLabel="#{attendance.spiritist.name}"
+										itemValue="#{attendance.spiritist}" />
+									<p:ajax update="spiritistField" />
+								</p:selectOneMenu>
+							</ui:decorate>
+						</h:panelGroup>
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+							<p:commandButton
+								action="#{manageManagementController.resetManagementPosition}"
+								onclick="managementPositionDialog.hide()"
+								value="#{msgs['crud.button.cancel']}" icon="buttonCancel" />
+							<p:commandButton
+								action="#{manageManagementController.resetManagementPosition}"
+								onclick="managementPositionDialog.hide()"
+								value="#{msgs['crud.button.save']}" icon="buttonOk"
+								process="@form" update=":form:managementPositionsField">
+								<p:collector
+									value="#{manageManagementController.managementPosition}"
+									addTo="#{manageManagementController.managementPositions}" />
+							</p:commandButton>
+						</ui:decorate>
+					</h:form>
+				</ui:decorate>
+			</div>
+		</p:dialog>
+	</ui:define>
+
+	<ui:define name="help">
+		<h4>
+			<h:outputText value="#{msgs['text.hotkeys']}" />
+			:
+		</h4>
+		<ul>
+			<li><b><h:outputText
+						value="#{msgs['crud.hotkey.focusFirstField']}" /></b>: <h:outputText
+					value="#{msgs['crud.help.hotkeys.focusFirstField']}" />;</li>
+			<li><b><h:outputText
+						value="#{msgs['crud.hotkey.backToList']}" /></b>: <h:outputText
+					value="#{msgs['crud.help.hotkeys.backToList']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.save']}" /></b>:
+				<h:outputText value="#{msgs['crud.help.hotkeys.save']}" />.</li>
+		</ul>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//src/META-INF/init-data/InstitutionType.data=UTF-8
+encoding//src/META-INF/init-data/Regional.data=UTF-8
+encoding//src/META-INF/init-data/State.data=UTF-8
+encoding//src/br/org/feees/sigme/core/domain/InstitutionType.java=UTF-8

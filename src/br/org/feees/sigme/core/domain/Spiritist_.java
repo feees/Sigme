@@ -2,6 +2,7 @@ package br.org.feees.sigme.core.domain;
 
 import java.util.Date;
 
+import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -9,6 +10,8 @@ import javax.persistence.metamodel.StaticMetamodel;
 import org.feees.sigme.people.domain.Address;
 import org.feees.sigme.people.domain.Person_;
 import org.feees.sigme.people.domain.Telephone;
+
+import br.org.feees.sigme.event.domain.Subscriber;
 
 /**
  * Meta-model for the Spiritist domain class, which allows DAOs to perform programmatic queries using JPA2's Criteria
@@ -26,6 +29,10 @@ public class Spiritist_ extends Person_ {
 	public static volatile SingularAttribute<Spiritist, Address> address;
 	public static volatile SetAttribute<Spiritist, Telephone> telephones;
 	public static volatile SetAttribute<Spiritist, Attendance> attendances;
+	public static volatile ListAttribute<Spiritist, Subscriber> subscribers;
 	public static volatile SingularAttribute<Spiritist, Date> lastUpdateDate;
 	public static volatile SingularAttribute<Spiritist, Date> lastLoginDate;
+	
+	public static volatile SingularAttribute<Spiritist, Management> management;
+	public static volatile SingularAttribute<Spiritist, ManagementPosition> managementPosition; 
 }

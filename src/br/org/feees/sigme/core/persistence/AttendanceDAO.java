@@ -1,5 +1,7 @@
 package br.org.feees.sigme.core.persistence;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.org.feees.sigme.core.domain.Attendance;
@@ -16,4 +18,8 @@ import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
  * @see br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO
  */
 @Local
-public interface AttendanceDAO extends BaseDAO<Attendance> {}
+public interface AttendanceDAO extends BaseDAO<Attendance> {
+
+	List<Attendance> retrieveByInstitution(Long institutionId);
+	
+}
