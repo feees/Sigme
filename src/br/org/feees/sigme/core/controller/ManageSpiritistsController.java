@@ -62,6 +62,8 @@ public class ManageSpiritistsController extends CrudController<Spiritist> {
 
 	/** Input: a telephone being added or edited. */
 	private Telephone telephone;
+	
+	private boolean disableTelephoneButton;
 
 	/** Output: the list of attendances. */
 	private List<Attendance> attendances;

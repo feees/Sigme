@@ -13,8 +13,6 @@ import javax.persistence.criteria.Root;
 
 import br.org.feees.sigme.core.domain.Attendance;
 import br.org.feees.sigme.core.domain.Attendance_;
-import br.org.feees.sigme.core.domain.Spiritist;
-import br.org.feees.sigme.core.domain.Spiritist_;
 import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 
 /**

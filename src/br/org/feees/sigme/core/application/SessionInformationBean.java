@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateful;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 
 import br.org.feees.sigme.core.domain.Spiritist;

@@ -17,13 +17,15 @@ import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjec
 import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 
 @Stateless
-public class SubscriberJPADAO extends BaseJPADAO<Subscriber> implements SubscriberDAO {
+public class SubscriberJPADAO extends BaseJPADAO<Subscriber> implements
+		SubscriberDAO {
 
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(SubscriberJPADAO.class.getCanonicalName());
+	private static final Logger logger = Logger
+			.getLogger(SubscriberJPADAO.class.getCanonicalName());
 
 	/**
 	 * The application's persistent context provided by the application server.
@@ -42,7 +44,8 @@ public class SubscriberJPADAO extends BaseJPADAO<Subscriber> implements Subscrib
 	}
 
 	public Subscriber retrieveBySpiritistAndEvent(Long spiritisId, Long eventId)
-			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException {
+			throws PersistentObjectNotFoundException,
+			MultiplePersistentObjectsFoundException {
 
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 
@@ -52,13 +55,14 @@ public class SubscriberJPADAO extends BaseJPADAO<Subscriber> implements Subscrib
 		cq.where(cb.equal(root.get(Subscriber_.spiritist), spiritisId));
 		cq.where(cb.equal(root.get(Subscriber_.event), eventId));
 
-		Subscriber subscriber = executeSingleResultQuery(cq, new Object[] { spiritisId, eventId });
-		logger.log(Level.INFO,
+		Subscriber subscriber = executeSingleResultQuery(cq, new Object[] {
+				spiritisId, eventId });
+		logger.log(
+				Level.INFO,
 				"Retrieve Subscriber by the Spiritist with id \"{0}\" to the event \"{1}\" returned \"{1}\"",
 				new Object[] { spiritisId, eventId, subscriber });
 
 		return subscriber;
 
 	}
-
 }

@@ -1,5 +1,6 @@
 package br.org.feees.sigme.event.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,10 +15,12 @@ import org.feees.sigme.people.domain.City;
 import org.feees.sigme.people.persistence.CityDAO;
 import org.primefaces.event.SelectEvent;
 
+import br.org.feees.sigme.core.application.SessionInformation;
 import br.org.feees.sigme.core.controller.CoreController;
 import br.org.feees.sigme.core.controller.SessionController;
 import br.org.feees.sigme.core.domain.Spiritist;
 import br.org.feees.sigme.event.application.ManageEventsService;
+import br.org.feees.sigme.event.application.SubscriberService;
 import br.org.feees.sigme.event.domain.Event;
 import br.org.feees.sigme.event.domain.Subscriber;
 import br.org.feees.sigme.event.persistence.EventDAO;
@@ -32,7 +35,8 @@ public class ManageEventsController extends CrudController<Event> {
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(ManageEventsController.class.getCanonicalName());
+	private static final Logger logger = Logger
+			.getLogger(ManageEventsController.class.getCanonicalName());
 
 	/** The "Manage Events" service */
 	@EJB
@@ -41,6 +45,8 @@ public class ManageEventsController extends CrudController<Event> {
 	@EJB
 	private EventDAO eventDAO;
 
+	/** Information on the current visitor. */	
+	
 	/** Information on the current visitor. */
 	@Inject
 	private SessionController sessionController;
@@ -81,8 +87,9 @@ public class ManageEventsController extends CrudController<Event> {
 				getI18nMessage("msgsCore", "manageEvents.text.filter.byName")));
 
 		// Filter Event by Institution
-		addFilter(new LikeFilter("manageEvents.filter.byInstitution", "institution",
-				getI18nMessage("msgsCore", "manageEvents.text.filter.byInstitution")));
+		addFilter(new LikeFilter("manageEvents.filter.byInstitution",
+				"institution", getI18nMessage("msgsCore",
+						"manageEvents.text.filter.byInstitution")));
 	}
 
 	/**
@@ -102,7 +109,8 @@ public class ManageEventsController extends CrudController<Event> {
 		// object so the regional is properly handled.
 		if (obj instanceof City) {
 			selectedEntity.getEventAddress().setCity((City) obj);
-			logger.log(Level.FINE, "City of event \"{0}\" has been set to \"{1}\"",
+			logger.log(Level.FINE,
+					"City of event \"{0}\" has been set to \"{1}\"",
 					new Object[] { selectedEntity, obj });
 		}
 		// setRegional();
@@ -124,31 +132,42 @@ public class ManageEventsController extends CrudController<Event> {
 		if (query.length() > 0) {
 			// Uses the DAO to find the query and returns.
 			List<City> cities = cityDAO.findByName(query);
-			logger.log(Level.FINE, "Suggestion for cities beginning with \"{0}\" returned {1} results",
+			logger.log(
+					Level.FINE,
+					"Suggestion for cities beginning with \"{0}\" returned {1} results",
 					new Object[] { query, cities.size() });
 			return cities;
 		}
 		return null;
 	}
 
-	public String subscribe() {
+	public String subscribe() throws Exception {
 		return subscribe(null);
 	}
 
-	private String subscribe(Long id) {
+	private String subscribe(Long id) throws Exception {
 		logger.log(Level.INFO, "Subscribe in event");
 
-		Subscriber s = new Subscriber();
-		
-		Event e = eventDAO.retrieveById(selectedEntity.getId());
-		s.setEvent(e);
-				
-		Spiritist currentUser = sessionController.getCurrentUser();
-		s.setSpiritist(currentUser);
-		
-		subscriberController.setSelectedEntity(s);
+		Subscriber subscriber = new Subscriber();
 
-		return "/core/subscriber/form.xhtml?faces-redirect=" + getFacesRedirect();
+		// Set the event as the selected
+		Event event = eventDAO.retrieveById(selectedEntity.getId());
+		subscriber.setEvent(event);
+
+		// Set the spiritist of the subscribe as the current user loged
+		Spiritist currentUser = sessionController.getCurrentUser();
+		if (currentUser != null) {
+
+			subscriber.setSpiritist(currentUser);
+
+			subscriber.setBadgeName(currentUser.getName());
+			subscriber.setSubscribeDate(new Date());
+
+			subscriberController.setSelectedEntity(subscriber);
+			return subscriberController.save();
+		} else {
+			throw new Exception("Current user cannot be null.");
+		}
 	}
 
 	public String manage() {
@@ -170,7 +189,8 @@ public class ManageEventsController extends CrudController<Event> {
 		}
 
 		// Goes to the form.
-		return getViewPath() + "manage.xhtml?faces-redirect=" + getFacesRedirect();
+		return getViewPath() + "manage.xhtml?faces-redirect="
+				+ getFacesRedirect();
 	}
 
 	public boolean isOwner() {
@@ -186,7 +206,8 @@ public class ManageEventsController extends CrudController<Event> {
 			return false;
 		}
 
-		return eventDAO.retrieveOwner(selectedEntity.getId(), currentUser.getId());
+		return eventDAO.retrieveOwner(selectedEntity.getId(),
+				currentUser.getId());
 	}
 
 	@Override

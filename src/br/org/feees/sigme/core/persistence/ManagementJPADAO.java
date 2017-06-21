@@ -10,11 +10,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.Management;
 import br.org.feees.sigme.core.domain.Management_;
-import br.org.feees.sigme.event.domain.Subscriber;
-import br.org.feees.sigme.event.domain.Subscriber_;
 import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;

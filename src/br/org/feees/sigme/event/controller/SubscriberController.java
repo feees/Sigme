@@ -1,5 +1,6 @@
 package br.org.feees.sigme.event.controller;
 
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,6 +9,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.org.feees.sigme.core.application.SessionInformation;
 import br.org.feees.sigme.core.controller.SessionController;
 import br.org.feees.sigme.core.domain.Spiritist;
 import br.org.feees.sigme.core.persistence.SpiritistDAO;
@@ -63,10 +65,8 @@ public class SubscriberController extends CrudController<Subscriber>{
 		logger.log(Level.FINER, "Preparing subscriber for storage ({0})...", selectedEntity);
 		
 		Spiritist currentUser = sessionController.getCurrentUser();
-		Event event = eventDAO.retrieveById(selectedEntity.getEvent().getId());
-		
-		selectedEntity.setEvent(event);
 		selectedEntity.setSpiritist(currentUser);
+		selectedEntity.setSubscribeDate(new Date());
 	}
 	
 	@Override
@@ -80,15 +80,4 @@ public class SubscriberController extends CrudController<Subscriber>{
 		logger.log(Level.INFO, "hello");
 		super.checkSelectedEntity();
 	}
-	
-	/*@Override
-	public Subscriber getSelectedEntity() {
-		if (selectedEntity == null) {
-			selectedEntity = new Subscriber();
-			selectedEntity.setEvent(new Event());
-			selectedEntity.setSpiritist(new Spiritist());
-		} else if (selectedEntity.getEvent())
-		
-		return selectedEntity;
-	}*/
 }

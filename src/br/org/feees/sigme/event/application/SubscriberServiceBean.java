@@ -1,5 +1,6 @@
 package br.org.feees.sigme.event.application;
 
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -7,9 +8,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 
-import com.sun.xml.internal.fastinfoset.stax.events.EntityDeclarationImpl;
-
-import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.Spiritist;
 import br.org.feees.sigme.event.domain.Event;
 import br.org.feees.sigme.event.domain.Subscriber;
@@ -43,6 +41,7 @@ public class SubscriberServiceBean extends CrudServiceBean<Subscriber> implement
 		Subscriber s = new Subscriber();
 		s.setEvent(new Event());
 		s.setSpiritist(new Spiritist());
+		s.setSubscribeDate(new Date());
 		
 		return s;
 	}
@@ -87,6 +86,8 @@ public class SubscriberServiceBean extends CrudServiceBean<Subscriber> implement
 			throw crudException;
 
 	}
+	
+	
 	
 	@Override
 	public Subscriber fetchLazy(Subscriber entity) {

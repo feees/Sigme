@@ -114,6 +114,16 @@
 								</f:convertDateTime>
 							</h:outputFormat>
 						</p:column>
+						
+						<!-- Subscribe date -->
+						<p:column
+							headerText="#{msgsEvent['subscriber.form.subscribeDate']}">
+							<h:outputFormat value="#{entity.subscribeDate}">
+								<f:convertDateTime type="date"
+									pattern="#{msgs['format.date.java']}">
+								</f:convertDateTime>
+							</h:outputFormat>
+						</p:column>
 
 						<!-- 						Register Initial date -->
 						<!-- 						<p:column -->

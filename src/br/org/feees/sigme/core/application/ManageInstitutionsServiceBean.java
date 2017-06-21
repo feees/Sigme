@@ -54,7 +54,7 @@ public class ManageInstitutionsServiceBean extends CrudServiceBean<Institution> 
 	public BaseDAO<Institution> getDAO() {
 		return institutionDAO;
 	}
-
+	
 	/** @see br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean#authorize() */
 	@Override
 	public void authorize() {
