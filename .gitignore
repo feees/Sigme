@@ -1,2 +1,7 @@
 build/
 /target
+/.settings/
+/.classpath
+/.factorypath
+/.project
+/.tern-project
