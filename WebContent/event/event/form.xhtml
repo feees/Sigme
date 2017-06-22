@@ -1,0 +1,420 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsEvent['event.title.create']}"
+			rendered="#{(! eventController.readOnly) and (eventController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsEvent['event.title.update']}"
+			rendered="#{(! eventController.readOnly) and (eventController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsEvent['event.title.retrieve']}"
+			rendered="#{eventController.readOnly}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<h1>
+			<h:outputText value="#{msgsEvent['event.title.create']}"
+				rendered="#{(! eventController.readOnly) and (eventController.selectedEntity.id == null)}" />
+			<h:outputText value="#{msgsEvent['event.title.update']}"
+				rendered="#{(! eventController.readOnly) and (eventController.selectedEntity.id != null)}" />
+			<h:outputText value="#{msgsEvent['event.title.retrieve']}"
+				rendered="#{eventController.readOnly}" />
+		</h1>
+
+		<div class="crud">
+			<ui:decorate
+				template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+				<h:form id="form">
+					<p:hotkey bind="#{msgs['crud.hotkey.focusFirstField']}"
+						handler="findObjectById('form:eventName').focus();" />
+
+					<!--  Event Name -->
+					<h:panelGroup id="eventNameField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:eventName" />
+							<ui:param name="tooltip"
+								value="#{msgsEvent['event.form.eventName.tooltip']}" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.eventName']}" />
+							</ui:define>
+							<p:inputText id="eventName"
+								value="#{eventController.selectedEntity.eventName}"
+								size="50" required="true"
+								disabled="#{eventController.readOnly}">
+								<p:ajax event="blur" update="eventNameField" />
+							</p:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!--  Event Description -->
+					<h:panelGroup id="eventDescriptionField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:eventDescription" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.eventDescription']}" />
+							</ui:define>
+							<p:inputTextarea rows="10" cols="50" minQueryLength="10"
+								maxlength="500" id="eventDescription"
+								counterTemplate="{0} #{msgsEvent['event.text.caracteresRemaining']}"
+								value="#{eventController.selectedEntity.eventDescription}"
+								required="true" counter="descriptionDisplay"
+								disabled="#{eventController.readOnly}">
+								<p:ajax event="blur" update="eventDescriptionField" />
+							</p:inputTextarea>
+							<br />
+							<h:outputText id="descriptionDisplay" />
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!--  Event Badge Name -->
+					<h:panelGroup id="eventBadgeNameField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:eventBadgeName" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.eventBadgeName']}" />
+							</ui:define>
+							<p:inputText id="eventBadgeName"
+								value="#{eventController.selectedEntity.eventBadgeName}"
+								size="50" required="false"
+								disabled="#{eventController.readOnly}">
+								<p:ajax event="blur" update="eventBadgeNameField" />
+							</p:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!-- Event Institution -->
+					<h:panelGroup id="eventInstitutionField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:eventInstitution" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.eventInstitution']}" />
+							</ui:define>
+							<p:selectOneMenu id="eventInstitution"
+								value="#{eventController.selectedEntity.institution}"
+								converter="#{coreController.institutionConverter}"
+								required="true" disabled="#{eventController.readOnly}">
+								<f:selectItem
+									itemLabel="#{msgsEvent['event.form.institution.blankOption']}"
+									itemValue="" />
+								<f:selectItems value="#{institutionController.entities}"
+									var="institution" itemLabel="#{institution.name}"
+									itemValue="#{name}" />
+								<p:ajax event="blur" update="eventInstitutionField" />
+							</p:selectOneMenu>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!-- Event's Spiritist Owner-->
+					<h:panelGroup id="eventSpiritistOwnerField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:eventSpiritistOwner" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.eventSpiritistOwner']}" />
+							</ui:define>
+							<p:selectOneMenu id="eventSpiritistOwner"
+								value="#{eventController.selectedEntity.spiritistOwner}"
+								converter="#{coreController.spiritistConverter}" required="true"
+								disabled="#{eventController.readOnly}">
+								<f:selectItem
+									itemLabel="#{msgsEvent['event.form.spiritist.blankOption']}"
+									itemValue="#{null}" />
+								<f:selectItems value="#{spiritistController.entities}"
+									var="spiritist" itemLabel="#{spiritist.name}"
+									itemValue="#{name}" />
+								<p:ajax event="blur" update="eventSpiritistOwnerField" />
+							</p:selectOneMenu>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!--  Additional Information -->
+					<h:panelGroup id="additionalInformationField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:additionalInformation" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.additionalInformation']}" />
+							</ui:define>
+							<p:inputTextarea rows="5" cols="50" minQueryLength="10"
+								maxlength="200" id="additionalInformation"
+								counterTemplate="{0} #{msgsEvent['event.text.caracteresRemaining']}"
+								value="#{eventController.selectedEntity.additionalInformation}"
+								required="false" counter="additionalInformationDisplay"
+								disabled="#{eventController.readOnly}">
+								<p:ajax event="blur" update="additionalInformationField" />
+							</p:inputTextarea>
+							<br />
+							<h:outputText id="additionalInformationDisplay" />
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!--  Event Price -->
+					<h:panelGroup id="eventPriceField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:eventPrice" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.eventPrice']}" />
+							</ui:define>
+							<p:inputText id="eventPrice"
+								value="#{eventController.selectedEntity.eventPrice}"
+								size="50" required="false"
+								disabled="#{eventController.readOnly}">
+								<p:ajax event="blur" update="eventPriceField" />
+							</p:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+
+					<!--  Event Address -->
+					<h2>
+						<h:outputText value="#{msgsEvent['event.text.address']}" />
+						:
+					</h2>
+
+					<h:panelGroup id="streetField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:street" />
+							<ui:define name="label">
+								<h:outputText value="#{msgsEvent['event.form.street']}" />
+							</ui:define>
+							<p:inputText id="street"
+								value="#{eventController.selectedEntity.eventAddress.street}"
+								size="50" disabled="#{eventController.readOnly}"
+								required="true" />
+						</ui:decorate>
+					</h:panelGroup>
+
+					<h:panelGroup id="numberField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:number" />
+							<ui:define name="label">
+								<h:outputText value="#{msgsEvent['event.form.number']}" />
+							</ui:define>
+
+							<p:inputText id="number"
+								value="#{eventController.selectedEntity.eventAddress.number}"
+								size="10" disabled="#{eventController.readOnly}" />
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="numberComplementField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.numberComplement']}" />
+							</ui:define>
+							<p:inputText id="numberComplement"
+								value="#{eventController.selectedEntity.eventAddress.numberComplement}"
+								size="30" disabled="#{eventController.readOnly}">
+								<p:ajax event="blur" update="streetField"
+									process="street number numberComplement" />
+							</p:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<h:panelGroup id="streetComplementField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:streetComplement" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.streetComplement']}" />
+							</ui:define>
+							<p:inputText id="streetComplement"
+								value="#{eventController.selectedEntity.eventAddress.streetComplement}"
+								size="30" disabled="#{eventController.readOnly}">
+								<p:ajax event="blur" update="streetComplementField" />
+							</p:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="cityField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:city" />
+							<ui:define name="label">
+								<h:outputText value="#{msgsEvent['event.form.city']}" />
+							</ui:define>
+							<p:autoComplete id="city"
+								value="#{eventController.selectedEntity.eventAddress.city}"
+								completeMethod="#{eventController.suggestCities}"
+								minQueryLength="2" forceSelection="true" var="c"
+								itemLabel="#{c.name}, #{c.state.acronym}" itemValue="#{c}"
+								converter="#{coreController.cityConverter}"
+								disabled="#{eventController.readOnly}" size="30">
+							</p:autoComplete>
+						</ui:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="zipCodeField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:zipCode" />
+							<ui:define name="label">
+								<h:outputText value="#{msgsEvent['event.form.zipCode']}" />
+							</ui:define>
+							<p:inputMask id="zipCode"
+								mask="#{msgs['format.zipCode.primefaces']}" required="false"
+								value="#{eventController.selectedEntity.eventAddress.zipCode}"
+								size="10" disabled="#{eventController.readOnly}">
+								<p:ajax event="blur" update="zipCodeField" />
+							</p:inputMask>
+							<h:outputText value=" (#{msgs['format.zipCode.label']})" />
+						</ui:decorate>
+					</h:panelGroup>
+
+
+					<h2>
+						<h:outputText value="#{msgsEvent['event.text.data']}" />
+						:
+					</h2>
+
+					<!-- Register's Event Initial Date -->
+					<h:panelGroup id="registerInitialDateField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:registerInitialDate" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.registerInitialDate']}" />
+							</ui:define>
+							<p:inputMask mask="#{msgs['format.date.primefaces']}"
+								id="registerInitialDate"
+								value="#{eventController.selectedEntity.registerInitialDate}"
+								size="50" required="true"
+								disabled="#{eventController.readOnly}">
+								<f:convertDateTime type="date"
+									pattern="#{msgs['format.date.java']}" />
+								<p:ajax event="blur" update="registerInitialDateField" />
+								<h:outputText value=" (#{msgs['format.date.label']})" />
+							</p:inputMask>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!-- Register's Event Final Date -->
+					<h:panelGroup id="registerFinalDateField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:registerFinalDate" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.registerFinalDate']}" />
+							</ui:define>
+							<p:inputMask mask="#{msgs['format.date.primefaces']}"
+								id="registerFinalDate"
+								value="#{eventController.selectedEntity.registerFinalDate}"
+								size="50" required="true"
+								disabled="#{eventController.readOnly}">
+								<f:convertDateTime type="date"
+									pattern="#{msgs['format.date.java']}" />
+								<p:ajax event="blur" update="registerFinalDateField" />
+								<h:outputText value=" (#{msgs['format.date.label']})" />
+							</p:inputMask>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!-- Event Initial Date -->
+					<h:panelGroup id="eventInitialDateField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:eventInitialDate" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.eventInitialDate']}" />
+							</ui:define>
+							<p:inputMask mask="#{msgs['format.date.primefaces']}"
+								id="eventInitialDate"
+								value="#{eventController.selectedEntity.eventInitialDate}"
+								size="50" required="true"
+								disabled="#{eventController.readOnly}">
+								<f:convertDateTime type="date"
+									pattern="#{msgs['format.date.java']}" />
+								<p:ajax event="blur" update="eventInitialDateField" />
+								<h:outputText value=" (#{msgs['format.date.label']})" />
+							</p:inputMask>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<!-- Event Final Date -->
+					<h:panelGroup id="eventFinalDateField">
+						<ui:decorate
+							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="form:eventFinalDate" />
+							<ui:define name="label">
+								<h:outputText
+									value="#{msgsEvent['event.form.eventFinalDate']}" />
+							</ui:define>
+							<p:inputMask mask="#{msgs['format.date.primefaces']}"
+								id="eventFinalDate"
+								value="#{eventController.selectedEntity.eventFinalDate}"
+								size="50" required="true"
+								disabled="#{eventController.readOnly}">
+								<f:convertDateTime type="date"
+									pattern="#{msgs['format.date.java']}" />
+								<p:ajax event="blur" update="eventFinalDateField" />
+								<h:outputText value=" (#{msgs['format.date.label']})" />
+							</p:inputMask>
+						</ui:decorate>
+					</h:panelGroup>
+
+					<ui:decorate
+						template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+						<h:panelGroup rendered="#{! eventController.readOnly}">
+							<p:commandButton action="#{eventController.list}"
+								value="#{msgs['crud.button.cancel']}" immediate="true"
+								icon="buttonCancel" />
+							<p:commandButton action="#{eventController.save}"
+								value="#{msgs['crud.button.save']}" icon="buttonOk"
+								update=":form :globalMessages" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
+								action="#{eventController.list}" immediate="true" />
+							<p:hotkey bind="#{msgs['crud.hotkey.save']}"
+								action="#{eventController.save}"
+								update=":form :globalMessages" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{eventController.readOnly}">
+							<p:commandButton action="#{eventController.list}"
+								value="#{msgs['crud.button.back']}" immediate="true"
+								icon="buttonBack" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
+								action="#{eventController.list}" immediate="true" />
+						</h:panelGroup>
+					</ui:decorate>
+				</h:form>
+			</ui:decorate>
+		</div>
+	</ui:define>
+
+	<ui:define name="help">
+		<h4>
+			<h:outputText value="#{msgs['text.hotkeys']}" />
+			:
+		</h4>
+		<ul>
+			<li><b><h:outputText
+						value="#{msgs['crud.hotkey.focusFirstField']}" /></b>: <h:outputText
+					value="#{msgs['crud.help.hotkeys.focusFirstField']}" />;</li>
+			<li><b><h:outputText
+						value="#{msgs['crud.hotkey.backToList']}" /></b>: <h:outputText
+					value="#{msgs['crud.help.hotkeys.backToList']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.save']}" /></b>:
+				<h:outputText value="#{msgs['crud.help.hotkeys.save']}" />.</li>
+		</ul>
+	</ui:define>
+</ui:composition>

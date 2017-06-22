@@ -23,11 +23,11 @@ import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoun
  * documentation for details.
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
- * @see br.org.feees.sigme.core.application.ManageSpiritistsService
+ * @see br.org.feees.sigme.core.application.SpiritistsService
  */
 @Stateless
 @TransactionAttribute
-public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> implements ManageSpiritistsService {
+public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> implements SpiritistsService {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -70,7 +70,7 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 			Spiritist anotherEntity = spiritistDAO.retrieveByEmail(email);
 			if (anotherEntity != null) {
 				logger.log(Level.INFO, "Creation of spiritist \"{0}\" violates validation rule 1: spiritist with id {1} has same email", new Object[] { email, anotherEntity.getId() });
-				crudException = addValidationError(crudException, crudExceptionMessage, "email", "manageSpiritists.error.repeatedEmail", anotherEntity.getLastUpdateDate());
+				crudException = addValidationError(crudException, crudExceptionMessage, "email", "spiritist.error.repeatedEmail", anotherEntity.getLastUpdateDate());
 			}
 		}
 		catch (PersistentObjectNotFoundException e) {
@@ -78,7 +78,7 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 		}
 		catch (MultiplePersistentObjectsFoundException e) {
 			logger.log(Level.WARNING, "Creation of spiritist with email \"" + email + "\" threw an exception: a query for spiritists with this email returned multiple results!", e);
-			crudException = addValidationError(crudException, crudExceptionMessage, "name", "manageSpiritists.error.multipleInstancesError");
+			crudException = addValidationError(crudException, crudExceptionMessage, "name", "spiritist.error.multipleInstancesError");
 		}
 
 		// If one of the rules was violated, throw the exception.
@@ -99,7 +99,7 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 			Spiritist anotherEntity = spiritistDAO.retrieveByEmail(email);
 			if ((anotherEntity != null) && (!anotherEntity.getId().equals(entity.getId()))) {
 				logger.log(Level.INFO, "Update of spiritist \"{0}\" violates validation rule 1: spiritist with id {1} has same email", new Object[] { email, anotherEntity.getId() });
-				crudException = addValidationError(crudException, crudExceptionMessage, "email", "manageSpiritists.error.repeatedEmail", anotherEntity.getLastUpdateDate());
+				crudException = addValidationError(crudException, crudExceptionMessage, "email", "spiritist.error.repeatedEmail", anotherEntity.getLastUpdateDate());
 			}
 		}
 		catch (PersistentObjectNotFoundException e) {
@@ -107,7 +107,7 @@ public class ManageSpiritistsServiceBean extends CrudServiceBean<Spiritist> impl
 		}
 		catch (MultiplePersistentObjectsFoundException e) {
 			logger.log(Level.WARNING, "Creation of spiritist with email \"" + email + "\" threw an exception: a query for spiritists with this email returned multiple results!", e);
-			crudException = addValidationError(crudException, crudExceptionMessage, "name", "manageSpiritists.error.multipleInstancesError");
+			crudException = addValidationError(crudException, crudExceptionMessage, "name", "spiritist.error.multipleInstancesError");
 		}
 
 		// If one of the rules was violated, throw the exception.

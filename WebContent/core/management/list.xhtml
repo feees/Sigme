@@ -8,41 +8,41 @@
 	template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
 
 	<ui:define name="title">
-		<h:outputText value="#{msgsSubscriber['subscriber.title']}" />
+		<h:outputText value="#{msgsCore['management.title']}" />
 	</ui:define>
 
 	<ui:define name="body">
 		<h1>
-			<h:outputText value="#{msgsSubscriber['subscriber.title']}" />
+			<h:outputText value="#{msgsCore['management.title']}" />
 		</h1>
 
 		<div class="crud">
 			<!-- 		Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
 			<h:form id="filterForm">
 				<h:panelGroup id="filterBar"
-					rendered="#{(not empty subscriberController.filters)}">
+					rendered="#{(not empty manageManagementController.filters)}">
 					<div class="crudFilterBar">
 						<h:outputText value="#{msgs['crud.text.filter']} " />
 						<p:selectOneMenu id="filter" required="true"
-							value="#{subscriberController.filterKey}">
-							<f:selectItems value="#{subscriberController.filters}"
+							value="#{manageManagementController.filterKey}">
+							<f:selectItems value="#{manageManagementController.filters}"
 								var="filter" itemLabel="#{filter.label}"
 								itemValue="#{filter.key}" />
 							<f:ajax event="change" execute="@form"
-								listener="#{subscriberController.changeFilter}"
+								listener="#{manageManagementController.changeFilter}"
 								render="@form :listingForm :buttonsForm" />
 						</p:selectOneMenu>
 						<h:outputText value=": " />
 						<p:inputText id="filterText" size="20" required="false"
-							value="#{subscriberController.filterParam}"
-							rendered="#{subscriberController.filter.options == null}" />
+							value="#{manageManagementController.filterParam}"
+							rendered="#{manageManagementController.filter.options == null}" />
 						<p:selectOneMenu id="filterSelect" required="false"
-							value="#{subscriberController.filterParam}"
-							rendered="#{subscriberController.filter.options != null}">
+							value="#{manageManagementController.filterParam}"
+							rendered="#{manageManagementController.filter.options != null}">
 							<f:selectItems
-								value="#{subscriberController.filter.reversedOptionsLabels}" />
+								value="#{manageManagementController.filter.reversedOptionsLabels}" />
 						</p:selectOneMenu>
-						<p:commandLink action="#{subscriberController.filter}"
+						<p:commandLink action="#{manageManagementController.filter}"
 							process="@form" update=":listingForm :buttonsForm">
 							<h:graphicImage style="border: 0;"
 								value="/resources/templates/default/icons/button-find.png"
@@ -58,99 +58,67 @@
 			<h:form id="listingForm">
 				<!-- 				Filter information (displayed when the listing is being filtered. -->
 				<h:panelGroup id="filterInfo"
-					rendered="#{subscriberController.filtering}">
+					rendered="#{manageManagementController.filtering}">
 					<div class="crudFilterInfo">
 						<h:outputFormat value="#{msgs['crud.text.filterInfo']} ">
-							<f:param value="#{subscriberController.filter.label}" />
-							<f:param value="#{subscriberController.filterLabel}" />
+							<f:param value="#{manageManagementController.filter.label}" />
+							<f:param value="#{manageManagementController.filterLabel}" />
 						</h:outputFormat>
-						<p:commandLink action="#{subscriberController.cancelFilter}"
+						<p:commandLink action="#{manageManagementController.cancelFilter}"
 							process="@form" update="@form :buttonsForm">
 							<h:graphicImage style="border: 0;"
 								value="/resources/templates/default/icons/button-close.png"
 								title="#{msgs['crud.button.cancelFilter']}" />
 						</p:commandLink>
 						<p:hotkey bind="#{msgs['crud.hotkey.clearFilter']}"
-							action="#{subscriberController.cancelFilter}" process="@form"
-							update=":listingForm :buttonsForm" />
+							action="#{manageManagementController.cancelFilter}"
+							process="@form" update=":listingForm :buttonsForm" />
 					</div>
 				</h:panelGroup>
 
 				<!-- 				The list of entities. -->
 				<h:panelGroup id="listing" styleClass="listing">
 					<p:dataTable widgetVar="listingTable"
-						value="#{subscriberController.lazyEntities}" var="entity"
-						rows="#{subscriberController.maxDataTableRowsPerPage}"
-						rowsPerPageTemplate="#{subscriberController.halfMaxDataTableRowsPerPage},#{subscriberController.maxDataTableRowsPerPage},#{subscriberController.doubleMaxDataTableRowsPerPage}"
+						value="#{manageManagementController.lazyEntities}" var="entity"
+						rows="#{manageManagementController.maxDataTableRowsPerPage}"
+						rowsPerPageTemplate="#{manageManagementController.halfMaxDataTableRowsPerPage},#{manageManagementController.maxDataTableRowsPerPage},#{manageManagementController.doubleMaxDataTableRowsPerPage}"
 						lazy="true" paginator="true"
-						selection="#{subscriberController.selectedEntity}"
+						selection="#{manageManagementController.selectedEntity}"
 						selectionMode="single"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 						paginatorPosition="bottom"
 						loadingMessage="#{msgs['text.ajax.loading']}"
-						emptyMessage="#{subscriberController.filtering ? msgsSubscriber['subscriber.text.noEntitiesFiltered'] : msgsSubscriber['subscriber.text.noEntities']}">
+						emptyMessage="#{manageManagementController.filtering ? msgsCore['management.text.noEntitiesFiltered'] : msgsCore['management.text.noEntities']}">
 
-						<!-- Event Name -->
-						<p:column headerText="#{msgsEvent['event.form.eventName']}">
-							<h:outputText value="#{entity.event.eventName}" />
+						<!-- Management Name -->
+						<p:column headerText="#{msgsCore['management.form.name']}">
+							<h:outputText value="#{entity.name}" />
 						</p:column>
 
-						<!-- Event Initial date -->
+						<!-- Management Type -->
+						<p:column headerText="#{msgsCore['management.form.type']}">
+							<h:outputText value="#{entity.type.name}" />
+						</p:column>
+
+						<!-- Management Initial date -->
 						<p:column
 							headerText="#{msgsEvent['event.form.eventInitialDate']}">
-							<h:outputFormat value="#{entity.event.eventInitialDate}">
+							<h:outputFormat value="#{entity.initialDate}">
 								<f:convertDateTime type="date"
 									pattern="#{msgs['format.date.java']}">
 								</f:convertDateTime>
 							</h:outputFormat>
 						</p:column>
 
-						<!-- Event Final date -->
+						<!-- Management Final date -->
 						<p:column
-							headerText="#{msgsEvent['event.form.eventFinalDate']}">
-							<h:outputFormat value="#{entity.event.eventFinalDate}">
+							headerText="#{msgsCore['management.form.finalDate']}">
+							<h:outputFormat value="#{entity.finalDate}">
 								<f:convertDateTime type="date"
 									pattern="#{msgs['format.date.java']}">
 								</f:convertDateTime>
 							</h:outputFormat>
 						</p:column>
-						
-						<!-- Subscribe date -->
-						<p:column
-							headerText="#{msgsEvent['subscriber.form.subscribeDate']}">
-							<h:outputFormat value="#{entity.subscribeDate}">
-								<f:convertDateTime type="date"
-									pattern="#{msgs['format.date.java']}">
-								</f:convertDateTime>
-							</h:outputFormat>
-						</p:column>
-
-						<!-- 						Register Initial date -->
-						<!-- 						<p:column -->
-						<!-- 							headerText="#{msgsEvent['subscriber.form.registerInitialDate']}"> -->
-						<!-- 							<h:outputFormat value="#{entity.registerInitialDate}"> -->
-						<!-- 								<f:convertDateTime type="date" -->
-						<!-- 									pattern="#{msgs['format.date.java']}"> -->
-						<!-- 								</f:convertDateTime> -->
-						<!-- 							</h:outputFormat> -->
-						<!-- 						</p:column> -->
-
-						<!-- 						Register Final date -->
-						<!-- 						<p:column -->
-						<!-- 							headerText="#{msgsEvent['subscriber.form.registerFinalDate']}"> -->
-						<!-- 							<h:outputFormat value="#{entity.registerFinalDate}"> -->
-						<!-- 								<f:convertDateTime type="date" -->
-						<!-- 									pattern="#{msgs['format.date.java']}"> -->
-						<!-- 								</f:convertDateTime> -->
-						<!-- 							</h:outputFormat> -->
-						<!-- 						</p:column> -->
-
-						<!-- 						Register Final date -->
-						<!-- 						<p:column -->
-						<!-- 							headerText="#{msgsEvent['subscriber.form.eventInstitution']}"> -->
-						<!-- 							<h:outputText value="#{entity.institution}" /> -->
-
-						<!-- 						</p:column> -->
 
 						<p:ajax event="rowSelect" update=":buttonsForm" />
 					</p:dataTable>
@@ -164,30 +132,30 @@
 			<!-- 			Buttons shown below the listing. -->
 			<h:form id="buttonsForm">
 				<div class="crudButtons">
-					<p:commandButton action="#{subscriberController.create}"
+					<p:commandButton action="#{manageManagementController.create}"
 						value="#{msgs['crud.button.create']}" icon="buttonNew" />
-					<p:commandButton action="#{subscriberController.retrieve}"
+					<p:commandButton action="#{manageManagementController.retrieve}"
 						value="#{msgs['crud.button.retrieve']}" icon="buttonView"
-						disabled="#{subscriberController.selectedEntity == null}" />
-					<p:commandButton action="#{subscriberController.update}"
+						disabled="#{manageManagementController.selectedEntity == null}" />
+					<p:commandButton action="#{manageManagementController.update}"
 						value="#{msgs['crud.button.update']}" icon="buttonEdit"
-						disabled="#{subscriberController.selectedEntity == null}" />
+						disabled="#{manageManagementController.selectedEntity == null}" />
 
-					<p:commandButton action="#{subscriberController.trash}"
+					<p:commandButton action="#{manageManagementController.trash}"
 						value="#{msgs['crud.button.delete']}" icon="buttonTrash"
-						disabled="#{subscriberController.selectedEntity == null}"
+						disabled="#{manageManagementController.selectedEntity == null}"
 						process="@this" update=":trashForm" />
 					<p:hotkey bind="#{msgs['crud.hotkey.create']}"
-						action="#{subscriberController.create}" />
+						action="#{manageManagementController.create}" />
 					<p:hotkey bind="#{msgs['crud.hotkey.retrieve']}"
-						action="#{subscriberController.retrieve}"
-						rendered="#{subscriberController.selectedEntity != null}" />
+						action="#{manageManagementController.retrieve}"
+						rendered="#{manageManagementController.selectedEntity != null}" />
 					<p:hotkey bind="#{msgs['crud.hotkey.update']}"
-						action="#{subscriberController.update}"
-						rendered="#{subscriberController.selectedEntity != null}" />
+						action="#{manageManagementController.update}"
+						rendered="#{manageManagementController.selectedEntity != null}" />
 					<p:hotkey bind="#{msgs['crud.hotkey.delete']}"
-						action="#{subscriberController.trash}"
-						rendered="#{subscriberController.selectedEntity != null}"
+						action="#{manageManagementController.trash}"
+						rendered="#{manageManagementController.selectedEntity != null}"
 						process="@this" update=":trashForm" />
 				</div>
 			</h:form>
@@ -196,22 +164,23 @@
 			<h:form id="trashForm">
 				<p:panel id="trashPanel" styleClass="trashPanel"
 					header="#{msgs['crud.text.trashHeader']}" toggleable="true"
-					rendered="#{not empty subscriberController.trashCan}">
-					<p:dataList value="#{subscriberController.trashCan}" var="entity"
-						type="unordered">
-                        #{entity.event.eventName}
+					rendered="#{not empty manageManagementController.trashCan}">
+					<p:dataList value="#{manageManagementController.trashCan}"
+						var="entity" type="unordered">
+                        #{entity.name}
                     </p:dataList>
 					<div class="nemoUtilsFormInternalButton">
-						<p:commandButton action="#{subscriberController.cancelDeletion}"
+						<p:commandButton
+							action="#{manageManagementController.cancelDeletion}"
 							value="#{msgs['crud.button.cancelDeletion']}" icon="buttonCancel"
 							update=":trashForm :buttonsForm :listingForm" />
-						<p:commandButton action="#{subscriberController.delete}"
+						<p:commandButton action="#{manageManagementController.delete}"
 							value="#{msgs['crud.button.confirmDeletion']}" icon="buttonOk" />
 						<p:hotkey bind="#{msgs['crud.hotkey.cancelDeletion']}"
-							action="#{subscriberController.cancelDeletion}"
+							action="#{manageManagementController.cancelDeletion}"
 							update=":trashForm :buttonsForm :listingForm" />
 						<p:hotkey bind="#{msgs['crud.hotkey.confirmDeletion']}"
-							action="#{subscriberController.delete}" />
+							action="#{manageManagementController.delete}" />
 					</div>
 				</p:panel>
 			</h:form>
@@ -221,4 +190,32 @@
 
 	</ui:define>
 
+	<ui:define name="help">
+		<h4>
+			<h:outputText value="#{msgs['text.hotkeys']}" />
+			:
+		</h4>
+		<ul>
+			<li><b><h:outputText
+						value="#{msgs['crud.hotkey.filterFocus']}" /></b>: <h:outputText
+					value="#{msgs['crud.help.hotkeys.filterFocus']}" />;</li>
+			<li><b><h:outputText
+						value="#{msgs['crud.hotkey.clearFilter']}" /></b>: <h:outputText
+					value="#{msgs['crud.help.hotkeys.clearFilter']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.create']}" /></b>:
+				<h:outputText value="#{msgs['crud.help.hotkeys.create']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.retrieve']}" /></b>:
+				<h:outputText value="#{msgs['crud.help.hotkeys.retrieve']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.update']}" /></b>:
+				<h:outputText value="#{msgs['crud.help.hotkeys.update']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.delete']}" /></b>:
+				<h:outputText value="#{msgs['crud.help.hotkeys.delete']}" />;</li>
+			<li><b><h:outputText
+						value="#{msgs['crud.hotkey.cancelDeletion']}" /></b>: <h:outputText
+					value="#{msgs['crud.help.hotkeys.cancelDeletion']}" />;</li>
+			<li><b><h:outputText
+						value="#{msgs['crud.hotkey.confirmDeletion']}" /></b>: <h:outputText
+					value="#{msgs['crud.help.hotkeys.confirmDeletion']}" />.</li>
+		</ul>
+	</ui:define>
 </ui:composition>

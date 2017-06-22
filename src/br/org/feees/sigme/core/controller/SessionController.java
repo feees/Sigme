@@ -201,35 +201,35 @@ public class SessionController extends JSFController {
 
 				// Menu item: Manage Institutions.
 				item = new DefaultMenuItem();
-				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.manageInstitutions"));
-				item.setIcon("menuCoreCrudsManageInstitutions");
-				item.setUrl("/core/manageInstitutions/list.faces");
+				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.institution"));
+				item.setIcon("menuCoreCrudsInstitution");
+				item.setUrl("/core/institution/list.faces");
 				menu.addElement(item);
 
 				// Menu item: Manage Spiritists.
 				item = new DefaultMenuItem();
-				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.manageSpiritists"));
-				item.setIcon("menuCoreCrudsManageSpiritists");
-				item.setUrl("/core/manageSpiritists/list.faces");
+				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.spiritist"));
+				item.setIcon("menuCoreCrudsSpiritist");
+				item.setUrl("/core/spiritist/list.faces");
 				menu.addElement(item);
 				
 				// Menu Item: Management Type
 				item = new DefaultMenuItem();
 				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.management.type"));
 				item.setIcon("menuCoreCrudsManagementType");
-				item.setUrl("/core/manageManagementType/list.faces");
+				item.setUrl("/core/managementType/list.faces");
 				menu.addElement(item);
 				
 				// Menu Item: Management
 				item = new DefaultMenuItem();
 				item.setValue(getI18nMessage("msgsCore", "core.menu.cruds.management"));
 				item.setIcon("menuCoreCrudsManagement");
-				item.setUrl("/core/manageManagement/list.faces");
+				item.setUrl("/core/management/list.faces");
 				menu.addElement(item);
 
 				/* Sub-menu: CRUDs (Events). */
 				menu = new DefaultSubMenu();
-				menu.setLabel(getI18nMessage("msgsEvent", "event.menu.cruds.manageEvents"));
+				menu.setLabel(getI18nMessage("msgsEvent", "event.menu.cruds.event"));
 				menuModel.addElement(menu);	
 				/*
 				 * rodrigo.pimenta
@@ -239,7 +239,7 @@ public class SessionController extends JSFController {
 				item = new DefaultMenuItem();
 				item.setValue(getI18nMessage("msgsEvent", "event.menu.cruds.listEvents"));
 				item.setIcon("menuCoreCrudsManageEvents");
-				item.setUrl("/event/manageEvents/list.faces");
+				item.setUrl("/event/event/list.faces");
 				menu.addElement(item);
 				
 				// Menu Item: My Events

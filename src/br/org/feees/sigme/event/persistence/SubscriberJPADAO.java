@@ -1,5 +1,6 @@
 package br.org.feees.sigme.event.persistence;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,6 +64,20 @@ public class SubscriberJPADAO extends BaseJPADAO<Subscriber> implements
 				new Object[] { spiritisId, eventId, subscriber });
 
 		return subscriber;
-
 	}
+
+	@Override
+	public List<Subscriber> retrieveSubscribersByEvent(Long eventId) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<Subscriber> cq = cb.createQuery(Subscriber.class);
+		Root<Subscriber> root = cq.from(Subscriber.class);
+		cq.where(cb.equal(root.get(Subscriber_.event), eventId));
+		
+		List<Subscriber> subscribers = getEntityManager().createQuery(cq).getResultList();
+		
+		return subscribers;
+	}
+	
+	
 }

@@ -10,11 +10,11 @@
 .menuAccessLogin 					{ background-image: url(/Sigme/resources/templates/default/icons/menu-access-login.png) !important; }
 .menuAccessLogout 					{ background-image: url(/Sigme/resources/templates/default/icons/menu-access-logout.png) !important; }
 .menuCoreRegister				 	{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-register.png) !important; }
-.menuCoreCrudsManageInstitutions 	{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-manageInstitutions.png) !important; }
-.menuCoreCrudsManageSpiritists 		{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-manageSpiritists.png) !important; }
+.menuCoreCrudsManageInstitutions 	{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-institution.png) !important; }
+.menuCoreCrudsManageSpiritists 		{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-spiritists.png) !important; }
 
-.menuCoreCrudsManageEvents			{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-manageEvents.png) !important; }
-.menuCoreCrudsSubscribes			{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-manageEvents.png) !important; }
+.menuCoreCrudsManageEvents			{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-event.png) !important; }
+.menuCoreCrudsSubscribes			{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-event.png) !important; }
 
 .menuCoreCrudsManagement			{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-management.png) !important; }
 .menuCoreCrudsManagementType		{ background-image: url(/Sigme/resources/templates/default/icons/menu-core-cruds-management-edit.png) !important; }

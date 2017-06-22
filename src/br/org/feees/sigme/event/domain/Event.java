@@ -92,107 +92,200 @@ public class Event extends PersistentObjectSupport implements Comparable<Event> 
 	/*
 	 * Getters and Setters
 	 */
+	/**
+	 * @return the eventName
+	 */
 	public String getEventName() {
 		return eventName;
 	}
 
+	/**
+	 * @param eventName the eventName to set
+	 */
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
 
+	/**
+	 * @return the eventDescription
+	 */
 	public String getEventDescription() {
 		return eventDescription;
 	}
 
+	/**
+	 * @param eventDescription the eventDescription to set
+	 */
 	public void setEventDescription(String eventDescription) {
 		this.eventDescription = eventDescription;
 	}
 
+	/**
+	 * @return the eventBadgeName
+	 */
 	public String getEventBadgeName() {
 		return eventBadgeName;
 	}
 
+	/**
+	 * @param eventBadgeName the eventBadgeName to set
+	 */
 	public void setEventBadgeName(String eventBadgeName) {
 		this.eventBadgeName = eventBadgeName;
 	}
 
+	/**
+	 * @return the additionalInformation
+	 */
 	public String getAdditionalInformation() {
 		return additionalInformation;
 	}
 
+	/**
+	 * @param additionalInformation the additionalInformation to set
+	 */
 	public void setAdditionalInformation(String additionalInformation) {
 		this.additionalInformation = additionalInformation;
 	}
 
+	/**
+	 * @return the eventPrice
+	 */
 	public String getEventPrice() {
 		return eventPrice;
 	}
 
+	/**
+	 * @param eventPrice the eventPrice to set
+	 */
 	public void setEventPrice(String eventPrice) {
 		this.eventPrice = eventPrice;
 	}
 
+	/**
+	 * @return the eventAddress
+	 */
 	public Address getEventAddress() {
 		return eventAddress;
 	}
 
+	/**
+	 * @param eventAddress the eventAddress to set
+	 */
 	public void setEventAddress(Address eventAddress) {
 		this.eventAddress = eventAddress;
 	}
 
-	public Date getRegisterInitialDate() {
-		return registerInitialDate;
-	}
-
-	public void setRegisterInitialDate(Date registerInitialDate) {
-		this.registerInitialDate = registerInitialDate;
-	}
-
-	public Date getRegisterFinalDate() {
-		return registerFinalDate;
-	}
-
-	public void setRegisterFinalDate(Date registerFinalDate) {
-		this.registerFinalDate = registerFinalDate;
-	}
-
-	public Date getEventInitialDate() {
-		return eventInitialDate;
-	}
-
-	public void setEventInitialDate(Date eventInitialDate) {
-		this.eventInitialDate = eventInitialDate;
-	}
-
-	public Date getEventFinalDate() {
-		return eventFinalDate;
-	}
-
-	public void setEventFinalDate(Date eventFinalDate) {
-		this.eventFinalDate = eventFinalDate;
-	}
-
+	/**
+	 * @return the regional
+	 */
 	public Regional getRegional() {
 		return regional;
 	}
 
+	/**
+	 * @param regional the regional to set
+	 */
 	public void setRegional(Regional regional) {
 		this.regional = regional;
 	}
 
+	/**
+	 * @return the registerInitialDate
+	 */
+	public Date getRegisterInitialDate() {
+		return registerInitialDate;
+	}
+
+	/**
+	 * @param registerInitialDate the registerInitialDate to set
+	 */
+	public void setRegisterInitialDate(Date registerInitialDate) {
+		this.registerInitialDate = registerInitialDate;
+	}
+
+	/**
+	 * @return the registerFinalDate
+	 */
+	public Date getRegisterFinalDate() {
+		return registerFinalDate;
+	}
+
+	/**
+	 * @param registerFinalDate the registerFinalDate to set
+	 */
+	public void setRegisterFinalDate(Date registerFinalDate) {
+		this.registerFinalDate = registerFinalDate;
+	}
+
+	/**
+	 * @return the eventInitialDate
+	 */
+	public Date getEventInitialDate() {
+		return eventInitialDate;
+	}
+
+	/**
+	 * @param eventInitialDate the eventInitialDate to set
+	 */
+	public void setEventInitialDate(Date eventInitialDate) {
+		this.eventInitialDate = eventInitialDate;
+	}
+
+	/**
+	 * @return the eventFinalDate
+	 */
+	public Date getEventFinalDate() {
+		return eventFinalDate;
+	}
+
+	/**
+	 * @param eventFinalDate the eventFinalDate to set
+	 */
+	public void setEventFinalDate(Date eventFinalDate) {
+		this.eventFinalDate = eventFinalDate;
+	}
+
+	/**
+	 * @return the institution
+	 */
 	public Institution getInstitution() {
 		return institution;
 	}
 
+	/**
+	 * @param institution the institution to set
+	 */
 	public void setInstitution(Institution institution) {
 		this.institution = institution;
 	}
 
+	/**
+	 * @return the spiritistOwner
+	 */
 	public Spiritist getSpiritistOwner() {
 		return spiritistOwner;
 	}
 
+	/**
+	 * @param spiritistOwner the spiritistOwner to set
+	 */
 	public void setSpiritistOwner(Spiritist spiritistOwner) {
 		this.spiritistOwner = spiritistOwner;
 	}
+
+	/**
+	 * @return the subscribers
+	 */
+	public List<Subscriber> getSubscribers() {
+		return subscribers;
+	}
+
+	/**
+	 * @param subscribers the subscribers to set
+	 */
+	public void setSubscribers(List<Subscriber> subscribers) {
+		this.subscribers = subscribers;
+	}
+	
 }

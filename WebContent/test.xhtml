@@ -15,10 +15,10 @@
 		
 		<h:form>
 			<p>
-			Nome: <p:inputText id="name" value="#{manageSpiritistsController.selectedEntity.name}" size="50" required="true" /><br />
-			Short: <p:inputText id="shortName" value="#{manageSpiritistsController.selectedEntity.shortName}" size="20" required="true" /><br />
+			Nome: <p:inputText id="name" value="#{spiritistController.selectedEntity.name}" size="50" required="true" /><br />
+			Short: <p:inputText id="shortName" value="#{spiritistController.selectedEntity.shortName}" size="20" required="true" /><br />
 			
-			<p:commandButton action="#{manageSpiritistsController.save}" value="Cadastrar" />
+			<p:commandButton action="#{spiritistController.save}" value="Cadastrar" />
 			</p>
 			
 			<hr />

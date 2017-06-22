@@ -1,6 +1,7 @@
 package br.org.feees.sigme.event.application;
 
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +33,7 @@ public class SubscriberServiceBean extends CrudServiceBean<Subscriber> implement
 	private SubscriberDAO subscriberDAO;
 
 	@Override
-	public BaseDAO<Subscriber> getDAO() {
+	public SubscriberDAO getDAO() {
 		return subscriberDAO;
 	}
 
@@ -78,7 +79,7 @@ public class SubscriberServiceBean extends CrudServiceBean<Subscriber> implement
 			logger.log(Level.WARNING, "Spirititst \"" + entity.getSpiritist().getName()
 					+ "is already subscribed to the event \"" + entity.getEvent().getEventName()+ "\", and throw the exception: " + e);
 			crudException = addValidationError(crudException, crudExceptionMessage, "badgeName",
-					"manageInstitutions.error.multipleInstancesError");
+					"institution.error.multipleInstancesError");
 		}
 
 		// If one of the rules was violated, throw the exception.
@@ -94,5 +95,11 @@ public class SubscriberServiceBean extends CrudServiceBean<Subscriber> implement
 		logger.log(Level.FINER, "Fecthing lazy attributes for subscribers \"{0}\"", entity);
 		entity = getDAO().merge(entity);
 		return entity;
+	}
+
+	@Override
+	public List<Subscriber> retrieveSubscribersByEvent(Long eventId) {
+		// TODO Auto-generated method stub
+		return subscriberDAO.retrieveSubscribersByEvent(eventId);
 	}
 }

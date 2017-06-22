@@ -34,12 +34,6 @@ public class SubscriberController extends CrudController<Subscriber>{
 	@EJB
 	private SubscriberService subscriberService;
 	
-	@EJB
-	private EventDAO eventDAO;
-	
-	@EJB
-	private SpiritistDAO spiritistDAO;
-	
 	@Inject
 	private SessionController sessionController;
 	
