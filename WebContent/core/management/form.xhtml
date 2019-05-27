@@ -8,21 +8,21 @@
 
 	<ui:define name="title">
 		<h:outputText value="#{msgsCore['management.title.create']}"
-			rendered="#{(! manageManagementController.readOnly) and (manageManagementController.selectedEntity.id == null)}" />
+			rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id == null)}" />
 		<h:outputText value="#{msgsCore['management.title.update']}"
-			rendered="#{(! manageManagementController.readOnly) and (manageManagementController.selectedEntity.id != null)}" />
+			rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id != null)}" />
 		<h:outputText value="#{msgsCore['management.title.retrieve']}"
-			rendered="#{manageManagementController.readOnly}" />
+			rendered="#{managementController.readOnly}" />
 	</ui:define>
 
 	<ui:define name="body">
 		<h1>
 			<h:outputText value="#{msgsCore['management.title.create']}"
-				rendered="#{(! manageManagementController.readOnly) and (manageManagementController.selectedEntity.id == null)}" />
+				rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id == null)}" />
 			<h:outputText value="#{msgsCore['management.title.update']}"
-				rendered="#{(! manageManagementController.readOnly) and (manageManagementController.selectedEntity.id != null)}" />
+				rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id != null)}" />
 			<h:outputText value="#{msgsCore['management.title.retrieve']}"
-				rendered="#{manageManagementController.readOnly}" />
+				rendered="#{managementController.readOnly}" />
 		</h1>
 
 		<div class="crud">
@@ -43,9 +43,9 @@
 								<h:outputText value="#{msgsCore['management.form.name']}" />
 							</ui:define>
 							<p:inputText id="name"
-								value="#{manageManagementController.selectedEntity.name}"
+								value="#{managementController.selectedEntity.name}"
 								size="50" required="true"
-								disabled="#{manageManagementController.readOnly}">
+								disabled="#{managementController.readOnly}">
 								<p:ajax event="blur" update="nameField" />
 							</p:inputText>
 						</ui:decorate>
@@ -63,9 +63,9 @@
 							<p:inputTextarea rows="10" cols="50" minQueryLength="10"
 								maxlength="500" id="description"
 								counterTemplate="{0} #{msgsCore['management.text.caracteresRemaining']}"
-								value="#{manageManagementController.selectedEntity.description}"
+								value="#{managementController.selectedEntity.description}"
 								required="true" counter="descriptionDisplay"
-								disabled="#{manageManagementController.readOnly}">
+								disabled="#{managementController.readOnly}">
 								<p:ajax event="blur" update="descriptionField" />
 							</p:inputTextarea>
 							<br />
@@ -82,10 +82,10 @@
 								<h:outputText value="#{msgsCore['management.form.type']}" />
 							</ui:define>
 							<p:selectOneMenu id="type"
-								value="#{manageManagementController.selectedEntity.type}"
+								value="#{managementController.selectedEntity.type}"
 								converter="#{coreController.managementTypeConverter}"
 								required="false"
-								disabled="#{manageManagementController.readOnly}">
+								disabled="#{managementController.readOnly}">
 								<f:selectItem
 									itemLabel="#{msgsCore['management.form.type.blankOption']}"
 									itemValue="" />
@@ -106,10 +106,10 @@
 									value="#{msgsCore['management.form.institution']}" />
 							</ui:define>
 							<p:selectOneMenu id="institution"
-								value="#{manageManagementController.selectedEntity.institution}"
+								value="#{managementController.selectedEntity.institution}"
 								converter="#{coreController.institutionConverter}"
 								required="true"
-								disabled="#{manageManagementController.readOnly}">
+								disabled="#{managementController.readOnly}">
 								<f:selectItem
 									itemLabel="#{msgsCore['management.form.institution.blankOption']}"
 									itemValue="" />
@@ -137,9 +137,9 @@
 							</ui:define>
 							<p:inputMask mask="#{msgs['format.date.primefaces']}"
 								id="initialDate"
-								value="#{manageManagementController.selectedEntity.initialDate}"
+								value="#{managementController.selectedEntity.initialDate}"
 								size="50" required="true"
-								disabled="#{manageManagementController.readOnly}">
+								disabled="#{managementController.readOnly}">
 								<f:convertDateTime type="date"
 									pattern="#{msgs['format.date.java']}" />
 								<p:ajax event="blur" update="initialDateField" />
@@ -159,9 +159,9 @@
 							</ui:define>
 							<p:inputMask mask="#{msgs['format.date.primefaces']}"
 								id="finalDate"
-								value="#{manageManagementController.selectedEntity.finalDate}"
+								value="#{managementController.selectedEntity.finalDate}"
 								size="50" required="true"
-								disabled="#{manageManagementController.readOnly}">
+								disabled="#{managementController.readOnly}">
 								<f:convertDateTime type="date"
 									pattern="#{msgs['format.date.java']}" />
 								<p:ajax event="blur" update="finalDateField" />
@@ -186,9 +186,9 @@
 									value="#{msgsCore['manageManagementPosition.text.position']}" />
 							</ui:define>
 							<p:dataTable id="managementPositions"
-								value="#{manageManagementController.managementPositions}"
+								value="#{managementController.managementPositions}"
 								var="managePosition" rowKey="#{managePosition.uuid}"
-								selection="#{manageManagementController.managementPosition}"
+								selection="#{managementController.managementPosition}"
 								selectionMode="single"
 								loadingMessage="#{msgs['text.ajax.loading']}"
 								emptyMessage="#{msgsCore['manageManagementPosition.text.noManagementPosition']}">
@@ -208,29 +208,29 @@
 							<h:panelGroup id="managementPositionButtons">
 								<div class="sigmeFormInternalButton">
 									<p:commandButton id="newManagementPositionButon"
-										action="#{manageManagementController.newManagementPosition}"
+										action="#{managementController.newManagementPosition}"
 										onsuccess="PF('managementPositionDialog').show()"
 										icon="buttonAdd"
 										title="#{msgsCore['manageManagementPosition.button.anotherPosition']}"
-										disabled="#{manageManagementController.readOnly or (manageManagementController.selectedEntity.institution == null)}"
+										disabled="#{managementController.readOnly or (managementController.selectedEntity.institution == null)}"
 										update=":managementPositionForm" process="@this" />
 									<p:commandButton
 										onsuccess="PF('managementPositionDialog').show()"
 										icon="buttonEdit"
 										title="#{msgsCore['manageManagementPosition.button.editPosition']}"
-										disabled="#{manageManagementController.readOnly or (manageManagementController.managementPosition == null) or
-										(manageManagementController.selectedEntity.institution == null)}"
+										disabled="#{managementController.readOnly or (managementController.managementPosition == null) or
+										(managementController.selectedEntity.institution == null)}"
 										update=":managementPositionForm" process="@this" />
 									<p:commandButton
-										action="#{manageManagementController.resetManagementPosition}"
+										action="#{managementController.resetManagementPosition}"
 										icon="buttonRemove"
 										title="#{msgsCore['manageManagementPosition.button.removePosition']}"
-										disabled="#{manageManagementController.readOnly or (manageManagementController.managementPosition == null) or
-										(manageManagementController.selectedEntity.institution == null)}"
+										disabled="#{managementController.readOnly or (managementController.managementPosition == null) or
+										(managementController.selectedEntity.institution == null)}"
 										process="@this" update="managementPositionsField	">
 										<p:collector
-											value="#{manageManagementController.managementPosition}"
-											removeFrom="#{manageManagementController.managementPositions}" />
+											value="#{managementController.managementPosition}"
+											removeFrom="#{managementController.managementPositions}" />
 									</p:commandButton>
 								</div>
 							</h:panelGroup>
@@ -239,25 +239,25 @@
 
 					<ui:decorate
 						template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-						<h:panelGroup rendered="#{! manageManagementController.readOnly}">
-							<p:commandButton action="#{manageManagementController.list}"
+						<h:panelGroup rendered="#{! managementController.readOnly}">
+							<p:commandButton action="#{managementController.list}"
 								value="#{msgs['crud.button.cancel']}" immediate="true"
 								icon="buttonCancel" />
-							<p:commandButton action="#{manageManagementController.save}"
+							<p:commandButton action="#{managementController.save}"
 								value="#{msgs['crud.button.save']}" icon="buttonOk"
 								update=":form :globalMessages" />
 							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
-								action="#{manageManagementController.list}" immediate="true" />
+								action="#{managementController.list}" immediate="true" />
 							<p:hotkey bind="#{msgs['crud.hotkey.save']}"
-								action="#{manageManagementController.save}"
+								action="#{managementController.save}"
 								update=":form :globalMessages" />
 						</h:panelGroup>
-						<h:panelGroup rendered="#{manageManagementController.readOnly}">
-							<p:commandButton action="#{manageManagementController.list}"
+						<h:panelGroup rendered="#{managementController.readOnly}">
+							<p:commandButton action="#{managementController.list}"
 								value="#{msgs['crud.button.back']}" immediate="true"
 								icon="buttonBack" />
 							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
-								action="#{manageManagementController.list}" immediate="true" />
+								action="#{managementController.list}" immediate="true" />
 						</h:panelGroup>
 					</ui:decorate>
 				</h:form>
@@ -286,9 +286,9 @@
 										value="#{msgsCore['manageManagementPosition.form.name']}" />
 								</ui:define>
 								<p:inputText id="name"
-									value="#{manageManagementController.managementPosition.name}"
+									value="#{managementController.managementPosition.name}"
 									size="50" required="true"
-									disabled="#{manageManagementController.readOnly}">
+									disabled="#{managementController.readOnly}">
 									<p:ajax event="blur" update="nameField" />
 								</p:inputText>
 							</ui:decorate>
@@ -305,15 +305,15 @@
 										value="#{msgsCore['manageManagementPosition.form.spiritist']}" />
 								</ui:define>
 								<p:selectOneMenu id="spiritist"
-									value="#{manageManagementController.managementPosition.spiritist}"
+									value="#{managementController.managementPosition.spiritist}"
 									converter="#{coreController.spiritistConverter}"
 									required="true"
-									disabled="#{manageManagementController.readOnly}">
+									disabled="#{managementController.readOnly}">
 									<f:selectItem
 										itemLabel="#{msgsCore['manageManagementPosition.form.spiritist.blankOption']}"
 										itemValue="" />
 									<f:selectItems
-										value="#{manageManagementController.attendances}"
+										value="#{managementController.attendances}"
 										var="attendance" itemLabel="#{attendance.spiritist.name}"
 										itemValue="#{attendance.spiritist}" />
 									<p:ajax update="spiritistField" />
@@ -323,17 +323,17 @@
 						<ui:decorate
 							template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
 							<p:commandButton
-								action="#{manageManagementController.resetManagementPosition}"
+								action="#{managementController.resetManagementPosition}"
 								onclick="managementPositionDialog.hide()"
 								value="#{msgs['crud.button.cancel']}" icon="buttonCancel" />
 							<p:commandButton
-								action="#{manageManagementController.resetManagementPosition}"
+								action="#{managementController.resetManagementPosition}"
 								onclick="managementPositionDialog.hide()"
 								value="#{msgs['crud.button.save']}" icon="buttonOk"
 								process="@form" update=":form:managementPositionsField">
 								<p:collector
-									value="#{manageManagementController.managementPosition}"
-									addTo="#{manageManagementController.managementPositions}" />
+									value="#{managementController.managementPosition}"
+									addTo="#{managementController.managementPositions}" />
 							</p:commandButton>
 						</ui:decorate>
 					</h:form>

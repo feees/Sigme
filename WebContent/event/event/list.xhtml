@@ -19,18 +19,12 @@
 		<div class="crud">
 			<!-- 		Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
 			<h:form id="filterForm">
-				<h:panelGroup id="filterBar"
-					rendered="#{(not empty eventController.filters)}">
+				<h:panelGroup id="filterBar" rendered="#{(not empty eventController.filters)}">
 					<div class="crudFilterBar">
 						<h:outputText value="#{msgs['crud.text.filter']} " />
-						<p:selectOneMenu id="filter" required="true"
-							value="#{eventController.filterKey}">
-							<f:selectItems value="#{eventController.filters}"
-								var="filter" itemLabel="#{filter.label}"
-								itemValue="#{filter.key}" />
-							<f:ajax event="change" execute="@form"
-								listener="#{eventController.changeFilter}"
-								render="@form :listingForm :buttonsForm" />
+						<p:selectOneMenu id="filter" required="true" value="#{eventController.filterKey}">
+							<f:selectItems value="#{eventController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
+							<f:ajax event="change" execute="@form"	listener="#{eventController.changeFilter}"	render="@form :listingForm :buttonsForm" />
 						</p:selectOneMenu>
 						<h:outputText value=": " />
 						<p:inputText id="filterText" size="20" required="false"
@@ -154,40 +148,22 @@
 			<!-- 			Buttons shown below the listing. -->
 			<h:form id="buttonsForm">
 				<div class="crudButtons">
-					<p:commandButton action="#{eventController.create}"
-						value="#{msgs['crud.button.create']}" icon="buttonNew" />
-					<p:commandButton action="#{eventController.retrieve}"
-						value="#{msgs['crud.button.retrieve']}" icon="buttonView"
-						disabled="#{eventController.selectedEntity == null}" />
+					<p:commandButton action="#{eventController.create}"	value="#{msgs['crud.button.create']}" icon="buttonNew" />
+					<p:commandButton action="#{eventController.retrieve}" value="#{msgs['crud.button.retrieve']}" icon="buttonView"	disabled="#{eventController.selectedEntity == null}" />
 
-					<c:if test="#{eventController.owner == true}">
-						<p:commandButton action="#{eventController.manage}"
-							value="#{msgs['crud.button.manage']}" icon="buttonView"
-							disabled="#{eventController.selectedEntity == null}" />
-						<p:commandButton action="#{eventController.update}"
-							value="#{msgs['crud.button.update']}" icon="buttonEdit"
-							disabled="#{eventController.selectedEntity == null}" />
-					</c:if>
+<!-- 					<c:if test="#{eventController.owner == true}"> -->
+						<p:commandButton action="#{eventController.manage}"	value="#{msgs['crud.button.manage']}" icon="buttonView"	disabled="#{eventController.selectedEntity == null}" />
+						<p:commandButton action="#{eventController.update}"	value="#{msgs['crud.button.update']}" icon="buttonEdit"	disabled="#{eventController.selectedEntity == null}" />
+<!-- 					</c:if> -->
 
-					<p:commandButton action="#{eventController.subscribe}"
-						value="#{msgs['crud.button.subscribe']}" icon="buttonAdd"
-						disabled="#{eventController.selectedEntity == null}" />
+					<p:commandButton action="#{eventController.subscribe}"	value="#{msgs['crud.button.subscribe']}" icon="buttonAdd" disabled="#{eventController.selectedEntity == null}" />
 
-					<p:commandButton action="#{eventController.trash}"
-						value="#{msgs['crud.button.delete']}" icon="buttonTrash"
-						disabled="#{eventController.selectedEntity == null}"
+					<p:commandButton action="#{eventController.trash}" value="#{msgs['crud.button.delete']}" icon="buttonTrash"	disabled="#{eventController.selectedEntity == null}"
 						process="@this" update=":trashForm" />
-					<p:hotkey bind="#{msgs['crud.hotkey.create']}"
-						action="#{eventController.create}" />
-					<p:hotkey bind="#{msgs['crud.hotkey.retrieve']}"
-						action="#{eventController.retrieve}"
-						rendered="#{eventController.selectedEntity != null}" />
-					<p:hotkey bind="#{msgs['crud.hotkey.update']}"
-						action="#{eventController.update}"
-						rendered="#{eventController.selectedEntity != null}" />
-					<p:hotkey bind="#{msgs['crud.hotkey.delete']}"
-						action="#{eventController.trash}"
-						rendered="#{eventController.selectedEntity != null}"
+					<p:hotkey bind="#{msgs['crud.hotkey.create']}"	action="#{eventController.create}" />
+					<p:hotkey bind="#{msgs['crud.hotkey.retrieve']}" action="#{eventController.retrieve}" rendered="#{eventController.selectedEntity != null}" />
+					<p:hotkey bind="#{msgs['crud.hotkey.update']}"	action="#{eventController.update}"	rendered="#{eventController.selectedEntity != null}" />
+					<p:hotkey bind="#{msgs['crud.hotkey.delete']}"	action="#{eventController.trash}"	rendered="#{eventController.selectedEntity != null}"
 						process="@this" update=":trashForm" />
 				</div>
 			</h:form>

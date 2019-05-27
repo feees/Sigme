@@ -20,29 +20,29 @@
 			<!-- 		Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
 			<h:form id="filterForm">
 				<h:panelGroup id="filterBar"
-					rendered="#{(not empty manageManagementController.filters)}">
+					rendered="#{(not empty managementController.filters)}">
 					<div class="crudFilterBar">
 						<h:outputText value="#{msgs['crud.text.filter']} " />
 						<p:selectOneMenu id="filter" required="true"
-							value="#{manageManagementController.filterKey}">
-							<f:selectItems value="#{manageManagementController.filters}"
+							value="#{managementController.filterKey}">
+							<f:selectItems value="#{managementController.filters}"
 								var="filter" itemLabel="#{filter.label}"
 								itemValue="#{filter.key}" />
 							<f:ajax event="change" execute="@form"
-								listener="#{manageManagementController.changeFilter}"
+								listener="#{managementController.changeFilter}"
 								render="@form :listingForm :buttonsForm" />
 						</p:selectOneMenu>
 						<h:outputText value=": " />
 						<p:inputText id="filterText" size="20" required="false"
-							value="#{manageManagementController.filterParam}"
-							rendered="#{manageManagementController.filter.options == null}" />
+							value="#{managementController.filterParam}"
+							rendered="#{managementController.filter.options == null}" />
 						<p:selectOneMenu id="filterSelect" required="false"
-							value="#{manageManagementController.filterParam}"
-							rendered="#{manageManagementController.filter.options != null}">
+							value="#{managementController.filterParam}"
+							rendered="#{managementController.filter.options != null}">
 							<f:selectItems
-								value="#{manageManagementController.filter.reversedOptionsLabels}" />
+								value="#{managementController.filter.reversedOptionsLabels}" />
 						</p:selectOneMenu>
-						<p:commandLink action="#{manageManagementController.filter}"
+						<p:commandLink action="#{managementController.filter}"
 							process="@form" update=":listingForm :buttonsForm">
 							<h:graphicImage style="border: 0;"
 								value="/resources/templates/default/icons/button-find.png"
@@ -58,20 +58,20 @@
 			<h:form id="listingForm">
 				<!-- 				Filter information (displayed when the listing is being filtered. -->
 				<h:panelGroup id="filterInfo"
-					rendered="#{manageManagementController.filtering}">
+					rendered="#{managementController.filtering}">
 					<div class="crudFilterInfo">
 						<h:outputFormat value="#{msgs['crud.text.filterInfo']} ">
-							<f:param value="#{manageManagementController.filter.label}" />
-							<f:param value="#{manageManagementController.filterLabel}" />
+							<f:param value="#{managementController.filter.label}" />
+							<f:param value="#{managementController.filterLabel}" />
 						</h:outputFormat>
-						<p:commandLink action="#{manageManagementController.cancelFilter}"
+						<p:commandLink action="#{managementController.cancelFilter}"
 							process="@form" update="@form :buttonsForm">
 							<h:graphicImage style="border: 0;"
 								value="/resources/templates/default/icons/button-close.png"
 								title="#{msgs['crud.button.cancelFilter']}" />
 						</p:commandLink>
 						<p:hotkey bind="#{msgs['crud.hotkey.clearFilter']}"
-							action="#{manageManagementController.cancelFilter}"
+							action="#{managementController.cancelFilter}"
 							process="@form" update=":listingForm :buttonsForm" />
 					</div>
 				</h:panelGroup>
@@ -79,16 +79,16 @@
 				<!-- 				The list of entities. -->
 				<h:panelGroup id="listing" styleClass="listing">
 					<p:dataTable widgetVar="listingTable"
-						value="#{manageManagementController.lazyEntities}" var="entity"
-						rows="#{manageManagementController.maxDataTableRowsPerPage}"
-						rowsPerPageTemplate="#{manageManagementController.halfMaxDataTableRowsPerPage},#{manageManagementController.maxDataTableRowsPerPage},#{manageManagementController.doubleMaxDataTableRowsPerPage}"
+						value="#{managementController.lazyEntities}" var="entity"
+						rows="#{managementController.maxDataTableRowsPerPage}"
+						rowsPerPageTemplate="#{managementController.halfMaxDataTableRowsPerPage},#{managementController.maxDataTableRowsPerPage},#{managementController.doubleMaxDataTableRowsPerPage}"
 						lazy="true" paginator="true"
-						selection="#{manageManagementController.selectedEntity}"
+						selection="#{managementController.selectedEntity}"
 						selectionMode="single"
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 						paginatorPosition="bottom"
 						loadingMessage="#{msgs['text.ajax.loading']}"
-						emptyMessage="#{manageManagementController.filtering ? msgsCore['management.text.noEntitiesFiltered'] : msgsCore['management.text.noEntities']}">
+						emptyMessage="#{managementController.filtering ? msgsCore['management.text.noEntitiesFiltered'] : msgsCore['management.text.noEntities']}">
 
 						<!-- Management Name -->
 						<p:column headerText="#{msgsCore['management.form.name']}">
@@ -132,30 +132,30 @@
 			<!-- 			Buttons shown below the listing. -->
 			<h:form id="buttonsForm">
 				<div class="crudButtons">
-					<p:commandButton action="#{manageManagementController.create}"
+					<p:commandButton action="#{managementController.create}"
 						value="#{msgs['crud.button.create']}" icon="buttonNew" />
-					<p:commandButton action="#{manageManagementController.retrieve}"
+					<p:commandButton action="#{managementController.retrieve}"
 						value="#{msgs['crud.button.retrieve']}" icon="buttonView"
-						disabled="#{manageManagementController.selectedEntity == null}" />
-					<p:commandButton action="#{manageManagementController.update}"
+						disabled="#{managementController.selectedEntity == null}" />
+					<p:commandButton action="#{managementController.update}"
 						value="#{msgs['crud.button.update']}" icon="buttonEdit"
-						disabled="#{manageManagementController.selectedEntity == null}" />
+						disabled="#{managementController.selectedEntity == null}" />
 
-					<p:commandButton action="#{manageManagementController.trash}"
+					<p:commandButton action="#{managementController.trash}"
 						value="#{msgs['crud.button.delete']}" icon="buttonTrash"
-						disabled="#{manageManagementController.selectedEntity == null}"
+						disabled="#{managementController.selectedEntity == null}"
 						process="@this" update=":trashForm" />
 					<p:hotkey bind="#{msgs['crud.hotkey.create']}"
-						action="#{manageManagementController.create}" />
+						action="#{managementController.create}" />
 					<p:hotkey bind="#{msgs['crud.hotkey.retrieve']}"
-						action="#{manageManagementController.retrieve}"
-						rendered="#{manageManagementController.selectedEntity != null}" />
+						action="#{managementController.retrieve}"
+						rendered="#{managementController.selectedEntity != null}" />
 					<p:hotkey bind="#{msgs['crud.hotkey.update']}"
-						action="#{manageManagementController.update}"
-						rendered="#{manageManagementController.selectedEntity != null}" />
+						action="#{managementController.update}"
+						rendered="#{managementController.selectedEntity != null}" />
 					<p:hotkey bind="#{msgs['crud.hotkey.delete']}"
-						action="#{manageManagementController.trash}"
-						rendered="#{manageManagementController.selectedEntity != null}"
+						action="#{managementController.trash}"
+						rendered="#{managementController.selectedEntity != null}"
 						process="@this" update=":trashForm" />
 				</div>
 			</h:form>
@@ -164,23 +164,23 @@
 			<h:form id="trashForm">
 				<p:panel id="trashPanel" styleClass="trashPanel"
 					header="#{msgs['crud.text.trashHeader']}" toggleable="true"
-					rendered="#{not empty manageManagementController.trashCan}">
-					<p:dataList value="#{manageManagementController.trashCan}"
+					rendered="#{not empty managementController.trashCan}">
+					<p:dataList value="#{managementController.trashCan}"
 						var="entity" type="unordered">
                         #{entity.name}
                     </p:dataList>
 					<div class="nemoUtilsFormInternalButton">
 						<p:commandButton
-							action="#{manageManagementController.cancelDeletion}"
+							action="#{managementController.cancelDeletion}"
 							value="#{msgs['crud.button.cancelDeletion']}" icon="buttonCancel"
 							update=":trashForm :buttonsForm :listingForm" />
-						<p:commandButton action="#{manageManagementController.delete}"
+						<p:commandButton action="#{managementController.delete}"
 							value="#{msgs['crud.button.confirmDeletion']}" icon="buttonOk" />
 						<p:hotkey bind="#{msgs['crud.hotkey.cancelDeletion']}"
-							action="#{manageManagementController.cancelDeletion}"
+							action="#{managementController.cancelDeletion}"
 							update=":trashForm :buttonsForm :listingForm" />
 						<p:hotkey bind="#{msgs['crud.hotkey.confirmDeletion']}"
-							action="#{manageManagementController.delete}" />
+							action="#{managementController.delete}" />
 					</div>
 				</p:panel>
 			</h:form>

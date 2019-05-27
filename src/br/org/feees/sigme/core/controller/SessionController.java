@@ -318,10 +318,10 @@ public class SessionController extends JSFController {
 
 	// Now that the system is going to be shared with others, how about identifying the 1st user and providing auto-login for her?
 	public String autoLogin() {
-		email = "vitorsouza@gmail.com";
+//		email = "vitorsouza@gmail.com";
+//		password = "123";
+		email = "rodrigo";
 		password = "123";
-//		email = "rodrigopimenta2@gmail.com";
-//		password = "Rodrigo";
 		return login();
 	}
 }

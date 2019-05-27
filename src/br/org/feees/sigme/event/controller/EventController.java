@@ -36,8 +36,7 @@ public class EventController extends CrudController<Event> {
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger
-			.getLogger(EventController.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(EventController.class.getCanonicalName());
 
 	/** The "Manage Events" service */
 	@EJB
@@ -48,8 +47,6 @@ public class EventController extends CrudController<Event> {
 
 	@EJB
 	private EventDAO eventDAO;
-
-	/** Information on the current visitor. */	
 	
 	/** Information on the current visitor. */
 	@Inject
@@ -199,7 +196,7 @@ public class EventController extends CrudController<Event> {
 
 	public boolean isOwner() {
 		logger.log(Level.INFO, "Retrieve Owner of Event");
-		if (selectedEntity == null) {
+		if (selectedEntity == null || selectedEntity.getId() == null) {
 			logger.log(Level.INFO, "Haven't selected any entity!");
 			return false;
 		}
@@ -210,8 +207,7 @@ public class EventController extends CrudController<Event> {
 			return false;
 		}
 
-		return eventDAO.retrieveOwner(selectedEntity.getId(),
-				currentUser.getId());
+		return eventDAO.retrieveOwner(selectedEntity.getId(), currentUser.getId());
 	}
 
 	@Override
