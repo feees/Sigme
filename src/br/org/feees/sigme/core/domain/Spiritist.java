@@ -90,7 +90,7 @@ public class Spiritist extends Person {
 	private Management management;
 	
 	@OneToOne
-	private ManagementPosition managementPosition;
+	private ManagementRole managementPosition;
 		
 	/** Getter for shortName. */
 	public String getShortName() {

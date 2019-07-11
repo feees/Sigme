@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import br.org.feees.sigme.core.domain.Spiritist;
 import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
@@ -27,6 +28,7 @@ public class Subscriber extends PersistentObjectSupport implements Comparable<Su
 	@NotNull
 	private Event event;
 	
+	@Size(max = 100)
 	private String badgeName;
 	
 	@Temporal (TemporalType.DATE)

@@ -9,14 +9,14 @@ import javax.inject.Named;
 import br.org.feees.sigme.core.application.ManagementPositionService;
 import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.Management;
-import br.org.feees.sigme.core.domain.ManagementPosition;
+import br.org.feees.sigme.core.domain.ManagementRole;
 import br.org.feees.sigme.core.domain.Spiritist;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 
 @Named
 @SessionScoped
-public class PositionController extends CrudController<ManagementPosition> {
+public class PositionController extends CrudController<ManagementRole> {
 
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
@@ -28,14 +28,14 @@ public class PositionController extends CrudController<ManagementPosition> {
 	private ManagementPositionService managementPositionService;
 	
 	@Override
-	protected CrudService<ManagementPosition> getCrudService() {
+	protected CrudService<ManagementRole> getCrudService() {
 		managementPositionService.authorize();
 		return managementPositionService;
 	}
 
 	@Override
-	protected ManagementPosition createNewEntity() {
-		ManagementPosition mp = new ManagementPosition();
+	protected ManagementRole createNewEntity() {
+		ManagementRole mp = new ManagementRole();
 		mp.setInstitution(new Institution());
 		mp.setSpiritist(new Spiritist());
 		mp.setManagement(new Management());

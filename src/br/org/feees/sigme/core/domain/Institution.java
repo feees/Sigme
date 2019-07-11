@@ -94,7 +94,7 @@ public class Institution extends PersistentObjectSupport implements Comparable<I
 	private List<Management> managementHistory;
 	
 	@OneToMany (mappedBy="institution")
-	private List<ManagementPosition> managementPositions;
+	private List<ManagementRole> managementPositions;
 	
 	/** Getter for name. */
 	public String getName() {
@@ -224,11 +224,11 @@ public class Institution extends PersistentObjectSupport implements Comparable<I
 		this.managementHistory = managementHistory;
 	}
 
-	public List<ManagementPosition> getManagementPositions() {
+	public List<ManagementRole> getManagementPositions() {
 		return managementPositions;
 	}
 
-	public void setManagementPositions(List<ManagementPosition> managementPositions) {
+	public void setManagementPositions(List<ManagementRole> managementPositions) {
 		this.managementPositions = managementPositions;
 	}
 }

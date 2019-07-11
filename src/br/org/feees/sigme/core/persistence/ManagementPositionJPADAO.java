@@ -6,11 +6,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.org.feees.sigme.core.domain.ManagementPosition;
+import br.org.feees.sigme.core.domain.ManagementRole;
 import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 
 @Stateless
-public class ManagementPositionJPADAO extends BaseJPADAO<ManagementPosition> implements ManagementPositionDAO {
+public class ManagementPositionJPADAO extends BaseJPADAO<ManagementRole> implements ManagementPositionDAO {
 
 	/**
 	 * 
@@ -27,8 +27,8 @@ public class ManagementPositionJPADAO extends BaseJPADAO<ManagementPosition> imp
 	
 
 	@Override
-	public Class<ManagementPosition> getDomainClass() {
-		return ManagementPosition.class;
+	public Class<ManagementRole> getDomainClass() {
+		return ManagementRole.class;
 	}
 
 	@Override

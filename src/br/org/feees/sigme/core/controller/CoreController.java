@@ -24,12 +24,14 @@ import br.org.feees.sigme.core.domain.Attendance;
 import br.org.feees.sigme.core.domain.Institution;
 import br.org.feees.sigme.core.domain.InstitutionType;
 import br.org.feees.sigme.core.domain.Management;
+import br.org.feees.sigme.core.domain.ManagementRoleType;
 import br.org.feees.sigme.core.domain.ManagementType;
 import br.org.feees.sigme.core.domain.Spiritist;
 import br.org.feees.sigme.core.persistence.AttendanceDAO;
 import br.org.feees.sigme.core.persistence.InstitutionDAO;
 import br.org.feees.sigme.core.persistence.InstitutionTypeDAO;
 import br.org.feees.sigme.core.persistence.ManagementDAO;
+import br.org.feees.sigme.core.persistence.ManagementRoleTypeDAO;
 import br.org.feees.sigme.core.persistence.ManagementTypeDAO;
 import br.org.feees.sigme.core.persistence.SpiritistDAO;
 import br.org.feees.sigme.event.domain.Event;
@@ -84,10 +86,14 @@ public class CoreController implements Serializable {
 	private ManagementDAO managementDAO;
 	private PersistentObjectConverterFromId<Management> managementConverter;
 
-	@Inject
+	@EJB
 	private ManagementTypeDAO managementTypeDAO;
 	private PersistentObjectConverterFromId<ManagementType> managementTypeConverter;
 
+	@EJB
+	private ManagementRoleTypeDAO managementRoleTypeDAO;
+	private PersistentObjectConverterFromId<ManagementRoleType> managementRoleTypeConverter;
+	
 	@EJB
 	private AttendanceDAO attendanceDAO;
 
@@ -216,6 +222,14 @@ public class CoreController implements Serializable {
 			spiritistConverter = new PersistentObjectConverterFromId<Spiritist>(spiritistDAO);
 		}
 		return spiritistConverter;
+	}
+	
+	public PersistentObjectConverterFromId<ManagementRoleType> getManagementRoleTypeConverter() {
+		if (this.managementRoleTypeConverter == null) {
+			logger.log(Level.FINEST, "Creating an event type converter...");
+			this.managementRoleTypeConverter = new PersistentObjectConverterFromId<ManagementRoleType>(managementRoleTypeDAO);
+		}
+		return managementRoleTypeConverter;
 	}
 
 	public PersistentObjectConverterFromId<Event> getEventConverter() {

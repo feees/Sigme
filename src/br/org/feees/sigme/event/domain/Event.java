@@ -31,27 +31,29 @@ public class Event extends PersistentObjectSupport implements Comparable<Event> 
 	/** The Event's Name */
 	@Basic
 	@NotNull
-	@Size (max = 30)
-	private String eventName; // nomeEvento
+	@Size (max = 100)
+	private String name; // nomeEvento
 	
 	/** The Event's Description */
 	@Basic
 	@NotNull
-	private String eventDescription; // descricaoEvento
+	@Size (max = 300)
+	private String description; // descricaoEvento
 	
 	@Basic
-	@Size (max = 20)
-	private String eventBadgeName; // nomeEventoCracha
+	@Size (max = 100)
+	private String badgeName; // nomeEventoCracha
 	
 	@Basic
+	@Size(max = 500)
 	private String additionalInformation; // informacoesComplementares
 	
 	@Basic
-	private String eventPrice; // preçoInscricao
+	private String price; // preçoInscricao
 	
 	@ManyToOne (cascade = CascadeType.ALL)
 	@NotNull
-	private Address eventAddress; // localDoEvento
+	private Address address; // localDoEvento
 	
 	/** The regional to which the institution belongs. */
 	@ManyToOne
@@ -65,11 +67,11 @@ public class Event extends PersistentObjectSupport implements Comparable<Event> 
 
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	private Date eventInitialDate; // dataInicial
+	private Date initialDate; // dataInicial
 
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	private Date eventFinalDate; // dataFinal
+	private Date finalDate; // dataFinal
 	
 	// Instituição da qual o evento pertence
 	@ManyToOne
@@ -96,42 +98,42 @@ public class Event extends PersistentObjectSupport implements Comparable<Event> 
 	 * @return the eventName
 	 */
 	public String getEventName() {
-		return eventName;
+		return name;
 	}
 
 	/**
 	 * @param eventName the eventName to set
 	 */
 	public void setEventName(String eventName) {
-		this.eventName = eventName;
+		this.name = eventName;
 	}
 
 	/**
 	 * @return the eventDescription
 	 */
 	public String getEventDescription() {
-		return eventDescription;
+		return description;
 	}
 
 	/**
 	 * @param eventDescription the eventDescription to set
 	 */
 	public void setEventDescription(String eventDescription) {
-		this.eventDescription = eventDescription;
+		this.description = eventDescription;
 	}
 
 	/**
 	 * @return the eventBadgeName
 	 */
 	public String getEventBadgeName() {
-		return eventBadgeName;
+		return badgeName;
 	}
 
 	/**
 	 * @param eventBadgeName the eventBadgeName to set
 	 */
 	public void setEventBadgeName(String eventBadgeName) {
-		this.eventBadgeName = eventBadgeName;
+		this.badgeName = eventBadgeName;
 	}
 
 	/**
@@ -152,28 +154,28 @@ public class Event extends PersistentObjectSupport implements Comparable<Event> 
 	 * @return the eventPrice
 	 */
 	public String getEventPrice() {
-		return eventPrice;
+		return price;
 	}
 
 	/**
 	 * @param eventPrice the eventPrice to set
 	 */
 	public void setEventPrice(String eventPrice) {
-		this.eventPrice = eventPrice;
+		this.price = eventPrice;
 	}
 
 	/**
 	 * @return the eventAddress
 	 */
 	public Address getEventAddress() {
-		return eventAddress;
+		return address;
 	}
 
 	/**
 	 * @param eventAddress the eventAddress to set
 	 */
 	public void setEventAddress(Address eventAddress) {
-		this.eventAddress = eventAddress;
+		this.address = eventAddress;
 	}
 
 	/**
@@ -222,28 +224,28 @@ public class Event extends PersistentObjectSupport implements Comparable<Event> 
 	 * @return the eventInitialDate
 	 */
 	public Date getEventInitialDate() {
-		return eventInitialDate;
+		return initialDate;
 	}
 
 	/**
 	 * @param eventInitialDate the eventInitialDate to set
 	 */
 	public void setEventInitialDate(Date eventInitialDate) {
-		this.eventInitialDate = eventInitialDate;
+		this.initialDate = eventInitialDate;
 	}
 
 	/**
 	 * @return the eventFinalDate
 	 */
 	public Date getEventFinalDate() {
-		return eventFinalDate;
+		return finalDate;
 	}
 
 	/**
 	 * @param eventFinalDate the eventFinalDate to set
 	 */
 	public void setEventFinalDate(Date eventFinalDate) {
-		this.eventFinalDate = eventFinalDate;
+		this.finalDate = eventFinalDate;
 	}
 
 	/**

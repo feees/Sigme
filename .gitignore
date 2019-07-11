@@ -1,6 +1,6 @@
 build/
 /target
-/.settings/
+/.settings
 /.classpath
 /.factorypath
 /.project

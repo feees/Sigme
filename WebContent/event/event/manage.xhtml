@@ -35,7 +35,18 @@
 
 						</ui:decorate>
 					</h:panelGroup>
-
+					
+					<ui:decorate
+						template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+						
+						<p:commandButton ajax="false" action="#{eventController.printPDF()}"
+								value="Exportar PDF" icon="buttonReport" />
+						
+						<p:commandButton action="#{eventController.list}"
+								value="#{msgs['crud.button.cancel']}" immediate="true"
+								icon="buttonCancel" />
+					</ui:decorate>
+					
 				</h:form>
 			</ui:decorate>
 		</div>

@@ -9,14 +9,11 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.org.feees.sigme.core.application.SessionInformation;
 import br.org.feees.sigme.core.controller.SessionController;
 import br.org.feees.sigme.core.domain.Spiritist;
-import br.org.feees.sigme.core.persistence.SpiritistDAO;
 import br.org.feees.sigme.event.application.SubscriberService;
 import br.org.feees.sigme.event.domain.Event;
 import br.org.feees.sigme.event.domain.Subscriber;
-import br.org.feees.sigme.event.persistence.EventDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 

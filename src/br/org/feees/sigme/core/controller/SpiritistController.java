@@ -29,10 +29,11 @@ import br.ufes.inf.nemo.util.ejb3.application.filters.ManyToManyFilter;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 
 /**
- * Controller class responsible for mediating the communication between user interface and application service for the
- * use case "Manage Spiritist".
+ * Controller class responsible for mediating the communication between user
+ * interface and application service for the use case "Manage Spiritist".
  * 
- * This use case is a CRUD and, thus, the controller also uses the mini CRUD framework for EJB3..
+ * This use case is a CRUD and, thus, the controller also uses the mini CRUD
+ * framework for EJB3..
  * 
  * @author Vitor E. Silva Souza (vitorsouza@gmail.com)
  */
@@ -62,8 +63,6 @@ public class SpiritistController extends CrudController<Spiritist> {
 
 	/** Input: a telephone being added or edited. */
 	private Telephone telephone;
-	
-	private boolean disableTelephoneButton;
 
 	/** Output: the list of attendances. */
 	private List<Attendance> attendances;
@@ -74,7 +73,9 @@ public class SpiritistController extends CrudController<Spiritist> {
 	/** Input: the new password to set. */
 	private String newPassword;
 
-	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#getCrudService() */
+	/**
+	 * @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#getCrudService()
+	 */
 	@Override
 	protected CrudService<Spiritist> getCrudService() {
 		// Checks if the current user has the authorization to use this functionality.
@@ -83,7 +84,9 @@ public class SpiritistController extends CrudController<Spiritist> {
 		return spiritistsService;
 	}
 
-	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#createNewEntity() */
+	/**
+	 * @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#createNewEntity()
+	 */
 	@Override
 	protected Spiritist createNewEntity() {
 		logger.log(Level.FINER, "Initializing an empty spiritist...");
@@ -99,7 +102,9 @@ public class SpiritistController extends CrudController<Spiritist> {
 		return newEntity;
 	}
 
-	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#checkSelectedEntity() */
+	/**
+	 * @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#checkSelectedEntity()
+	 */
 	@Override
 	protected void checkSelectedEntity() {
 		logger.log(Level.FINER, "Checking selected spiritist ({0})...", selectedEntity);
@@ -108,7 +113,8 @@ public class SpiritistController extends CrudController<Spiritist> {
 		if (selectedEntity.getAddress() == null)
 			selectedEntity.setAddress(new Address());
 
-		// Create the list of telephones with the already existing telephones. Also check for null.
+		// Create the list of telephones with the already existing telephones. Also
+		// check for null.
 		if (selectedEntity.getTelephones() == null)
 			selectedEntity.setTelephones(new TreeSet<Telephone>());
 		telephones = new ArrayList<Telephone>(selectedEntity.getTelephones());
@@ -125,10 +131,16 @@ public class SpiritistController extends CrudController<Spiritist> {
 		logger.log(Level.FINER, "Initializing filter types...");
 
 		// One can filter spiritists by name or e-mail.
-		addFilter(new LikeFilter("spiritist.filter.byName", "name", getI18nMessage("msgsCore", "spiritist.text.filter.byName")));
-		addFilter(new LikeFilter("spiritist.filter.byEmail", "email", getI18nMessage("msgsCore", "spiritist.text.filter.byEmail")));
-		addFilter(new ManyToManyFilter("spiritist.filter.byActiveAttendance", "attendances", getI18nMessage("msgsCore", "spiritist.text.filter.byActiveAttendance"), "institution.name, institution.acronym", true, new Criterion("endDate", CriterionType.IS_NULL)));
-		addFilter(new ManyToManyFilter("spiritist.filter.byInactiveAttendance", "attendances", getI18nMessage("msgsCore", "spiritist.text.filter.byInactiveAttendance"), "institution.name, institution.acronym", true, new Criterion("endDate", CriterionType.IS_NOT_NULL)));
+		addFilter(new LikeFilter("spiritist.filter.byName", "name",
+				getI18nMessage("msgsCore", "spiritist.text.filter.byName")));
+		addFilter(new LikeFilter("spiritist.filter.byEmail", "email",
+				getI18nMessage("msgsCore", "spiritist.text.filter.byEmail")));
+		addFilter(new ManyToManyFilter("spiritist.filter.byActiveAttendance", "attendances",
+				getI18nMessage("msgsCore", "spiritist.text.filter.byActiveAttendance"),
+				"institution.name, institution.acronym", true, new Criterion("endDate", CriterionType.IS_NULL)));
+		addFilter(new ManyToManyFilter("spiritist.filter.byInactiveAttendance", "attendances",
+				getI18nMessage("msgsCore", "spiritist.text.filter.byInactiveAttendance"),
+				"institution.name, institution.acronym", true, new Criterion("endDate", CriterionType.IS_NOT_NULL)));
 	}
 
 	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#prepEntity() */
@@ -144,7 +156,9 @@ public class SpiritistController extends CrudController<Spiritist> {
 		selectedEntity.setAttendances(new TreeSet<Attendance>(attendances));
 	}
 
-	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#summarizeSelectedEntity() */
+	/**
+	 * @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#summarizeSelectedEntity()
+	 */
 	@Override
 	protected String summarizeSelectedEntity() {
 		return (selectedEntity == null) ? "" : selectedEntity.getShortName();
@@ -161,35 +175,41 @@ public class SpiritistController extends CrudController<Spiritist> {
 
 		// Removes the final comma and returns the string.
 		int length = acronyms.length();
-		if (length > 0) acronyms.delete(length - 2, length);
+		if (length > 0)
+			acronyms.delete(length - 2, length);
 
 		logger.log(Level.INFO, "List of spiritists in the trash can: {0}", acronyms.toString());
 		return acronyms.toString();
 	}
 
 	/**
-	 * Analyzes the name that was given to the spiritist and, if the short name field is still empty, suggests a value for
-	 * it based on the given name. 
+	 * Analyzes the name that was given to the spiritist and, if the short name
+	 * field is still empty, suggests a value for it based on the given name.
 	 * 
 	 * This method is intended to be used with AJAX.
 	 */
 	public void suggestShortName() {
-		// If the name was filled and the short name is still empty, suggest the first name as short name.
+		// If the name was filled and the short name is still empty, suggest the first
+		// name as short name.
 		String name = selectedEntity.getName();
 		String shortName = selectedEntity.getShortName();
 		if ((name != null) && ((shortName == null) || (shortName.length() == 0))) {
 			int idx = name.indexOf(" ");
 			selectedEntity.setShortName((idx == -1) ? name : name.substring(0, idx).trim());
 
-			logger.log(Level.FINE, "Suggested \"{0}\" as short name for \"{1}\"", new Object[] { selectedEntity.getShortName(), name });
-		}
-		else logger.log(Level.FINEST, "Short name not suggested: empty name or short name already filled (name is \"{0}\", shortName is \"{1}\"", new Object[] { name, shortName });
+			logger.log(Level.FINE, "Suggested \"{0}\" as short name for \"{1}\"",
+					new Object[] { selectedEntity.getShortName(), name });
+		} else
+			logger.log(Level.FINEST,
+					"Short name not suggested: empty name or short name already filled (name is \"{0}\", shortName is \"{1}\"",
+					new Object[] { name, shortName });
 	}
 
 	/**
-	 * Analyzes what has been written so far in the city field and, if not empty, looks for cities that start with the
-	 * given name and returns them in a list, so a dynamic pop-up list can be displayed. This method is intended to be
-	 * used with AJAX.
+	 * Analyzes what has been written so far in the city field and, if not empty,
+	 * looks for cities that start with the given name and returns them in a list,
+	 * so a dynamic pop-up list can be displayed. This method is intended to be used
+	 * with AJAX.
 	 * 
 	 * @param query What has been written so far in the city field.
 	 * 
@@ -200,27 +220,31 @@ public class SpiritistController extends CrudController<Spiritist> {
 		if (query.length() > 0) {
 			// Uses the DAO to find the query and returns.
 			List<City> cities = cityDAO.findByName(query);
-			logger.log(Level.FINE, "Suggestion for cities beginning with \"{0}\" returned {1} results", new Object[] { query, cities.size() });
+			logger.log(Level.FINE, "Suggestion for cities beginning with \"{0}\" returned {1} results",
+					new Object[] { query, cities.size() });
 			return cities;
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Analyzes what has been written so far in the institution field and, if not empty, looks for institutions that start
-	 * with the given name or acronym and returns them in a list, so a dynamic pop-up list can be displayed. This method
-	 * is intended to be used with AJAX.
+	 * Analyzes what has been written so far in the institution field and, if not
+	 * empty, looks for institutions that start with the given name or acronym and
+	 * returns them in a list, so a dynamic pop-up list can be displayed. This
+	 * method is intended to be used with AJAX.
 	 * 
-	 * @param event
-	 *          The AJAX event.
-	 * @return The list of institutions to be displayed in the drop-down auto-completion field.
+	 * @param event The AJAX event.
+	 * @return The list of institutions to be displayed in the drop-down
+	 *         auto-completion field.
 	 */
 	public List<Institution> suggestInstitutions(Object event) {
 		if (event != null) {
 			String param = event.toString();
 			if (param.length() > 0) {
 				List<Institution> suggestions = institutionDAO.findByNameOrAcronym(param);
-				logger.log(Level.FINE, "Suggestion for institutions with name or acronym beginning with \"{0}\" returned {1} results", new Object[] { param, suggestions.size() });
+				logger.log(Level.FINE,
+						"Suggestion for institutions with name or acronym beginning with \"{0}\" returned {1} results",
+						new Object[] { param, suggestions.size() });
 				return suggestions;
 			}
 		}
@@ -248,36 +272,40 @@ public class SpiritistController extends CrudController<Spiritist> {
 		logger.log(Level.FINEST, "Telephone \"{0}\" has been selected", telephone);
 	}
 
-	/** 
-	 * Getter for the type attribute of the telephone, created because PrimeFaces p:selectOneMenu complains of the EL 
-	 * #{spiritistsAction.telephone.type} if telephone is null. This method checks for nulls.
+	/**
+	 * Getter for the type attribute of the telephone, created because PrimeFaces
+	 * p:selectOneMenu complains of the EL #{spiritistsAction.telephone.type} if
+	 * telephone is null. This method checks for nulls.
 	 * 
-	 * See: http://forum.primefaces.org/viewtopic.php?f=3&t=14128&p=43494#p43494 
+	 * See: http://forum.primefaces.org/viewtopic.php?f=3&t=14128&p=43494#p43494
 	 */
 	public ContactType getTelephoneType() {
 		return (telephone == null) ? null : telephone.getType();
 	}
-	
-	/** 
-	 * Setter for the type attribute of the telephone, created because PrimeFaces p:selectOneMenu complains of the EL 
-	 * #{spiritistsAction.telephone.type} if telephone is null. This method checks for nulls.
+
+	/**
+	 * Setter for the type attribute of the telephone, created because PrimeFaces
+	 * p:selectOneMenu complains of the EL #{spiritistsAction.telephone.type} if
+	 * telephone is null. This method checks for nulls.
 	 * 
-	 * See: http://forum.primefaces.org/viewtopic.php?f=3&t=14128&p=43494#p43494 
+	 * See: http://forum.primefaces.org/viewtopic.php?f=3&t=14128&p=43494#p43494
 	 */
 	public void setTelephoneType(ContactType type) {
-		if (telephone != null) telephone.setType(type);
+		if (telephone != null)
+			telephone.setType(type);
 	}
 
 	/**
-	 * Creates a new and empty telephone so the telephone fields can be filled. 
+	 * Creates a new and empty telephone so the telephone fields can be filled.
 	 * 
-	 * This method is intended to be used with AJAX, through the PrimeFaces Collector component.
+	 * This method is intended to be used with AJAX, through the PrimeFaces
+	 * Collector component.
 	 */
 	public void newTelephone() {
 		telephone = new Telephone();
 		logger.log(Level.FINEST, "Empty telephone created as selected telephone");
 	}
-	
+
 	/**
 	 * TODO: document this method.
 	 */
@@ -308,9 +336,10 @@ public class SpiritistController extends CrudController<Spiritist> {
 	}
 
 	/**
-	 * Creates a new and empty attendance so the attendance fields can be filled. 
+	 * Creates a new and empty attendance so the attendance fields can be filled.
 	 * 
-	 * This method is intended to be used with AJAX, through the PrimeFaces Collector component.
+	 * This method is intended to be used with AJAX, through the PrimeFaces
+	 * Collector component.
 	 */
 	public void newAttendance() {
 		attendance = new Attendance();
@@ -318,7 +347,7 @@ public class SpiritistController extends CrudController<Spiritist> {
 		attendance.setInstitution(new Institution());
 		logger.log(Level.FINEST, "Empty attendance created as selected attendance");
 	}
-	
+
 	/**
 	 * TODO: document this method.
 	 */

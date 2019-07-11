@@ -1,21 +1,27 @@
 package br.org.feees.sigme.event.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.feees.sigme.people.domain.Address;
 import org.feees.sigme.people.domain.City;
 import org.feees.sigme.people.persistence.CityDAO;
 import org.primefaces.event.SelectEvent;
 
-import br.org.feees.sigme.core.application.SessionInformation;
 import br.org.feees.sigme.core.controller.CoreController;
 import br.org.feees.sigme.core.controller.SessionController;
 import br.org.feees.sigme.core.domain.Spiritist;
@@ -24,10 +30,14 @@ import br.org.feees.sigme.event.application.SubscriberService;
 import br.org.feees.sigme.event.domain.Event;
 import br.org.feees.sigme.event.domain.Subscriber;
 import br.org.feees.sigme.event.persistence.EventDAO;
-import br.org.feees.sigme.event.persistence.SubscriberDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.application.filters.LikeFilter;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Named
 @SessionScoped
@@ -225,5 +235,27 @@ public class EventController extends CrudController<Event> {
 			return subscriberService.retrieveSubscribersByEvent(this.selectedEntity.getId());
 		}
 		return null;
+	}
+
+	public void printPDF() throws JRException, IOException {
+		List<Subscriber> dataSource = subscriberService.retrieveSubscribersByEvent(this.selectedEntity.getId());
+		String filename = "Inscritos.pdf";
+		
+		String jasperPath = "/resources/reports/inscritos.jasper";
+		this.pdf(null, jasperPath, dataSource, filename);
+	}
+	
+	public void pdf (Map<String, Object> params, String jasperPath, List<Subscriber> dataSource, String filename) throws JRException, IOException {
+		String relativeWebPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(jasperPath);
+		File file = new File (relativeWebPath);
+		JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(dataSource, false);
+		JasperPrint print = JasperFillManager.fillReport(file.getPath(), params, source);
+		
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+		response.addHeader("Content-disposition", "attachment;filename=" + filename);
+		
+		ServletOutputStream stream = response.getOutputStream();
+		JasperExportManager.exportReportToPdfStream(print, stream);
+		FacesContext.getCurrentInstance().responseComplete();		
 	}
 }

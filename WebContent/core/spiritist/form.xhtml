@@ -1,78 +1,48 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui"
-	template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:p="http://primefaces.org/ui" template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
 
 	<ui:define name="title">
-		<h:outputText value="#{msgsCore['spiritist.title.create']}"
-			rendered="#{(! spiritistController.readOnly) and (spiritistController.selectedEntity.id == null)}" />
-		<h:outputText value="#{msgsCore['spiritist.title.update']}"
-			rendered="#{(! spiritistController.readOnly) and (spiritistController.selectedEntity.id != null)}" />
-		<h:outputText value="#{msgsCore['spiritist.title.retrieve']}"
-			rendered="#{spiritistController.readOnly}" />
+		<h:outputText value="#{msgsCore['spiritist.title.create']}" rendered="#{(! spiritistController.readOnly) and (spiritistController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsCore['spiritist.title.update']}" rendered="#{(! spiritistController.readOnly) and (spiritistController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsCore['spiritist.title.retrieve']}" rendered="#{spiritistController.readOnly}" />
 	</ui:define>
 
 	<ui:define name="body">
 		<h1>
-			<h:outputText value="#{msgsCore['spiritist.title.create']}"
-				rendered="#{(! spiritistController.readOnly) and (spiritistController.selectedEntity.id == null)}" />
-			<h:outputText value="#{msgsCore['spiritist.title.update']}"
-				rendered="#{(! spiritistController.readOnly) and (spiritistController.selectedEntity.id != null)}" />
-			<h:outputText value="#{msgsCore['spiritist.title.retrieve']}"
-				rendered="#{spiritistController.readOnly}" />
+			<h:outputText value="#{msgsCore['spiritist.title.create']}" rendered="#{(! spiritistController.readOnly) and (spiritistController.selectedEntity.id == null)}" />
+			<h:outputText value="#{msgsCore['spiritist.title.update']}" rendered="#{(! spiritistController.readOnly) and (spiritistController.selectedEntity.id != null)}" />
+			<h:outputText value="#{msgsCore['spiritist.title.retrieve']}" rendered="#{spiritistController.readOnly}" />
 		</h1>
 
 		<div class="crud">
-			<ui:decorate
-				template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+			<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 				<h:form id="form">
-					<p:hotkey bind="#{msgs['crud.hotkey.focusFirstField']}"
-						handler="findObjectById('form:name').focus();" />
+					<p:hotkey bind="#{msgs['crud.hotkey.focusFirstField']}" handler="findObjectById('form:name').focus();" />
 
 					<h:panelGroup id="nameField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:name" />
-							<ui:param name="tooltip"
-								value="#{msgsCore['spiritist.form.name.tooltip']}" />
+							<ui:param name="tooltip" value="#{msgsCore['spiritist.form.name.tooltip']}" />
 							<ui:define name="label">
 								<h:outputText value="#{msgsCore['spiritist.form.name']}" />
 							</ui:define>
-							<p:inputText id="name"
-								value="#{spiritistController.selectedEntity.name}"
-								size="50" required="true"
-								disabled="#{spiritistController.readOnly}">
-								<p:ajax event="blur" update="nameField shortNameField"
-									listener="#{spiritistController.suggestShortName}" />
+							<p:inputText id="name" value="#{spiritistController.selectedEntity.name}" size="50" required="true" disabled="#{spiritistController.readOnly}">
+								<p:ajax event="blur" update="nameField shortNameField" listener="#{spiritistController.suggestShortName}" />
 							</p:inputText>
-							<strong> <h:outputText
-									value="#{msgsCore['spiritist.text.active']}"
-									rendered="#{spiritistController.selectedEntity.active}" />
-								<h:outputText
-									value="#{msgsCore['spiritist.text.notActive']}"
-									rendered="#{not spiritistController.selectedEntity.active}" />
+							<strong> <h:outputText value="#{msgsCore['spiritist.text.active']}" rendered="#{spiritistController.selectedEntity.active}" /> <h:outputText
+									value="#{msgsCore['spiritist.text.notActive']}" rendered="#{not spiritistController.selectedEntity.active}" />
 							</strong>
 						</ui:decorate>
 					</h:panelGroup>
 					<h:panelGroup id="taxCodeField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:taxCode" />
-							<ui:param name="tooltip"
-								value="#{msgsCore['spiritist.form.taxCode.tooltip']}" />
+							<ui:param name="tooltip" value="#{msgsCore['spiritist.form.taxCode.tooltip']}" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['spiritist.form.taxCode']}" />
+								<h:outputText value="#{msgsCore['spiritist.form.taxCode']}" />
 							</ui:define>
-							<p:inputMask id="taxCode"
-								mask="#{msgs['format.taxCode.primefaces']}"
-								value="#{spiritistController.selectedEntity.taxCode}"
-								size="20"
-								required="#{spiritistController.selectedEntity.active}"
+							<p:inputMask id="taxCode" mask="#{msgs['format.taxCode.primefaces']}" value="#{spiritistController.selectedEntity.taxCode}" size="20" required="#{spiritistController.selectedEntity.active}"
 								disabled="#{spiritistController.readOnly}">
 								<f:validator validatorId="sigmeTaxCodeValidator" />
 								<p:ajax event="blur" update="taxCodeField" />
@@ -81,91 +51,60 @@
 						</ui:decorate>
 					</h:panelGroup>
 					<h:panelGroup id="emailField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:email" />
-							<ui:param name="tooltip"
-								value="#{msgsCore['spiritist.form.email.tooltip']}" />
+							<ui:param name="tooltip" value="#{msgsCore['spiritist.form.email.tooltip']}" />
 							<ui:define name="label">
 								<h:outputText value="#{msgsCore['spiritist.form.email']}" />
 							</ui:define>
-							<p:inputText id="email"
-								value="#{spiritistController.selectedEntity.email}"
-								size="30"
-								required="#{spiritistController.selectedEntity.active}"
-								disabled="#{spiritistController.readOnly}">
+							<p:inputText id="email" value="#{spiritistController.selectedEntity.email}" size="30" required="#{spiritistController.selectedEntity.active}" disabled="#{spiritistController.readOnly}">
 								<p:ajax event="blur" update="emailField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
 					<h:panelGroup id="shortNameField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:shortName" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['spiritist.form.shortName']}" />
+								<h:outputText value="#{msgsCore['spiritist.form.shortName']}" />
 							</ui:define>
-							<p:inputText id="shortName"
-								value="#{spiritistController.selectedEntity.shortName}"
-								size="10" required="true"
-								disabled="#{spiritistController.readOnly}">
+							<p:inputText id="shortName" value="#{spiritistController.selectedEntity.shortName}" size="10" required="true" disabled="#{spiritistController.readOnly}">
 								<p:ajax event="blur" update="shortNameField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
 					<h:panelGroup id="birthDateField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:birthDate" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['spiritist.form.birthDate']}" />
+								<h:outputText value="#{msgsCore['spiritist.form.birthDate']}" />
 							</ui:define>
-							<p:inputMask id="birthDate"
-								mask="#{msgs['format.date.primefaces']}"
-								value="#{spiritistController.selectedEntity.birthDate}"
-								disabled="#{spiritistController.readOnly}">
-								<f:convertDateTime type="date"
-									pattern="#{msgs['format.date.java']}" />
+							<p:inputMask id="birthDate" mask="#{msgs['format.date.primefaces']}" value="#{spiritistController.selectedEntity.birthDate}" disabled="#{spiritistController.readOnly}">
+								<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" />
 							</p:inputMask>
 							<h:outputText value=" (#{msgs['format.date.label']})" />
 						</ui:decorate>
 					</h:panelGroup>
 					<h:panelGroup id="genderField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:gender" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['spiritist.form.gender']}" />
+								<h:outputText value="#{msgsCore['spiritist.form.gender']}" />
 							</ui:define>
-							<p:selectOneRadio id="gender"
-								value="#{spiritistController.selectedEntity.gender}"
-								disabled="#{spiritistController.readOnly}">
-								<f:selectItem
-									itemLabel="#{msgsCore['spiritist.form.gender.female.label']}"
-									itemValue="#{msgsCore['spiritist.form.gender.female.value']}" />
-								<f:selectItem
-									itemLabel="#{msgsCore['spiritist.form.gender.male.label']}"
-									itemValue="#{msgsCore['spiritist.form.gender.male.value']}" />
+							<p:selectOneRadio id="gender" value="#{spiritistController.selectedEntity.gender}" disabled="#{spiritistController.readOnly}">
+								<f:selectItem itemLabel="#{msgsCore['spiritist.form.gender.female.label']}" itemValue="#{msgsCore['spiritist.form.gender.female.value']}" />
+								<f:selectItem itemLabel="#{msgsCore['spiritist.form.gender.male.label']}" itemValue="#{msgsCore['spiritist.form.gender.male.value']}" />
 							</p:selectOneRadio>
 						</ui:decorate>
 					</h:panelGroup>
-					<h:panelGroup id="lastUpdateDateField"
-						rendered="#{spiritistController.selectedEntity.id != null}">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield-novalidation.xhtml">
+					<h:panelGroup id="lastUpdateDateField" rendered="#{spiritistController.selectedEntity.id != null}">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield-novalidation.xhtml">
 							<ui:param name="fieldName" value="form:lastUpdateDate" />
 							<ui:define name="label">
-								<h:outputText id="lastUpdateDate"
-									value="#{msgsCore['spiritist.form.lastUpdateDate']}" />
+								<h:outputText id="lastUpdateDate" value="#{msgsCore['spiritist.form.lastUpdateDate']}" />
 							</ui:define>
-							<p:inputText
-								value="#{spiritistController.selectedEntity.lastUpdateDate}"
-								disabled="true">
-								<f:convertDateTime type="both"
-									pattern="#{msgs['format.datetime.java']}" />
+							<p:inputText value="#{spiritistController.selectedEntity.lastUpdateDate}" disabled="true">
+								<f:convertDateTime type="both" pattern="#{msgs['format.datetime.java']}" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
@@ -176,73 +115,49 @@
 					</h2>
 
 					<h:panelGroup id="streetField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:street" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['spiritist.form.street']}" />
+								<h:outputText value="#{msgsCore['spiritist.form.street']}" />
 							</ui:define>
-							<p:inputText id="street"
-								value="#{spiritistController.selectedEntity.address.street}"
-								size="20" disabled="#{spiritistController.readOnly}" />
+							<p:inputText id="street" value="#{spiritistController.selectedEntity.address.street}" size="20" disabled="#{spiritistController.readOnly}" />
 							<h:outputText value=", " />
-							<p:inputText id="number"
-								value="#{spiritistController.selectedEntity.address.number}"
-								size="3" disabled="#{spiritistController.readOnly}" />
+							<p:inputText id="number" value="#{spiritistController.selectedEntity.address.number}" size="3" disabled="#{spiritistController.readOnly}" />
 							<h:outputText value=" / " />
-							<p:inputText id="numberComplement"
-								value="#{spiritistController.selectedEntity.address.numberComplement}"
-								size="3" disabled="#{spiritistController.readOnly}">
-								<p:ajax event="blur" update="streetField"
-									process="street number numberComplement" />
+							<p:inputText id="numberComplement" value="#{spiritistController.selectedEntity.address.numberComplement}" size="3" disabled="#{spiritistController.readOnly}">
+								<p:ajax event="blur" update="streetField" process="street number numberComplement" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
 					<h:panelGroup id="streetComplementField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:streetComplement" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['spiritist.form.streetComplement']}" />
+								<h:outputText value="#{msgsCore['spiritist.form.streetComplement']}" />
 							</ui:define>
-							<p:inputText id="streetComplement"
-								value="#{spiritistController.selectedEntity.address.streetComplement}"
-								size="30" disabled="#{spiritistController.readOnly}">
+							<p:inputText id="streetComplement" value="#{spiritistController.selectedEntity.address.streetComplement}" size="30" disabled="#{spiritistController.readOnly}">
 								<p:ajax event="blur" update="streetComplementField" />
 							</p:inputText>
 						</ui:decorate>
 					</h:panelGroup>
 					<h:panelGroup id="cityField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:city" />
 							<ui:define name="label">
 								<h:outputText value="#{msgsCore['spiritist.form.city']}" />
 							</ui:define>
-							<p:autoComplete id="city"
-								value="#{spiritistController.selectedEntity.address.city}"
-								completeMethod="#{spiritistController.suggestCities}"
-								minQueryLength="2" forceSelection="true" var="c"
-								itemLabel="#{c.name}, #{c.state.acronym}" itemValue="#{c}"
-								converter="#{coreController.cityConverter}"
-								disabled="#{spiritistController.readOnly}" size="30">
+							<p:autoComplete id="city" value="#{spiritistController.selectedEntity.address.city}" completeMethod="#{spiritistController.suggestCities}" minQueryLength="2" forceSelection="true" var="c"
+								itemLabel="#{c.name}, #{c.state.acronym}" itemValue="#{c}" converter="#{coreController.cityConverter}" disabled="#{spiritistController.readOnly}" size="30">
 							</p:autoComplete>
 						</ui:decorate>
 					</h:panelGroup>
 					<h:panelGroup id="zipCodeField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:zipCode" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['spiritist.form.zipCode']}" />
+								<h:outputText value="#{msgsCore['spiritist.form.zipCode']}" />
 							</ui:define>
-							<p:inputMask id="zipCode"
-								mask="#{msgs['format.zipCode.primefaces']}"
-								value="#{spiritistController.selectedEntity.address.zipCode}"
-								size="10" disabled="#{spiritistController.readOnly}">
+							<p:inputMask id="zipCode" mask="#{msgs['format.zipCode.primefaces']}" value="#{spiritistController.selectedEntity.address.zipCode}" size="10" disabled="#{spiritistController.readOnly}">
 								<p:ajax event="blur" update="zipCodeField" />
 							</p:inputMask>
 							<h:outputText value=" (#{msgs['format.zipCode.label']})" />
@@ -250,33 +165,23 @@
 					</h:panelGroup>
 
 					<h2>
-						<h:outputText
-							value="#{msgsCore['spiritist.text.contactInformation']}" />
+						<h:outputText value="#{msgsCore['spiritist.text.contactInformation']}" />
 						:
 					</h2>
 
 					<h:panelGroup id="telephonesField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield-novalidation.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield-novalidation.xhtml">
 							<ui:param name="fieldName" value="form:telephones" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['spiritist.form.telephones']}" />
+								<h:outputText value="#{msgsCore['spiritist.form.telephones']}" />
 							</ui:define>
-							<p:dataTable id="telephones"
-								value="#{spiritistController.telephones}" var="telephone"
-								rowKey="#{telephone.uuid}"
-								selection="#{spiritistController.telephone}"
-								selectionMode="single"
-								loadingMessage="#{msgs['text.ajax.loading']}"
-								emptyMessage="#{msgsCore['spiritist.text.noTelephones']}">
+							<p:dataTable id="telephones" value="#{spiritistController.telephones}" var="telephone" rowKey="#{telephone.uuid}" selection="#{spiritistController.telephone}" selectionMode="single"
+								loadingMessage="#{msgs['text.ajax.loading']}" emptyMessage="#{msgsCore['spiritist.text.noTelephones']}">
 
-								<p:column
-									headerText="#{msgsCore['spiritist.form.telephone.number']}">
+								<p:column headerText="#{msgsCore['spiritist.form.telephone.number']}">
 									<h:outputText value="#{telephone.number}" />
 								</p:column>
-								<p:column
-									headerText="#{msgsCore['spiritist.form.telephone.type']}">
+								<p:column headerText="#{msgsCore['spiritist.form.telephone.type']}">
 									<h:outputText value="#{telephone.type}" />
 								</p:column>
 
@@ -285,27 +190,15 @@
 
 							<h:panelGroup id="telephoneButtons">
 								<div class="sigmeFormInternalButton">
-									<p:commandButton
-										action="#{spiritistController.newTelephone}"
-										onsuccess="PF('telephoneDialog').show()" icon="buttonAdd"
-										title="#{msgsCore['spiritist.button.anotherTelephone']}"
-										disabled="#{spiritistController.readOnly}"
-										update=":telephoneForm" process="@this" />
-									<p:commandButton onsuccess="PF('telephoneDialog').show()"
-										icon="buttonEdit"
-										title="#{msgsCore['spiritist.button.editTelephone']}"
+									<p:commandButton action="#{spiritistController.newTelephone}" onsuccess="PF('telephoneDialog').show()" icon="buttonAdd" title="#{msgsCore['spiritist.button.anotherTelephone']}"
+										disabled="#{spiritistController.readOnly}" update=":telephoneForm" process="@this" />
+									<p:commandButton onsuccess="PF('telephoneDialog').show()" icon="buttonEdit" title="#{msgsCore['spiritist.button.editTelephone']}"
 										disabled="#{spiritistController.readOnly 
-											or (empty spiritistController.telephones) or spiritistController.telephone == null}"
-										update=":telephoneForm" process="@this" />
-									<p:commandButton
-										action="#{spiritistController.resetTelephone}"
-										icon="buttonRemove"
-										title="#{msgsCore['spiritist.button.removeTelephone']}"
+											or (empty spiritistController.telephones) or spiritistController.telephone == null}" update=":telephoneForm" process="@this" />
+									<p:commandButton action="#{spiritistController.resetTelephone}" icon="buttonRemove" title="#{msgsCore['spiritist.button.removeTelephone']}"
 										disabled="#{spiritistController.readOnly 
-											or (empty spiritistController.telephones) or spiritistController.telephone == null}"
-										process="@this" update="telephonesField">
-										<p:collector value="#{spiritistController.telephone}"
-											removeFrom="#{spiritistController.telephones}" />
+											or (empty spiritistController.telephones) or spiritistController.telephone == null}" process="@this" update="telephonesField">
+										<p:collector value="#{spiritistController.telephone}" removeFrom="#{spiritistController.telephones}" />
 									</p:commandButton>
 								</div>
 							</h:panelGroup>
@@ -313,38 +206,26 @@
 					</h:panelGroup>
 
 					<h2>
-						<h:outputText
-							value="#{msgsCore['spiritist.text.attendances']}" />
+						<h:outputText value="#{msgsCore['spiritist.text.attendances']}" />
 						:
 					</h2>
 
 					<h:panelGroup id="attendancesField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield-single.xhtml">
-							<p:dataTable id="attendances"
-								value="#{spiritistController.attendances}"
-								var="attendance" rowKey="#{attendance.uuid}"
-								selection="#{spiritistController.attendance}"
-								selectionMode="single"
-								loadingMessage="#{msgs['text.ajax.loading']}"
-								emptyMessage="#{msgsCore['spiritist.text.noAttendances']}">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield-single.xhtml">
+							<p:dataTable id="attendances" value="#{spiritistController.attendances}" var="attendance" rowKey="#{attendance.uuid}" selection="#{spiritistController.attendance}" selectionMode="single"
+								loadingMessage="#{msgs['text.ajax.loading']}" emptyMessage="#{msgsCore['spiritist.text.noAttendances']}">
 
-								<p:column
-									headerText="#{msgsCore['spiritist.form.institution']}">
+								<p:column headerText="#{msgsCore['spiritist.form.institution']}">
 									<h:outputText value="#{attendance.institution.acronym}" />
 								</p:column>
-								<p:column
-									headerText="#{msgsCore['spiritist.form.attendance.start']}">
+								<p:column headerText="#{msgsCore['spiritist.form.attendance.start']}">
 									<h:outputText value="#{attendance.startDate}">
-										<f:convertDateTime type="date"
-											pattern="#{msgs['format.date.java']}" />
+										<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" />
 									</h:outputText>
 								</p:column>
-								<p:column
-									headerText="#{msgsCore['spiritist.form.attendance.end']}">
+								<p:column headerText="#{msgsCore['spiritist.form.attendance.end']}">
 									<h:outputText value="#{attendance.endDate}">
-										<f:convertDateTime type="date"
-											pattern="#{msgs['format.date.java']}" />
+										<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" />
 									</h:outputText>
 								</p:column>
 
@@ -352,54 +233,31 @@
 							</p:dataTable>
 							<h:panelGroup id="attendanceButtons">
 								<div class="sigmeFormInternalButton">
-									<p:commandButton
-										action="#{spiritistController.newAttendance}"
-										onsuccess="PF('attendanceDialog').show()" icon="buttonAdd"
-										title="#{msgsCore['spiritist.button.anotherAttendance']}"
-										disabled="#{spiritistController.readOnly}"
-										update=":attendanceForm" process="@this" />
-									<p:commandButton onsuccess="PF('attendanceDialog').show()"
-										icon="buttonEdit"
-										title="#{msgsCore['spiritist.button.editAttendance']}"
+									<p:commandButton action="#{spiritistController.newAttendance}" onsuccess="PF('attendanceDialog').show()" icon="buttonAdd" title="#{msgsCore['spiritist.button.anotherAttendance']}"
+										disabled="#{spiritistController.readOnly}" update=":attendanceForm" process="@this" />
+									<p:commandButton onsuccess="PF('attendanceDialog').show()" icon="buttonEdit" title="#{msgsCore['spiritist.button.editAttendance']}"
 										disabled="#{spiritistController.readOnly 
-											or (empty spiritistController.attendances) or spiritistController.attendance == null}"
-										update=":attendanceForm" process="@this" />
-									<p:commandButton
-										action="#{spiritistController.resetAttendance}"
-										icon="buttonRemove"
-										title="#{msgsCore['spiritist.button.removeAttendance']}"
+											or (empty spiritistController.attendances) or spiritistController.attendance == null}" update=":attendanceForm" process="@this" />
+									<p:commandButton action="#{spiritistController.resetAttendance}" icon="buttonRemove" title="#{msgsCore['spiritist.button.removeAttendance']}"
 										disabled="#{spiritistController.readOnly 
-											or (empty spiritistController.attendances) or spiritistController.attendance == null}"
-										process="@this" update="attendancesField">
-										<p:collector value="#{spiritistController.attendance}"
-											removeFrom="#{spiritistController.attendances}" />
+											or (empty spiritistController.attendances) or spiritistController.attendance == null}" process="@this" update="attendancesField">
+										<p:collector value="#{spiritistController.attendance}" removeFrom="#{spiritistController.attendances}" />
 									</p:commandButton>
 								</div>
 							</h:panelGroup>
 						</ui:decorate>
 					</h:panelGroup>
 
-					<ui:decorate
-						template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
 						<h:panelGroup rendered="#{! spiritistController.readOnly}">
-							<p:commandButton action="#{spiritistController.list}"
-								value="#{msgs['crud.button.cancel']}" immediate="true"
-								icon="buttonCancel" />
-							<p:commandButton action="#{spiritistController.save}"
-								value="#{msgs['crud.button.save']}" icon="buttonOk"
-								update=":form :globalMessages" />
-							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
-								action="#{spiritistController.list}" immediate="true" />
-							<p:hotkey bind="#{msgs['crud.hotkey.save']}"
-								action="#{spiritistController.save}"
-								update=":form :globalMessages" />
+							<p:commandButton action="#{spiritistController.list}" value="#{msgs['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
+							<p:commandButton action="#{spiritistController.save}" value="#{msgs['crud.button.save']}" icon="buttonOk" update=":form :globalMessages" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}" action="#{spiritistController.list}" immediate="true" />
+							<p:hotkey bind="#{msgs['crud.hotkey.save']}" action="#{spiritistController.save}" update=":form :globalMessages" />
 						</h:panelGroup>
 						<h:panelGroup rendered="#{spiritistController.readOnly}">
-							<p:commandButton action="#{spiritistController.list}"
-								value="#{msgs['crud.button.back']}" immediate="true"
-								icon="buttonBack" />
-							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
-								action="#{spiritistController.list}" immediate="true" />
+							<p:commandButton action="#{spiritistController.list}" value="#{msgs['crud.button.back']}" immediate="true" icon="buttonBack" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}" action="#{spiritistController.list}" immediate="true" />
 						</h:panelGroup>
 					</ui:decorate>
 				</h:form>
@@ -407,66 +265,40 @@
 		</div>
 
 		<!-- Dialog with the new telephone form. -->
-		<p:dialog header="#{msgsCore['spiritist.text.newTelephone']}"
-			widgetVar="telephoneDialog" modal="true" width="680"
-			showEffect="fade" hideEffect="fade"
-			onshow="findObjectById('telephoneForm:telephoneNumber').focus();"
-			position="top">
+		<p:dialog header="#{msgsCore['spiritist.text.newTelephone']}" widgetVar="telephoneDialog" modal="true" width="680" showEffect="fade" hideEffect="fade"
+			onshow="findObjectById('telephoneForm:telephoneNumber').focus();" position="top">
 			<div class="crud">
-				<ui:decorate
-					template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+				<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 					<h:form id="telephoneForm">
 						<h:panelGroup id="telephoneNumberField">
-							<ui:decorate
-								template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 								<ui:param name="fieldName" value="telephoneForm:telephoneNumber" />
 								<ui:define name="label">
-									<h:outputText
-										value="#{msgsCore['spiritist.form.telephone.number']}" />
+									<h:outputText value="#{msgsCore['spiritist.form.telephone.number']}" />
 								</ui:define>
-								<p:inputMask id="telephoneNumber"
-									value="#{spiritistController.telephone.number}"
-									mask="#{msgs['format.telephone.primefaces']}" size="20"
-									required="true">
+								<p:inputMask id="telephoneNumber" value="#{spiritistController.telephone.number}" mask="#{msgs['format.telephone.primefaces']}" size="20" required="true">
 									<p:ajax event="blur" update="telephoneNumberField" />
 								</p:inputMask>
 							</ui:decorate>
 						</h:panelGroup>
 						<h:panelGroup id="telephoneTypeField">
-							<ui:decorate
-								template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 								<ui:param name="fieldName" value="telephoneForm:telephoneType" />
 								<ui:define name="label">
-									<h:outputText
-										value="#{msgsCore['spiritist.form.telephone.type']}" />
+									<h:outputText value="#{msgsCore['spiritist.form.telephone.type']}" />
 								</ui:define>
-								<p:selectOneMenu id="telephoneType"
-									value="#{spiritistController.telephoneType}"
-									converter="#{coreController.contactTypeConverter}"
-									required="true"
-									disabled="#{spiritistController.readOnly}">
-									<f:selectItem
-										itemLabel="#{msgsCore['spiritist.form.telephone.type.blankOption']}"
-										itemValue="" />
-									<f:selectItems value="#{coreController.contactTypes}"
-										var="type" itemLabel="#{type.type}" itemValue="#{type}" />
+								<p:selectOneMenu id="telephoneType" value="#{spiritistController.telephoneType}" converter="#{coreController.contactTypeConverter}" required="true" disabled="#{spiritistController.readOnly}">
+									<f:selectItem itemLabel="#{msgsCore['spiritist.form.telephone.type.blankOption']}" itemValue="" />
+									<f:selectItems value="#{coreController.contactTypes}" var="type" itemLabel="#{type.type}" itemValue="#{type}" />
 									<p:ajax update="telephoneTypeField" />
 								</p:selectOneMenu>
 							</ui:decorate>
 						</h:panelGroup>
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-							<p:commandButton
-								action="#{spiritistController.resetTelephone}"
-								onclick="telephoneDialog.hide()"
-								value="#{msgs['crud.button.cancel']}" icon="buttonCancel" />
-							<p:commandButton
-								action="#{spiritistController.resetTelephone}"
-								onclick="telephoneDialog.hide()"
-								value="#{msgs['crud.button.save']}" icon="buttonOk"
-								process="@form" update=":form:telephonesField">
-								<p:collector value="#{spiritistController.telephone}"
-									addTo="#{spiritistController.telephones}" />
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+							<p:commandButton action="#{spiritistController.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.cancel']}" icon="buttonCancel" />
+							<p:commandButton action="#{spiritistController.resetTelephone}" onclick="telephoneDialog.hide()" value="#{msgs['crud.button.save']}" icon="buttonOk" process="@form"
+								update=":form:telephonesField">
+								<p:collector value="#{spiritistController.telephone}" addTo="#{spiritistController.telephones}" />
 							</p:commandButton>
 						</ui:decorate>
 					</h:form>
@@ -476,36 +308,23 @@
 
 		<!-- FIXME: add attendances dialog. Haven't I done this already? -->
 		<!-- 		<c:if test="#{spiritistController.attendance != null}"> -->
-		<p:dialog header="#{msgsCore['spiritist.text.newAttendance']}"
-			widgetVar="attendanceDialog" modal="true" width="680"
-			showEffect="fade" hideEffect="fade"
-			onshow="findObjectById('attendanceForm:institution').focus();"
-			position="top">
+		<p:dialog header="#{msgsCore['spiritist.text.newAttendance']}" widgetVar="attendanceDialog" modal="true" width="680" showEffect="fade" hideEffect="fade"
+			onshow="findObjectById('attendanceForm:institution').focus();" position="top">
 			<div class="crud">
-				<ui:decorate
-					template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+				<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 					<h:form id="attendanceForm">
 
 						<!--  Institution Name -->
 						<h:panelGroup id="institutionField">
-							<ui:decorate
-								template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 								<ui:param name="fieldName" value="attendanceForm:institution" />
 								<ui:define name="label">
-									<h:outputText
-										value="#{msgsCore['spiritist.form.institution']}" />
+									<h:outputText value="#{msgsCore['spiritist.form.institution']}" />
 								</ui:define>
-								<p:selectOneMenu id="institution"
-									value="#{spiritistController.attendance.institution}"
-									converter="#{coreController.institutionConverter}"
-									required="true"
+								<p:selectOneMenu id="institution" value="#{spiritistController.attendance.institution}" converter="#{coreController.institutionConverter}" required="true"
 									disabled="#{spiritistController.readOnly}">
-									<f:selectItem
-										itemLabel="#{msgsCore['spiritist.form.institution.blankOption']}"
-										itemValue="" />
-									<f:selectItems value="#{institutionController.entities}"
-										var="institution" itemLabel="#{institution.name}"
-										itemValue="#{name}" />
+									<f:selectItem itemLabel="#{msgsCore['spiritist.form.institution.blankOption']}" itemValue="" />
+									<f:selectItems value="#{institutionController.entities}" var="institution" itemLabel="#{institution.name}" itemValue="#{name}" />
 									<p:ajax update="institutionField" />
 								</p:selectOneMenu>
 							</ui:decorate>
@@ -513,20 +332,13 @@
 
 						<!-- Start Date Field -->
 						<h:panelGroup id="startDateField">
-							<ui:decorate
-								template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 								<ui:param name="fieldName" value="attendanceForm:startDate" />
 								<ui:define name="label">
-									<h:outputText
-										value="#{msgsCore['spiritist.form.attendance.start']}" />
+									<h:outputText value="#{msgsCore['spiritist.form.attendance.start']}" />
 								</ui:define>
-								<p:inputMask mask="#{msgs['format.date.primefaces']}"
-									id="startDate"
-									value="#{spiritistController.attendance.startDate}"
-									size="20" required="false"
-									disabled="#{spiritistController.readOnly}">
-									<f:convertDateTime type="date"
-										pattern="#{msgs['format.date.java']}" />
+								<p:inputMask mask="#{msgs['format.date.primefaces']}" id="startDate" value="#{spiritistController.attendance.startDate}" size="20" required="false" disabled="#{spiritistController.readOnly}">
+									<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" />
 									<p:ajax event="blur" update="startDateField" />
 									<h:outputText value=" (#{msgs['format.date.label']})" />
 								</p:inputMask>
@@ -535,39 +347,24 @@
 
 						<!-- End Date Field -->
 						<h:panelGroup id="endDateField">
-							<ui:decorate
-								template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 								<ui:param name="fieldName" value="attendanceForm:endDate" />
 								<ui:define name="label">
-									<h:outputText
-										value="#{msgsCore['spiritist.form.attendance.end']}" />
+									<h:outputText value="#{msgsCore['spiritist.form.attendance.end']}" />
 								</ui:define>
-								<p:inputMask mask="#{msgs['format.date.primefaces']}"
-									id="endDate"
-									value="#{spiritistController.attendance.endDate}"
-									size="20" required="false"
-									disabled="#{spiritistController.readOnly}">
-									<f:convertDateTime type="date"
-										pattern="#{msgs['format.date.java']}" />
+								<p:inputMask mask="#{msgs['format.date.primefaces']}" id="endDate" value="#{spiritistController.attendance.endDate}" size="20" required="false" disabled="#{spiritistController.readOnly}">
+									<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" />
 									<p:ajax event="blur" update="endDateField" />
 									<h:outputText value=" (#{msgs['format.date.label']})" />
 								</p:inputMask>
 							</ui:decorate>
 						</h:panelGroup>
 
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-							<p:commandButton
-								action="#{spiritistController.resetAttendance}"
-								onclick="attendanceDialog.hide()"
-								value="#{msgs['crud.button.cancel']}" icon="buttonCancel" />
-							<p:commandButton
-								action="#{spiritistController.resetAttendance}"
-								onclick="attendanceDialog.hide()"
-								value="#{msgs['crud.button.save']}" icon="buttonOk"
-								process="@form" update=":form:attendancesField">
-								<p:collector value="#{spiritistController.attendance}"
-									addTo="#{spiritistController.attendances}" />
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+							<p:commandButton action="#{spiritistController.resetAttendance}" onclick="attendanceDialog.hide()" value="#{msgs['crud.button.cancel']}" icon="buttonCancel" />
+							<p:commandButton action="#{spiritistController.resetAttendance}" onclick="attendanceDialog.hide()" value="#{msgs['crud.button.save']}" icon="buttonOk" process="@form"
+								update=":form:attendancesField">
+								<p:collector value="#{spiritistController.attendance}" addTo="#{spiritistController.attendances}" />
 							</p:commandButton>
 						</ui:decorate>
 					</h:form>
@@ -588,14 +385,9 @@
 			:
 		</h4>
 		<ul>
-			<li><b><h:outputText
-						value="#{msgs['crud.hotkey.focusFirstField']}" /></b>: <h:outputText
-					value="#{msgs['crud.help.hotkeys.focusFirstField']}" />;</li>
-			<li><b><h:outputText
-						value="#{msgs['crud.hotkey.backToList']}" /></b>: <h:outputText
-					value="#{msgs['crud.help.hotkeys.backToList']}" />;</li>
-			<li><b><h:outputText value="#{msgs['crud.hotkey.save']}" /></b>:
-				<h:outputText value="#{msgs['crud.help.hotkeys.save']}" />.</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.focusFirstField']}" /></b>: <h:outputText value="#{msgs['crud.help.hotkeys.focusFirstField']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.backToList']}" /></b>: <h:outputText value="#{msgs['crud.help.hotkeys.backToList']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.save']}" /></b>: <h:outputText value="#{msgs['crud.help.hotkeys.save']}" />.</li>
 		</ul>
 	</ui:define>
 </ui:composition>

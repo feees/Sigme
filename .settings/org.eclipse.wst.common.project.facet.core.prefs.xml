@@ -11,7 +11,7 @@
   </facet>
   <facet id="jst.jaxrs">
     <node name="libprov">
-      <attribute name="provider-id" value="jaxrs-no-op-library-provider"/>
+      <attribute name="provider-id" value="runtime-library-provider"/>
     </node>
   </facet>
 </root>

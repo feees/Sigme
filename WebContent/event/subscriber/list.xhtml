@@ -8,12 +8,12 @@
 	template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
 
 	<ui:define name="title">
-		<h:outputText value="#{msgsSubscriber['subscriber.title']}" />
+		<h:outputText value="#{msgsEvent['subscriber.title']}" />
 	</ui:define>
 
 	<ui:define name="body">
 		<h1>
-			<h:outputText value="#{msgsSubscriber['subscriber.title']}" />
+			<h:outputText value="#{msgsEvent['subscriber.title']}" />
 		</h1>
 
 		<div class="crud">
@@ -88,7 +88,7 @@
 						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 						paginatorPosition="bottom"
 						loadingMessage="#{msgs['text.ajax.loading']}"
-						emptyMessage="#{subscriberController.filtering ? msgsSubscriber['subscriber.text.noEntitiesFiltered'] : msgsSubscriber['subscriber.text.noEntities']}">
+						emptyMessage="#{subscriberController.filtering ? msgsEvent['subscriber.text.noEntitiesFiltered'] : msgsEvent['subscriber.text.noEntities']}">
 
 						<!-- Event Name -->
 						<p:column headerText="#{msgsEvent['event.form.eventName']}">

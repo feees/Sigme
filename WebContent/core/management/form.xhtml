@@ -1,51 +1,34 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="/resources/templates/#{coreInfo.decorator}/decorator.xhtml">
 
 	<ui:define name="title">
-		<h:outputText value="#{msgsCore['management.title.create']}"
-			rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id == null)}" />
-		<h:outputText value="#{msgsCore['management.title.update']}"
-			rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id != null)}" />
-		<h:outputText value="#{msgsCore['management.title.retrieve']}"
-			rendered="#{managementController.readOnly}" />
+		<h:outputText value="#{msgsCore['management.title.create']}" rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsCore['management.title.update']}" rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsCore['management.title.retrieve']}" rendered="#{managementController.readOnly}" />
 	</ui:define>
 
 	<ui:define name="body">
 		<h1>
-			<h:outputText value="#{msgsCore['management.title.create']}"
-				rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id == null)}" />
-			<h:outputText value="#{msgsCore['management.title.update']}"
-				rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id != null)}" />
-			<h:outputText value="#{msgsCore['management.title.retrieve']}"
-				rendered="#{managementController.readOnly}" />
+			<h:outputText value="#{msgsCore['management.title.create']}" rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id == null)}" />
+			<h:outputText value="#{msgsCore['management.title.update']}" rendered="#{(! managementController.readOnly) and (managementController.selectedEntity.id != null)}" />
+			<h:outputText value="#{msgsCore['management.title.retrieve']}" rendered="#{managementController.readOnly}" />
 		</h1>
 
 		<div class="crud">
-			<ui:decorate
-				template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+			<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 				<h:form id="form">
-					<p:hotkey bind="#{msgs['crud.hotkey.focusFirstField']}"
-						handler="findObjectById('form:name').focus();" />
+					<p:hotkey bind="#{msgs['crud.hotkey.focusFirstField']}" handler="findObjectById('form:name').focus();" />
 
 					<!--  Management Name -->
 					<h:panelGroup id="nameField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:name" />
-							<ui:param name="tooltip"
-								value="#{msgsCore['management.form.name.tooltip']}" />
+							<ui:param name="tooltip" value="#{msgsCore['management.form.name.tooltip']}" />
 							<ui:define name="label">
 								<h:outputText value="#{msgsCore['management.form.name']}" />
 							</ui:define>
-							<p:inputText id="name"
-								value="#{managementController.selectedEntity.name}"
-								size="50" required="true"
-								disabled="#{managementController.readOnly}">
+							<p:inputText id="name" value="#{managementController.selectedEntity.name}" size="50" required="true" disabled="#{managementController.readOnly}">
 								<p:ajax event="blur" update="nameField" />
 							</p:inputText>
 						</ui:decorate>
@@ -53,19 +36,13 @@
 
 					<!--  Management Description -->
 					<h:panelGroup id="descriptionField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:description" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['management.form.description']}" />
+								<h:outputText value="#{msgsCore['management.form.description']}" />
 							</ui:define>
-							<p:inputTextarea rows="10" cols="50" minQueryLength="10"
-								maxlength="500" id="description"
-								counterTemplate="{0} #{msgsCore['management.text.caracteresRemaining']}"
-								value="#{managementController.selectedEntity.description}"
-								required="true" counter="descriptionDisplay"
-								disabled="#{managementController.readOnly}">
+							<p:inputTextarea rows="10" cols="50" minQueryLength="10" maxlength="500" id="description" counterTemplate="{0} #{msgsCore['management.text.caracteresRemaining']}"
+								value="#{managementController.selectedEntity.description}" required="true" counter="descriptionDisplay" disabled="#{managementController.readOnly}">
 								<p:ajax event="blur" update="descriptionField" />
 							</p:inputTextarea>
 							<br />
@@ -75,22 +52,14 @@
 
 					<!-- Management Type -->
 					<h:panelGroup id="typeField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:type" />
 							<ui:define name="label">
 								<h:outputText value="#{msgsCore['management.form.type']}" />
 							</ui:define>
-							<p:selectOneMenu id="type"
-								value="#{managementController.selectedEntity.type}"
-								converter="#{coreController.managementTypeConverter}"
-								required="false"
-								disabled="#{managementController.readOnly}">
-								<f:selectItem
-									itemLabel="#{msgsCore['management.form.type.blankOption']}"
-									itemValue="" />
-								<f:selectItems value="#{coreController.managementTypes}"
-									var="type" itemLabel="#{type.name}" itemValue="#{name}" />
+							<p:selectOneMenu id="type" value="#{managementController.selectedEntity.type}" converter="#{coreController.managementTypeConverter}" required="false" disabled="#{managementController.readOnly}">
+								<f:selectItem itemLabel="#{msgsCore['management.form.type.blankOption']}" itemValue="" />
+								<f:selectItems value="#{coreController.managementTypes}" var="type" itemLabel="#{type.name}" itemValue="#{name}" />
 								<p:ajax event="blur" update="typeField" />
 							</p:selectOneMenu>
 						</ui:decorate>
@@ -98,25 +67,16 @@
 
 					<!-- Institution -->
 					<h:panelGroup id="institutionField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:institution" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['management.form.institution']}" />
+								<h:outputText value="#{msgsCore['management.form.institution']}" />
 							</ui:define>
-							<p:selectOneMenu id="institution"
-								value="#{managementController.selectedEntity.institution}"
-								converter="#{coreController.institutionConverter}"
-								required="true"
+							<p:selectOneMenu id="institution" value="#{managementController.selectedEntity.institution}" converter="#{coreController.institutionConverter}" required="true"
 								disabled="#{managementController.readOnly}">
-								<f:selectItem
-									itemLabel="#{msgsCore['management.form.institution.blankOption']}"
-									itemValue="" />
-								<f:selectItems value="#{institutionController.entities}"
-									var="institution" itemLabel="#{institution.name}"
-									itemValue="#{name}" />
-								<p:ajax event="blur" update="institutionField"/>
+								<f:selectItem itemLabel="#{msgsCore['management.form.institution.blankOption']}" itemValue="" />
+								<f:selectItems value="#{institutionController.entities}" var="institution" itemLabel="#{institution.name}" itemValue="#{name}" />
+								<p:ajax event="blur" update="institutionField" />
 							</p:selectOneMenu>
 						</ui:decorate>
 					</h:panelGroup>
@@ -128,20 +88,14 @@
 
 					<!-- Management's Initial Date -->
 					<h:panelGroup id="initialDateField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:initialDate" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['management.form.initialDate']}" />
+								<h:outputText value="#{msgsCore['management.form.initialDate']}" />
 							</ui:define>
-							<p:inputMask mask="#{msgs['format.date.primefaces']}"
-								id="initialDate"
-								value="#{managementController.selectedEntity.initialDate}"
-								size="50" required="true"
+							<p:inputMask mask="#{msgs['format.date.primefaces']}" id="initialDate" value="#{managementController.selectedEntity.initialDate}" size="50" required="true"
 								disabled="#{managementController.readOnly}">
-								<f:convertDateTime type="date"
-									pattern="#{msgs['format.date.java']}" />
+								<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" />
 								<p:ajax event="blur" update="initialDateField" />
 								<h:outputText value=" (#{msgs['format.date.label']})" />
 							</p:inputMask>
@@ -150,20 +104,14 @@
 
 					<!-- Management's Final Date -->
 					<h:panelGroup id="finalDateField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
 							<ui:param name="fieldName" value="form:finalDate" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['management.form.finalDate']}" />
+								<h:outputText value="#{msgsCore['management.form.finalDate']}" />
 							</ui:define>
-							<p:inputMask mask="#{msgs['format.date.primefaces']}"
-								id="finalDate"
-								value="#{managementController.selectedEntity.finalDate}"
-								size="50" required="true"
+							<p:inputMask mask="#{msgs['format.date.primefaces']}" id="finalDate" value="#{managementController.selectedEntity.finalDate}" size="50" required="true"
 								disabled="#{managementController.readOnly}">
-								<f:convertDateTime type="date"
-									pattern="#{msgs['format.date.java']}" />
+								<f:convertDateTime type="date" pattern="#{msgs['format.date.java']}" />
 								<p:ajax event="blur" update="finalDateField" />
 								<h:outputText value=" (#{msgs['format.date.label']})" />
 							</p:inputMask>
@@ -173,91 +121,58 @@
 
 					<!-- Management Position -->
 					<h2>
-						<h:outputText
-							value="#{msgsCore['manageManagementPosition.text.position']}" />
+						<h:outputText value="#{msgsCore['manageManagementPosition.text.position']}" />
 						:
 					</h2>
 					<h:panelGroup id="managementPositionsField">
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formfield-novalidation.xhtml">
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield-novalidation.xhtml">
 							<ui:param name="fieldName" value="form:managementPositions" />
 							<ui:define name="label">
-								<h:outputText
-									value="#{msgsCore['manageManagementPosition.text.position']}" />
+								<h:outputText value="#{msgsCore['manageManagementPosition.text.position']}" />
 							</ui:define>
-							<p:dataTable id="managementPositions"
-								value="#{managementController.managementPositions}"
-								var="managePosition" rowKey="#{managePosition.uuid}"
-								selection="#{managementController.managementPosition}"
-								selectionMode="single"
-								loadingMessage="#{msgs['text.ajax.loading']}"
+							<p:dataTable id="managementPositions" value="#{managementController.managementPositions}" var="managePosition" rowKey="#{managePosition.uuid}"
+								selection="#{managementController.managementPosition}" selectionMode="single" loadingMessage="#{msgs['text.ajax.loading']}"
 								emptyMessage="#{msgsCore['manageManagementPosition.text.noManagementPosition']}">
 
-								<p:column
-									headerText="#{msgsCore['manageManagementPosition.form.name']}">
-									<h:outputText value="#{managePosition.name}" />
+								<p:column headerText="#{msgsCore['manageManagementPosition.form.name']}">
+									<h:outputText value="#{managePosition.managementRoleType.name}" />
 								</p:column>
-								<p:column
-									headerText="#{msgsCore['manageManagementPosition.form.spiritist']}">
+								<p:column headerText="#{msgsCore['manageManagementPosition.form.spiritist']}">
 									<h:outputText value="#{managePosition.spiritist.name}" />
 								</p:column>
 
-								<p:ajax event="rowSelect"
-									update=":form:managementPositionButtons" />
+								<p:ajax event="rowSelect" update=":form:managementPositionButtons" />
 							</p:dataTable>
 							<h:panelGroup id="managementPositionButtons">
 								<div class="sigmeFormInternalButton">
-									<p:commandButton id="newManagementPositionButon"
-										action="#{managementController.newManagementPosition}"
-										onsuccess="PF('managementPositionDialog').show()"
-										icon="buttonAdd"
-										title="#{msgsCore['manageManagementPosition.button.anotherPosition']}"
-										disabled="#{managementController.readOnly or (managementController.selectedEntity.institution == null)}"
+									<p:commandButton id="newManagementPositionButon" action="#{managementController.newManagementPosition}" onsuccess="PF('managementPositionDialog').show()" icon="buttonAdd"
+										title="#{msgsCore['manageManagementPosition.button.anotherPosition']}" disabled="#{managementController.readOnly or (managementController.selectedEntity.institution == null)}"
 										update=":managementPositionForm" process="@this" />
-									<p:commandButton
-										onsuccess="PF('managementPositionDialog').show()"
-										icon="buttonEdit"
-										title="#{msgsCore['manageManagementPosition.button.editPosition']}"
+									<p:commandButton onsuccess="PF('managementPositionDialog').show()" icon="buttonEdit" title="#{msgsCore['manageManagementPosition.button.editPosition']}"
 										disabled="#{managementController.readOnly or (managementController.managementPosition == null) or
 										(managementController.selectedEntity.institution == null)}"
 										update=":managementPositionForm" process="@this" />
-									<p:commandButton
-										action="#{managementController.resetManagementPosition}"
-										icon="buttonRemove"
-										title="#{msgsCore['manageManagementPosition.button.removePosition']}"
+									<p:commandButton action="#{managementController.resetManagementPosition}" icon="buttonRemove" title="#{msgsCore['manageManagementPosition.button.removePosition']}"
 										disabled="#{managementController.readOnly or (managementController.managementPosition == null) or
-										(managementController.selectedEntity.institution == null)}"
-										process="@this" update="managementPositionsField	">
-										<p:collector
-											value="#{managementController.managementPosition}"
-											removeFrom="#{managementController.managementPositions}" />
+										(managementController.selectedEntity.institution == null)}" process="@this"
+										update="managementPositionsField	">
+										<p:collector value="#{managementController.managementPosition}" removeFrom="#{managementController.managementPositions}" />
 									</p:commandButton>
 								</div>
 							</h:panelGroup>
 						</ui:decorate>
 					</h:panelGroup>
 
-					<ui:decorate
-						template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+					<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
 						<h:panelGroup rendered="#{! managementController.readOnly}">
-							<p:commandButton action="#{managementController.list}"
-								value="#{msgs['crud.button.cancel']}" immediate="true"
-								icon="buttonCancel" />
-							<p:commandButton action="#{managementController.save}"
-								value="#{msgs['crud.button.save']}" icon="buttonOk"
-								update=":form :globalMessages" />
-							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
-								action="#{managementController.list}" immediate="true" />
-							<p:hotkey bind="#{msgs['crud.hotkey.save']}"
-								action="#{managementController.save}"
-								update=":form :globalMessages" />
+							<p:commandButton action="#{managementController.list}" value="#{msgs['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
+							<p:commandButton action="#{managementController.save}" value="#{msgs['crud.button.save']}" icon="buttonOk" update=":form :globalMessages" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}" action="#{managementController.list}" immediate="true" />
+							<p:hotkey bind="#{msgs['crud.hotkey.save']}" action="#{managementController.save}" update=":form :globalMessages" />
 						</h:panelGroup>
 						<h:panelGroup rendered="#{managementController.readOnly}">
-							<p:commandButton action="#{managementController.list}"
-								value="#{msgs['crud.button.back']}" immediate="true"
-								icon="buttonBack" />
-							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
-								action="#{managementController.list}" immediate="true" />
+							<p:commandButton action="#{managementController.list}" value="#{msgs['crud.button.back']}" immediate="true" icon="buttonBack" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}" action="#{managementController.list}" immediate="true" />
 						</h:panelGroup>
 					</ui:decorate>
 				</h:form>
@@ -265,75 +180,48 @@
 		</div>
 
 		<!-- Dialog with the new management position form. -->
-		<p:dialog
-			header="#{msgsCore['manageManagementPosition.text.newPosition']}"
-			widgetVar="managementPositionDialog" modal="true" width="680"
-			showEffect="fade" hideEffect="fade"
-			onshow="findObjectById('managementPositionForm:name').focus();"
-			position="top">
+		<p:dialog header="#{msgsCore['manageManagementPosition.text.newPosition']}" widgetVar="managementPositionDialog" modal="true" width="680" showEffect="fade" hideEffect="fade"
+			onshow="findObjectById('managementPositionForm:name').focus();" position="top">
 			<div class="crud">
-				<ui:decorate
-					template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
+				<ui:decorate template="/resources/templates/#{coreInfo.decorator}/form.xhtml">
 					<h:form id="managementPositionForm">
-
-						<!-- Management Position name -->
-						<h:panelGroup id="nameField">
-							<ui:decorate
-								template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
-								<ui:param name="fieldName" value="managementPositionForm:name" />
+						
+						<!-- Management Role Type association -->
+						<h:panelGroup id="managementRoleTypeField">
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+								<ui:param name="fieldName" value="managementPositionForm:managementRoleType" />
 								<ui:define name="label">
-									<h:outputText
-										value="#{msgsCore['manageManagementPosition.form.name']}" />
+									<h:outputText value="#{msgsCore['manageManagementPosition.form.managementRoleType']}" />
 								</ui:define>
-								<p:inputText id="name"
-									value="#{managementController.managementPosition.name}"
-									size="50" required="true"
-									disabled="#{managementController.readOnly}">
-									<p:ajax event="blur" update="nameField" />
-								</p:inputText>
+								<p:selectOneMenu id="managementRoleType" value="#{managementController.managementPosition.managementRoleType}" converter="#{coreController.managementRoleTypeConverter}" required="true"
+									disabled="#{managementController.readOnly}" style="width:100%">
+									<f:selectItem itemLabel="#{msgsCore['manageManagementPosition.form.managementRoleType.blankOption']}" itemValue="" />
+									<f:selectItems value="#{managementController.managementRoleTypeList}" var="managementRoleType" itemLabel="#{managementRoleType.name}" itemValue="#{name}" />
+									<p:ajax update="managementRoleTypeField" />
+								</p:selectOneMenu>
 							</ui:decorate>
 						</h:panelGroup>
 
 						<!-- Spiritist Name association -->
 						<h:panelGroup id="spiritistField">
-							<ui:decorate
-								template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
-								<ui:param name="fieldName"
-									value="managementPositionForm:spiritist" />
+							<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formfield.xhtml">
+								<ui:param name="fieldName" value="managementPositionForm:spiritist" />
 								<ui:define name="label">
-									<h:outputText
-										value="#{msgsCore['manageManagementPosition.form.spiritist']}" />
+									<h:outputText value="#{msgsCore['manageManagementPosition.form.spiritist']}" />
 								</ui:define>
-								<p:selectOneMenu id="spiritist"
-									value="#{managementController.managementPosition.spiritist}"
-									converter="#{coreController.spiritistConverter}"
-									required="true"
-									disabled="#{managementController.readOnly}">
-									<f:selectItem
-										itemLabel="#{msgsCore['manageManagementPosition.form.spiritist.blankOption']}"
-										itemValue="" />
-									<f:selectItems
-										value="#{managementController.attendances}"
-										var="attendance" itemLabel="#{attendance.spiritist.name}"
-										itemValue="#{attendance.spiritist}" />
+								<p:selectOneMenu id="spiritist" value="#{managementController.managementPosition.spiritist}" converter="#{coreController.spiritistConverter}" required="true"
+									disabled="#{managementController.readOnly}" style="width:100%">
+									<f:selectItem itemLabel="#{msgsCore['manageManagementPosition.form.spiritist.blankOption']}" itemValue="" />
+									<f:selectItems value="#{managementController.attendances}" var="attendance" itemLabel="#{attendance.spiritist.name}" itemValue="#{attendance.spiritist}" />
 									<p:ajax update="spiritistField" />
 								</p:selectOneMenu>
 							</ui:decorate>
 						</h:panelGroup>
-						<ui:decorate
-							template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
-							<p:commandButton
-								action="#{managementController.resetManagementPosition}"
-								onclick="managementPositionDialog.hide()"
-								value="#{msgs['crud.button.cancel']}" icon="buttonCancel" />
-							<p:commandButton
-								action="#{managementController.resetManagementPosition}"
-								onclick="managementPositionDialog.hide()"
-								value="#{msgs['crud.button.save']}" icon="buttonOk"
-								process="@form" update=":form:managementPositionsField">
-								<p:collector
-									value="#{managementController.managementPosition}"
-									addTo="#{managementController.managementPositions}" />
+						<ui:decorate template="/resources/templates/#{coreInfo.decorator}/formbutton.xhtml">
+							<p:commandButton action="#{managementController.resetManagementPosition}" onclick="managementPositionDialog.hide()" value="#{msgs['crud.button.cancel']}" icon="buttonCancel" />
+							<p:commandButton action="#{managementController.resetManagementPosition}" onclick="managementPositionDialog.hide()" value="#{msgs['crud.button.save']}" icon="buttonOk" process="@form"
+								update=":form:managementPositionsField">
+								<p:collector value="#{managementController.managementPosition}" addTo="#{managementController.managementPositions}" />
 							</p:commandButton>
 						</ui:decorate>
 					</h:form>
@@ -348,14 +236,9 @@
 			:
 		</h4>
 		<ul>
-			<li><b><h:outputText
-						value="#{msgs['crud.hotkey.focusFirstField']}" /></b>: <h:outputText
-					value="#{msgs['crud.help.hotkeys.focusFirstField']}" />;</li>
-			<li><b><h:outputText
-						value="#{msgs['crud.hotkey.backToList']}" /></b>: <h:outputText
-					value="#{msgs['crud.help.hotkeys.backToList']}" />;</li>
-			<li><b><h:outputText value="#{msgs['crud.hotkey.save']}" /></b>:
-				<h:outputText value="#{msgs['crud.help.hotkeys.save']}" />.</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.focusFirstField']}" /></b>: <h:outputText value="#{msgs['crud.help.hotkeys.focusFirstField']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.backToList']}" /></b>: <h:outputText value="#{msgs['crud.help.hotkeys.backToList']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.save']}" /></b>: <h:outputText value="#{msgs['crud.help.hotkeys.save']}" />.</li>
 		</ul>
 	</ui:define>
 </ui:composition>

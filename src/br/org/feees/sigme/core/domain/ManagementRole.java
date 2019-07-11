@@ -7,8 +7,14 @@ import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
+/**
+ * Classe que define um cargo de uma gestão.
+ * Deve conter qual o tipo de cargo, o espírita associado, a instituição e qual a gestão.
+ * @author rbpim
+ *
+ */
 @Entity
-public class ManagementPosition extends PersistentObjectSupport implements Comparable<ManagementPosition>{
+public class ManagementRole extends PersistentObjectSupport implements Comparable<ManagementRole>{
 
 	/**
 	 * 
@@ -18,28 +24,34 @@ public class ManagementPosition extends PersistentObjectSupport implements Compa
 	@NotNull
 	private String name;
 	
-	//private ManagementPostitionType
+	@OneToOne
+	@NotNull
+	private ManagementRoleType managementRoleType;
 	
 	/**
 	 * Spiritist that belongs to a specific Position
 	 */
 	@OneToOne
+	@NotNull
 	private Spiritist spiritist;
 	
 	/**
 	 * Institution that the spiritist belongs
 	 */
 	@ManyToOne
+	@NotNull
+	@Deprecated
 	private Institution institution;
 	
 	/**
 	 * Management that the spiritist belongs
 	 */
 	@ManyToOne
+	@NotNull
 	private Management management;
 	
 	@Override
-	public int compareTo(ManagementPosition o) {
+	public int compareTo(ManagementRole o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -75,4 +87,14 @@ public class ManagementPosition extends PersistentObjectSupport implements Compa
 	public void setManagement(Management management) {
 		this.management = management;
 	}
+
+	public ManagementRoleType getManagementRoleType() {
+		return managementRoleType;
+	}
+
+	public void setManagementRoleType(ManagementRoleType managementRoleType) {
+		this.managementRoleType = managementRoleType;
+	}
+	
+	
 }

@@ -15,7 +15,6 @@ import br.org.feees.sigme.event.domain.Subscriber;
 import br.org.feees.sigme.event.persistence.SubscriberDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudException;
 import br.ufes.inf.nemo.util.ejb3.application.CrudServiceBean;
-import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
 import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
 import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 

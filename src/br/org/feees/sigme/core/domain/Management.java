@@ -3,22 +3,22 @@ package br.org.feees.sigme.core.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
 @Entity
-public class Management  extends PersistentObjectSupport implements Comparable<Management>{
+public class Management extends PersistentObjectSupport implements Comparable<Management> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/*
@@ -26,33 +26,44 @@ public class Management  extends PersistentObjectSupport implements Comparable<M
 	 */
 	@OneToOne
 	private Institution institution;
-	
-	@OneToMany (mappedBy = "management")
+
+	@OneToMany(mappedBy = "management")
 	private List<Spiritist> spiritists;
-	
-	//@NotNull
+
+	// @NotNull
 	@ManyToOne
 	private ManagementType type;
 
 	@NotNull
+	@Size(max = 100)
 	private String name;
 
+	@Size(max = 200)
 	private String description;
-	
+
 	@NotNull
-	@Temporal (TemporalType.DATE)
+	@Temporal(TemporalType.DATE)
 	private Date initialDate;
-	
-	@Temporal (TemporalType.DATE)
+
+	@Temporal(TemporalType.DATE)
 	private Date finalDate;
-	
-	@OneToMany (mappedBy="management")
-	private List<ManagementPosition> managementPositions;
-	
+
+	@OneToMany(mappedBy = "management", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<ManagementRole> managementPositions;
+
 	@Override
 	public int compareTo(Management o) {
-		// TODO Auto-generated method stub
-		return 0;
+		// Compare the persons' names
+		if (name == null)
+			return 1;
+		if (o.name == null)
+			return -1;
+		int cmp = name.compareTo(o.name);
+		if (cmp != 0)
+			return cmp;
+
+		// If it's the same name, check if it's the same entity.
+		return uuid.compareTo(o.uuid);
 	}
 
 	public ManagementType getType() {
@@ -111,11 +122,11 @@ public class Management  extends PersistentObjectSupport implements Comparable<M
 		this.institution = institution;
 	}
 
-	public List<ManagementPosition> getManagementPositions() {
+	public List<ManagementRole> getManagementPositions() {
 		return managementPositions;
 	}
 
-	public void setManagementPositions(List<ManagementPosition> managementPositions) {
+	public void setManagementPositions(List<ManagementRole> managementPositions) {
 		this.managementPositions = managementPositions;
 	}
 

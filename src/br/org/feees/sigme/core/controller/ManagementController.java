@@ -12,9 +12,11 @@ import javax.inject.Named;
 import br.org.feees.sigme.core.application.ManagementService;
 import br.org.feees.sigme.core.domain.Attendance;
 import br.org.feees.sigme.core.domain.Management;
-import br.org.feees.sigme.core.domain.ManagementPosition;
+import br.org.feees.sigme.core.domain.ManagementRole;
+import br.org.feees.sigme.core.domain.ManagementRoleType;
 import br.org.feees.sigme.core.domain.Spiritist;
 import br.org.feees.sigme.core.persistence.AttendanceDAO;
+import br.org.feees.sigme.core.persistence.ManagementRoleTypeDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 
@@ -33,16 +35,21 @@ public class ManagementController extends CrudController<Management> {
 	private ManagementService manageManangementService;
 
 	@EJB
+	private ManagementRoleTypeDAO managementRoleTypeDao;
+	
+	@EJB
 	private AttendanceDAO attendanceDAO;
 
-	private List<ManagementPosition> managementPositions;
-	private ManagementPosition managementPosition;
+	private List<ManagementRole> managementPositions;
+	private ManagementRole managementPosition;
 
 	/**
 	 * Spiriritst that belongs to the management's institution
 	 */
 	private List<Attendance> attendances;
 	private Spiritist spiritist;
+	
+	private List<ManagementRoleType> managementRoleTypeList;
 
 	@Override
 	protected CrudService<Management> getCrudService() {
@@ -55,33 +62,60 @@ public class ManagementController extends CrudController<Management> {
 		logger.log(Level.FINER, "Initializing an empty management...");
 		Management management = new Management();
 
-		managementPositions = new ArrayList<ManagementPosition>();
-		attendances = new ArrayList<Attendance>();
+		managementPositions = new ArrayList<>();
+		attendances = new ArrayList<>();
+		managementRoleTypeList = new ArrayList<>();
 		
 		return management;
 	}
 
+	/**
+	 * @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#checkSelectedEntity()
+	 */
+	@Override
+	protected void checkSelectedEntity() {
+		logger.log(Level.FINER, "Checking selected management ({0})...", selectedEntity);
+		
+		if (selectedEntity.getManagementPositions() == null)
+			selectedEntity.setManagementPositions(new ArrayList<>());
+		
+		managementPositions = new ArrayList<>(selectedEntity.getManagementPositions());
+	}
+	
+	/** @see br.ufes.inf.nemo.util.ejb3.controller.CrudController#prepEntity() */
+	@Override
+	protected void prepEntity() {
+		logger.log(Level.FINER, "Preparing management for storage ({0})...", selectedEntity);
+
+		// Inserts telephone and attendance lists in the entity.
+		managementPositions.forEach(managementPosition -> managementPosition.setName(managementPosition.getManagementRoleType().getName()));
+		selectedEntity.setManagementPositions(managementPositions);
+	}
+	
 	@Override
 	protected void initFilters() {
 		// TODO Auto-generated method stub
 
 	}
 
-	public List<ManagementPosition> getManagementPositions() {
+	public List<ManagementRole> getManagementPositions() {
 		return managementPositions;
 	}
 
-	public void setManagementPositions(List<ManagementPosition> managementPositions) {
+	public void setManagementPositions(List<ManagementRole> managementPositions) {
 		this.managementPositions = managementPositions;
 	}
 
 	public void newManagementPosition() {
-		this.managementPosition = new ManagementPosition();
+		this.managementPosition = new ManagementRole();
+		this.managementPosition.setSpiritist(new Spiritist());
+		this.managementPosition.setManagementRoleType(new ManagementRoleType());
 
 		if (selectedEntity.getInstitution() != null) {
-			managementPosition.setManagement(this.selectedEntity);
+			this.managementPosition.setManagement(this.selectedEntity);
 			this.managementPosition.setInstitution(selectedEntity.getInstitution());
 			setAttendances(attendanceDAO.retrieveByInstitution(selectedEntity.getInstitution().getId()));
+			setManagementRoleTypeList(managementRoleTypeDao.retrieveAll());
 		}
 
 		logger.log(Level.FINEST, "Empty management position created as selected position");
@@ -92,11 +126,11 @@ public class ManagementController extends CrudController<Management> {
 		logger.log(Level.FINEST, "Management position has been reset -- no position is selected");
 	}
 
-	public ManagementPosition getManagementPosition() {
+	public ManagementRole getManagementPosition() {
 		return managementPosition;
 	}
 
-	public void setManagementPosition(ManagementPosition managementPosition) {
+	public void setManagementPosition(ManagementRole managementPosition) {
 		this.managementPosition = managementPosition;
 		logger.log(Level.FINEST, "Management Position \"{0}\" has been selected", managementPosition);
 	}
@@ -115,6 +149,14 @@ public class ManagementController extends CrudController<Management> {
 
 	public void setAttendances(List<Attendance> attendances) {
 		this.attendances = attendances;
+	}
+
+	public List<ManagementRoleType> getManagementRoleTypeList() {
+		return managementRoleTypeList;
+	}
+
+	public void setManagementRoleTypeList(List<ManagementRoleType> managementRoleTypeList) {
+		this.managementRoleTypeList = managementRoleTypeList;
 	}
 	
 }
